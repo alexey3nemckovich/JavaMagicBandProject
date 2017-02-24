@@ -1,9 +1,11 @@
-package main.com.bsuir.autoservice.entity;
+package main.com.bsuir.autoservice.bean;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class User implements Entity{
+public class User extends Bean {
     public enum Type{
         USER,
         STAFF
@@ -82,30 +84,10 @@ public class User implements Entity{
         this.type = type;
     }
 
-    public List<String> getFields(){
-        List<String> fields = new LinkedList<String>();
-        fields.add(String.valueOf(id));
-        fields.add(mail);
-        fields.add(login);
-        fields.add(password);
-        fields.add(phone);
-        fields.add(name);
-        fields.add(lastName);
-        fields.add(type.toString());
-        return fields;
-    }
-
     @Override
-    public String toString(){
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(id + "|");
-        stringBuilder.append(mail + "|");
-        stringBuilder.append(login + "|");
-        stringBuilder.append(password + "|");
-        stringBuilder.append(phone + "|");
-        stringBuilder.append(name + "|");
-        stringBuilder.append(lastName + "|");
-        stringBuilder.append(type);
-        return stringBuilder.toString();
+    public List<String> getFieldsOrdered(){
+        return new ArrayList<String>(Arrays.asList(
+                String.valueOf(id), mail, login, password, phone, name, lastName, type.toString()
+        ));
     }
 }
