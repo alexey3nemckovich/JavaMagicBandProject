@@ -28,7 +28,7 @@ public class BeanServlet extends HttpServlet {
             writer.write("<html><style>table,td{margin:auto;border: 1px solid black;width:90%; table-layout: fixed;}</style><body><table>");
             for (User user : users) {
                 writer.write("<tr>");
-                for (String field: user.getAllFields()) {
+                for (String field: user.getFieldsOrdered()) {
                     writer.write("<td>" + field + "</td>");
                 }
                 writer.write("</tr>");
