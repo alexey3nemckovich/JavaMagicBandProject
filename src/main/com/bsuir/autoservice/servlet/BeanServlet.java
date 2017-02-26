@@ -1,7 +1,7 @@
 package main.com.bsuir.autoservice.servlet;
 
 import main.com.bsuir.autoservice.dao.controller.UserDaoController;
-import main.com.bsuir.autoservice.entity.User;
+import main.com.bsuir.autoservice.bean.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,8 +12,8 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 
-@WebServlet(name = "EntityServlet", urlPatterns = "/entity/user")
-public class EntityServlet extends HttpServlet {
+@WebServlet(name = "BeanServlet", urlPatterns = "/bean/user")
+public class BeanServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
@@ -28,7 +28,7 @@ public class EntityServlet extends HttpServlet {
             writer.write("<html><style>table,td{margin:auto;border: 1px solid black;width:90%; table-layout: fixed;}</style><body><table>");
             for (User user : users) {
                 writer.write("<tr>");
-                for (String field: user.getFields()) {
+                for (String field: user.getFieldsOrdered()) {
                     writer.write("<td>" + field + "</td>");
                 }
                 writer.write("</tr>");
@@ -37,7 +37,7 @@ public class EntityServlet extends HttpServlet {
             writer.flush();
             writer.close();
         }catch (Exception e){
-            e.printStackTrace();
+            throw  new ServletException(e);
         }
     }
 }

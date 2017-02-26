@@ -8,7 +8,7 @@ public abstract class AbstractDaoController<Entity, PrimaryKey> implements DaoCo
         try {
             Class.forName("com.mysql.jdbc.Driver");
         }catch (Exception e){
-            e.printStackTrace();
+            throw new RuntimeException();
         }
     }
 
