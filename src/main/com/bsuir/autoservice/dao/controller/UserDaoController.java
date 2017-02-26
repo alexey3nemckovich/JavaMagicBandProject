@@ -1,10 +1,13 @@
 package main.com.bsuir.autoservice.dao.controller;
 
-import main.com.bsuir.autoservice.dao.AbstractDaoController;
-import main.com.bsuir.autoservice.dao.DaoException;
 import main.com.bsuir.autoservice.bean.User;
-import java.util.*;
-import java.sql.*;
+import main.com.bsuir.autoservice.dao.AbstractDaoController;
+import main.com.bsuir.autoservice.dao.exception.DaoException;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 public class UserDaoController extends AbstractDaoController<User, Integer> {
 
@@ -15,7 +18,7 @@ public class UserDaoController extends AbstractDaoController<User, Integer> {
 
     @Override
     public List<User> parseResultSet(ResultSet rs) throws DaoException{
-        LinkedList<User> result = new LinkedList<User>();
+        LinkedList<User> result = new LinkedList<>();
         try {
             while (rs.next()) {
                 User user = new User();
