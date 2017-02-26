@@ -12,8 +12,8 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 
-@WebServlet(name = "BeanServlet", urlPatterns = "/bean/user")
-public class BeanServlet extends HttpServlet {
+@WebServlet(name = "Servlet", urlPatterns = "/bean/user")
+public class Servlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
