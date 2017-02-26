@@ -1,43 +1,43 @@
 package main.com.bsuir.autoservice.servlet;
 
-import main.com.bsuir.autoservice.dao.controller.UserDaoController;
-import main.com.bsuir.autoservice.bean.User;
+import main.com.bsuir.autoservice.binder.impl.DefaultBinder;
+import main.com.bsuir.autoservice.commandBinder.ICommandBinder;
+import main.com.bsuir.autoservice.commandBinder.impl.CommandBinder;
+import main.com.bsuir.autoservice.commandFactory.impl.DefaultCommandFactory;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.List;
 
-@WebServlet(name = "Servlet", urlPatterns = "/bean/user")
 public class Servlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    static {
+        try {
+            commandBinder = new CommandBinder(
+                    new DefaultCommandFactory(), new DefaultBinder());
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static final ICommandBinder commandBinder;
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
-            response.setContentType("text/html");
-            response.setCharacterEncoding("UTF8");
-            Writer writer = response.getWriter();
-            StringBuilder res = new StringBuilder();
-            List<User> users = new UserDaoController().getAll();
-            writer.write("<html><style>table,td{margin:auto;border: 1px solid black;width:90%; table-layout: fixed;}</style><body><table>");
-            for (User user : users) {
-                writer.write("<tr>");
-                for (String field: user.getFieldsOrdered()) {
-                    writer.write("<td>" + field + "</td>");
-                }
-                writer.write("</tr>");
-            }
-            writer.write("</table></body></html>");
-            writer.flush();
-            writer.close();
+            String url = getUrl(request.getRequestURI());
+            commandBinder.invokeCommand(url,request,response);
         }catch (Exception e){
             throw  new ServletException(e);
         }
+    }
+
+    private String getUrl(String requestURL) {
+        return requestURL.replace(".ass","");
     }
 }

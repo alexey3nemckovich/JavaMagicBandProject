@@ -1,7 +1,9 @@
 package main.com.bsuir.autoservice.dao;
 
+import main.com.bsuir.autoservice.dao.exception.DaoException;
+
 import java.sql.*;
-import java.util.*;
+import java.util.List;
 
 public abstract class AbstractDaoController<Entity, PrimaryKey> implements DaoController<Entity, PrimaryKey>{
     static {

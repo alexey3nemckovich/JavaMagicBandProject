@@ -1,7 +1,7 @@
 package main.com.bsuir.autoservice.dao;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import main.com.bsuir.autoservice.dao.exception.DaoException;
+
 import java.util.List;
 
 public interface DaoController<Entity, PrimaryKey> {
