@@ -2,7 +2,7 @@ package main.com.bsuir.autoservice.dao.controller;
 
 import main.com.bsuir.autoservice.dao.AbstractDaoController;
 import main.com.bsuir.autoservice.dao.DaoException;
-import main.com.bsuir.autoservice.entity.User;
+import main.com.bsuir.autoservice.bean.User;
 import java.util.*;
 import java.sql.*;
 
@@ -19,7 +19,7 @@ public class UserDaoController extends AbstractDaoController<User, Integer> {
         try {
             while (rs.next()) {
                 User user = new User();
-                user.setId(rs.getInt("user_id"));
+                user.setId(rs.getInt("id"));
                 user.setMail(rs.getString("mail"));
                 user.setLogin(rs.getString("login"));
                 user.setPassword(rs.getString("password"));
