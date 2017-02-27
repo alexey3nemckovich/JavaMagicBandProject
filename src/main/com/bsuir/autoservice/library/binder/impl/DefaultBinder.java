@@ -1,9 +1,8 @@
-package main.com.bsuir.autoservice.binder.impl;
+package main.com.bsuir.autoservice.library.binder.impl;
 
-import com.sun.xml.internal.ws.api.ha.StickyFeature;
 import javafx.util.Pair;
-import main.com.bsuir.autoservice.binder.IBinder;
-import main.com.bsuir.autoservice.binder.exception.BinderException;
+import main.com.bsuir.autoservice.library.binder.IBinder;
+import main.com.bsuir.autoservice.library.binder.exception.BinderException;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

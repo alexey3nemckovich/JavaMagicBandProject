@@ -1,7 +1,7 @@
-package main.com.bsuir.autoservice.binder;
+package main.com.bsuir.autoservice.library.binder;
 
 import javafx.util.Pair;
-import main.com.bsuir.autoservice.binder.exception.BinderException;
+import main.com.bsuir.autoservice.library.binder.exception.BinderException;
 
 import java.util.Map;
 

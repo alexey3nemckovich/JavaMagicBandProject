@@ -1,7 +1,7 @@
-package main.com.bsuir.autoservice.commandFactory;
+package main.com.bsuir.autoservice.command.factory;
 
 import main.com.bsuir.autoservice.command.ICommand;
-import main.com.bsuir.autoservice.commandFactory.exception.CommandFactoryException;
+import main.com.bsuir.autoservice.command.factory.exception.CommandFactoryException;
 
 public interface ICommandFactory {
     void addCommand(String url, ICommand command) throws CommandFactoryException;
