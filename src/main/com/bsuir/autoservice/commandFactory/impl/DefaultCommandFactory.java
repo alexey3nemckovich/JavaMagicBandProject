@@ -44,5 +44,5 @@ public class DefaultCommandFactory implements ICommandFactory {
         }
     }
 
-    private Map<String,ICommand> commandMap;
+    private final Map<String,ICommand> commandMap;
 }

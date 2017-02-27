@@ -16,7 +16,7 @@ public class UserCommand implements ICommand {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
-            UserDTO userDTO = (UserDTO) binder.mappedParameters(UserDTO.class, new String[]{"id","name"},request.getParameterMap());
+            UserDTO userDTO = (UserDTO) binder.mappedParameters(UserDTO.class, request.getParameterMap());
             request.setAttribute("data",userDTO);
             request.setAttribute("ids",userDTO.id);
             request.getRequestDispatcher("user.jsp").forward(request, response);
@@ -25,5 +25,5 @@ public class UserCommand implements ICommand {
         }
     }
 
-    private IBinder binder;
+    private final IBinder binder;
 }

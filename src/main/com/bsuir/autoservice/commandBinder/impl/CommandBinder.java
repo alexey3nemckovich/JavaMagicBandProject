@@ -1,6 +1,7 @@
 package main.com.bsuir.autoservice.commandBinder.impl;
 
 import main.com.bsuir.autoservice.binder.IBinder;
+import main.com.bsuir.autoservice.binder.impl.DefaultBinder;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.impl.UserCommand;
 import main.com.bsuir.autoservice.commandBinder.ICommandBinder;
@@ -12,17 +13,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class CommandBinder implements ICommandBinder {
-    public CommandBinder(ICommandFactory commandFactory, IBinder binder) {
+    public CommandBinder(ICommandFactory commandFactory) {
         this.commandFactory = commandFactory;
-        this.binder = binder;
-        registerAllBindings();
+        registerAllBindings(new DefaultBinder());
     }
 
     private void addMapBind(String url, ICommand command) throws CommandFactoryException {
         commandFactory.addCommand(url, command);
     }
 
-    private void registerAllBindings() {
+    private void registerAllBindings(IBinder binder) {
         try {
             addMapBind("/bean/user",new UserCommand(binder));
         }catch (Exception e){
@@ -41,5 +41,4 @@ public class CommandBinder implements ICommandBinder {
     }
 
     private final ICommandFactory commandFactory;
-    private final IBinder binder;
 }

@@ -1,9 +1,16 @@
 package main.com.bsuir.autoservice.binder;
 
+import javafx.util.Pair;
 import main.com.bsuir.autoservice.binder.exception.BinderException;
 
 import java.util.Map;
 
+//mapping using static method valueOf
 public interface IBinder {
-    Object mappedParameters(Class returnType, String[] checkedParameters, Map<String, String[]> parameters) throws BinderException;
+    //map only checkedParameters with simple name
+    Object mappedParameters(Class returnType, Map<String, String[]> parameters, String[] checkedParameters) throws BinderException;
+    //map all returnType Field or set Default
+    Object mappedParameters(Class returnType, Map<String, String[]> parameters) throws BinderException;
+    //map only checkedParameters by pair : parameters value - returnType field
+    Object mappedParameters(Class returnType, Map<String, String[]> parameters, Pair<String,String>[] checkedMapParameters) throws BinderException;
 }

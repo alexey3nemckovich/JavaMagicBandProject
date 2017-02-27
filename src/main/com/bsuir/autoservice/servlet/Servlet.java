@@ -13,8 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 public class Servlet extends HttpServlet {
     static {
         try {
-            commandBinder = new CommandBinder(
-                    new DefaultCommandFactory(), new DefaultBinder());
+            commandBinder = new CommandBinder(new DefaultCommandFactory());
         }catch (Exception e){
             throw new RuntimeException(e);
         }
