@@ -4,6 +4,7 @@
     <title>User pages</title>
 </head>
 <body>
+<%= request.getAttribute("data")%>
     <div>
         Id page = ${data.id} ${ids}
     <br/>

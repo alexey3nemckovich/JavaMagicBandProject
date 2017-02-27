@@ -1,9 +1,9 @@
-package main.com.bsuir.autoservice.commandFactory.impl;
+package main.com.bsuir.autoservice.command.factory.impl;
 
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.impl.NoCommand;
-import main.com.bsuir.autoservice.commandFactory.ICommandFactory;
-import main.com.bsuir.autoservice.commandFactory.exception.CommandFactoryException;
+import main.com.bsuir.autoservice.command.factory.ICommandFactory;
+import main.com.bsuir.autoservice.command.factory.exception.CommandFactoryException;
 import main.com.bsuir.autoservice.library.DefaultHashMap;
 
 import java.util.Map;
