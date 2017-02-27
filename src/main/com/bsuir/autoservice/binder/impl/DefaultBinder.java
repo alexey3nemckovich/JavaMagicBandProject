@@ -5,82 +5,56 @@ import main.com.bsuir.autoservice.binder.exception.BinderException;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.Map;
 
 public class DefaultBinder implements IBinder {
-
-    public DefaultBinder()
-    {
-        parametersMap = new HashMap<>();
-    }
-
-    @Override
-    public void addBind(String url, Class<?> aClass) throws BinderException {
-        try {
-            parametersMap.put(url,aClass);
-        }
-        catch (Exception e){
-            throw new BinderException(e);
-        }
-    }
-
-    @Override
-    public void removeBind(String url) throws BinderException {
-        try {
-            if (parametersMap.containsKey(url)) {
-                parametersMap.remove(url);
-            }else {
-                //TODO: log that not having key
-            }
-        }
-        catch (Exception e){
-            throw new BinderException(e);
-        }
-    }
-
-    @Override
-    public Object mappedParameters(String url, Map<String, String[]> parameters) throws BinderException {
-        try {
-            Object newObject;
-            boolean haveUrl = parametersMap.containsKey(url);
-            if (haveUrl){
-                newObject = getMappedObject(parametersMap.get(url),parameters);
-            }else{
-                //TODO: error page
-                newObject = null;
-            }
-            return newObject;
-        }catch (Exception e){
-            throw new BinderException(e);
-        }
-    }
-
     private Object generateNewObject(Class<?> aClass) throws IllegalAccessException, InstantiationException {
         return aClass.newInstance();
     }
 
-    private Object getMappedObject(Class<?> aClass, Map<String, String[]> parameters) throws InstantiationException, IllegalAccessException {
-        Object newObject = generateNewObject(aClass);
-
-        for(Map.Entry<String,String[]> currentValues : parameters.entrySet()){
-            updateObject(newObject, currentValues);
+    private Object getMappedObject(String[] checkedParameters, Map<String, String[]> parameters, Class returnType) throws InstantiationException, IllegalAccessException {
+        Object newObject = generateNewObject(returnType);
+        for (String checkedParameter: checkedParameters){
+            if (parameters.containsKey(checkedParameter)) {
+                updateObject(newObject, checkedParameter, parameters.get(checkedParameter));
+            }else{
+                updateDefaultObject(newObject, checkedParameter);
+            }
         }
         return newObject;
     }
 
-    private void updateObject(Object newObject, Map.Entry<String, String[]> currentValues) {
-        Class<?> objectClass = newObject.getClass();
+    private void updateDefaultObject(Object newObject, String parameter){
         try {
-            Field fieldDeclaration = objectClass.getField(currentValues.getKey());
-            Method convertMethod = fieldDeclaration.getType().getMethod("valueOf", String.class);
-            if (currentValues.getValue().length > 1)
-                throw  new IllegalArgumentException("Many arguments");
-            fieldDeclaration.set(newObject,convertMethod.invoke(null, currentValues.getValue()[0]));
+            Field fieldDeclaration = getFieldDeclaration(newObject,parameter);
+            fieldDeclaration.set(newObject, fieldDeclaration.getType().newInstance());
         }catch (Exception e) {
             //TODO: log that invalid parameters
         }
     }
 
-    private final Map<String, Class<?>> parametersMap;
+    private Field getFieldDeclaration(Object newObject, String parameter) throws NoSuchFieldException {
+        Class<?> objectClass = newObject.getClass();
+        return objectClass.getField(parameter);
+    }
+
+    private void updateObject(Object newObject, String parameter, String[] currentValues) {
+        try {
+            Field fieldDeclaration = getFieldDeclaration(newObject,parameter);
+            Method convertMethod = fieldDeclaration.getType().getMethod("valueOf", String.class);
+            //TODO: think can more 1 arguments
+            fieldDeclaration.set(newObject, convertMethod.invoke(null, currentValues[0]));
+        }catch (Exception e) {
+            //TODO: log that invalid parameters
+        }
+    }
+
+    @Override
+    public Object mappedParameters(Class returnType, String[] checkedParameters, Map<String, String[]> parameters) throws BinderException {
+        try {
+            return getMappedObject(checkedParameters,parameters,returnType);
+        }catch (Exception e){
+            throw new BinderException(e);
+        }
+    }
 }
