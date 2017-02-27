@@ -6,5 +6,5 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public interface ICommand {
-    void execute(HttpServletRequest request, HttpServletResponse response, Object parameters) throws CommandException;
+    void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException;
 }

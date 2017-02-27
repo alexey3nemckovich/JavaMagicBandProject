@@ -1,7 +1,6 @@
 package main.com.bsuir.autoservice.commandBinder.impl;
 
 import main.com.bsuir.autoservice.binder.IBinder;
-import main.com.bsuir.autoservice.binder.exception.BinderException;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.impl.UserCommand;
 import main.com.bsuir.autoservice.commandBinder.ICommandBinder;
@@ -19,18 +18,13 @@ public class CommandBinder implements ICommandBinder {
         registerAllBindings();
     }
 
-    private void addMapBind(String url, ICommand command) throws CommandFactoryException, BinderException {
-        addMapBind(url,command,new Object());
-    }
-
-    private void addMapBind(String url, ICommand command, Object dtoObject) throws CommandFactoryException, BinderException {
+    private void addMapBind(String url, ICommand command) throws CommandFactoryException {
         commandFactory.addCommand(url, command);
-        binder.addBind(url,dtoObject.getClass());
     }
 
     private void registerAllBindings() {
         try {
-            addMapBind("/bean/user",new UserCommand());
+            addMapBind("/bean/user",new UserCommand(binder));
         }catch (Exception e){
             throw new RuntimeException();
         }
@@ -40,7 +34,7 @@ public class CommandBinder implements ICommandBinder {
     public void invokeCommand(String url, HttpServletRequest request, HttpServletResponse response) throws CommandBinderException {
         try {
             ICommand command = commandFactory.getCommand(url);
-            command.execute(request, response, binder.mappedParameters(url, request.getParameterMap()));
+            command.execute(request, response);
         }catch (Exception e){
             throw new CommandBinderException(e);
         }

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 public class NoCommand implements ICommand {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response, Object parameters) throws CommandException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
             request.getRequestDispatcher("/error.jsp").forward(request, response);
         }catch (Exception e){
