@@ -1,7 +1,13 @@
 package main.com.bsuir.autoservice.command.provider.impl;
 
-import main.com.bsuir.autoservice.library.binder.IBinder;
-import main.com.bsuir.autoservice.library.binder.impl.DefaultBinder;
+import main.com.bsuir.autoservice.library.mapper.IMapper;
+import main.com.bsuir.autoservice.library.mapper.binding.IBinding;
+import main.com.bsuir.autoservice.library.mapper.binding.factory.IBindingFactory;
+import main.com.bsuir.autoservice.library.mapper.binding.factory.exception.BindingFactoryException;
+import main.com.bsuir.autoservice.library.mapper.binding.factory.impl.DefaultBindingFactory;
+import main.com.bsuir.autoservice.library.mapper.binding.impl.IntegerBinding;
+import main.com.bsuir.autoservice.library.mapper.binding.impl.StringBinding;
+import main.com.bsuir.autoservice.library.mapper.impl.DefaultMapper;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.impl.UserCommand;
 import main.com.bsuir.autoservice.command.provider.ICommandProvider;
@@ -19,7 +25,7 @@ import java.util.Map;
 public class CommandProvider implements ICommandProvider {
     public CommandProvider(RequestType[] supportedRequestType) {
         this.requestCommandFactory = createRequestFactory(supportedRequestType);
-        registerAllBindings(new DefaultBinder());
+        registerAllBindings(createMapper());
     }
 
     private static Map<RequestType, ICommandFactory> createRequestFactory(RequestType[] supportedRequestType) {
@@ -29,6 +35,21 @@ public class CommandProvider implements ICommandProvider {
         return map;
     };
 
+    private static IMapper createMapper() {
+        IBindingFactory bindingFactory = createBindingFactory();
+        return new DefaultMapper(bindingFactory);
+    }
+
+    private static IBindingFactory createBindingFactory(){
+        try {
+            IBindingFactory bindingFactory = new DefaultBindingFactory();
+            addMapperBindings(bindingFactory);
+            return bindingFactory;
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
     private void addRequestBind(RequestType requestType, String url, ICommand command) throws CommandFactoryException {
         addMapBind(requestCommandFactory.get(requestType),url,command);
     }
@@ -37,19 +58,24 @@ public class CommandProvider implements ICommandProvider {
         commandFactory.addCommand(url, command);
     }
 
-    private void registerAllBindings(IBinder binder) {
+    private void registerAllBindings(IMapper binder) {
         try {
             addGetBind(binder);
             addPostBind(binder);
         }catch (Exception e){
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 
-    private void addPostBind(IBinder binder)  throws CommandFactoryException {
+    private static void addMapperBindings(IBindingFactory bindingFactory) throws BindingFactoryException {
+        bindingFactory.addBinding(String.class, new StringBinding());
+        bindingFactory.addBinding(Integer.class, new IntegerBinding());
     }
 
-    private void addGetBind(IBinder binder) throws CommandFactoryException {
+    private void addPostBind(IMapper binder)  throws CommandFactoryException {
+    }
+
+    private void addGetBind(IMapper binder) throws CommandFactoryException {
         addRequestBind(RequestType.GET, "/bean/user",new UserCommand(binder));
     }
 

@@ -1,19 +1,28 @@
-package main.com.bsuir.autoservice.library.binder.impl;
+package main.com.bsuir.autoservice.library.mapper.impl;
 
 import javafx.util.Pair;
-import main.com.bsuir.autoservice.library.binder.IBinder;
-import main.com.bsuir.autoservice.library.binder.exception.BinderException;
+import main.com.bsuir.autoservice.library.mapper.IMapper;
+import main.com.bsuir.autoservice.library.mapper.binding.IBinding;
+import main.com.bsuir.autoservice.library.mapper.exception.MapperException;
+import main.com.bsuir.autoservice.library.mapper.binding.factory.IBindingFactory;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.Map;
 
-public class DefaultBinder implements IBinder {
-    private static final String methodName = "valueOf";
+public class DefaultMapper implements IMapper {
+    public DefaultMapper(IBindingFactory bindingFactory){
+        this.bindingFactory = bindingFactory;
+    }
 
-    private Object generateNewObject(Class aClass) throws IllegalAccessException, InstantiationException {
+    private static Object generateNewObject(Class aClass) throws IllegalAccessException, InstantiationException {
         return aClass.newInstance();
     }
+
+    private static Class getFieldType(Object newObject, String parameter) throws NoSuchFieldException {
+        Class objectClass = newObject.getClass();
+        return objectClass.getField(parameter).getType();
+    }
+
 
     private Object getMappedObject(Class returnType, Map<String, String[]> parameters, String[] checkedParameters)
             throws InstantiationException, IllegalAccessException {
@@ -32,10 +41,11 @@ public class DefaultBinder implements IBinder {
             throws InstantiationException, IllegalAccessException {
         Object newObject = generateNewObject(returnType);
         for (Field fieldDeclaration: returnType.getFields()){
-            if (parameters.containsKey(fieldDeclaration.getName())) {
-                updateObject(newObject, fieldDeclaration, parameters.get(fieldDeclaration.getName()));
+            String fieldName = fieldDeclaration.getName();
+            if (parameters.containsKey(fieldName)) {
+                updateObject(newObject, fieldName, parameters.get(fieldName));
             }else{
-                updateDefaultObject(newObject, fieldDeclaration);
+                updateDefaultObject(newObject, fieldName);
             }
         }
         return newObject;
@@ -54,33 +64,21 @@ public class DefaultBinder implements IBinder {
         return newObject;
     }
 
-    private void updateDefaultObject(Object newObject, Field fieldDeclaration){
+    private void updateDefaultObject(Object newObject, String fieldName) {
         try {
-            fieldDeclaration.set(newObject, fieldDeclaration.getType().newInstance());
+            Class fieldTypeDeclaration = getFieldType(newObject,fieldName);
+            IBinding binding = bindingFactory.getBinding(fieldTypeDeclaration);
+            binding.setDefault(newObject,fieldName);
         }catch (Exception e) {
             //TODO: log that invalid parameters
         }
     }
 
-    private Field getFieldDeclaration(Object newObject, String parameter) throws NoSuchFieldException {
-        Class objectClass = newObject.getClass();
-        return objectClass.getField(parameter);
-    }
-
-    private void updateObject(Object newObject, Field fieldDeclaration, String[] currentValues) {
+    private void updateObject(Object newObject, String fieldName, String[] currentValues) {
         try {
-            Method convertMethod = fieldDeclaration.getType().getMethod(methodName, String.class);
-            //TODO: think can more 1 arguments
-            fieldDeclaration.set(newObject, convertMethod.invoke(null, currentValues[0]));
-        }catch (Exception e) {
-            //TODO: log that invalid parameters
-        }
-    }
-
-    private void updateObject(Object newObject, String parameter, String[] currentValues) {
-        try {
-            Field fieldDeclaration = getFieldDeclaration(newObject,parameter);
-            updateObject(newObject,fieldDeclaration,currentValues);
+            Class fieldTypeDeclaration = getFieldType(newObject,fieldName);
+            IBinding binding = bindingFactory.getBinding(fieldTypeDeclaration);
+            binding.bind(newObject, fieldName, currentValues);
         }catch (Exception e) {
             //TODO: log that invalid parameters
         }
@@ -88,30 +86,32 @@ public class DefaultBinder implements IBinder {
 
     @Override
     public Object mappedParameters(Class returnType, Map<String, String[]> parameters, String[] checkedParameters)
-            throws BinderException {
+            throws MapperException {
         try {
             return getMappedObject(returnType,parameters,checkedParameters);
         }catch (Exception e){
-            throw new BinderException(e);
+            throw new MapperException(e);
         }
     }
 
     @Override
-    public Object mappedParameters(Class returnType, Map<String, String[]> parameters) throws BinderException {
+    public Object mappedParameters(Class returnType, Map<String, String[]> parameters) throws MapperException {
         try {
             return getMappedObject(returnType,parameters);
         }catch (Exception e){
-            throw new BinderException(e);
+            throw new MapperException(e);
         }
     }
 
     @Override
     public Object mappedParameters(Class returnType, Map<String, String[]> parameters, Pair<String, String>[] checkedMapParameters)
-            throws BinderException {
+            throws MapperException {
         try {
             return getMappedObject(returnType,parameters,checkedMapParameters);
         }catch (Exception e){
-            throw new BinderException(e);
+            throw new MapperException(e);
         }
     }
+
+    IBindingFactory bindingFactory;
 }

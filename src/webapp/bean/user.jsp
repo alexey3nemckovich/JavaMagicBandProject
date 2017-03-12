@@ -4,11 +4,14 @@
     <title>User pages</title>
 </head>
 <body>
-<%= request.getAttribute("data")%>
+<p>
+    Using java command
+    <%= request.getAttribute("data")%>
+</p>
     <div>
-        Id page = ${data.id} ${ids}
-    <br/>
-        Name page = ${data.name}
+        <p>Id page = '${data.id }'</p>
+        <p>Attribute page = ${ids}</p>
+        <p>Name page = ${data.name}</p>
     </div>
 </body>
 </html>
