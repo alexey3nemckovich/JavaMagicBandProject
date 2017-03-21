@@ -9,21 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class UserCommand implements ICommand {
-    public UserCommand(IMapper binder){
-        this.binder = binder;
-    }
-
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+    public Object execute(Object data) throws CommandException {
         try {
-            UserDTO userDTO = (UserDTO) binder.mappedParameters(UserDTO.class, request.getParameterMap());
-            request.setAttribute("data",userDTO);
-            request.setAttribute("ids",userDTO.name.toString());
-            request.getRequestDispatcher("user.jsp").forward(request, response);
+            //TODO:
+            return null;
         }catch (Exception e){
             throw new CommandException(e);
         }
     }
-
-    private final IMapper binder;
 }

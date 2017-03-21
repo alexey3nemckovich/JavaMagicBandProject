@@ -1,7 +1,12 @@
-package main.com.bsuir.autoservice.command.provider.impl;
+package main.com.bsuir.autoservice.controller.provider.impl;
 
+import main.com.bsuir.autoservice.controller.IController;
+import main.com.bsuir.autoservice.controller.factory.IControllerFactory;
+import main.com.bsuir.autoservice.controller.factory.exception.ControllerFactoryException;
+import main.com.bsuir.autoservice.controller.factory.impl.DefaultControllerFactory;
+import main.com.bsuir.autoservice.controller.provider.IControllerProvider;
+import main.com.bsuir.autoservice.controller.provider.exception.ControllerProviderException;
 import main.com.bsuir.autoservice.library.mapper.IMapper;
-import main.com.bsuir.autoservice.library.mapper.binding.IBinding;
 import main.com.bsuir.autoservice.library.mapper.binding.factory.IBindingFactory;
 import main.com.bsuir.autoservice.library.mapper.binding.factory.exception.BindingFactoryException;
 import main.com.bsuir.autoservice.library.mapper.binding.factory.impl.DefaultBindingFactory;
@@ -10,11 +15,6 @@ import main.com.bsuir.autoservice.library.mapper.binding.impl.StringBinding;
 import main.com.bsuir.autoservice.library.mapper.impl.DefaultMapper;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.impl.UserCommand;
-import main.com.bsuir.autoservice.command.provider.ICommandProvider;
-import main.com.bsuir.autoservice.command.provider.exception.CommandProviderException;
-import main.com.bsuir.autoservice.command.factory.ICommandFactory;
-import main.com.bsuir.autoservice.command.factory.exception.CommandFactoryException;
-import main.com.bsuir.autoservice.command.factory.impl.DefaultCommandFactory;
 import main.com.bsuir.autoservice.library.RequestType;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,16 +22,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandProvider implements ICommandProvider {
-    public CommandProvider(RequestType[] supportedRequestType) {
-        this.requestCommandFactory = createRequestFactory(supportedRequestType);
+public class DefaultControllerProvider implements IControllerProvider {
+    public DefaultControllerProvider(RequestType[] supportedRequestType) {
+        this.requestControllerFactory = createRequestFactory(supportedRequestType);
         registerAllBindings(createMapper());
     }
 
-    private static Map<RequestType, ICommandFactory> createRequestFactory(RequestType[] supportedRequestType) {
-        Map<RequestType, ICommandFactory> map = new HashMap<RequestType, ICommandFactory>();
+    private static Map<RequestType, IControllerFactory> createRequestFactory(RequestType[] supportedRequestType) {
+        Map<RequestType, IControllerFactory> map = new HashMap<RequestType, IControllerFactory>();
         for (RequestType requestType : supportedRequestType)
-            map.put(requestType, new DefaultCommandFactory());
+            map.put(requestType, new DefaultControllerFactory());
         return map;
     };
 
@@ -50,12 +50,12 @@ public class CommandProvider implements ICommandProvider {
         }
     }
 
-    private void addRequestBind(RequestType requestType, String url, ICommand command) throws CommandFactoryException {
-        addMapBind(requestCommandFactory.get(requestType),url,command);
+    private void addRequestBind(RequestType requestType, String url, IController controller) throws ControllerFactoryException {
+        addMapBind(requestControllerFactory.get(requestType),url,controller);
     }
 
-    private void addMapBind(ICommandFactory commandFactory, String url, ICommand command) throws CommandFactoryException {
-        commandFactory.addCommand(url, command);
+    private void addMapBind(IControllerFactory commandFactory, String url, IController controller) throws ControllerFactoryException {
+        commandFactory.addController(url, controller);
     }
 
     private void registerAllBindings(IMapper binder) {
@@ -72,23 +72,22 @@ public class CommandProvider implements ICommandProvider {
         bindingFactory.addBinding(Integer.class, new IntegerBinding());
     }
 
-    private void addPostBind(IMapper binder)  throws CommandFactoryException {
+    private void addPostBind(IMapper binder)  throws ControllerFactoryException {
     }
 
-    private void addGetBind(IMapper binder) throws CommandFactoryException {
-        addRequestBind(RequestType.GET, "/bean/user",new UserCommand(binder));
+    private void addGetBind(IMapper binder) throws ControllerFactoryException {
+        //addRequestBind(RequestType.GET, "/bean/user",new User(binder));
     }
 
     @Override
-    public void invokeCommand(RequestType requestType, String url, HttpServletRequest request, HttpServletResponse response)
-            throws CommandProviderException {
+    public IController getController(RequestType requestType, String url)
+            throws ControllerProviderException {
         try {
-            ICommand command = requestCommandFactory.get(requestType).getCommand(url);
-            command.execute(request, response);
+            return requestControllerFactory.get(requestType).getController(url);
         }catch (Exception e){
-            throw new CommandProviderException(e);
+            throw new ControllerProviderException(e);
         }
     }
 
-    private final Map<RequestType,ICommandFactory> requestCommandFactory;
+    private final Map<RequestType, IControllerFactory> requestControllerFactory;
 }

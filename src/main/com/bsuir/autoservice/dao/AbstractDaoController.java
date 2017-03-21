@@ -38,7 +38,7 @@ public abstract class AbstractDaoController<Entity, PrimaryKey> implements DaoCo
         PreparedStatement ps = null;
         try {
             connection = getConnection();
-            ps = connection.prepareStatement(getSelectQuery() + " WHERE" + "");
+            ps = connection.prepareStatement(getSelectQuery() + " WHERE id = " + key.toString());
             ResultSet rs = ps.executeQuery();
             return parseResultSet(rs).get(0);
         } catch (SQLException e) {
@@ -64,8 +64,8 @@ public abstract class AbstractDaoController<Entity, PrimaryKey> implements DaoCo
     private Connection getConnection() throws SQLException{
         return DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/auto_service_shop?useLegacyDatetimeCode=false&serverTimezone=UTC",
-                "magicBand",
-                ""
+                "root",
+                "root"
         );
     }
 

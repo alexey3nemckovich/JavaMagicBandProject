@@ -1,7 +1,11 @@
 package main.com.bsuir.autoservice.servlet;
 
-import main.com.bsuir.autoservice.command.provider.ICommandProvider;
-import main.com.bsuir.autoservice.command.provider.impl.CommandProvider;
+import com.sun.deploy.net.HttpRequest;
+import main.com.bsuir.autoservice.controller.IController;
+import main.com.bsuir.autoservice.controller.exception.ControllerException;
+import main.com.bsuir.autoservice.controller.provider.IControllerProvider;
+import main.com.bsuir.autoservice.controller.provider.exception.ControllerProviderException;
+import main.com.bsuir.autoservice.controller.provider.impl.DefaultControllerProvider;
 import main.com.bsuir.autoservice.library.RequestType;
 
 import javax.servlet.ServletException;
@@ -12,19 +16,18 @@ import javax.servlet.http.HttpServletResponse;
 public class Servlet extends HttpServlet {
     static {
         try {
-            commandBinder = new CommandProvider(new RequestType[]{RequestType.GET, RequestType.POST});
+            controllerProvider = new DefaultControllerProvider(new RequestType[]{RequestType.GET, RequestType.POST});
         }catch (Exception e){
             throw new RuntimeException(e);
         }
     }
 
-    private static final ICommandProvider commandBinder;
+    private static final IControllerProvider controllerProvider;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
-            String url = request.getRequestURI();
-            commandBinder.invokeCommand(RequestType.POST,url,request,response);
+            invokeRequest(RequestType.POST,request,response);
         }catch (Exception e){
             throw  new ServletException(e);
         }
@@ -33,11 +36,24 @@ public class Servlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
-            String url = getUrl(request.getRequestURI());
-            commandBinder.invokeCommand(RequestType.GET,url,request,response);
+            invokeRequest(RequestType.GET,request,response);
         }catch (Exception e){
             throw  new ServletException(e);
         }
+    }
+
+    private void invokeRequest(RequestType requestType, HttpServletRequest request, HttpServletResponse response)
+            throws ControllerProviderException, ControllerException {
+        String url = getUrl(request.getRequestURI());
+        IController controller = controllerProvider.getController(requestType,url);
+        invokeController(controller,request,response);
+    }
+
+    private void invokeController(IController controller, HttpServletRequest request, HttpServletResponse response)
+            throws ControllerException {
+        Object preparedData = controller.prepareData(request);
+        Object resultData = controller.execude(preparedData);
+        controller.returnResult(request,response,resultData);
     }
 
     private String getUrl(String requestURL) {
