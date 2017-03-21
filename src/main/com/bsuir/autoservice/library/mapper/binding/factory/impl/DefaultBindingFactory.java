@@ -1,6 +1,5 @@
 package main.com.bsuir.autoservice.library.mapper.binding.factory.impl;
 
-import main.com.bsuir.autoservice.command.factory.exception.CommandFactoryException;
 import main.com.bsuir.autoservice.library.DefaultHashMap;
 import main.com.bsuir.autoservice.library.mapper.binding.IBinding;
 import main.com.bsuir.autoservice.library.mapper.binding.factory.IBindingFactory;
