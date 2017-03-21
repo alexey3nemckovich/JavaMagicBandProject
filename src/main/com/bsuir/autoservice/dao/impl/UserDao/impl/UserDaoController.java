@@ -1,19 +1,27 @@
-package main.com.bsuir.autoservice.dao.controller;
+package main.com.bsuir.autoservice.dao.impl.UserDao.impl;
 
 import main.com.bsuir.autoservice.bean.User;
 import main.com.bsuir.autoservice.dao.AbstractDaoController;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
+import main.com.bsuir.autoservice.dao.impl.UserDao.IUserDaoController;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class UserDaoController extends AbstractDaoController<User, Integer> {
+public class UserDaoController extends AbstractDaoController<User, Integer> implements IUserDaoController {
+    private static final String tableName = "auto_service_shop.user";
+    private static final String primaryKeyName = "id";
 
     @Override
-    public String getSelectQuery(){
-        return "SELECT * FROM auto_service_shop.user";
+    public String getTableName() {
+        return tableName;
+    }
+
+    @Override
+    public String getPrimaryKeyName() {
+        return primaryKeyName;
     }
 
     @Override
@@ -37,5 +45,4 @@ public class UserDaoController extends AbstractDaoController<User, Integer> {
         }
         return result;
     }
-
 }
