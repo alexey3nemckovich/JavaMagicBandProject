@@ -1,16 +1,16 @@
-package main.com.bsuir.autoservice.dao.impl.userDao.impl;
+package main.com.bsuir.autoservice.dao.impl.user.impl;
 
 import main.com.bsuir.autoservice.bean.User;
-import main.com.bsuir.autoservice.dao.AbstractDaoController;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
-import main.com.bsuir.autoservice.dao.impl.userDao.IUserDao;
+import main.com.bsuir.autoservice.dao.impl.crud.AbstractDaoCrud;
+import main.com.bsuir.autoservice.dao.impl.user.IUserDao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class UserDao extends AbstractDaoController<User, Integer> implements IUserDao {
+public class UserDao extends AbstractDaoCrud<User, Integer> implements IUserDao {
     private static final String tableName = "user";
     private static final String primaryKeyName = "id";
 

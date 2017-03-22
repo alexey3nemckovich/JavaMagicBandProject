@@ -1,7 +1,7 @@
 package main.com.bsuir.autoservice.service.unitOfWork.impl;
 
-import main.com.bsuir.autoservice.service.impl.orderService.IOrderService;
-import main.com.bsuir.autoservice.service.impl.userService.IUserService;
+import main.com.bsuir.autoservice.service.impl.order.IOrderService;
+import main.com.bsuir.autoservice.service.impl.user.IUserService;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 
 public class DefaultServiceUnitOfWork implements IServiceUnitOfWork {

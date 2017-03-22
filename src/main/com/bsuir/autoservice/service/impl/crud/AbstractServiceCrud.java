@@ -1,21 +1,21 @@
-package main.com.bsuir.autoservice.service.impl.serviceCrud;
+package main.com.bsuir.autoservice.service.impl.crud;
 
-import main.com.bsuir.autoservice.dao.DaoController;
+import main.com.bsuir.autoservice.dao.impl.crud.IDaoCrud;
 import main.com.bsuir.autoservice.service.exception.ServiceException;
 
 import java.util.List;
 
 public abstract class AbstractServiceCrud<PrimaryKey,Entity> implements IServiceCrud<PrimaryKey,Entity> {
-    protected DaoController<Entity, PrimaryKey> daoController;
+    private final IDaoCrud<Entity, PrimaryKey> daoCrud;
 
-    protected AbstractServiceCrud(DaoController daoController){
-        this.daoController = daoController;
+    protected AbstractServiceCrud(IDaoCrud daoCrud){
+        this.daoCrud = daoCrud;
     }
 
     @Override
     public boolean create(List<Entity> createEntities) throws ServiceException {
         try {
-            return daoController.insert(createEntities);
+            return daoCrud.insert(createEntities);
         }catch (Exception e){
             throw new ServiceException(e);
         }
@@ -24,7 +24,7 @@ public abstract class AbstractServiceCrud<PrimaryKey,Entity> implements IService
     @Override
     public List<Entity> read(int startRange, int count) throws ServiceException {
         try {
-            return daoController.getRange(startRange, count);
+            return daoCrud.getRange(startRange, count);
         }catch (Exception e){
             throw new ServiceException(e);
         }
@@ -33,7 +33,7 @@ public abstract class AbstractServiceCrud<PrimaryKey,Entity> implements IService
     @Override
     public boolean update(List<Entity> updageEntities) throws ServiceException {
         try {
-            return daoController.update(updageEntities);
+            return daoCrud.update(updageEntities);
         }catch (Exception e){
             throw new ServiceException(e);
         }
@@ -42,7 +42,7 @@ public abstract class AbstractServiceCrud<PrimaryKey,Entity> implements IService
     @Override
     public boolean delete(List<PrimaryKey> deleteKeys) throws ServiceException {
         try {
-            return daoController.delete(deleteKeys);
+            return daoCrud.delete(deleteKeys);
         }catch (Exception e){
             throw new ServiceException(e);
         }
@@ -51,7 +51,7 @@ public abstract class AbstractServiceCrud<PrimaryKey,Entity> implements IService
     @Override
     public String getTableName() throws ServiceException {
         try{
-            return daoController.getTableName();
+            return daoCrud.getTableName();
         }catch (Exception e) {
             throw new ServiceException(e);
         }

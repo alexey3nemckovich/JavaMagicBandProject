@@ -1,15 +1,14 @@
-package main.com.bsuir.autoservice.dao;
+package main.com.bsuir.autoservice.dao.impl.crud;
 
 import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.net.DatagramPacket;
 import java.sql.*;
 import java.util.List;
 
 //TODO: call with prepare statement set in components
-public abstract class AbstractDaoController<Entity extends Bean, PrimaryKey> implements DaoController<Entity, PrimaryKey>{
+public abstract class AbstractDaoCrud<Entity extends Bean, PrimaryKey> implements IDaoCrud<Entity, PrimaryKey> {
     static {
         try {
             Class.forName("com.mysql.jdbc.Driver");
