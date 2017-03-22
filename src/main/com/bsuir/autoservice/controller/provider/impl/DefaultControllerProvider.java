@@ -14,8 +14,8 @@ import main.com.bsuir.autoservice.controller.impl.BeanTableController;
 import main.com.bsuir.autoservice.controller.impl.UserController;
 import main.com.bsuir.autoservice.controller.provider.IControllerProvider;
 import main.com.bsuir.autoservice.controller.provider.exception.ControllerProviderException;
-import main.com.bsuir.autoservice.dao.impl.orderDao.impl.OrderDao;
-import main.com.bsuir.autoservice.dao.impl.userDao.impl.UserDao;
+import main.com.bsuir.autoservice.dao.impl.order.impl.OrderDao;
+import main.com.bsuir.autoservice.dao.impl.user.impl.UserDao;
 import main.com.bsuir.autoservice.dao.unitOfWork.IDaoUnitOfWork;
 import main.com.bsuir.autoservice.dao.unitOfWork.impl.DefaultDaoUnitOfWork;
 import main.com.bsuir.autoservice.library.RequestType;
@@ -26,8 +26,8 @@ import main.com.bsuir.autoservice.library.mapper.binding.factory.impl.DefaultBin
 import main.com.bsuir.autoservice.library.mapper.binding.impl.IntegerBinding;
 import main.com.bsuir.autoservice.library.mapper.binding.impl.StringBinding;
 import main.com.bsuir.autoservice.library.mapper.impl.DefaultMapper;
-import main.com.bsuir.autoservice.service.impl.orderService.impl.OrderService;
-import main.com.bsuir.autoservice.service.impl.userService.impl.UserService;
+import main.com.bsuir.autoservice.service.impl.order.impl.OrderService;
+import main.com.bsuir.autoservice.service.impl.user.impl.UserService;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 import main.com.bsuir.autoservice.service.unitOfWork.impl.DefaultServiceUnitOfWork;
 
@@ -45,7 +45,7 @@ public class DefaultControllerProvider implements IControllerProvider {
 
     private static IServiceUnitOfWork createServices() {
         IDaoUnitOfWork daoUnitOfWork = createDao();
-        return new DefaultServiceUnitOfWork(new UserService(daoUnitOfWork.getUserDao()), new OrderService(daoUnitOfWork.getOrderDao()));
+        return new DefaultServiceUnitOfWork(new UserService(daoUnitOfWork), new OrderService(daoUnitOfWork));
     }
 
     private static IDaoUnitOfWork createDao() {

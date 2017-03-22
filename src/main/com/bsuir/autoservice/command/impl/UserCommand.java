@@ -5,11 +5,8 @@ import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.dto.UserDTO;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 public class UserCommand implements ICommand {
-    IServiceUnitOfWork serviceUnitOfWork;
+    private final IServiceUnitOfWork serviceUnitOfWork;
 
     public UserCommand(IServiceUnitOfWork serviceUnitOfWork){
         this.serviceUnitOfWork = serviceUnitOfWork;

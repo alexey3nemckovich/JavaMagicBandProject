@@ -1,15 +1,15 @@
-package main.com.bsuir.autoservice.dao.impl.orderDao.impl;
+package main.com.bsuir.autoservice.dao.impl.order.impl;
 
 import main.com.bsuir.autoservice.bean.Order;
-import main.com.bsuir.autoservice.dao.AbstractDaoController;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
-import main.com.bsuir.autoservice.dao.impl.orderDao.IOrderDao;
+import main.com.bsuir.autoservice.dao.impl.crud.AbstractDaoCrud;
+import main.com.bsuir.autoservice.dao.impl.order.IOrderDao;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.ResultSet;
 import java.util.List;
 
-public class OrderDao extends AbstractDaoController<Order, Integer> implements IOrderDao {
+public class OrderDao extends AbstractDaoCrud<Order, Integer> implements IOrderDao {
     private static final String tableName = "order";
     private static final String primaryKeyName = "id";
 

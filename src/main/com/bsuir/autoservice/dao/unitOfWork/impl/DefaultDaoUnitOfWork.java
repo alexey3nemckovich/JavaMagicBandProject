@@ -1,7 +1,7 @@
 package main.com.bsuir.autoservice.dao.unitOfWork.impl;
 
-import main.com.bsuir.autoservice.dao.impl.orderDao.IOrderDao;
-import main.com.bsuir.autoservice.dao.impl.userDao.IUserDao;
+import main.com.bsuir.autoservice.dao.impl.order.IOrderDao;
+import main.com.bsuir.autoservice.dao.impl.user.IUserDao;
 import main.com.bsuir.autoservice.dao.unitOfWork.IDaoUnitOfWork;
 
 public class DefaultDaoUnitOfWork implements IDaoUnitOfWork {

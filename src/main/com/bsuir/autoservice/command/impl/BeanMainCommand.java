@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BeanMainCommand implements ICommand{
-    IServiceUnitOfWork serviceUnitOfWork;
+    private final IServiceUnitOfWork serviceUnitOfWork;
 
     public BeanMainCommand(IServiceUnitOfWork serviceUnitOfWork){
         this.serviceUnitOfWork = serviceUnitOfWork;
