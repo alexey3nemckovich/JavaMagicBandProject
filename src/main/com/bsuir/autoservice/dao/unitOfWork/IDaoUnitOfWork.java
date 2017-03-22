@@ -1,8 +1,9 @@
 package main.com.bsuir.autoservice.dao.unitOfWork;
 
-import main.com.bsuir.autoservice.dao.impl.UserDao.IUserDaoController;
-import main.com.bsuir.autoservice.service.impl.userService.IServiceUserService;
+import main.com.bsuir.autoservice.dao.impl.orderDao.IOrderDao;
+import main.com.bsuir.autoservice.dao.impl.userDao.IUserDao;
 
 public interface IDaoUnitOfWork {
-   IUserDaoController getUserDao();
+   IUserDao getUserDao();
+   IOrderDao getOrderDao();
 }
