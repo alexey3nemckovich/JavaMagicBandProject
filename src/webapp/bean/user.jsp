@@ -9,9 +9,8 @@
     <%= request.getAttribute("data")%>
 </p>
     <div>
-        <p>Id page = '${data.id }'</p>
-        <p>Attribute page = ${ids}</p>
-        <p>Name page = ${data.name}</p>
+        <p>Id page = '${data[0].id }'</p>
+        <p>Name page = ${data[0].name}</p>
     </div>
 </body>
 </html>

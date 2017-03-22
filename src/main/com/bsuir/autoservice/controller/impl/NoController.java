@@ -7,7 +7,7 @@ import main.com.bsuir.autoservice.controller.exception.ControllerException;
 import javax.servlet.http.HttpServletRequest;
 
 public class NoController extends AbstractJSPController {
-    private static final String pageName = "user.jsp";
+    private static final String pageName = "/error.jsp";
 
     @Override
     public Object prepareData(HttpServletRequest request) throws ControllerException {

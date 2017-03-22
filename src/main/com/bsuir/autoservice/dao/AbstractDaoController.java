@@ -26,7 +26,7 @@ public abstract class AbstractDaoController<Entity extends Bean, PrimaryKey> imp
     //protected abstract String getOrderedFields();
 
     public String getSelectQuery(){
-        return String.format("SELECT * FROM `{0}`",getTableName());
+        return String.format("SELECT * FROM `%s`",getTableName());
     }
 
     public List<Entity> getAll() throws DaoException{
@@ -51,7 +51,7 @@ public abstract class AbstractDaoController<Entity extends Bean, PrimaryKey> imp
         PreparedStatement ps = null;
         try {
             connection = getConnection();
-            ps = connection.prepareStatement(String.format("{0} LIMIT {1},{2}",
+            ps = connection.prepareStatement(String.format("%s LIMIT %d, %d",
                     getSelectQuery(),startRange,count));
             ResultSet rs = ps.executeQuery();
             return parseResultSet(rs);
@@ -68,7 +68,7 @@ public abstract class AbstractDaoController<Entity extends Bean, PrimaryKey> imp
         PreparedStatement ps = null;
         try {
             connection = getConnection();
-            ps = connection.prepareStatement(String.format("{0} WHERE `{1}` = '{2}'",
+            ps = connection.prepareStatement(String.format("%s WHERE `%s` = '%s'",
                     getSelectQuery(),getPrimaryKeyName(), key.toString()));
             ResultSet rs = ps.executeQuery();
             return parseResultSet(rs).get(0);
@@ -83,7 +83,7 @@ public abstract class AbstractDaoController<Entity extends Bean, PrimaryKey> imp
 
     protected String getInsertQuery(List<Entity> insertEntities){
         throw new NotImplementedException();
-        //return String.format("INSERT INTO `{0}` ({1}) VALUES {2}",getTableName(),getOrderedFields(),getConvertedValues(insertEntities));
+        //return String.format("INSERT INTO `%s` (%s) VALUES %s",getTableName(),getOrderedFields(),getConvertedValues(insertEntities));
     }
 
     protected String getConvertedValues(List<Entity> insertEntities){
@@ -127,8 +127,8 @@ public abstract class AbstractDaoController<Entity extends Bean, PrimaryKey> imp
     protected String getDeleteQuery(List<PrimaryKey> deleteKeys) {
         StringBuilder stringBuilder = new StringBuilder();
         for (PrimaryKey deleteKey : deleteKeys) {
-            stringBuilder.append(String.format("DELETE FROM `{0}` WHERE `{0}`.`{1}` = {2}",
-                    getTableName(), getPrimaryKeyName(), deleteKey.toString()));
+            stringBuilder.append(String.format("DELETE FROM `%s` WHERE `%s`.`%s` = %s",
+                    getTableName(),getTableName(), getPrimaryKeyName(), deleteKey.toString()));
         }
         return stringBuilder.toString();
     }

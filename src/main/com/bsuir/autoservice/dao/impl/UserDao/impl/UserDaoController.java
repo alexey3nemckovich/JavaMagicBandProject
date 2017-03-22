@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class UserDaoController extends AbstractDaoController<User, Integer> implements IUserDaoController {
-    private static final String tableName = "auto_service_shop.user";
+    private static final String tableName = "user";
     private static final String primaryKeyName = "id";
 
     @Override
