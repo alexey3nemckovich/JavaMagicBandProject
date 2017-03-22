@@ -1,11 +1,19 @@
 package main.com.bsuir.autoservice.controller.provider.impl;
 
+import main.com.bsuir.autoservice.command.factory.ICommandFactory;
+import main.com.bsuir.autoservice.command.factory.exception.CommandFactoryException;
+import main.com.bsuir.autoservice.command.factory.impl.DefaultCommandFactory;
+import main.com.bsuir.autoservice.command.impl.UserCommand;
 import main.com.bsuir.autoservice.controller.IController;
 import main.com.bsuir.autoservice.controller.factory.IControllerFactory;
 import main.com.bsuir.autoservice.controller.factory.exception.ControllerFactoryException;
 import main.com.bsuir.autoservice.controller.factory.impl.DefaultControllerFactory;
+import main.com.bsuir.autoservice.controller.impl.UserController;
 import main.com.bsuir.autoservice.controller.provider.IControllerProvider;
 import main.com.bsuir.autoservice.controller.provider.exception.ControllerProviderException;
+import main.com.bsuir.autoservice.dao.impl.UserDao.impl.UserDaoController;
+import main.com.bsuir.autoservice.dao.unitOfWork.IDaoUnitOfWork;
+import main.com.bsuir.autoservice.dao.unitOfWork.impl.DefaultDaoUnitOfWork;
 import main.com.bsuir.autoservice.library.mapper.IMapper;
 import main.com.bsuir.autoservice.library.mapper.binding.factory.IBindingFactory;
 import main.com.bsuir.autoservice.library.mapper.binding.factory.exception.BindingFactoryException;
@@ -13,19 +21,36 @@ import main.com.bsuir.autoservice.library.mapper.binding.factory.impl.DefaultBin
 import main.com.bsuir.autoservice.library.mapper.binding.impl.IntegerBinding;
 import main.com.bsuir.autoservice.library.mapper.binding.impl.StringBinding;
 import main.com.bsuir.autoservice.library.mapper.impl.DefaultMapper;
-import main.com.bsuir.autoservice.command.ICommand;
-import main.com.bsuir.autoservice.command.impl.UserCommand;
 import main.com.bsuir.autoservice.library.RequestType;
+import main.com.bsuir.autoservice.service.impl.userService.impl.UserService;
+import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import main.com.bsuir.autoservice.service.unitOfWork.impl.DefaultServiceUnitOfWork;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
+//TODO: moved createFactories in other classes
 public class DefaultControllerProvider implements IControllerProvider {
-    public DefaultControllerProvider(RequestType[] supportedRequestType) {
+    public DefaultControllerProvider(RequestType[] supportedRequestType) throws CommandFactoryException {
         this.requestControllerFactory = createRequestFactory(supportedRequestType);
+        this.commandFactory = createCommandFactory();
         registerAllBindings(createMapper());
+    }
+
+
+    private static IServiceUnitOfWork createServices() {
+        IDaoUnitOfWork daoUnitOfWork = createDao();
+        return new DefaultServiceUnitOfWork(new UserService(daoUnitOfWork.getUserDao()));
+    }
+
+    private static IDaoUnitOfWork createDao() {
+        return new DefaultDaoUnitOfWork(new UserDaoController());
+    }
+
+    private static ICommandFactory createCommandFactory() throws CommandFactoryException {
+        ICommandFactory commandFactory = new DefaultCommandFactory();
+        registerAllCommands(commandFactory);
+        return commandFactory;
     }
 
     private static Map<RequestType, IControllerFactory> createRequestFactory(RequestType[] supportedRequestType) {
@@ -58,10 +83,10 @@ public class DefaultControllerProvider implements IControllerProvider {
         commandFactory.addController(url, controller);
     }
 
-    private void registerAllBindings(IMapper binder) {
+    private void registerAllBindings(IMapper mapper) {
         try {
-            addGetBind(binder);
-            addPostBind(binder);
+            addGetBind(mapper);
+            addPostBind(mapper);
         }catch (Exception e){
             throw new RuntimeException(e);
         }
@@ -72,11 +97,17 @@ public class DefaultControllerProvider implements IControllerProvider {
         bindingFactory.addBinding(Integer.class, new IntegerBinding());
     }
 
-    private void addPostBind(IMapper binder)  throws ControllerFactoryException {
+    private void addPostBind(IMapper mapper)  throws ControllerFactoryException {
     }
 
-    private void addGetBind(IMapper binder) throws ControllerFactoryException {
-        //addRequestBind(RequestType.GET, "/bean/user",new User(binder));
+    private void addGetBind(IMapper mapper) throws ControllerFactoryException, CommandFactoryException {
+        addRequestBind(RequestType.GET, "/bean/user",
+                new UserController(mapper,commandFactory.getCommand("beanUser")));
+    }
+
+    private static void registerAllCommands(ICommandFactory commandFactory) throws CommandFactoryException {
+        IServiceUnitOfWork serviceUnitOfWork = createServices();
+        commandFactory.addCommand("beanUser",new UserCommand(serviceUnitOfWork));
     }
 
     @Override
@@ -90,4 +121,5 @@ public class DefaultControllerProvider implements IControllerProvider {
     }
 
     private final Map<RequestType, IControllerFactory> requestControllerFactory;
+    private final ICommandFactory commandFactory;
 }
