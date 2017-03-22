@@ -15,7 +15,7 @@ public class UserDaoController extends AbstractDaoController<User, Integer> impl
     private static final String primaryKeyName = "id";
 
     @Override
-    public String getTableName() {
+    public String getTableNameImpl() {
         return tableName;
     }
 

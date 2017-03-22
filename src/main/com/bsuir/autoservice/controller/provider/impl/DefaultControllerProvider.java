@@ -3,11 +3,13 @@ package main.com.bsuir.autoservice.controller.provider.impl;
 import main.com.bsuir.autoservice.command.factory.ICommandFactory;
 import main.com.bsuir.autoservice.command.factory.exception.CommandFactoryException;
 import main.com.bsuir.autoservice.command.factory.impl.DefaultCommandFactory;
+import main.com.bsuir.autoservice.command.impl.BeanMainCommand;
 import main.com.bsuir.autoservice.command.impl.UserCommand;
 import main.com.bsuir.autoservice.controller.IController;
 import main.com.bsuir.autoservice.controller.factory.IControllerFactory;
 import main.com.bsuir.autoservice.controller.factory.exception.ControllerFactoryException;
 import main.com.bsuir.autoservice.controller.factory.impl.DefaultControllerFactory;
+import main.com.bsuir.autoservice.controller.impl.BeanMainController;
 import main.com.bsuir.autoservice.controller.impl.UserController;
 import main.com.bsuir.autoservice.controller.provider.IControllerProvider;
 import main.com.bsuir.autoservice.controller.provider.exception.ControllerProviderException;
@@ -102,12 +104,15 @@ public class DefaultControllerProvider implements IControllerProvider {
 
     private void addGetBind(IMapper mapper) throws ControllerFactoryException, CommandFactoryException {
         addRequestBind(RequestType.GET, "/bean/user",
-                new UserController(mapper,commandFactory.getCommand("beanUser")));
+                new UserController(mapper,commandFactory.getCommand("userCommand")));
+        addRequestBind(RequestType.GET, "/bean/main",
+                new BeanMainController(commandFactory.getCommand("beanMainCommand")));
     }
 
     private static void registerAllCommands(ICommandFactory commandFactory) throws CommandFactoryException {
         IServiceUnitOfWork serviceUnitOfWork = createServices();
-        commandFactory.addCommand("beanUser",new UserCommand(serviceUnitOfWork));
+        commandFactory.addCommand("userCommand",new UserCommand(serviceUnitOfWork));
+        commandFactory.addCommand("beanMainCommand", new BeanMainCommand(serviceUnitOfWork));
     }
 
     @Override
