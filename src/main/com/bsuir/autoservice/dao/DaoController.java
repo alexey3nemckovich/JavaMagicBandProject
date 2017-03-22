@@ -11,4 +11,5 @@ public interface DaoController<Entity, PrimaryKey> extends IDao{
     boolean update(List<Entity> updateEntities) throws DaoException;
     boolean delete(List<PrimaryKey> deleteKeys) throws DaoException;
     boolean insert(List<Entity> insertEntities) throws DaoException;
+    String getTableName() throws DaoException;
 }

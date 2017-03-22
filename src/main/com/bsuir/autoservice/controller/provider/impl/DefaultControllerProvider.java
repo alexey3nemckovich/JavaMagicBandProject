@@ -10,12 +10,15 @@ import main.com.bsuir.autoservice.controller.factory.IControllerFactory;
 import main.com.bsuir.autoservice.controller.factory.exception.ControllerFactoryException;
 import main.com.bsuir.autoservice.controller.factory.impl.DefaultControllerFactory;
 import main.com.bsuir.autoservice.controller.impl.BeanMainController;
+import main.com.bsuir.autoservice.controller.impl.BeanTableController;
 import main.com.bsuir.autoservice.controller.impl.UserController;
 import main.com.bsuir.autoservice.controller.provider.IControllerProvider;
 import main.com.bsuir.autoservice.controller.provider.exception.ControllerProviderException;
-import main.com.bsuir.autoservice.dao.impl.UserDao.impl.UserDaoController;
+import main.com.bsuir.autoservice.dao.impl.orderDao.impl.OrderDao;
+import main.com.bsuir.autoservice.dao.impl.userDao.impl.UserDao;
 import main.com.bsuir.autoservice.dao.unitOfWork.IDaoUnitOfWork;
 import main.com.bsuir.autoservice.dao.unitOfWork.impl.DefaultDaoUnitOfWork;
+import main.com.bsuir.autoservice.library.RequestType;
 import main.com.bsuir.autoservice.library.mapper.IMapper;
 import main.com.bsuir.autoservice.library.mapper.binding.factory.IBindingFactory;
 import main.com.bsuir.autoservice.library.mapper.binding.factory.exception.BindingFactoryException;
@@ -23,7 +26,7 @@ import main.com.bsuir.autoservice.library.mapper.binding.factory.impl.DefaultBin
 import main.com.bsuir.autoservice.library.mapper.binding.impl.IntegerBinding;
 import main.com.bsuir.autoservice.library.mapper.binding.impl.StringBinding;
 import main.com.bsuir.autoservice.library.mapper.impl.DefaultMapper;
-import main.com.bsuir.autoservice.library.RequestType;
+import main.com.bsuir.autoservice.service.impl.orderService.impl.OrderService;
 import main.com.bsuir.autoservice.service.impl.userService.impl.UserService;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 import main.com.bsuir.autoservice.service.unitOfWork.impl.DefaultServiceUnitOfWork;
@@ -42,11 +45,11 @@ public class DefaultControllerProvider implements IControllerProvider {
 
     private static IServiceUnitOfWork createServices() {
         IDaoUnitOfWork daoUnitOfWork = createDao();
-        return new DefaultServiceUnitOfWork(new UserService(daoUnitOfWork.getUserDao()));
+        return new DefaultServiceUnitOfWork(new UserService(daoUnitOfWork.getUserDao()), new OrderService(daoUnitOfWork.getOrderDao()));
     }
 
     private static IDaoUnitOfWork createDao() {
-        return new DefaultDaoUnitOfWork(new UserDaoController());
+        return new DefaultDaoUnitOfWork(new UserDao(), new OrderDao());
     }
 
     private static ICommandFactory createCommandFactory() throws CommandFactoryException {
@@ -56,11 +59,11 @@ public class DefaultControllerProvider implements IControllerProvider {
     }
 
     private static Map<RequestType, IControllerFactory> createRequestFactory(RequestType[] supportedRequestType) {
-        Map<RequestType, IControllerFactory> map = new HashMap<RequestType, IControllerFactory>();
+        Map<RequestType, IControllerFactory> map = new HashMap<>();
         for (RequestType requestType : supportedRequestType)
             map.put(requestType, new DefaultControllerFactory());
         return map;
-    };
+    }
 
     private static IMapper createMapper() {
         IBindingFactory bindingFactory = createBindingFactory();
@@ -107,6 +110,8 @@ public class DefaultControllerProvider implements IControllerProvider {
                 new UserController(mapper,commandFactory.getCommand("userCommand")));
         addRequestBind(RequestType.GET, "/bean/main",
                 new BeanMainController(commandFactory.getCommand("beanMainCommand")));
+        addRequestBind(RequestType.GET, "/bean/table",
+                new BeanTableController());
     }
 
     private static void registerAllCommands(ICommandFactory commandFactory) throws CommandFactoryException {

@@ -1,18 +1,25 @@
 package main.com.bsuir.autoservice.dao.unitOfWork.impl;
 
-import main.com.bsuir.autoservice.dao.impl.UserDao.IUserDaoController;
+import main.com.bsuir.autoservice.dao.impl.orderDao.IOrderDao;
+import main.com.bsuir.autoservice.dao.impl.userDao.IUserDao;
 import main.com.bsuir.autoservice.dao.unitOfWork.IDaoUnitOfWork;
-import main.com.bsuir.autoservice.service.impl.userService.IServiceUserService;
 
 public class DefaultDaoUnitOfWork implements IDaoUnitOfWork {
-    IUserDaoController userDao;
+    private final IUserDao userDao;
+    private final IOrderDao orderDao;
 
-    public DefaultDaoUnitOfWork(IUserDaoController userDao) {
+    public DefaultDaoUnitOfWork(IUserDao userDao, IOrderDao orderDao) {
         this.userDao = userDao;
+        this.orderDao = orderDao;
     }
 
     @Override
-    public IUserDaoController getUserDao() {
+    public IUserDao getUserDao() {
         return userDao;
+    }
+
+    @Override
+    public IOrderDao getOrderDao() {
+        return orderDao;
     }
 }
