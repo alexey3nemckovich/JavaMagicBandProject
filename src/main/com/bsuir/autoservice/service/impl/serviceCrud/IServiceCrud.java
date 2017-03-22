@@ -10,4 +10,5 @@ public interface IServiceCrud<PrimaryKey, Entity> extends IService {
     List<Entity> read(int startRange, int count) throws ServiceCrudException;
     boolean update(List<Entity> updageEntities) throws ServiceCrudException;
     boolean delete(List<PrimaryKey> deleteKeys) throws ServiceCrudException;
+    String getTableName() throws ServiceCrudException;
 }

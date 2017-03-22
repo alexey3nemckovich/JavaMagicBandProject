@@ -5,7 +5,7 @@ import main.com.bsuir.autoservice.service.impl.serviceCrud.exception.ServiceCrud
 
 import java.util.List;
 
-public class AbstractServiceCrud<PrimaryKey,Entity> implements IServiceCrud<PrimaryKey,Entity> {
+public abstract class AbstractServiceCrud<PrimaryKey,Entity> implements IServiceCrud<PrimaryKey,Entity> {
     protected DaoController<Entity, PrimaryKey> daoController;
 
     protected AbstractServiceCrud(DaoController daoController){
@@ -44,6 +44,15 @@ public class AbstractServiceCrud<PrimaryKey,Entity> implements IServiceCrud<Prim
         try {
             return daoController.delete(deleteKeys);
         }catch (Exception e){
+            throw new ServiceCrudException(e);
+        }
+    }
+
+    @Override
+    public String getTableName() throws ServiceCrudException {
+        try{
+            return daoController.getTableName();
+        }catch (Exception e) {
             throw new ServiceCrudException(e);
         }
     }

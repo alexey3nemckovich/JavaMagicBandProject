@@ -4,6 +4,7 @@ import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.net.DatagramPacket;
 import java.sql.*;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public abstract class AbstractDaoController<Entity extends Bean, PrimaryKey> imp
         }
     }
 
-    protected abstract String getTableName();
+    protected abstract String getTableNameImpl();
 
     protected abstract List<Entity> parseResultSet(ResultSet rs) throws DaoException;
 
@@ -26,7 +27,16 @@ public abstract class AbstractDaoController<Entity extends Bean, PrimaryKey> imp
     //protected abstract String getOrderedFields();
 
     public String getSelectQuery(){
-        return String.format("SELECT * FROM `%s`",getTableName());
+        return String.format("SELECT * FROM `%s`",getTableNameImpl());
+    }
+
+    @Override
+    public String getTableName() throws DaoException{
+        try {
+            return getTableNameImpl();
+        }catch (Exception e){
+            throw new DaoException(e);
+        }
     }
 
     public List<Entity> getAll() throws DaoException{
@@ -83,7 +93,7 @@ public abstract class AbstractDaoController<Entity extends Bean, PrimaryKey> imp
 
     protected String getInsertQuery(List<Entity> insertEntities){
         throw new NotImplementedException();
-        //return String.format("INSERT INTO `%s` (%s) VALUES %s",getTableName(),getOrderedFields(),getConvertedValues(insertEntities));
+        //return String.format("INSERT INTO `%s` (%s) VALUES %s",getTableNameImpl(),getOrderedFields(),getConvertedValues(insertEntities));
     }
 
     protected String getConvertedValues(List<Entity> insertEntities){
@@ -128,7 +138,7 @@ public abstract class AbstractDaoController<Entity extends Bean, PrimaryKey> imp
         StringBuilder stringBuilder = new StringBuilder();
         for (PrimaryKey deleteKey : deleteKeys) {
             stringBuilder.append(String.format("DELETE FROM `%s` WHERE `%s`.`%s` = %s",
-                    getTableName(),getTableName(), getPrimaryKeyName(), deleteKey.toString()));
+                    getTableNameImpl(),getTableNameImpl(), getPrimaryKeyName(), deleteKey.toString()));
         }
         return stringBuilder.toString();
     }
