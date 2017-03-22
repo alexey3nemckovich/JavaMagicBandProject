@@ -5,7 +5,6 @@
     <title>Main bean</title>
 </head>
 <body>
-${tables}
     <form method="get" action="/bean/table.ass">
         <label>Tables:</label>
         <br/>

@@ -21,7 +21,7 @@ public class BeanMainCommand implements ICommand{
             List<String> tableNames = new ArrayList<>();
             tableNames.add(serviceUnitOfWork.getUserService().getTableName());
             tableNames.add(serviceUnitOfWork.getOrderService().getTableName());
-            return tableNames;
+            return 1;
         }catch (Exception e){
             return new CommandException(e);
         }
