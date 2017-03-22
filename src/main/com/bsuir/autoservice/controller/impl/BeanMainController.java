@@ -5,7 +5,6 @@ import main.com.bsuir.autoservice.controller.AbstractJSPController;
 import main.com.bsuir.autoservice.controller.exception.ControllerException;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 public class BeanMainController extends AbstractJSPController{
     private static final String jspName = "/bean/main.jsp";
@@ -22,7 +21,7 @@ public class BeanMainController extends AbstractJSPController{
     }
 
     @Override
-    public Object execude(Object data) throws ControllerException {
+    public Object execute(Object data) throws ControllerException {
         try {
             return command.execute(data);
         } catch (Exception e){
@@ -31,7 +30,7 @@ public class BeanMainController extends AbstractJSPController{
     }
 
     @Override
-    protected void setResultAttribute(HttpServletRequest request, Object resultData) {
+    protected void setResultAttributes(HttpServletRequest request, Object resultData) {
         request.setAttribute("tables", resultData);
     }
 

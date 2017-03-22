@@ -1,5 +1,6 @@
 package main.com.bsuir.autoservice.controller.impl;
 
+import main.com.bsuir.autoservice.bean.User;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.controller.AbstractJSPController;
 import main.com.bsuir.autoservice.controller.exception.ControllerException;
@@ -8,26 +9,26 @@ import main.com.bsuir.autoservice.library.mapper.IMapper;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class UserController extends AbstractJSPController{
+public class UserController extends AbstractJSPController<UserDTO,User>{
     private final IMapper mapper;
-    private final ICommand command;
+    private final ICommand<UserDTO,User> command;
 
-    public UserController(IMapper mapper, ICommand command){
+    public UserController(IMapper mapper, ICommand<UserDTO,User> command){
         this.mapper = mapper;
         this.command = command;
     }
 
     @Override
-    public Object prepareData(HttpServletRequest request) throws ControllerException {
+    public UserDTO prepareData(HttpServletRequest request) throws ControllerException {
         try {
-            return mapper.mappedParameters(UserDTO.class, request.getParameterMap());
+            return (UserDTO)mapper.mappedParameters(UserDTO.class, request.getParameterMap());
         }catch (Exception e){
             throw new ControllerException(e);
         }
     }
 
     @Override
-    public Object execude(Object data) throws ControllerException {
+    public User execute(UserDTO data) throws ControllerException {
         try {
             return command.execute(data);
         }catch (Exception e){
@@ -36,7 +37,7 @@ public class UserController extends AbstractJSPController{
     }
 
     @Override
-    protected void setResultAttribute(HttpServletRequest request, Object resultData) {
+    protected void setResultAttributes(HttpServletRequest request, User resultData) {
         request.setAttribute("data",resultData);
     }
 

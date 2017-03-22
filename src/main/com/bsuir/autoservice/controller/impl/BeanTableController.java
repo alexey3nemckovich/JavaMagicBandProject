@@ -15,7 +15,7 @@ public class BeanTableController extends AbstractJSPController{
     }
 
     @Override
-    public Object execude(Object data) throws ControllerException {
+    public Object execute(Object data) throws ControllerException {
         try {
             //TODO: getResult
             return data;
@@ -25,7 +25,7 @@ public class BeanTableController extends AbstractJSPController{
     }
 
     @Override
-    protected void setResultAttribute(HttpServletRequest request, Object resultData) {
+    protected void setResultAttributes(HttpServletRequest request, Object resultData) {
         request.setAttribute("data",resultData);
     }
 

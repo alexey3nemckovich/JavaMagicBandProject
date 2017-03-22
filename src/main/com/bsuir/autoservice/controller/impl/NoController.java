@@ -1,7 +1,6 @@
 package main.com.bsuir.autoservice.controller.impl;
 
 import main.com.bsuir.autoservice.controller.AbstractJSPController;
-import main.com.bsuir.autoservice.controller.IController;
 import main.com.bsuir.autoservice.controller.exception.ControllerException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,12 +14,12 @@ public class NoController extends AbstractJSPController {
     }
 
     @Override
-    public Object execude(Object data) throws ControllerException {
+    public Object execute(Object data) throws ControllerException {
         return null;
     }
 
     @Override
-    protected void setResultAttribute(HttpServletRequest request, Object resultData) {
+    protected void setResultAttributes(HttpServletRequest request, Object resultData) {
 
     }
 

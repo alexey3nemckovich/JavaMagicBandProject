@@ -2,9 +2,6 @@ package main.com.bsuir.autoservice.command;
 
 import main.com.bsuir.autoservice.command.exception.CommandException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-public interface ICommand {
-    Object execute(Object data) throws CommandException;
+public interface ICommand<PrepareDataType, ResultDataType> {
+    ResultDataType execute(PrepareDataType data) throws CommandException;
 }

@@ -1,22 +1,21 @@
 package main.com.bsuir.autoservice.controller;
 
-import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.controller.exception.ControllerException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public abstract class AbstractJSPController implements IController {
+public abstract class AbstractJSPController<PrepareDataType,ResultDataType> implements IController<PrepareDataType,ResultDataType> {
 
-    protected abstract void setResultAttribute(HttpServletRequest request, Object resultData);
+    protected abstract void setResultAttributes(HttpServletRequest request, ResultDataType resultData);
 
     protected abstract String getJspName();
 
     @Override
-    public final void returnResult(HttpServletRequest request, HttpServletResponse response, Object resultData)
+    public final void returnResult(HttpServletRequest request, HttpServletResponse response, ResultDataType resultData)
             throws ControllerException {
         try {
-            setResultAttribute(request, resultData);
+            setResultAttributes(request, resultData);
             request.getRequestDispatcher(getJspName()).forward(request, response);
         } catch (Exception e) {
             throw new ControllerException(e);
