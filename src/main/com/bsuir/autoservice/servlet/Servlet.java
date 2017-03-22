@@ -1,6 +1,5 @@
 package main.com.bsuir.autoservice.servlet;
 
-import com.sun.deploy.net.HttpRequest;
 import main.com.bsuir.autoservice.controller.IController;
 import main.com.bsuir.autoservice.controller.exception.ControllerException;
 import main.com.bsuir.autoservice.controller.provider.IControllerProvider;
@@ -52,7 +51,7 @@ public class Servlet extends HttpServlet {
     private void invokeController(IController controller, HttpServletRequest request, HttpServletResponse response)
             throws ControllerException {
         Object preparedData = controller.prepareData(request);
-        Object resultData = controller.execude(preparedData);
+        Object resultData = controller.execute(preparedData);
         controller.returnResult(request,response,resultData);
     }
 
