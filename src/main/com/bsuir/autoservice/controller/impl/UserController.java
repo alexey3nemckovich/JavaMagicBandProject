@@ -1,5 +1,7 @@
 package main.com.bsuir.autoservice.controller.impl;
 
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import main.com.bsuir.autoservice.bean.User;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.controller.AbstractJSPController;
@@ -8,12 +10,14 @@ import main.com.bsuir.autoservice.dto.UserDTO;
 import main.com.bsuir.autoservice.library.mapper.IMapper;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
-public class UserController extends AbstractJSPController<UserDTO,User>{
+public class UserController extends AbstractJSPController<UserDTO,List<User>>{
     private final IMapper mapper;
-    private final ICommand<UserDTO,User> command;
+    private final ICommand<UserDTO,List<User>> command;
 
-    public UserController(IMapper mapper, ICommand<UserDTO,User> command){
+    @Inject
+    public UserController(IMapper mapper, @Named("userCommand") ICommand<UserDTO,List<User>> command){
         this.mapper = mapper;
         this.command = command;
     }
@@ -28,7 +32,7 @@ public class UserController extends AbstractJSPController<UserDTO,User>{
     }
 
     @Override
-    public User execute(UserDTO data) throws ControllerException {
+    public List<User> execute(UserDTO data) throws ControllerException {
         try {
             return command.execute(data);
         }catch (Exception e){
@@ -37,7 +41,7 @@ public class UserController extends AbstractJSPController<UserDTO,User>{
     }
 
     @Override
-    protected void setResultAttributes(HttpServletRequest request, User resultData) {
+    protected void setResultAttributes(HttpServletRequest request, List<User> resultData) {
         request.setAttribute("data",resultData);
     }
 

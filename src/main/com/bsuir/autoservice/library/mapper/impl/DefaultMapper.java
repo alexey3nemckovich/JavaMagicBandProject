@@ -1,15 +1,19 @@
 package main.com.bsuir.autoservice.library.mapper.impl;
 
+import com.google.inject.Inject;
 import javafx.util.Pair;
 import main.com.bsuir.autoservice.library.mapper.IMapper;
 import main.com.bsuir.autoservice.library.mapper.binding.IBinding;
-import main.com.bsuir.autoservice.library.mapper.exception.MapperException;
 import main.com.bsuir.autoservice.library.mapper.binding.factory.IBindingFactory;
+import main.com.bsuir.autoservice.library.mapper.exception.MapperException;
 
 import java.lang.reflect.Field;
 import java.util.Map;
 
 public class DefaultMapper implements IMapper {
+    private final IBindingFactory bindingFactory;
+
+    @Inject
     public DefaultMapper(IBindingFactory bindingFactory){
         this.bindingFactory = bindingFactory;
     }
@@ -112,6 +116,4 @@ public class DefaultMapper implements IMapper {
             throw new MapperException(e);
         }
     }
-
-    IBindingFactory bindingFactory;
 }

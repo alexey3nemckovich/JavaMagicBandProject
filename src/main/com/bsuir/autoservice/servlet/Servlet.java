@@ -1,10 +1,12 @@
 package main.com.bsuir.autoservice.servlet;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import main.com.bsuir.autoservice.config.guice.InjectionRouteModule;
 import main.com.bsuir.autoservice.controller.IController;
 import main.com.bsuir.autoservice.controller.exception.ControllerException;
 import main.com.bsuir.autoservice.controller.provider.IControllerProvider;
 import main.com.bsuir.autoservice.controller.provider.exception.ControllerProviderException;
-import main.com.bsuir.autoservice.controller.provider.impl.DefaultControllerProvider;
 import main.com.bsuir.autoservice.library.RequestType;
 
 import javax.servlet.ServletException;
@@ -15,7 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 public class Servlet extends HttpServlet {
     static {
         try {
-            controllerProvider = new DefaultControllerProvider(new RequestType[]{RequestType.GET, RequestType.POST});
+            Injector injector = Guice.createInjector(new InjectionRouteModule());
+            controllerProvider =  injector.getInstance(IControllerProvider.class);
         }catch (Exception e){
             throw new RuntimeException(e);
         }
@@ -48,6 +51,7 @@ public class Servlet extends HttpServlet {
         invokeController(controller,request,response);
     }
 
+    @SuppressWarnings("unchecked")
     private void invokeController(IController controller, HttpServletRequest request, HttpServletResponse response)
             throws ControllerException {
         Object preparedData = controller.prepareData(request);
