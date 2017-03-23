@@ -1,5 +1,6 @@
 package main.com.bsuir.autoservice.command.impl;
 
+import com.google.inject.Inject;
 import main.com.bsuir.autoservice.bean.User;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
@@ -11,6 +12,7 @@ import java.util.List;
 public class UserCommand implements ICommand<UserDTO,List<User>> {
     private final IServiceUnitOfWork serviceUnitOfWork;
 
+    @Inject
     public UserCommand(IServiceUnitOfWork serviceUnitOfWork){
         this.serviceUnitOfWork = serviceUnitOfWork;
     }

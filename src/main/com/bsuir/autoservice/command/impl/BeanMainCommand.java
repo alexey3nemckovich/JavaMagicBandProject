@@ -1,5 +1,6 @@
 package main.com.bsuir.autoservice.command.impl;
 
+import com.google.inject.Inject;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
@@ -10,10 +11,10 @@ import java.util.List;
 public class BeanMainCommand implements ICommand<Object,List<String>>{
     private final IServiceUnitOfWork serviceUnitOfWork;
 
+    @Inject
     public BeanMainCommand(IServiceUnitOfWork serviceUnitOfWork){
         this.serviceUnitOfWork = serviceUnitOfWork;
     }
-
 
     @Override
     public List<String> execute(Object data) throws CommandException {
