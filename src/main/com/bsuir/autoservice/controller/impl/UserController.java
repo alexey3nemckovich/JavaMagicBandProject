@@ -25,7 +25,7 @@ public class UserController extends AbstractJSPController<UserDTO,List<User>>{
     @Override
     public UserDTO prepareData(HttpServletRequest request) throws ControllerException {
         try {
-            return (UserDTO)mapper.mappedParameters(UserDTO.class, request.getParameterMap());
+            return mapper.mappedParameters(UserDTO.class, request.getParameterMap());
         }catch (Exception e){
             throw new ControllerException(e);
         }
