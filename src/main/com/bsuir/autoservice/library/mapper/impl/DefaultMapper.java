@@ -18,19 +18,19 @@ public class DefaultMapper implements IMapper {
         this.bindingFactory = bindingFactory;
     }
 
-    private static Object generateNewObject(Class aClass) throws IllegalAccessException, InstantiationException {
+    private static <T> T generateNewObject(Class<T> aClass) throws IllegalAccessException, InstantiationException {
         return aClass.newInstance();
     }
 
-    private static Class getFieldType(Object newObject, String parameter) throws NoSuchFieldException {
+    private static <T> Class getFieldType(T newObject, String parameter) throws NoSuchFieldException {
         Class objectClass = newObject.getClass();
         return objectClass.getField(parameter).getType();
     }
 
 
-    private Object getMappedObject(Class returnType, Map<String, String[]> parameters, String[] checkedParameters)
+    private <T> T getMappedObject(Class<T> returnType, Map<String, String[]> parameters, String[] checkedParameters)
             throws InstantiationException, IllegalAccessException {
-        Object newObject = generateNewObject(returnType);
+        T newObject = generateNewObject(returnType);
         for (String checkedParameter: checkedParameters){
             if (parameters.containsKey(checkedParameter)) {
                 updateObject(newObject, checkedParameter, parameters.get(checkedParameter));
@@ -41,9 +41,9 @@ public class DefaultMapper implements IMapper {
         return newObject;
     }
 
-    private Object getMappedObject(Class returnType, Map<String, String[]> parameters)
+    private <T> T getMappedObject(Class<T> returnType, Map<String, String[]> parameters)
             throws InstantiationException, IllegalAccessException {
-        Object newObject = generateNewObject(returnType);
+        T newObject = generateNewObject(returnType);
         for (Field fieldDeclaration: returnType.getFields()){
             String fieldName = fieldDeclaration.getName();
             if (parameters.containsKey(fieldName)) {
@@ -55,9 +55,9 @@ public class DefaultMapper implements IMapper {
         return newObject;
     }
 
-    private Object getMappedObject(Class returnType, Map<String, String[]> parameters, Pair<String,String>[] checkedMapParameters)
+    private <T> T getMappedObject(Class<T> returnType, Map<String, String[]> parameters, Pair<String,String>[] checkedMapParameters)
             throws InstantiationException, IllegalAccessException {
-        Object newObject = generateNewObject(returnType);
+        T newObject = generateNewObject(returnType);
         for (Pair<String,String> checkedMapParameter: checkedMapParameters){
             if (parameters.containsKey(checkedMapParameter.getKey())) {
                 updateObject(newObject, checkedMapParameter.getValue(), parameters.get(checkedMapParameter.getKey()));
@@ -68,7 +68,7 @@ public class DefaultMapper implements IMapper {
         return newObject;
     }
 
-    private void updateDefaultObject(Object newObject, String fieldName) {
+    private <T> void updateDefaultObject(T newObject, String fieldName) {
         try {
             Class fieldTypeDeclaration = getFieldType(newObject,fieldName);
             IBinding binding = bindingFactory.getBinding(fieldTypeDeclaration);
@@ -78,7 +78,7 @@ public class DefaultMapper implements IMapper {
         }
     }
 
-    private void updateObject(Object newObject, String fieldName, String[] currentValues) {
+    private <T> void updateObject(T newObject, String fieldName, String[] currentValues) {
         try {
             Class fieldTypeDeclaration = getFieldType(newObject,fieldName);
             IBinding binding = bindingFactory.getBinding(fieldTypeDeclaration);
@@ -89,7 +89,7 @@ public class DefaultMapper implements IMapper {
     }
 
     @Override
-    public Object mappedParameters(Class returnType, Map<String, String[]> parameters, String[] checkedParameters)
+    public <T> T mappedParameters(Class<T> returnType, Map<String, String[]> parameters, String[] checkedParameters)
             throws MapperException {
         try {
             return getMappedObject(returnType,parameters,checkedParameters);
@@ -99,7 +99,7 @@ public class DefaultMapper implements IMapper {
     }
 
     @Override
-    public Object mappedParameters(Class returnType, Map<String, String[]> parameters) throws MapperException {
+    public <T> T mappedParameters(Class<T> returnType, Map<String, String[]> parameters) throws MapperException {
         try {
             return getMappedObject(returnType,parameters);
         }catch (Exception e){
@@ -108,7 +108,7 @@ public class DefaultMapper implements IMapper {
     }
 
     @Override
-    public Object mappedParameters(Class returnType, Map<String, String[]> parameters, Pair<String, String>[] checkedMapParameters)
+    public <T> T mappedParameters(Class<T> returnType, Map<String, String[]> parameters, Pair<String, String>[] checkedMapParameters)
             throws MapperException {
         try {
             return getMappedObject(returnType,parameters,checkedMapParameters);
