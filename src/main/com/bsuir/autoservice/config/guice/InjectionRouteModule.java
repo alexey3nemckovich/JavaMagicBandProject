@@ -8,6 +8,8 @@ import main.com.bsuir.autoservice.bean.User;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.impl.BeanMainCommand;
 import main.com.bsuir.autoservice.command.impl.UserCommand;
+import main.com.bsuir.autoservice.config.database.impl.sql.ISqlConfigDatabase;
+import main.com.bsuir.autoservice.config.database.impl.sql.impl.SqlConfigDatabase;
 import main.com.bsuir.autoservice.config.guice.provider.BindingFactroryProvider;
 import main.com.bsuir.autoservice.config.guice.provider.RequestControllerFactoryProvider;
 import main.com.bsuir.autoservice.controller.IController;
@@ -46,12 +48,18 @@ import java.util.Map;
 public class InjectionRouteModule extends AbstractModule{
     @Override
     protected void configure() {
+        bindConfigs();
         bindRequests();
         bindLibraries();
         bindDao();
         bindServices();
         bindCommands();
         bindControllers();
+    }
+
+    private void bindConfigs() {
+        bind(String.class).annotatedWith(Names.named("sqlConfig")).toInstance("database");
+        bind(ISqlConfigDatabase.class).to(SqlConfigDatabase.class).in(Singleton.class);
     }
 
     private void bindRequests() {
@@ -68,7 +76,7 @@ public class InjectionRouteModule extends AbstractModule{
         bind(IUserDao.class).to(UserDao.class).in(Singleton.class);
         bind(IOrderDao.class).to(OrderDao.class).in(Singleton.class);
         bind(IDaoUnitOfWork.class).to(DefaultDaoUnitOfWork.class).in(Singleton.class);
-        bind(ISqlDatabase.class).to(SqlDatabase.class).in(Singleton.class);
+        bind(ISqlDatabase.class).to(SqlDatabase.class).asEagerSingleton();
     }
 
     private void bindServices() {
