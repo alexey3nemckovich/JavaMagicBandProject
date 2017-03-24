@@ -19,6 +19,8 @@ import main.com.bsuir.autoservice.controller.impl.NoController;
 import main.com.bsuir.autoservice.controller.impl.UserController;
 import main.com.bsuir.autoservice.controller.provider.IControllerProvider;
 import main.com.bsuir.autoservice.controller.provider.impl.DefaultControllerProvider;
+import main.com.bsuir.autoservice.dao.database.impl.sql.ISqlDatabase;
+import main.com.bsuir.autoservice.dao.database.impl.sql.impl.SqlDatabase;
 import main.com.bsuir.autoservice.dao.impl.order.IOrderDao;
 import main.com.bsuir.autoservice.dao.impl.order.impl.OrderDao;
 import main.com.bsuir.autoservice.dao.impl.user.IUserDao;
@@ -66,6 +68,7 @@ public class InjectionRouteModule extends AbstractModule{
         bind(IUserDao.class).to(UserDao.class).in(Singleton.class);
         bind(IOrderDao.class).to(OrderDao.class).in(Singleton.class);
         bind(IDaoUnitOfWork.class).to(DefaultDaoUnitOfWork.class).in(Singleton.class);
+        bind(ISqlDatabase.class).to(SqlDatabase.class).in(Singleton.class);
     }
 
     private void bindServices() {

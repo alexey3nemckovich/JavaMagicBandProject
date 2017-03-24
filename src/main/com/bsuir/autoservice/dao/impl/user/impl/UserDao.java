@@ -1,6 +1,8 @@
 package main.com.bsuir.autoservice.dao.impl.user.impl;
 
+import com.google.inject.Inject;
 import main.com.bsuir.autoservice.bean.User;
+import main.com.bsuir.autoservice.dao.database.impl.sql.ISqlDatabase;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.impl.crud.AbstractDaoCrud;
 import main.com.bsuir.autoservice.dao.impl.user.IUserDao;
@@ -13,6 +15,11 @@ import java.util.List;
 public class UserDao extends AbstractDaoCrud<User, Integer> implements IUserDao {
     private static final String tableName = "user";
     private static final String primaryKeyName = "id";
+
+    @Inject
+    public UserDao(ISqlDatabase sqlDatabase) {
+        super(sqlDatabase);
+    }
 
     @Override
     public String getTableNameImpl() {

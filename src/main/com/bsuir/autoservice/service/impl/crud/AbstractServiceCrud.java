@@ -13,7 +13,7 @@ public abstract class AbstractServiceCrud<PrimaryKey,Entity> implements IService
     }
 
     @Override
-    public boolean create(List<Entity> createEntities) throws ServiceException {
+    public int create(List<Entity> createEntities) throws ServiceException {
         try {
             return daoCrud.insert(createEntities);
         }catch (Exception e){
@@ -31,7 +31,7 @@ public abstract class AbstractServiceCrud<PrimaryKey,Entity> implements IService
     }
 
     @Override
-    public boolean update(List<Entity> updageEntities) throws ServiceException {
+    public int update(List<Entity> updageEntities) throws ServiceException {
         try {
             return daoCrud.update(updageEntities);
         }catch (Exception e){
@@ -40,7 +40,7 @@ public abstract class AbstractServiceCrud<PrimaryKey,Entity> implements IService
     }
 
     @Override
-    public boolean delete(List<PrimaryKey> deleteKeys) throws ServiceException {
+    public int delete(List<PrimaryKey> deleteKeys) throws ServiceException {
         try {
             return daoCrud.delete(deleteKeys);
         }catch (Exception e){
