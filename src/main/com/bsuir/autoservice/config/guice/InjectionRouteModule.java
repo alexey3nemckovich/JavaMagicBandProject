@@ -3,6 +3,7 @@ package main.com.bsuir.autoservice.config.guice;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
+import com.google.inject.matcher.Matchers;
 import com.google.inject.name.Names;
 import main.com.bsuir.autoservice.bean.User;
 import main.com.bsuir.autoservice.command.ICommand;
@@ -10,6 +11,7 @@ import main.com.bsuir.autoservice.command.impl.BeanMainCommand;
 import main.com.bsuir.autoservice.command.impl.UserCommand;
 import main.com.bsuir.autoservice.config.database.impl.sql.ISqlConfigDatabase;
 import main.com.bsuir.autoservice.config.database.impl.sql.impl.SqlConfigDatabase;
+import main.com.bsuir.autoservice.config.guice.log4j.Log4JTypeListener;
 import main.com.bsuir.autoservice.config.guice.provider.BindingFactroryProvider;
 import main.com.bsuir.autoservice.config.guice.provider.RequestControllerFactoryProvider;
 import main.com.bsuir.autoservice.controller.IController;
@@ -57,9 +59,18 @@ public class InjectionRouteModule extends AbstractModule{
         bindControllers();
     }
 
-    private void bindConfigs() {
+    private void bindLog4J() {
+        bindListener(Matchers.any(), new Log4JTypeListener());
+    }
+
+    private void bindDatabase() {
         bind(String.class).annotatedWith(Names.named("sqlConfig")).toInstance("database");
         bind(ISqlConfigDatabase.class).to(SqlConfigDatabase.class).in(Singleton.class);
+    }
+
+    private void bindConfigs() {
+        bindLog4J();
+        bindDatabase();
     }
 
     private void bindRequests() {
