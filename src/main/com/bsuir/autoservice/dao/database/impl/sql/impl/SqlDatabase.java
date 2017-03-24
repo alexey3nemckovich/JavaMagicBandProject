@@ -1,5 +1,7 @@
 package main.com.bsuir.autoservice.dao.database.impl.sql.impl;
 
+import com.google.inject.Inject;
+import main.com.bsuir.autoservice.config.database.impl.sql.ISqlConfigDatabase;
 import main.com.bsuir.autoservice.dao.database.exception.DatabaseException;
 import main.com.bsuir.autoservice.dao.database.impl.sql.ISqlDatabase;
 
@@ -8,9 +10,17 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class SqlDatabase implements ISqlDatabase {
-    static {
+    private final String url;
+    private final String login;
+    private final String password;
+
+    @Inject
+    public SqlDatabase(ISqlConfigDatabase sqlConfigDatabase){
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName(sqlConfigDatabase.getDriverProvider());
+            url = sqlConfigDatabase.getUrl();
+            login =sqlConfigDatabase.getLogin();
+            password =sqlConfigDatabase.getPassword();
         }catch (Exception e){
             throw new RuntimeException();
         }
