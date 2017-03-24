@@ -1,6 +1,8 @@
 package main.com.bsuir.autoservice.dao.impl.order.impl;
 
+import com.google.inject.Inject;
 import main.com.bsuir.autoservice.bean.Order;
+import main.com.bsuir.autoservice.dao.database.impl.sql.ISqlDatabase;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.impl.crud.AbstractDaoCrud;
 import main.com.bsuir.autoservice.dao.impl.order.IOrderDao;
@@ -12,6 +14,11 @@ import java.util.List;
 public class OrderDao extends AbstractDaoCrud<Order, Integer> implements IOrderDao {
     private static final String tableName = "order";
     private static final String primaryKeyName = "id";
+
+    @Inject
+    public OrderDao(ISqlDatabase sqlDatabase) {
+        super(sqlDatabase);
+    }
 
     @Override
     public String getTableNameImpl() {
