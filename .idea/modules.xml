@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/JavaMagicBandProject.iml" filepath="$PROJECT_DIR$/.idea/JavaMagicBandProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/AutoServiceShop.iml" filepath="$PROJECT_DIR$/.idea/AutoServiceShop.iml" />
     </modules>
   </component>
 </project>
