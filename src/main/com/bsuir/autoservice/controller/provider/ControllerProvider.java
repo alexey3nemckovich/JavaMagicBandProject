@@ -1,24 +1,22 @@
-package main.com.bsuir.autoservice.controller.provider.impl;
+package main.com.bsuir.autoservice.controller.provider;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import main.com.bsuir.autoservice.binding.annotation.ControllerProviderArgument;
 import main.com.bsuir.autoservice.controller.IController;
-import main.com.bsuir.autoservice.controller.factory.IControllerFactory;
-import main.com.bsuir.autoservice.controller.provider.IControllerProvider;
+import main.com.bsuir.autoservice.controller.factory.ControllerFactory;
 import main.com.bsuir.autoservice.controller.provider.exception.ControllerProviderException;
 import main.com.bsuir.autoservice.library.RequestType;
 
 import java.util.Map;
 
-public class DefaultControllerProvider implements IControllerProvider {
-    private final Map<RequestType, IControllerFactory> requestControllerMap;
+public class ControllerProvider{
 
     @Inject
-    public DefaultControllerProvider(@Named("mapControllerFactory") Map<RequestType,IControllerFactory> requestControllerMap) {
+    public ControllerProvider(@ControllerProviderArgument Map<RequestType,ControllerFactory> requestControllerMap) {
         this.requestControllerMap = requestControllerMap;
-     }
+    }
 
-    @Override
     public IController getController(RequestType requestType, String url)
             throws ControllerProviderException {
         try {
@@ -27,4 +25,6 @@ public class DefaultControllerProvider implements IControllerProvider {
             throw new ControllerProviderException(e);
         }
     }
+
+    private final Map<RequestType, ControllerFactory> requestControllerMap;
 }

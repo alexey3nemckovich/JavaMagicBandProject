@@ -1,5 +1,6 @@
-package main.com.bsuir.autoservice.controller;
+package main.com.bsuir.autoservice.controller.jsp;
 
+import main.com.bsuir.autoservice.controller.IController;
 import main.com.bsuir.autoservice.controller.exception.ControllerException;
 
 import javax.servlet.http.HttpServletRequest;

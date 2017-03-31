@@ -5,7 +5,7 @@ import com.google.inject.Injector;
 import main.com.bsuir.autoservice.binding.BillingModule;
 import main.com.bsuir.autoservice.controller.IController;
 import main.com.bsuir.autoservice.controller.exception.ControllerException;
-import main.com.bsuir.autoservice.controller.provider.IControllerProvider;
+import main.com.bsuir.autoservice.controller.provider.ControllerProvider;
 import main.com.bsuir.autoservice.controller.provider.exception.ControllerProviderException;
 import main.com.bsuir.autoservice.library.RequestType;
 
@@ -18,13 +18,11 @@ public class Servlet extends HttpServlet {
     static {
         try {
             Injector injector = Guice.createInjector(new BillingModule());
-            controllerProvider =  injector.getInstance(IControllerProvider.class);
+            controllerProvider =  injector.getInstance(ControllerProvider.class);
         }catch (Exception e){
             throw new RuntimeException(e);
         }
     }
-
-    private static final IControllerProvider controllerProvider;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException {
@@ -59,6 +57,7 @@ public class Servlet extends HttpServlet {
         controller.returnResult(request,response,resultData);
     }
 
+    private static final ControllerProvider controllerProvider;
     private String getUrl(String requestURL) {
         return requestURL.replace(".ass","");
     }

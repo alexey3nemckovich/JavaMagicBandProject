@@ -1,10 +1,10 @@
-package main.com.bsuir.autoservice.controller.impl;
+package main.com.bsuir.autoservice.controller.bean;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import main.com.bsuir.autoservice.bean.User;
 import main.com.bsuir.autoservice.command.ICommand;
-import main.com.bsuir.autoservice.controller.AbstractJSPController;
+import main.com.bsuir.autoservice.controller.jsp.AbstractJSPController;
 import main.com.bsuir.autoservice.controller.exception.ControllerException;
 import main.com.bsuir.autoservice.dto.UserDTO;
 import main.com.bsuir.autoservice.library.mapper.IMapper;

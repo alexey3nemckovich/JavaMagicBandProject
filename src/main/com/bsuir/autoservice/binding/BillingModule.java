@@ -6,6 +6,9 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.matcher.Matchers;
 import com.google.inject.name.Names;
 import main.com.bsuir.autoservice.bean.User;
+import main.com.bsuir.autoservice.binding.annotation.ControllerProviderArgument;
+import main.com.bsuir.autoservice.binding.annotation.Default;
+import main.com.bsuir.autoservice.binding.annotation.Supported;
 import main.com.bsuir.autoservice.binding.log4j.Log4JTypeListener;
 import main.com.bsuir.autoservice.binding.provider.BindingFactroryProvider;
 import main.com.bsuir.autoservice.command.ICommand;
@@ -15,14 +18,12 @@ import main.com.bsuir.autoservice.config.database.impl.sql.ISqlConfigDatabase;
 import main.com.bsuir.autoservice.config.database.impl.sql.impl.SqlConfigDatabase;
 import main.com.bsuir.autoservice.binding.provider.RequestControllerFactoryProvider;
 import main.com.bsuir.autoservice.controller.IController;
-import main.com.bsuir.autoservice.controller.factory.IControllerFactory;
-import main.com.bsuir.autoservice.controller.factory.impl.DefaultControllerFactory;
-import main.com.bsuir.autoservice.controller.impl.BeanMainController;
-import main.com.bsuir.autoservice.controller.impl.BeanTableController;
-import main.com.bsuir.autoservice.controller.impl.NoController;
-import main.com.bsuir.autoservice.controller.impl.UserController;
-import main.com.bsuir.autoservice.controller.provider.IControllerProvider;
-import main.com.bsuir.autoservice.controller.provider.impl.DefaultControllerProvider;
+import main.com.bsuir.autoservice.controller.bean.BeanMainController;
+import main.com.bsuir.autoservice.controller.bean.BeanTableController;
+import main.com.bsuir.autoservice.controller.NoController;
+import main.com.bsuir.autoservice.controller.bean.UserController;
+import main.com.bsuir.autoservice.controller.factory.ControllerFactory;
+import main.com.bsuir.autoservice.controller.provider.ControllerProvider;
 import main.com.bsuir.autoservice.dao.database.impl.sql.ISqlDatabase;
 import main.com.bsuir.autoservice.dao.database.impl.sql.impl.SqlDatabase;
 import main.com.bsuir.autoservice.dao.impl.order.IOrderDao;
@@ -50,8 +51,10 @@ import java.util.Map;
 public class BillingModule extends AbstractModule{
     @Override
     protected void configure() {
-        bindConfigs();
-        bindRequests();
+        bindConfig();
+        bindDefault();
+        bindSupported();
+
         bindLibraries();
         bindDao();
         bindServices();
@@ -59,7 +62,16 @@ public class BillingModule extends AbstractModule{
         bindControllers();
     }
 
-    private void bindConfigs() {
+    private void bindDefault(){
+        bind(IController.class).annotatedWith(Default.class).to(NoController.class).in(Singleton.class);
+        bind(ControllerFactory.class).annotatedWith(Default.class).to(ControllerFactory.class).in(Singleton.class);
+    }
+
+    private void bindSupported(){
+        bind(RequestType[].class).annotatedWith(Supported.class).toInstance(new RequestType[]{RequestType.GET, RequestType.POST});
+    }
+
+    private void bindConfig() {
         bindLog4J();
         bindDatabase();
     }
@@ -71,10 +83,6 @@ public class BillingModule extends AbstractModule{
     private void bindDatabase() {
         bind(String.class).annotatedWith(Names.named("sqlConfig")).toInstance("database");
         bind(ISqlConfigDatabase.class).to(SqlConfigDatabase.class).in(Singleton.class);
-    }
-
-    private void bindRequests() {
-        bind(RequestType[].class).toInstance(new RequestType[]{RequestType.GET, RequestType.POST});
     }
 
     private void bindLibraries() {
@@ -102,14 +110,14 @@ public class BillingModule extends AbstractModule{
     }
 
     private void bindControllers() {
-        bind(IController.class).annotatedWith(Names.named("defaultController")).to(NoController.class).in(Singleton.class);
-        bind(IControllerFactory.class).annotatedWith(Names.named("defaultControllerFactory")).to(DefaultControllerFactory.class).in(Singleton.class);
-        bind(new TypeLiteral<Map<RequestType,IControllerFactory>>(){}).annotatedWith(Names.named("mapControllerFactory")).toProvider(RequestControllerFactoryProvider.class).in(Singleton.class);
-        bind(IControllerProvider.class).to(DefaultControllerProvider.class).in(Singleton.class);
         bindConcreteControllers();
+        bind(ControllerProvider.class).in(Singleton.class);
+        bind(new TypeLiteral<Map<RequestType, ControllerFactory>>(){}).
+                annotatedWith(ControllerProviderArgument.class).
+                toProvider(RequestControllerFactoryProvider.class).
+                in(Singleton.class);
     }
 
-    //ok
     private void bindConcreteControllers() {
         bind(UserController.class).in(Singleton.class);
         bind(BeanMainController.class).in(Singleton.class);

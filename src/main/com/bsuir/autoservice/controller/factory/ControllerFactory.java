@@ -1,18 +1,17 @@
-package main.com.bsuir.autoservice.controller.factory.impl;
+package main.com.bsuir.autoservice.controller.factory;
 
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
+import main.com.bsuir.autoservice.binding.annotation.Default;
 import main.com.bsuir.autoservice.controller.IController;
-import main.com.bsuir.autoservice.controller.factory.IControllerFactory;
 import main.com.bsuir.autoservice.controller.factory.exception.ControllerFactoryException;
 import main.com.bsuir.autoservice.library.DefaultHashMap;
 
 import java.util.Map;
 
-public class DefaultControllerFactory implements IControllerFactory {
+public class ControllerFactory{
 
     @Inject
-    public DefaultControllerFactory(@Named("defaultController") IController defaultController){
+    public ControllerFactory(@Default IController defaultController){
         controllerMap = new DefaultHashMap<>(defaultController);
     }
 
@@ -37,7 +36,6 @@ public class DefaultControllerFactory implements IControllerFactory {
         }
     }
 
-    @Override
     public IController getController(String url) throws ControllerFactoryException {
         try {
             return controllerMap.get(url);
