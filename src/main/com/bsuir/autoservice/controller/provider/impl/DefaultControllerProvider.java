@@ -11,18 +11,18 @@ import main.com.bsuir.autoservice.library.RequestType;
 import java.util.Map;
 
 public class DefaultControllerProvider implements IControllerProvider {
-    private final Map<RequestType, IControllerFactory> requestControllerFactory;
+    private final Map<RequestType, IControllerFactory> requestControllerMap;
 
     @Inject
-    public DefaultControllerProvider(@Named("mapControllerFactory") Map<RequestType,IControllerFactory> requestControllerFactory) {
-        this.requestControllerFactory = requestControllerFactory;
+    public DefaultControllerProvider(@Named("mapControllerFactory") Map<RequestType,IControllerFactory> requestControllerMap) {
+        this.requestControllerMap = requestControllerMap;
      }
 
     @Override
     public IController getController(RequestType requestType, String url)
             throws ControllerProviderException {
         try {
-            return requestControllerFactory.get(requestType).getController(url);
+            return requestControllerMap.get(requestType).getController(url);
         }catch (Exception e){
             throw new ControllerProviderException(e);
         }

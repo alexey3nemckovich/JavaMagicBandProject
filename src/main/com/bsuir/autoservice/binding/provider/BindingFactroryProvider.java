@@ -1,4 +1,4 @@
-package main.com.bsuir.autoservice.config.guice.provider;
+package main.com.bsuir.autoservice.binding.provider;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;

@@ -1,4 +1,4 @@
-package main.com.bsuir.autoservice.config.guice;
+package main.com.bsuir.autoservice.binding;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
@@ -6,14 +6,14 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.matcher.Matchers;
 import com.google.inject.name.Names;
 import main.com.bsuir.autoservice.bean.User;
+import main.com.bsuir.autoservice.binding.log4j.Log4JTypeListener;
+import main.com.bsuir.autoservice.binding.provider.BindingFactroryProvider;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.impl.BeanMainCommand;
 import main.com.bsuir.autoservice.command.impl.UserCommand;
 import main.com.bsuir.autoservice.config.database.impl.sql.ISqlConfigDatabase;
 import main.com.bsuir.autoservice.config.database.impl.sql.impl.SqlConfigDatabase;
-import main.com.bsuir.autoservice.config.guice.log4j.Log4JTypeListener;
-import main.com.bsuir.autoservice.config.guice.provider.BindingFactroryProvider;
-import main.com.bsuir.autoservice.config.guice.provider.RequestControllerFactoryProvider;
+import main.com.bsuir.autoservice.binding.provider.RequestControllerFactoryProvider;
 import main.com.bsuir.autoservice.controller.IController;
 import main.com.bsuir.autoservice.controller.factory.IControllerFactory;
 import main.com.bsuir.autoservice.controller.factory.impl.DefaultControllerFactory;
@@ -47,7 +47,7 @@ import main.com.bsuir.autoservice.service.unitOfWork.impl.DefaultServiceUnitOfWo
 import java.util.List;
 import java.util.Map;
 
-public class InjectionRouteModule extends AbstractModule{
+public class BillingModule extends AbstractModule{
     @Override
     protected void configure() {
         bindConfigs();
@@ -59,6 +59,11 @@ public class InjectionRouteModule extends AbstractModule{
         bindControllers();
     }
 
+    private void bindConfigs() {
+        bindLog4J();
+        bindDatabase();
+    }
+
     private void bindLog4J() {
         bindListener(Matchers.any(), new Log4JTypeListener());
     }
@@ -66,11 +71,6 @@ public class InjectionRouteModule extends AbstractModule{
     private void bindDatabase() {
         bind(String.class).annotatedWith(Names.named("sqlConfig")).toInstance("database");
         bind(ISqlConfigDatabase.class).to(SqlConfigDatabase.class).in(Singleton.class);
-    }
-
-    private void bindConfigs() {
-        bindLog4J();
-        bindDatabase();
     }
 
     private void bindRequests() {
@@ -109,6 +109,7 @@ public class InjectionRouteModule extends AbstractModule{
         bindConcreteControllers();
     }
 
+    //ok
     private void bindConcreteControllers() {
         bind(UserController.class).in(Singleton.class);
         bind(BeanMainController.class).in(Singleton.class);

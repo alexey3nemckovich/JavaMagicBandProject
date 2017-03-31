@@ -1,8 +1,9 @@
-package main.com.bsuir.autoservice.config.guice.log4j;
+package main.com.bsuir.autoservice.binding.log4j;
 
 import com.google.inject.TypeLiteral;
 import com.google.inject.spi.TypeEncounter;
 import com.google.inject.spi.TypeListener;
+import main.com.bsuir.autoservice.binding.annotation.InjectLogger;
 import org.apache.log4j.Logger;
 
 import java.lang.reflect.Field;

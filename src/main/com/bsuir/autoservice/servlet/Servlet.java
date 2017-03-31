@@ -2,7 +2,7 @@ package main.com.bsuir.autoservice.servlet;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import main.com.bsuir.autoservice.config.guice.InjectionRouteModule;
+import main.com.bsuir.autoservice.binding.BillingModule;
 import main.com.bsuir.autoservice.controller.IController;
 import main.com.bsuir.autoservice.controller.exception.ControllerException;
 import main.com.bsuir.autoservice.controller.provider.IControllerProvider;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 public class Servlet extends HttpServlet {
     static {
         try {
-            Injector injector = Guice.createInjector(new InjectionRouteModule());
+            Injector injector = Guice.createInjector(new BillingModule());
             controllerProvider =  injector.getInstance(IControllerProvider.class);
         }catch (Exception e){
             throw new RuntimeException(e);

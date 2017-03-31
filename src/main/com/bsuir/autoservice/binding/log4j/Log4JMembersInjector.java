@@ -1,4 +1,4 @@
-package main.com.bsuir.autoservice.config.guice.log4j;
+package main.com.bsuir.autoservice.binding.log4j;
 
 import com.google.inject.MembersInjector;
 import org.apache.log4j.Logger;
