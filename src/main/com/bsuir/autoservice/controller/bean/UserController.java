@@ -13,11 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public class UserController extends AbstractJSPController<UserDTO,List<User>>{
-    private final IMapper mapper;
-    private final ICommand<UserDTO,List<User>> command;
-
     @Inject
-    public UserController(IMapper mapper, @Named("userCommand") ICommand<UserDTO,List<User>> command){
+    private UserController(IMapper mapper, @Named("userCommand") ICommand<UserDTO,List<User>> command){
         this.mapper = mapper;
         this.command = command;
     }
@@ -49,4 +46,7 @@ public class UserController extends AbstractJSPController<UserDTO,List<User>>{
     protected String getJspName() {
         return "user.jsp";
     }
+
+    private final IMapper mapper;
+    private final ICommand<UserDTO,List<User>> command;
 }

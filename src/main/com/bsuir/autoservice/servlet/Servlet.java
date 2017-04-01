@@ -6,7 +6,6 @@ import main.com.bsuir.autoservice.binding.BillingModule;
 import main.com.bsuir.autoservice.controller.IController;
 import main.com.bsuir.autoservice.controller.exception.ControllerException;
 import main.com.bsuir.autoservice.controller.provider.ControllerProvider;
-import main.com.bsuir.autoservice.controller.provider.exception.ControllerProviderException;
 import main.com.bsuir.autoservice.library.RequestType;
 
 import javax.servlet.ServletException;
@@ -43,7 +42,7 @@ public class Servlet extends HttpServlet {
     }
 
     private void invokeRequest(RequestType requestType, HttpServletRequest request, HttpServletResponse response)
-            throws ControllerProviderException, ControllerException {
+            throws ControllerException {
         String url = getUrl(request.getRequestURI());
         IController controller = controllerProvider.getController(requestType,url);
         invokeController(controller,request,response);

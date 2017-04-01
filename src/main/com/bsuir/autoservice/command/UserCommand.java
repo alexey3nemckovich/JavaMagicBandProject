@@ -1,4 +1,4 @@
-package main.com.bsuir.autoservice.command.impl;
+package main.com.bsuir.autoservice.command;
 
 import com.google.inject.Inject;
 import main.com.bsuir.autoservice.bean.User;
