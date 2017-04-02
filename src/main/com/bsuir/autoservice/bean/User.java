@@ -1,5 +1,6 @@
 package main.com.bsuir.autoservice.bean;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,13 +9,15 @@ public class User extends Bean {
     public enum Type{
         USER,
         STAFF;
-
-        public static Type parseType(String value) {
-            return Type.valueOf(value);
-        }
     }
 
-    private int id;
+    static {
+
+    }
+
+    public User(){}
+
+    public int id;
     private String mail;
     private String login;
     private String password;
@@ -88,9 +91,26 @@ public class User extends Bean {
     }
 
     @Override
-    public List<String> getFieldsOrdered(){
-        return new ArrayList<String>(Arrays.asList(
-                String.valueOf(id), mail, login, password, phone, name, lastName, type.toString()
-        ));
+    public List<Field> getFieldsOrdered(){
+        try {
+            Class type = this.getClass();
+            List<Field> fields = new ArrayList<Field>(Arrays.asList(
+                    type.getDeclaredField("id"),
+                    type.getDeclaredField("mail"),
+                    type.getDeclaredField("login"),
+                    type.getDeclaredField("password"),
+                    type.getDeclaredField("phone"),
+                    type.getDeclaredField("name"),
+                    type.getDeclaredField("lastName"),
+                    type.getDeclaredField("type")
+            ));
+            for (Field field: fields) {
+                field.setAccessible(true);
+            }
+            return fields;
+        }catch (Exception e){
+            //impossible
+            return null;
+        }
     }
 }

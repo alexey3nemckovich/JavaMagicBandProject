@@ -1,5 +1,6 @@
 package main.com.bsuir.autoservice.bean;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,9 +35,7 @@ public class OrderSparePart extends Bean{
     }
 
     @Override
-    public List<String> getFieldsOrdered(){
-        return new ArrayList<String>(Arrays.asList(
-                String.valueOf(sparePartId), String.valueOf(orderId), String.valueOf(count)
-        ));
+    public List<Field> getFieldsOrdered(){
+        return null;
     }
 }

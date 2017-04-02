@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class Bean {
-    abstract List<String> getFieldsOrdered();
+    abstract List<Field> getFieldsOrdered();
 
     public Map<String, String> getAllFields() throws BeanException{
         Map<String, String> fieldsStringValues = new HashMap<String, String>();
@@ -47,7 +47,7 @@ public abstract class Bean {
     public String toString(){
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append('{');
-        List<String> fields = getFieldsOrdered();
+        List<Field> fields = getFieldsOrdered();
         for(int i = 0; i < fields.size(); i++){
             stringBuilder.append(fields.get(i));
             if (fields.size() - 1 != i){

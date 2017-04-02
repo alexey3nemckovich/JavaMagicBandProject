@@ -30,12 +30,12 @@ public class UserController extends AbstractJSPController<User>{
 
     @Override
     protected void setResultAttributes(HttpServletRequest request, Object resultData) {
-        request.setAttribute("data", resultData);
+        request.setAttribute("beans", resultData);
     }
 
     @Override
     protected String getJspName() {
-        return "user.jsp";
+        return "./user.jsp";
     }
 
     private final GetAllUserCommand getAllUserCommand;

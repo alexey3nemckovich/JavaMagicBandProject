@@ -1,9 +1,12 @@
 package main.com.bsuir.autoservice.http.parser;
 
 import com.google.common.base.Defaults;
+import main.com.bsuir.autoservice.bean.User;
+import main.com.bsuir.autoservice.binding.annotation.Default;
 import main.com.bsuir.autoservice.http.parser.exception.HttpParserException;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import java.util.Map;
 
 public class DefaultHttpParser implements IHttpParser {
@@ -38,8 +41,9 @@ public class DefaultHttpParser implements IHttpParser {
     }
 
     private <T> void setFieldDefaultValue(T object, Field field)
-            throws IllegalAccessException{
-        field.set(object, Defaults.defaultValue(field.getClass()));
+            throws IllegalAccessException, NoSuchFieldException{
+        Object defaultValue = Defaults.defaultValue(field.getType());
+        field.set(object, defaultValue);
     }
 
     @SuppressWarnings("unchecked")

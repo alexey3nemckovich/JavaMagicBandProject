@@ -1,5 +1,6 @@
 package main.com.bsuir.autoservice.bean;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -66,9 +67,7 @@ public class Notification extends Bean{
     }
 
     @Override
-    public List<String> getFieldsOrdered(){
-        return new ArrayList<String>(Arrays.asList(
-                String.valueOf(id), String.valueOf(orderId), String.valueOf(staffId), date.toString(), content, state.toString()
-        ));
+    public List<Field> getFieldsOrdered(){
+        return null;
     }
 }
