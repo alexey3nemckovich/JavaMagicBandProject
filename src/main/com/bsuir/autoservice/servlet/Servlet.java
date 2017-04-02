@@ -2,8 +2,11 @@ package main.com.bsuir.autoservice.servlet;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import main.com.bsuir.autoservice.binding.BillingModule;
+import main.com.bsuir.autoservice.binding.AutoServiceShopModule;
+import main.com.bsuir.autoservice.command.ICommand;
+import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.controller.IController;
+import main.com.bsuir.autoservice.controller.UserController;
 import main.com.bsuir.autoservice.controller.exception.ControllerException;
 import main.com.bsuir.autoservice.controller.provider.ControllerProvider;
 import main.com.bsuir.autoservice.library.RequestType;
@@ -16,7 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 public class Servlet extends HttpServlet {
     static {
         try {
-            Injector injector = Guice.createInjector(new BillingModule());
+            Injector injector = Guice.createInjector(new AutoServiceShopModule());
+            injector.getInstance(UserController.class);
             controllerProvider =  injector.getInstance(ControllerProvider.class);
         }catch (Exception e){
             throw new RuntimeException(e);
@@ -26,7 +30,7 @@ public class Servlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
-            invokeRequest(RequestType.POST,request,response);
+            executeRequest(RequestType.POST,request,response);
         }catch (Exception e){
             throw  new ServletException(e);
         }
@@ -35,25 +39,25 @@ public class Servlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
-            invokeRequest(RequestType.GET,request,response);
+            executeRequest(RequestType.GET,request,response);
         }catch (Exception e){
             throw  new ServletException(e);
         }
     }
 
-    private void invokeRequest(RequestType requestType, HttpServletRequest request, HttpServletResponse response)
-            throws ControllerException {
+    private void executeRequest(RequestType requestType, HttpServletRequest request, HttpServletResponse response)
+            throws ControllerException, CommandException {
         String url = getUrl(request.getRequestURI());
-        IController controller = controllerProvider.getController(requestType,url);
-        invokeController(controller,request,response);
+        IController controller = controllerProvider.getController(requestType, url);
+        Object resultData = invokeCommand(controller, request);
+        controller.returnResult(request, response, resultData);
     }
 
-    @SuppressWarnings("unchecked")
-    private void invokeController(IController controller, HttpServletRequest request, HttpServletResponse response)
-            throws ControllerException {
-        Object preparedData = controller.prepareData(request);
-        Object resultData = controller.execute(preparedData);
-        controller.returnResult(request,response,resultData);
+    private Object invokeCommand(IController controller, HttpServletRequest request)
+            throws ControllerException, CommandException {
+        Object data = controller.prepareData(request);
+        ICommand command = controller.getCommand(request);
+        return command.execute(data);
     }
 
     private static final ControllerProvider controllerProvider;

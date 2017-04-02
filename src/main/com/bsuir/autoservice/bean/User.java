@@ -7,7 +7,11 @@ import java.util.List;
 public class User extends Bean {
     public enum Type{
         USER,
-        STAFF
+        STAFF;
+
+        public static Type parseType(String value) {
+            return Type.valueOf(value);
+        }
     }
 
     private int id;

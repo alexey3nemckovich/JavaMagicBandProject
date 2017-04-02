@@ -1,5 +1,5 @@
 package main.com.bsuir.autoservice.library;
 
 public enum RequestType {
-    GET, POST
+    GET, POST, PUT, DELETE
 }

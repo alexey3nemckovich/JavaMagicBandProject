@@ -12,17 +12,17 @@ public class ControllerProvider implements IControllerProvider{
 
     @Inject
     public ControllerProvider(@ControllerProviderArgument Map<ControllerId,IController> requestControllerMap) {
-        this.requestControllerMap = requestControllerMap;
+        this.controllerMap = requestControllerMap;
     }
 
     public IController getController(RequestType requestType, String url)
             throws ControllerException {
         try {
-            return requestControllerMap.get(new ControllerId(requestType, url));
+            return controllerMap.get(new ControllerId(requestType, url));
         }catch (Exception e){
             throw new ControllerException(e);
         }
     }
 
-    private final Map<ControllerId, IController> requestControllerMap;
+    private final Map<ControllerId, IController> controllerMap;
 }
