@@ -8,14 +8,14 @@ import main.com.bsuir.autoservice.binding.annotation.Default;
 import main.com.bsuir.autoservice.binding.annotation.Supported;
 import main.com.bsuir.autoservice.binding.log4j.Log4JTypeListener;
 import main.com.bsuir.autoservice.binding.provider.BindingFactroryProvider;
-import main.com.bsuir.autoservice.command.User.GetAllUserCommand;
+import main.com.bsuir.autoservice.command.User.GetUserPageCommand;
 import main.com.bsuir.autoservice.config.database.impl.sql.ISqlConfigDatabase;
 import main.com.bsuir.autoservice.config.database.impl.sql.impl.SqlConfigDatabase;
 import main.com.bsuir.autoservice.binding.provider.ControllerMapProvider;
 import main.com.bsuir.autoservice.controller.ControllerId;
 import main.com.bsuir.autoservice.controller.IController;
 import main.com.bsuir.autoservice.controller.NoController;
-import main.com.bsuir.autoservice.controller.UserController;
+import main.com.bsuir.autoservice.controller.bean.view.BeanViewController;
 import main.com.bsuir.autoservice.controller.provider.ControllerProvider;
 import main.com.bsuir.autoservice.dao.database.impl.sql.ISqlDatabase;
 import main.com.bsuir.autoservice.dao.database.impl.sql.impl.SqlDatabase;
@@ -93,11 +93,11 @@ public class AutoServiceShopModule extends AbstractModule{
     }
 
     private void bindConcreteControllers() {
-        bind(UserController.class).in(Singleton.class);
+        bind(BeanViewController.class).in(Singleton.class);
     }
 
     private void bindCommands(){
-        bind(GetAllUserCommand.class).in(Singleton.class);
+        bind(GetUserPageCommand.class).in(Singleton.class);
     }
 
     private void bindServices() {

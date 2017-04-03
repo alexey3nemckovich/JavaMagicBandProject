@@ -1,11 +1,13 @@
 package main.com.bsuir.autoservice.http.parser;
 
 import com.google.common.base.Defaults;
+import com.google.common.collect.ImmutableMap;
 import main.com.bsuir.autoservice.bean.User;
 import main.com.bsuir.autoservice.binding.annotation.Default;
 import main.com.bsuir.autoservice.http.parser.exception.HttpParserException;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.Map;
 
@@ -49,9 +51,28 @@ public class DefaultHttpParser implements IHttpParser {
     @SuppressWarnings("unchecked")
     private Object getFieldValueObject(Field field, String value)
             throws Exception{
-        Class fieldClass = field.getClass();
-        Object fieldValueObject = fieldClass.newInstance();
-        fieldValueObject = fieldClass.getMethod("valueOf").invoke(fieldValueObject, value);
-        return fieldValueObject;
+        if(field.getType().getName() == "String"){
+            return value;
+        }else{
+            Class fieldType = field.getType();
+            if(fieldType.isPrimitive()){
+                fieldType = PRIMITIVES_TO_WRAPPERS.get(fieldType);
+            }
+            Method parseMethod = fieldType.getMethod("valueOf", new Class[]{String.class});
+            return parseMethod.invoke(fieldType, value);
+        }
     }
+
+    private static final Map<Class<?>, Class<?>> PRIMITIVES_TO_WRAPPERS
+            = new ImmutableMap.Builder<Class<?>, Class<?>>()
+            .put(boolean.class, Boolean.class)
+            .put(byte.class, Byte.class)
+            .put(char.class, Character.class)
+            .put(double.class, Double.class)
+            .put(float.class, Float.class)
+            .put(int.class, Integer.class)
+            .put(long.class, Long.class)
+            .put(short.class, Short.class)
+            .put(void.class, Void.class)
+            .build();
 }

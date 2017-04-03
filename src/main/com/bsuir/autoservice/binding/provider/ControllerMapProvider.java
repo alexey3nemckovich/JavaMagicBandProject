@@ -6,7 +6,7 @@ import com.google.inject.Provider;
 import main.com.bsuir.autoservice.controller.ControllerId;
 import main.com.bsuir.autoservice.controller.IController;
 import main.com.bsuir.autoservice.controller.exception.ControllerException;
-import main.com.bsuir.autoservice.controller.UserController;
+import main.com.bsuir.autoservice.controller.bean.view.BeanViewController;
 import main.com.bsuir.autoservice.library.RequestType;
 
 import java.util.HashMap;
@@ -35,7 +35,7 @@ public class ControllerMapProvider implements Provider<Map<ControllerId, IContro
     }
 
     private void addGetRequestControllers(Injector injector) throws ControllerException {
-        addUrlControllerForRequestType(RequestType.GET, "/bean/user", injector.getInstance(UserController.class));
+        addUrlControllerForRequestType(RequestType.GET, "/bean/user", injector.getInstance(BeanViewController.class));
     }
 
     private void addPostRequestControllers(Injector injector)

@@ -40,11 +40,15 @@ public abstract class AbstractDaoCrud<Entity extends Bean, PrimaryKey> implement
     }
 
     @Override
-    public List<Entity> getAll() throws DaoException{
+    public int getAllCount() throws DaoException{
         try(Connection connection = sqlDatabase.getConnection()){
-            try(PreparedStatement ps = connection.prepareStatement(getSelectQuery())) {
+            try(PreparedStatement ps = connection.prepareStatement(String.format("SELECT COUNT(*) AS rowcount FROM %s",
+                    getTableName()))) {
                 ResultSet rs = ps.executeQuery();
-                return parseResultSet(rs);
+                rs.next();
+                int count = rs.getInt("rowcount");
+                rs.close();
+                return count;
             }
         } catch (Exception e) {
             throw new DaoException(e);

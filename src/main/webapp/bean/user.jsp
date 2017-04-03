@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="paginator" uri="/WEB-INF/tlds/Paginator" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -41,6 +42,11 @@
         .tg .tg-4eph {
             background-color: #f9f9f9
         }
+
+        .paginatorList { margin: 2px 6px; list-style: none outside none; }
+        .paginatorList li { float: left; padding: 2px 4px; font-size: 1.2em; }
+        li.paginatorCurr { font-weight: bold; font-size: 1.5em; margin-top: -2px; }
+        li.paginatorLast { float: none; }
     </style>
 </head>
 <body>
@@ -68,4 +74,16 @@
             </tr>
         </c:forEach>
     </table>
+    <c:url var="searchUri" value="/bean/user.ass?page=##&countRecords=3" />
+    <paginator:display maxLinks="5" currPage="${page}" totalPages="${totalPages}" uri="${searchUri}"/>
 </c:if>
+
+<h1>Add a record</h1>
+
+<form:form action="${addAction}" commandName="book">
+    <table>
+
+    </table>
+</form:form>
+</body>
+</html>

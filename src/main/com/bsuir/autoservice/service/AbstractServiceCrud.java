@@ -1,5 +1,7 @@
 package main.com.bsuir.autoservice.service;
 
+import com.google.common.base.Defaults;
+import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.impl.crud.IDaoCrud;
 import main.com.bsuir.autoservice.service.IServiceCrud;
 import main.com.bsuir.autoservice.service.exception.ServiceException;
@@ -14,9 +16,19 @@ public abstract class AbstractServiceCrud<PrimaryKey,Entity> implements IService
     }
 
     @Override
-    public List<Entity> read(int startRange, int count) throws ServiceException {
+    public int readTotalCount() throws ServiceException{
         try {
-            return daoCrud.getRange(startRange, count);
+            return daoCrud.getAllCount();
+        }
+        catch (DaoException e){
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public List<Entity> read(int startIndex, int count) throws ServiceException {
+        try {
+            return daoCrud.getRange(startIndex, count);
         }catch (Exception e){
             throw new ServiceException(e);
         }

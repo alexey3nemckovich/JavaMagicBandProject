@@ -6,7 +6,7 @@ import main.com.bsuir.autoservice.binding.AutoServiceShopModule;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.controller.IController;
-import main.com.bsuir.autoservice.controller.UserController;
+import main.com.bsuir.autoservice.controller.bean.view.BeanViewController;
 import main.com.bsuir.autoservice.controller.exception.ControllerException;
 import main.com.bsuir.autoservice.controller.provider.ControllerProvider;
 import main.com.bsuir.autoservice.library.RequestType;
@@ -20,7 +20,7 @@ public class Servlet extends HttpServlet {
     static {
         try {
             Injector injector = Guice.createInjector(new AutoServiceShopModule());
-            injector.getInstance(UserController.class);
+            injector.getInstance(BeanViewController.class);
             controllerProvider =  injector.getInstance(ControllerProvider.class);
         }catch (Exception e){
             throw new RuntimeException(e);
@@ -57,7 +57,7 @@ public class Servlet extends HttpServlet {
             throws ControllerException, CommandException {
         Object data = controller.prepareData(request);
         ICommand command = controller.getCommand(request);
-        return command.execute(data);
+        return command.execute(data, request);
     }
 
     private static final ControllerProvider controllerProvider;
