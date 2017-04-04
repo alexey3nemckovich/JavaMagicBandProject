@@ -8,7 +8,7 @@ import main.com.bsuir.autoservice.binding.annotation.Default;
 import main.com.bsuir.autoservice.binding.annotation.Supported;
 import main.com.bsuir.autoservice.binding.log4j.Log4JTypeListener;
 import main.com.bsuir.autoservice.binding.provider.BindingFactroryProvider;
-import main.com.bsuir.autoservice.command.User.GetUserPageCommand;
+import main.com.bsuir.autoservice.command.bean.page.GetBeanPageCommand;
 import main.com.bsuir.autoservice.config.database.impl.sql.ISqlConfigDatabase;
 import main.com.bsuir.autoservice.config.database.impl.sql.impl.SqlConfigDatabase;
 import main.com.bsuir.autoservice.binding.provider.ControllerMapProvider;
@@ -19,12 +19,14 @@ import main.com.bsuir.autoservice.controller.bean.view.BeanViewController;
 import main.com.bsuir.autoservice.controller.provider.ControllerProvider;
 import main.com.bsuir.autoservice.dao.database.impl.sql.ISqlDatabase;
 import main.com.bsuir.autoservice.dao.database.impl.sql.impl.SqlDatabase;
-import main.com.bsuir.autoservice.dao.impl.order.IOrderDao;
-import main.com.bsuir.autoservice.dao.impl.order.impl.OrderDao;
-import main.com.bsuir.autoservice.dao.impl.user.IUserDao;
-import main.com.bsuir.autoservice.dao.impl.user.impl.UserDao;
+import main.com.bsuir.autoservice.dao.order.IOrderDao;
+import main.com.bsuir.autoservice.dao.order.OrderDao;
+import main.com.bsuir.autoservice.dao.staff.IStaffDao;
+import main.com.bsuir.autoservice.dao.staff.StaffDao;
+import main.com.bsuir.autoservice.dao.user.IUserDao;
+import main.com.bsuir.autoservice.dao.user.UserDao;
 import main.com.bsuir.autoservice.dao.unitOfWork.IDaoUnitOfWork;
-import main.com.bsuir.autoservice.dao.unitOfWork.impl.DefaultDaoUnitOfWork;
+import main.com.bsuir.autoservice.dao.unitOfWork.DefaultDaoUnitOfWork;
 import main.com.bsuir.autoservice.library.RequestType;
 import main.com.bsuir.autoservice.http.parser.IHttpParser;
 import main.com.bsuir.autoservice.library.binding.factory.IBindingFactory;
@@ -32,6 +34,8 @@ import main.com.bsuir.autoservice.library.binding.factory.impl.DefaultBindingFac
 import main.com.bsuir.autoservice.http.parser.DefaultHttpParser;
 import main.com.bsuir.autoservice.service.order.IOrderService;
 import main.com.bsuir.autoservice.service.order.OrderService;
+import main.com.bsuir.autoservice.service.staff.IStaffService;
+import main.com.bsuir.autoservice.service.staff.StaffService;
 import main.com.bsuir.autoservice.service.user.IUserService;
 import main.com.bsuir.autoservice.service.user.UserService;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
@@ -42,9 +46,11 @@ import java.util.Map;
 public class AutoServiceShopModule extends AbstractModule{
     @Override
     protected void configure() {
-        bindConfig();
         bindDefault();
         bindSupported();
+
+        /*unchecked*/
+        bindConfig();
         bindLibraries();
         bindControllers();
         bindCommands();
@@ -97,17 +103,19 @@ public class AutoServiceShopModule extends AbstractModule{
     }
 
     private void bindCommands(){
-        bind(GetUserPageCommand.class).in(Singleton.class);
+        bind(GetBeanPageCommand.class).in(Singleton.class);
     }
 
     private void bindServices() {
         bind(IUserService.class).to(UserService.class).in(Singleton.class);
         bind(IOrderService.class).to(OrderService.class).in(Singleton.class);
+        bind(IStaffService.class).to(StaffService.class).in(Singleton.class);
     }
 
     private void bindDao() {
         bind(IUserDao.class).to(UserDao.class).in(Singleton.class);
         bind(IOrderDao.class).to(OrderDao.class).in(Singleton.class);
+        bind(IStaffDao.class).to(StaffDao.class).in(Singleton.class);
         bind(IDaoUnitOfWork.class).to(DefaultDaoUnitOfWork.class).in(Singleton.class);
         bind(ISqlDatabase.class).to(SqlDatabase.class).asEagerSingleton();
     }

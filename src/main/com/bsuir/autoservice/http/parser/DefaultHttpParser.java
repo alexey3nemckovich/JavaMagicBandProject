@@ -4,6 +4,7 @@ import com.google.common.base.Defaults;
 import com.google.common.collect.ImmutableMap;
 import main.com.bsuir.autoservice.bean.User;
 import main.com.bsuir.autoservice.binding.annotation.Default;
+import main.com.bsuir.autoservice.command.CommandDataTypeRequestParameter;
 import main.com.bsuir.autoservice.http.parser.exception.HttpParserException;
 
 import java.lang.reflect.Field;
@@ -26,9 +27,10 @@ public class DefaultHttpParser implements IHttpParser {
     private <T> T parseObject(Class<T> returnType, Map<String, String[]> parameters)
             throws Exception{
         T parsedObject = returnType.newInstance();
-        for (Field field: returnType.getFields()){
+        for (Field field: returnType.getDeclaredFields()){
             String fieldName = field.getName();
-            if (parameters.containsKey(fieldName)) {
+            if (field.isAnnotationPresent(CommandDataTypeRequestParameter.class) &&
+                    parameters.containsKey(fieldName)) {
                 setFieldValue(parsedObject, field, parameters.get(fieldName)[0]);
             }else{
                 setFieldDefaultValue(parsedObject, field);
@@ -39,19 +41,21 @@ public class DefaultHttpParser implements IHttpParser {
 
     private <T> void setFieldValue(T object, Field field, String value)
             throws Exception{
+        field.setAccessible(true);
         field.set(object, getFieldValueObject(field, value));
     }
 
     private <T> void setFieldDefaultValue(T object, Field field)
             throws IllegalAccessException, NoSuchFieldException{
         Object defaultValue = Defaults.defaultValue(field.getType());
+        field.setAccessible(true);
         field.set(object, defaultValue);
     }
 
     @SuppressWarnings("unchecked")
     private Object getFieldValueObject(Field field, String value)
             throws Exception{
-        if(field.getType().getName() == "String"){
+        if(field.getType().getName().contains("String")){
             return value;
         }else{
             Class fieldType = field.getType();

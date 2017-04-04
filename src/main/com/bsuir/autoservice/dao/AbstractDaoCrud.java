@@ -1,6 +1,7 @@
-package main.com.bsuir.autoservice.dao.impl.crud;
+package main.com.bsuir.autoservice.dao;
 
 import main.com.bsuir.autoservice.bean.Bean;
+import main.com.bsuir.autoservice.dao.IDaoCrud;
 import main.com.bsuir.autoservice.dao.database.impl.sql.ISqlDatabase;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -89,7 +90,7 @@ public abstract class AbstractDaoCrud<Entity extends Bean, PrimaryKey> implement
     protected String getConvertedValues(List<Entity> insertEntities){
         StringBuilder stringBuilder = new StringBuilder();
         for (Entity insertEntity: insertEntities) {
-            //TODO: complete bean get value
+            //TODO: complete user get value
             throw new NotImplementedException();
             //stringBuilder.append(updateEntity.getAllFields().values());
         }
@@ -110,7 +111,7 @@ public abstract class AbstractDaoCrud<Entity extends Bean, PrimaryKey> implement
     private String getUpdateQuery(List<Entity> updateEntities){
         StringBuilder stringBuilder = new StringBuilder();
         for (Entity updateEntity: updateEntities) {
-            //TODO: complete bean get value
+            //TODO: complete user get value
             throw new NotImplementedException();
             //stringBuilder.append(String.format("UPDATE `service` SET `name` = '1233' WHERE `service`.`id` = 1"));
         }

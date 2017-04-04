@@ -1,11 +1,10 @@
-package main.com.bsuir.autoservice.dao.impl.user.impl;
+package main.com.bsuir.autoservice.dao.user;
 
 import com.google.inject.Inject;
 import main.com.bsuir.autoservice.bean.User;
 import main.com.bsuir.autoservice.dao.database.impl.sql.ISqlDatabase;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
-import main.com.bsuir.autoservice.dao.impl.crud.AbstractDaoCrud;
-import main.com.bsuir.autoservice.dao.impl.user.IUserDao;
+import main.com.bsuir.autoservice.dao.AbstractDaoCrud;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

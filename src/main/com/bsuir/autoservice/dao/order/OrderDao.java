@@ -1,11 +1,11 @@
-package main.com.bsuir.autoservice.dao.impl.order.impl;
+package main.com.bsuir.autoservice.dao.order;
 
 import com.google.inject.Inject;
 import main.com.bsuir.autoservice.bean.Order;
 import main.com.bsuir.autoservice.dao.database.impl.sql.ISqlDatabase;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
-import main.com.bsuir.autoservice.dao.impl.crud.AbstractDaoCrud;
-import main.com.bsuir.autoservice.dao.impl.order.IOrderDao;
+import main.com.bsuir.autoservice.dao.AbstractDaoCrud;
+import main.com.bsuir.autoservice.dao.order.IOrderDao;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.ResultSet;

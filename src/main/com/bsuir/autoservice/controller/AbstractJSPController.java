@@ -11,6 +11,7 @@ import main.com.bsuir.autoservice.controller.exception.ControllerException;
 import main.com.bsuir.autoservice.http.parser.IHttpParser;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
@@ -18,7 +19,6 @@ import java.util.List;
 public abstract class AbstractJSPController<CommandDataObject> implements IController<CommandDataObject> {
 
     protected abstract String getJspName();
-    protected abstract void setResultAttributes(HttpServletRequest request, Object resultData);
 
     static {
         try {
@@ -52,6 +52,18 @@ public abstract class AbstractJSPController<CommandDataObject> implements IContr
             setResultAttributes(request, resultData);
             request.getRequestDispatcher(getJspName()).forward(request, response);
         } catch (Exception e) {
+            throw new ControllerException(e);
+        }
+    }
+
+    protected void setResultAttributes(HttpServletRequest request, Object resultData)
+            throws ControllerException{
+        try {
+            for (Field field: resultData.getClass().getDeclaredFields()) {
+                field.setAccessible(true);
+                request.setAttribute(field.getName(), field.get(resultData));
+            }
+        }catch (Exception e){
             throw new ControllerException(e);
         }
     }

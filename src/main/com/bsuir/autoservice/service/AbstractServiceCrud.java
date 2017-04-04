@@ -1,9 +1,7 @@
 package main.com.bsuir.autoservice.service;
 
-import com.google.common.base.Defaults;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
-import main.com.bsuir.autoservice.dao.impl.crud.IDaoCrud;
-import main.com.bsuir.autoservice.service.IServiceCrud;
+import main.com.bsuir.autoservice.dao.IDaoCrud;
 import main.com.bsuir.autoservice.service.exception.ServiceException;
 
 import java.util.List;
@@ -44,9 +42,9 @@ public abstract class AbstractServiceCrud<PrimaryKey,Entity> implements IService
     }
 
     @Override
-    public int update(List<Entity> updageEntities) throws ServiceException {
+    public int update(List<Entity> updateEntities) throws ServiceException {
         try {
-            return daoCrud.update(updageEntities);
+            return daoCrud.update(updateEntities);
         }catch (Exception e){
             throw new ServiceException(e);
         }

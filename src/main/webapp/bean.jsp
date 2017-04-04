@@ -50,12 +50,17 @@
     </style>
 </head>
 <body>
-<a href="../../index.jsp">Back to main menu</a>
+<a href="../../index.jsp">To main page</a>
 
 <br/>
 <br/>
 
-<h1>Table</h1>
+<%
+    String tableName = (String) request.getAttribute("table");
+    tableName = tableName.substring(0,1).toUpperCase() + tableName.substring(1).toLowerCase();
+%>
+
+<h1><%=tableName%></h1>
 
 <c:if test="${!empty beans}">
     <table class="tg">
@@ -74,16 +79,14 @@
             </tr>
         </c:forEach>
     </table>
-    <c:url var="searchUri" value="/bean/user.ass?page=##&countRecords=3" />
-    <paginator:display maxLinks="5" currPage="${page}" totalPages="${totalPages}" uri="${searchUri}"/>
+    <c:url var="searchUri" value="/bean.ass?table=${table}&page=##&countRecords=${countRecords}" />
+    <paginator:display
+            maxLinks="5"
+            currPage="${page}"
+            totalPages="${totalPagesCount}"
+            uri="${searchUri}"
+    />
 </c:if>
 
-<h1>Add a record</h1>
-
-<form:form action="${addAction}" commandName="book">
-    <table>
-
-    </table>
-</form:form>
 </body>
 </html>

@@ -57,7 +57,7 @@ public class Servlet extends HttpServlet {
             throws ControllerException, CommandException {
         Object data = controller.prepareData(request);
         ICommand command = controller.getCommand(request);
-        return command.execute(data, request);
+        return command.execute(data);
     }
 
     private static final ControllerProvider controllerProvider;

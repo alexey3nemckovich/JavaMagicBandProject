@@ -35,7 +35,7 @@ public class ControllerMapProvider implements Provider<Map<ControllerId, IContro
     }
 
     private void addGetRequestControllers(Injector injector) throws ControllerException {
-        addUrlControllerForRequestType(RequestType.GET, "/bean/user", injector.getInstance(BeanViewController.class));
+        addUrlControllerForRequestType(RequestType.GET, "/bean", injector.getInstance(BeanViewController.class));
     }
 
     private void addPostRequestControllers(Injector injector)

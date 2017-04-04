@@ -13,6 +13,7 @@ public class Staff extends Bean{
     private int id;
     private int serviceShopId;
     private int userId;
+    private Specialization specialization;
 
     public int getId(){
         return id;
@@ -38,8 +39,31 @@ public class Staff extends Bean{
         this.userId = value;
     }
 
+    public Specialization getSpecialization(){
+        return specialization;
+    }
+
+    public void setSpecialization(Specialization specialization){
+        this.specialization = specialization;
+    }
+
     @Override
     public List<Field> getFieldsOrdered(){
-        return null;
+        try {
+            Class type = this.getClass();
+            List<Field> fields = new ArrayList<Field>(Arrays.asList(
+                    type.getDeclaredField("id"),
+                    type.getDeclaredField("serviceShopId"),
+                    type.getDeclaredField("userId"),
+                    type.getDeclaredField("specialization")
+            ));
+            for (Field field: fields) {
+                field.setAccessible(true);
+            }
+            return fields;
+        }catch (Exception e){
+            //impossible
+            return null;
+        }
     }
 }
