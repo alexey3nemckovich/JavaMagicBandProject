@@ -1,8 +1,12 @@
 package main.com.bsuir.autoservice.dao.database;
 
-import main.com.bsuir.autoservice.dao.database.exception.DatabaseException;
+import main.com.bsuir.autoservice.dao.exception.DaoException;
 
-public interface IDatabase<ConnectionType> {
-    ConnectionType getConnection() throws DatabaseException;
-    void returnConnection(ConnectionType connection) throws DatabaseException;
+import java.sql.*;
+import java.util.List;
+
+public interface IDatabase {
+    Connection getConnection() throws SQLException;
+    void returnConnection(Connection connection) throws SQLException;
+    List<String> getListTableNames() throws SQLException;
 }

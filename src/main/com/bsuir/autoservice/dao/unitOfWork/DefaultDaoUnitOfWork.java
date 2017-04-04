@@ -2,10 +2,9 @@ package main.com.bsuir.autoservice.dao.unitOfWork;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import main.com.bsuir.autoservice.dao.order.IOrderDao;
-import main.com.bsuir.autoservice.dao.staff.IStaffDao;
-import main.com.bsuir.autoservice.dao.user.IUserDao;
-import main.com.bsuir.autoservice.dao.unitOfWork.IDaoUnitOfWork;
+import main.com.bsuir.autoservice.dao.crud.order.IOrderDao;
+import main.com.bsuir.autoservice.dao.crud.staff.IStaffDao;
+import main.com.bsuir.autoservice.dao.crud.user.IUserDao;
 
 public class DefaultDaoUnitOfWork implements IDaoUnitOfWork {
     private final IUserDao userDao;

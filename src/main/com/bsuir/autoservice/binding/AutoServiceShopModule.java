@@ -8,23 +8,25 @@ import main.com.bsuir.autoservice.binding.annotation.Default;
 import main.com.bsuir.autoservice.binding.annotation.Supported;
 import main.com.bsuir.autoservice.binding.log4j.Log4JTypeListener;
 import main.com.bsuir.autoservice.binding.provider.BindingFactroryProvider;
-import main.com.bsuir.autoservice.command.bean.page.GetBeanPageCommand;
+import main.com.bsuir.autoservice.command.bean.main.GetBeanMainPageCommand;
+import main.com.bsuir.autoservice.command.bean.table.GetBeanTablePageCommand;
 import main.com.bsuir.autoservice.config.database.impl.sql.ISqlConfigDatabase;
 import main.com.bsuir.autoservice.config.database.impl.sql.impl.SqlConfigDatabase;
 import main.com.bsuir.autoservice.binding.provider.ControllerMapProvider;
-import main.com.bsuir.autoservice.controller.ControllerId;
 import main.com.bsuir.autoservice.controller.IController;
 import main.com.bsuir.autoservice.controller.NoController;
-import main.com.bsuir.autoservice.controller.bean.view.BeanViewController;
+import main.com.bsuir.autoservice.controller.bean.BeanCreatePageController;
+import main.com.bsuir.autoservice.controller.bean.BeanMainPageController;
+import main.com.bsuir.autoservice.controller.bean.BeanTablePageController;
 import main.com.bsuir.autoservice.controller.provider.ControllerProvider;
-import main.com.bsuir.autoservice.dao.database.impl.sql.ISqlDatabase;
-import main.com.bsuir.autoservice.dao.database.impl.sql.impl.SqlDatabase;
-import main.com.bsuir.autoservice.dao.order.IOrderDao;
-import main.com.bsuir.autoservice.dao.order.OrderDao;
-import main.com.bsuir.autoservice.dao.staff.IStaffDao;
-import main.com.bsuir.autoservice.dao.staff.StaffDao;
-import main.com.bsuir.autoservice.dao.user.IUserDao;
-import main.com.bsuir.autoservice.dao.user.UserDao;
+import main.com.bsuir.autoservice.dao.database.IDatabase;
+import main.com.bsuir.autoservice.dao.database.SqlDatabase;
+import main.com.bsuir.autoservice.dao.crud.order.IOrderDao;
+import main.com.bsuir.autoservice.dao.crud.order.OrderDao;
+import main.com.bsuir.autoservice.dao.crud.staff.IStaffDao;
+import main.com.bsuir.autoservice.dao.crud.staff.StaffDao;
+import main.com.bsuir.autoservice.dao.crud.user.IUserDao;
+import main.com.bsuir.autoservice.dao.crud.user.UserDao;
 import main.com.bsuir.autoservice.dao.unitOfWork.IDaoUnitOfWork;
 import main.com.bsuir.autoservice.dao.unitOfWork.DefaultDaoUnitOfWork;
 import main.com.bsuir.autoservice.library.RequestType;
@@ -32,12 +34,14 @@ import main.com.bsuir.autoservice.http.parser.IHttpParser;
 import main.com.bsuir.autoservice.library.binding.factory.IBindingFactory;
 import main.com.bsuir.autoservice.library.binding.factory.impl.DefaultBindingFactory;
 import main.com.bsuir.autoservice.http.parser.DefaultHttpParser;
-import main.com.bsuir.autoservice.service.order.IOrderService;
-import main.com.bsuir.autoservice.service.order.OrderService;
-import main.com.bsuir.autoservice.service.staff.IStaffService;
-import main.com.bsuir.autoservice.service.staff.StaffService;
-import main.com.bsuir.autoservice.service.user.IUserService;
-import main.com.bsuir.autoservice.service.user.UserService;
+import main.com.bsuir.autoservice.service.BaseService;
+import main.com.bsuir.autoservice.service.IService;
+import main.com.bsuir.autoservice.service.crud.order.IOrderService;
+import main.com.bsuir.autoservice.service.crud.order.OrderService;
+import main.com.bsuir.autoservice.service.crud.staff.IStaffService;
+import main.com.bsuir.autoservice.service.crud.staff.StaffService;
+import main.com.bsuir.autoservice.service.crud.user.IUserService;
+import main.com.bsuir.autoservice.service.crud.user.UserService;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 import main.com.bsuir.autoservice.service.unitOfWork.DefaultServiceUnitOfWork;
 
@@ -48,26 +52,61 @@ public class AutoServiceShopModule extends AbstractModule{
     protected void configure() {
         bindDefault();
         bindSupported();
+        bindController();
+        bindCommand();
+        bindService();
+        bindDao();
 
         /*unchecked*/
         bindConfig();
         bindLibraries();
-        bindControllers();
-        bindCommands();
-        bindServices();
-        bindDao();
     }
 
     private void bindDefault(){
         bind(IHttpParser.class).annotatedWith(Default.class).to(DefaultHttpParser.class).in(Singleton.class);
         bind(IController.class).annotatedWith(Default.class).to(NoController.class).in(Singleton.class);
         bind(IServiceUnitOfWork.class).annotatedWith(Default.class).to(DefaultServiceUnitOfWork.class).in(Singleton.class);
+        bind(IDaoUnitOfWork.class).annotatedWith(Default.class).to(DefaultDaoUnitOfWork.class).in(Singleton.class);
     }
 
     private void bindSupported(){
         bind(RequestType[].class).
                 annotatedWith(Supported.class).
                 toInstance(new RequestType[]{RequestType.GET, RequestType.POST});
+    }
+
+    private void bindController() {
+        bindConcreteControllers();
+        bind(ControllerProvider.class).in(Singleton.class);
+        bind(new TypeLiteral<Map<String, IController>>(){}).
+                annotatedWith(ControllerProviderArgument.class).
+                toProvider(ControllerMapProvider.class).
+                in(Singleton.class);
+    }
+
+    private void bindConcreteControllers() {
+        bind(BeanTablePageController.class).in(Singleton.class);
+        bind(BeanMainPageController.class).in(Singleton.class);
+        bind(BeanCreatePageController.class).in(Singleton.class);
+    }
+
+    private void bindCommand(){
+        bind(GetBeanTablePageCommand.class).in(Singleton.class);
+        bind(GetBeanMainPageCommand.class).in(Singleton.class);
+    }
+
+    private void bindService() {
+        bind(IService.class).to(BaseService.class).in(Singleton.class);
+        bind(IUserService.class).to(UserService.class).in(Singleton.class);
+        bind(IOrderService.class).to(OrderService.class).in(Singleton.class);
+        bind(IStaffService.class).to(StaffService.class).in(Singleton.class);
+    }
+
+    private void bindDao() {
+        bind(IUserDao.class).to(UserDao.class).in(Singleton.class);
+        bind(IOrderDao.class).to(OrderDao.class).in(Singleton.class);
+        bind(IStaffDao.class).to(StaffDao.class).in(Singleton.class);
+        bind(IDatabase.class).to(SqlDatabase.class).asEagerSingleton();
     }
 
     private void bindConfig() {
@@ -87,36 +126,5 @@ public class AutoServiceShopModule extends AbstractModule{
     private void bindLibraries() {
         bind(IBindingFactory.class).annotatedWith(Names.named("provider")).to(DefaultBindingFactory.class).in(Singleton.class);
         bind(IBindingFactory.class).toProvider(BindingFactroryProvider.class).in(Singleton.class);
-    }
-
-    private void bindControllers() {
-        bindConcreteControllers();
-        bind(ControllerProvider.class).in(Singleton.class);
-        bind(new TypeLiteral<Map<ControllerId, IController>>(){}).
-                annotatedWith(ControllerProviderArgument.class).
-                toProvider(ControllerMapProvider.class).
-                in(Singleton.class);
-    }
-
-    private void bindConcreteControllers() {
-        bind(BeanViewController.class).in(Singleton.class);
-    }
-
-    private void bindCommands(){
-        bind(GetBeanPageCommand.class).in(Singleton.class);
-    }
-
-    private void bindServices() {
-        bind(IUserService.class).to(UserService.class).in(Singleton.class);
-        bind(IOrderService.class).to(OrderService.class).in(Singleton.class);
-        bind(IStaffService.class).to(StaffService.class).in(Singleton.class);
-    }
-
-    private void bindDao() {
-        bind(IUserDao.class).to(UserDao.class).in(Singleton.class);
-        bind(IOrderDao.class).to(OrderDao.class).in(Singleton.class);
-        bind(IStaffDao.class).to(StaffDao.class).in(Singleton.class);
-        bind(IDaoUnitOfWork.class).to(DefaultDaoUnitOfWork.class).in(Singleton.class);
-        bind(ISqlDatabase.class).to(SqlDatabase.class).asEagerSingleton();
     }
 }

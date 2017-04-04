@@ -27,9 +27,10 @@ public class DefaultHttpParser implements IHttpParser {
     private <T> T parseObject(Class<T> returnType, Map<String, String[]> parameters)
             throws Exception{
         T parsedObject = returnType.newInstance();
+        boolean fullRequestObject = returnType.isAnnotationPresent(CommandDataTypeRequestParameter.class);
         for (Field field: returnType.getDeclaredFields()){
             String fieldName = field.getName();
-            if (field.isAnnotationPresent(CommandDataTypeRequestParameter.class) &&
+            if ((fullRequestObject || field.isAnnotationPresent(CommandDataTypeRequestParameter.class)) &&
                     parameters.containsKey(fieldName)) {
                 setFieldValue(parsedObject, field, parameters.get(fieldName)[0]);
             }else{
@@ -47,7 +48,12 @@ public class DefaultHttpParser implements IHttpParser {
 
     private <T> void setFieldDefaultValue(T object, Field field)
             throws IllegalAccessException, NoSuchFieldException{
-        Object defaultValue = Defaults.defaultValue(field.getType());
+        Object defaultValue;
+        if(field.getType().getName().contains("String")){
+            defaultValue = "";
+        }else {
+            defaultValue = Defaults.defaultValue(field.getType());
+        }
         field.setAccessible(true);
         field.set(object, defaultValue);
     }

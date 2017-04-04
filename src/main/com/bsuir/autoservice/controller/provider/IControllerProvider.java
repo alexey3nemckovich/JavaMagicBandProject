@@ -5,5 +5,5 @@ import main.com.bsuir.autoservice.controller.exception.ControllerException;
 import main.com.bsuir.autoservice.library.RequestType;
 
 public interface IControllerProvider {
-    IController getController(RequestType requestType,String url) throws ControllerException;
+    IController getController(String url) throws ControllerException;
 }

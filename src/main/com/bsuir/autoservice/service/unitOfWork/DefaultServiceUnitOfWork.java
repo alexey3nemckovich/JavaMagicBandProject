@@ -2,21 +2,26 @@ package main.com.bsuir.autoservice.service.unitOfWork;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import main.com.bsuir.autoservice.service.IServiceCrud;
-import main.com.bsuir.autoservice.service.exception.ServiceException;
-import main.com.bsuir.autoservice.service.order.IOrderService;
-import main.com.bsuir.autoservice.service.staff.IStaffService;
-import main.com.bsuir.autoservice.service.user.IUserService;
+import main.com.bsuir.autoservice.service.BaseService;
+import main.com.bsuir.autoservice.service.IService;
+import main.com.bsuir.autoservice.service.crud.IServiceCrud;
+import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
+import main.com.bsuir.autoservice.service.crud.order.IOrderService;
+import main.com.bsuir.autoservice.service.crud.staff.IStaffService;
+import main.com.bsuir.autoservice.service.crud.user.IUserService;
 
 import java.lang.reflect.Field;
 
 public class DefaultServiceUnitOfWork implements IServiceUnitOfWork {
+    private final IService baseService;
+
     private final IUserService userService;
     private final IOrderService orderService;
     private final IStaffService staffService;
 
     @Inject
     public DefaultServiceUnitOfWork(Injector injector){
+        baseService = injector.getInstance(IService.class);
         userService = injector.getInstance(IUserService.class);
         orderService = injector.getInstance(IOrderService.class);
         staffService = injector.getInstance(IStaffService.class);
@@ -33,11 +38,14 @@ public class DefaultServiceUnitOfWork implements IServiceUnitOfWork {
                     return (IServiceCrud) field.get(this);
                 }
             }
-            throw new ServiceException(String.format("Service not found for user '%s'", name));
+            throw new ServiceException(String.format("BaseService not found for user '%s'", name));
         }catch (Exception e){
             throw new ServiceException(e);
         }
     }
+
+    @Override
+    public IService getBaseService(){return baseService;}
 
     @Override
     public IUserService getUserService() {

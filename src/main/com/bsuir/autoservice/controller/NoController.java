@@ -1,26 +1,29 @@
 package main.com.bsuir.autoservice.controller;
 
-import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.controller.exception.ControllerException;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
-public class NoController extends AbstractJSPController {
+public class NoController extends AbstractPageController {
 
     @Override
-    public Map prepareData(HttpServletRequest request) throws ControllerException {
+    public Object onGet(HttpServletRequest request) throws ControllerException{
         return null;
     }
 
     @Override
-    public ICommand getCommand(HttpServletRequest request) throws ControllerException {
+    public Object onPut(HttpServletRequest request) throws ControllerException{
         return null;
     }
 
     @Override
-    protected void setResultAttributes(HttpServletRequest request, Object resultData){
+    public Object onPost(HttpServletRequest request) throws ControllerException{
+        return null;
+    }
 
+    @Override
+    public Object onDelete(HttpServletRequest request) throws ControllerException{
+        return null;
     }
 
     @Override

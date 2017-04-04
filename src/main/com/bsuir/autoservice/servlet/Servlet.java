@@ -6,7 +6,7 @@ import main.com.bsuir.autoservice.binding.AutoServiceShopModule;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.controller.IController;
-import main.com.bsuir.autoservice.controller.bean.view.BeanViewController;
+import main.com.bsuir.autoservice.controller.bean.BeanTablePageController;
 import main.com.bsuir.autoservice.controller.exception.ControllerException;
 import main.com.bsuir.autoservice.controller.provider.ControllerProvider;
 import main.com.bsuir.autoservice.library.RequestType;
@@ -20,7 +20,7 @@ public class Servlet extends HttpServlet {
     static {
         try {
             Injector injector = Guice.createInjector(new AutoServiceShopModule());
-            injector.getInstance(BeanViewController.class);
+            injector.getInstance(BeanTablePageController.class);
             controllerProvider =  injector.getInstance(ControllerProvider.class);
         }catch (Exception e){
             throw new RuntimeException(e);
@@ -30,7 +30,7 @@ public class Servlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
-            executeRequest(RequestType.POST,request,response);
+            executeRequest(request,response);
         }catch (Exception e){
             throw  new ServletException(e);
         }
@@ -39,25 +39,18 @@ public class Servlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
-            executeRequest(RequestType.GET,request,response);
+            executeRequest(request, response);
         }catch (Exception e){
             throw  new ServletException(e);
         }
     }
 
-    private void executeRequest(RequestType requestType, HttpServletRequest request, HttpServletResponse response)
+    private void executeRequest(HttpServletRequest request, HttpServletResponse response)
             throws ControllerException, CommandException {
         String url = getUrl(request.getRequestURI());
-        IController controller = controllerProvider.getController(requestType, url);
-        Object resultData = invokeCommand(controller, request);
+        IController controller = controllerProvider.getController(url);
+        Object resultData = controller.invokeCommand(request);
         controller.returnResult(request, response, resultData);
-    }
-
-    private Object invokeCommand(IController controller, HttpServletRequest request)
-            throws ControllerException, CommandException {
-        Object data = controller.prepareData(request);
-        ICommand command = controller.getCommand(request);
-        return command.execute(data);
     }
 
     private static final ControllerProvider controllerProvider;
