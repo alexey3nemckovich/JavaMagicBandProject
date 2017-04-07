@@ -3,24 +3,23 @@ package main.com.bsuir.autoservice.servlet;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import main.com.bsuir.autoservice.binding.AutoServiceShopModule;
-import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.controller.IController;
-import main.com.bsuir.autoservice.controller.bean.BeanTablePageController;
+import main.com.bsuir.autoservice.controller.bean.BeanViewController;
 import main.com.bsuir.autoservice.controller.exception.ControllerException;
 import main.com.bsuir.autoservice.controller.provider.ControllerProvider;
-import main.com.bsuir.autoservice.library.RequestType;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Enumeration;
 
 public class Servlet extends HttpServlet {
     static {
         try {
             Injector injector = Guice.createInjector(new AutoServiceShopModule());
-            injector.getInstance(BeanTablePageController.class);
+            injector.getInstance(BeanViewController.class);
             controllerProvider =  injector.getInstance(ControllerProvider.class);
         }catch (Exception e){
             throw new RuntimeException(e);
@@ -48,8 +47,9 @@ public class Servlet extends HttpServlet {
     private void executeRequest(HttpServletRequest request, HttpServletResponse response)
             throws ControllerException, CommandException {
         String url = getUrl(request.getRequestURI());
+        Enumeration en = request.getParameterNames();
         IController controller = controllerProvider.getController(url);
-        Object resultData = controller.invokeCommand(request);
+        Object resultData = controller.invokeCommand(request.getParameterMap());
         controller.returnResult(request, response, resultData);
     }
 

@@ -3,7 +3,7 @@ package main.com.bsuir.autoservice.dao.crud;
 import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import main.com.bsuir.autoservice.dao.sql.ISql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,36 +12,22 @@ import java.util.List;
 
 //TODO: call with prepare statement set in components
 public abstract class AbstractDaoCrud<Entity extends Bean, PrimaryKey> implements IDaoCrud<Entity, PrimaryKey> {
-    private final IDatabase db;
-
-    protected AbstractDaoCrud(IDatabase db){
-        this.db = db;
-    }
 
     protected abstract String getTableNameImpl();
-
+    protected abstract String getPrimaryKeyName();
     protected abstract List<Entity> parseResultSet(ResultSet rs) throws DaoException;
 
-    protected abstract String getPrimaryKeyName();
-
-    private String getSelectQuery(){
-        return String.format("SELECT * FROM `%s`",getTableNameImpl());
+    protected AbstractDaoCrud(IDatabase db, ISql sql){
+        this.db = db;
+        this.sql = sql;
     }
 
     @Override
-    public String getTableName() throws DaoException{
-        try {
-            return getTableNameImpl();
-        }catch (Exception e){
-            throw new DaoException(e);
-        }
-    }
-
-    @Override
-    public int getAllCount() throws DaoException{
+    public int getCountRecords() throws DaoException{
         try(Connection connection = db.getConnection()){
-            try(PreparedStatement ps = connection.prepareStatement(String.format("SELECT COUNT(*) AS rowcount FROM %s",
-                    getTableName()))) {
+            try(PreparedStatement ps = connection.prepareStatement(
+                    String.format("SELECT COUNT(*) AS rowcount FROM %s", getTableName())
+            )) {
                 ResultSet rs = ps.executeQuery();
                 rs.next();
                 int count = rs.getInt("rowcount");
@@ -56,8 +42,9 @@ public abstract class AbstractDaoCrud<Entity extends Bean, PrimaryKey> implement
     @Override
     public List<Entity> getRange(int startRange, int count) throws DaoException {
         try(Connection connection = db.getConnection()){
-            try(PreparedStatement ps = connection.prepareStatement(String.format("%s LIMIT %d, %d",
-                    getSelectQuery(),startRange,count))) {
+            try(PreparedStatement ps = connection.prepareStatement(
+                    String.format("%s LIMIT %d, %d", getSelectAllQuery(),startRange,count)
+            )) {
                 ResultSet rs = ps.executeQuery();
                 return parseResultSet(rs);
             }
@@ -67,10 +54,50 @@ public abstract class AbstractDaoCrud<Entity extends Bean, PrimaryKey> implement
     }
 
     @Override
+    public boolean update(Entity entity) throws DaoException {
+        try(Connection connection = db.getConnection()){
+            try(PreparedStatement ps = connection.prepareStatement(
+                    sql.getUpdateQuery(entity)
+            )) {
+                return ps.execute();
+            }
+        } catch (Exception e) {
+            throw new DaoException(e);
+        }
+    }
+
+    @Override
+    public boolean delete(Entity entity) throws DaoException {
+        try(Connection connection = db.getConnection()){
+            try(PreparedStatement ps = connection.prepareStatement(
+                    sql.getDeleteQuery(entity)
+            )) {
+                return ps.execute();
+            }
+        } catch (Exception e) {
+            throw new DaoException(e);
+        }
+    }
+
+    @Override
+    public boolean insert(Entity entity) throws DaoException {
+        try(Connection connection = db.getConnection()){
+            try(PreparedStatement ps = connection.prepareStatement(
+                    sql.getInsertQuery(entity)
+            )) {
+                return ps.execute();
+            }
+        } catch (Exception e) {
+            throw new DaoException(e);
+        }
+    }
+
+    @Override
     public Entity getByPrimaryKey(PrimaryKey key) throws DaoException{
         try(Connection connection = db.getConnection()){
-            try(PreparedStatement ps = connection.prepareStatement(String.format("%s WHERE `%s` = '%s'",
-                    getSelectQuery(),getPrimaryKeyName(), key.toString()))) {
+            try(PreparedStatement ps = connection.prepareStatement(
+                    String.format("%s WHERE `%s` = '%s'", getSelectAllQuery(), getPrimaryKeyName(), key.toString())
+            )) {
                 ResultSet rs = ps.executeQuery();
                 return parseResultSet(rs).get(0);
             }
@@ -79,70 +106,19 @@ public abstract class AbstractDaoCrud<Entity extends Bean, PrimaryKey> implement
         }
     }
 
-    private String getInsertQuery(List<Entity> insertEntities){
-        throw new NotImplementedException();
-        //return String.format("INSERT INTO `%s` (%s) VALUES %s",getTableNameImpl(),getOrderedFields(),getConvertedValues(insertEntities));
-    }
-
-    protected String getConvertedValues(List<Entity> insertEntities){
-        StringBuilder stringBuilder = new StringBuilder();
-        for (Entity insertEntity: insertEntities) {
-            //TODO: complete user get value
-            throw new NotImplementedException();
-            //stringBuilder.append(updateEntity.getAllFields().values());
-        }
-        return stringBuilder.toString();
-    }
-
     @Override
-    public int update(List<Entity> updateEntities) throws DaoException {
-        try(Connection connection = db.getConnection()){
-            try(PreparedStatement ps = connection.prepareStatement(getUpdateQuery(updateEntities))) {
-                return ps.executeUpdate();
-            }
-        } catch (Exception e) {
+    public String getTableName() throws DaoException{
+        try {
+            return getTableNameImpl();
+        }catch (Exception e){
             throw new DaoException(e);
         }
     }
 
-    private String getUpdateQuery(List<Entity> updateEntities){
-        StringBuilder stringBuilder = new StringBuilder();
-        for (Entity updateEntity: updateEntities) {
-            //TODO: complete user get value
-            throw new NotImplementedException();
-            //stringBuilder.append(String.format("UPDATE `service` SET `name` = '1233' WHERE `service`.`id` = 1"));
-        }
-        return stringBuilder.toString();
+    private String getSelectAllQuery(){
+        return String.format("SELECT * FROM `%s`",getTableNameImpl());
     }
 
-    private String getDeleteQuery(List<PrimaryKey> deleteKeys) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (PrimaryKey deleteKey : deleteKeys) {
-            stringBuilder.append(String.format("DELETE FROM `%s` WHERE `%s`.`%s` = %s",
-                    getTableNameImpl(),getTableNameImpl(), getPrimaryKeyName(), deleteKey.toString()));
-        }
-        return stringBuilder.toString();
-    }
-
-    @Override
-    public int delete(List<PrimaryKey> deleteKeys) throws DaoException {
-        try(Connection connection = db.getConnection()){
-            try(PreparedStatement ps = connection.prepareStatement(getDeleteQuery(deleteKeys))) {
-                return ps.executeUpdate();
-            }
-        } catch (Exception e) {
-            throw new DaoException(e);
-        }
-    }
-
-    @Override
-    public int insert(List<Entity> insertEntities) throws DaoException {
-        try(Connection connection = db.getConnection()){
-            try(PreparedStatement ps = connection.prepareStatement(getInsertQuery(insertEntities))) {
-                return ps.executeUpdate();
-            }
-        } catch (Exception e) {
-            throw new DaoException(e);
-        }
-    }
+    private final IDatabase db;
+    private final ISql sql;
 }

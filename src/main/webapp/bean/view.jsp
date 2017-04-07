@@ -61,7 +61,7 @@
     </div>
 
     <a href="../../index.jsp">To main page</a>
-    
+
     <div class="centered_parent">
         <c:if test="${!empty beans}">
             <div class="centered">
@@ -73,13 +73,21 @@
                         </c:forEach>
                     </tr>
                     <c:forEach items="${beans}" var="bean">
-                        <tr>
-                            <c:forEach items="${bean.getFieldsOrdered()}" var="field">
-                                <td>${field.get(bean)}</td>
-                            </c:forEach>
-                            <td><a href="<c:url value='/edit/${bean.getId()}'/>">Edit</a></td>
-                            <td><a href="<c:url value='/remove/${bean.getId()}'/>">Delete</a></td>
-                        </tr>
+                        <form>
+                            <tr>
+                                <c:forEach items="${bean.getFieldsOrdered()}" var="field">
+                                    <td>
+                                        <input type="text" value="${field.get(bean)}" readonly/>
+                                    </td>
+                                </c:forEach>
+                                <td>
+                                    <button type="submit" formaction="/bean/edit.ass?name=${name}">Edit</button>
+                                </td>
+                                <td>
+                                    <button type="submit" formaction="<%=request.getRequestURL()%>?name=${name}&action=delete">Delete</button>
+                                </td>
+                            </tr>
+                        </form>
                     </c:forEach>
                 </table>
                 <c:url var="searchUri" value="/bean.ass?name=${name}&page=##&countRecords=${countRecords}" />

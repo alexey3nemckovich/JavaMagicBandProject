@@ -1,11 +1,11 @@
-package main.com.bsuir.autoservice.command.bean.table;
+package main.com.bsuir.autoservice.command.bean.page.view;
 
 import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.command.CommandDataTypeRequestParameter;
 
 import java.util.List;
 
-public class BeanTablePageInfo {
+public class BeanViewPageInfo {
     @CommandDataTypeRequestParameter
     String name;
     @CommandDataTypeRequestParameter

@@ -1,4 +1,4 @@
-package main.com.bsuir.autoservice.command.bean.main;
+package main.com.bsuir.autoservice.command.bean.page.main;
 
 import java.util.List;
 

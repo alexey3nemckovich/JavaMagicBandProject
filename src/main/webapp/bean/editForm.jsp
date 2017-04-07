@@ -4,15 +4,6 @@
 <head>
     <link rel="stylesheet" href="/css/classes.css">
     <title>${name}</title>
-    <%--<style>--%>
-        <%--.centered--%>
-        <%--{--%>
-            <%--display: inline-block;--%>
-            <%--margin-left: auto;--%>
-            <%--margin-right: auto;--%>
-            <%--text-align: left;--%>
-        <%--}--%>
-    <%--</style>--%>
 </head>
 <body>
 
@@ -20,21 +11,23 @@
         <h1 align = "center">AutoServiceShop - magic project of Nikita, Vova, Alex</h1>
     </div>
 
+    <%String url = (String) request.getAttribute("javax.servlet.include.query_string");%>
+
     <div class="centered_parent">
-        <form class="centered" name="" action="" method="post">
+        <form class="centered" action="${url}?name=${name}&action=${action}"  method="post">
             <table>
                 <c:forEach items="${fields}" var="field">
                     <tr>
                         <td>
-                           ${field.getName()}
+                           ${field.getKey()}
                         </td>
                         <td>
-                            <input type="text" name="${field.getName()}" value=""/>
+                            <input type="text" name="${field.getKey()}"/>
                         </td>
                     </tr>
                 </c:forEach>
             </table>
-            <input align="center" type="submit" value="Create new ${name}"/>
+            <input align="center" type="submit" value="${action}"/>
         </form>
     </div>
 

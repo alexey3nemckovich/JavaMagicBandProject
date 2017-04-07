@@ -5,6 +5,7 @@ import main.com.bsuir.autoservice.bean.User;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.crud.AbstractDaoCrud;
+import main.com.bsuir.autoservice.dao.sql.ISql;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,8 +17,8 @@ public class UserDao extends AbstractDaoCrud<User, Integer> implements IUserDao 
     private static final String primaryKeyName = "id";
 
     @Inject
-    public UserDao(IDatabase db) {
-        super(db);
+    public UserDao(IDatabase db, ISql sql) {
+        super(db, sql);
     }
 
     @Override

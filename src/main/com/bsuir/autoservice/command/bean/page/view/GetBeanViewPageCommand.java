@@ -1,4 +1,4 @@
-package main.com.bsuir.autoservice.command.bean.table;
+package main.com.bsuir.autoservice.command.bean.page.view;
 
 import com.google.inject.Inject;
 import main.com.bsuir.autoservice.binding.annotation.Default;
@@ -8,16 +8,15 @@ import main.com.bsuir.autoservice.service.crud.IServiceCrud;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 
-public class GetBeanTablePageCommand implements ICommand<BeanTablePageInfo> {
-    private final IServiceUnitOfWork serviceUnitOfWork;
+public class GetBeanViewPageCommand implements ICommand<BeanViewPageInfo> {
 
     @Inject
-    public GetBeanTablePageCommand(@Default IServiceUnitOfWork serviceUnitOfWork){
+    public GetBeanViewPageCommand(@Default IServiceUnitOfWork serviceUnitOfWork){
         this.serviceUnitOfWork = serviceUnitOfWork;
     }
 
     @Override
-    public BeanTablePageInfo execute(BeanTablePageInfo pageInfo)
+    public BeanViewPageInfo execute(BeanViewPageInfo pageInfo)
             throws CommandException {
         try {
             CheckPageInfo(pageInfo);
@@ -38,7 +37,7 @@ public class GetBeanTablePageCommand implements ICommand<BeanTablePageInfo> {
         }
     }
 
-    private void CheckPageInfo(BeanTablePageInfo pageInfo)
+    private void CheckPageInfo(BeanViewPageInfo pageInfo)
             throws ServiceException{
         if(0 == pageInfo.page) {
             pageInfo.page = 1;
@@ -50,4 +49,6 @@ public class GetBeanTablePageCommand implements ICommand<BeanTablePageInfo> {
             pageInfo.name = "user";
         }
     }
+
+    private final IServiceUnitOfWork serviceUnitOfWork;
 }

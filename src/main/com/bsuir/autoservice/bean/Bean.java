@@ -8,6 +8,10 @@ import java.util.Map;
 public abstract class Bean {
     abstract List<Field> getFieldsOrdered();
 
+    public static Bean getBeanObject(String beanName, Map<String, String> fields){
+        return null;
+    }
+
     public Map<String, String> getAllFields() throws BeanException{
         Map<String, String> fieldsStringValues = new HashMap<String, String>();
         Field[] fields = Bean.class.getFields();

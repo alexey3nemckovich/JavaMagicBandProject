@@ -5,6 +5,7 @@ import main.com.bsuir.autoservice.bean.Order;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.crud.AbstractDaoCrud;
+import main.com.bsuir.autoservice.dao.sql.ISql;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.ResultSet;
@@ -15,8 +16,8 @@ public class OrderDao extends AbstractDaoCrud<Order, Integer> implements IOrderD
     private static final String primaryKeyName = "id";
 
     @Inject
-    public OrderDao(IDatabase db) {
-        super(db);
+    public OrderDao(IDatabase db, ISql sql) {
+        super(db, sql);
     }
 
     @Override

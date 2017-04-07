@@ -15,7 +15,7 @@ import java.util.Map;
 public class DefaultHttpParser implements IHttpParser {
 
     @Override
-    public <T> T parseParameters(Class<T> parseObjectType, Map<String, String[]> parameters)
+    public Object parseParameters(Class parseObjectType, Map<String, String[]> parameters)
             throws HttpParserException{
         try {
             return parseObject(parseObjectType, parameters);
@@ -24,9 +24,9 @@ public class DefaultHttpParser implements IHttpParser {
         }
     }
 
-    private <T> T parseObject(Class<T> returnType, Map<String, String[]> parameters)
+    private Object parseObject(Class returnType, Map<String, String[]> parameters)
             throws Exception{
-        T parsedObject = returnType.newInstance();
+        Object parsedObject = returnType.newInstance();
         boolean fullRequestObject = returnType.isAnnotationPresent(CommandDataTypeRequestParameter.class);
         for (Field field: returnType.getDeclaredFields()){
             String fieldName = field.getName();

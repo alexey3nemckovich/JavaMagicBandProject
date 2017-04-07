@@ -5,6 +5,7 @@ import main.com.bsuir.autoservice.bean.Staff;
 import main.com.bsuir.autoservice.dao.crud.AbstractDaoCrud;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
+import main.com.bsuir.autoservice.dao.sql.ISql;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,7 +17,7 @@ public class StaffDao extends AbstractDaoCrud<Staff, Integer> implements IStaffD
     private static final String primaryKeyName = "id";
 
     @Inject
-    public StaffDao(IDatabase db){super(db);}
+    public StaffDao(IDatabase db, ISql sql){super(db, sql);}
 
     @Override
     public String getTableNameImpl() {

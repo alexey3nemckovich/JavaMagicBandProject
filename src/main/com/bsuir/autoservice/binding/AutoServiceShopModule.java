@@ -6,18 +6,29 @@ import com.google.inject.name.Names;
 import main.com.bsuir.autoservice.binding.annotation.ControllerProviderArgument;
 import main.com.bsuir.autoservice.binding.annotation.Default;
 import main.com.bsuir.autoservice.binding.annotation.Supported;
+import main.com.bsuir.autoservice.binding.annotation.action.map.BeanActionMap;
+import main.com.bsuir.autoservice.binding.annotation.action.map.BeanAddActionMap;
+import main.com.bsuir.autoservice.binding.annotation.action.map.BeanEditActionMap;
+import main.com.bsuir.autoservice.binding.annotation.action.map.BeanViewActionMap;
 import main.com.bsuir.autoservice.binding.log4j.Log4JTypeListener;
-import main.com.bsuir.autoservice.binding.provider.BindingFactroryProvider;
-import main.com.bsuir.autoservice.command.bean.main.GetBeanMainPageCommand;
-import main.com.bsuir.autoservice.command.bean.table.GetBeanTablePageCommand;
+import main.com.bsuir.autoservice.binding.provider.*;
+import main.com.bsuir.autoservice.binding.provider.action.map.BeanActionMapProvider;
+import main.com.bsuir.autoservice.binding.provider.action.map.BeanAddActionMapProvider;
+import main.com.bsuir.autoservice.binding.provider.action.map.BeanEditActionMapProvider;
+import main.com.bsuir.autoservice.binding.provider.action.map.BeanViewActionMapProvider;
+import main.com.bsuir.autoservice.command.bean.page.add.GetBeanAddPageCommand;
+import main.com.bsuir.autoservice.command.bean.page.edit.GetBeanEditPageCommand;
+import main.com.bsuir.autoservice.command.bean.page.main.GetBeanMainPageCommand;
+import main.com.bsuir.autoservice.command.bean.page.view.GetBeanViewPageCommand;
 import main.com.bsuir.autoservice.config.database.impl.sql.ISqlConfigDatabase;
 import main.com.bsuir.autoservice.config.database.impl.sql.impl.SqlConfigDatabase;
-import main.com.bsuir.autoservice.binding.provider.ControllerMapProvider;
 import main.com.bsuir.autoservice.controller.IController;
 import main.com.bsuir.autoservice.controller.NoController;
-import main.com.bsuir.autoservice.controller.bean.BeanCreatePageController;
-import main.com.bsuir.autoservice.controller.bean.BeanMainPageController;
-import main.com.bsuir.autoservice.controller.bean.BeanTablePageController;
+import main.com.bsuir.autoservice.controller.action.Action;
+import main.com.bsuir.autoservice.controller.bean.BeanAddController;
+import main.com.bsuir.autoservice.controller.bean.BeanController;
+import main.com.bsuir.autoservice.controller.bean.BeanEditController;
+import main.com.bsuir.autoservice.controller.bean.BeanViewController;
 import main.com.bsuir.autoservice.controller.provider.ControllerProvider;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.dao.database.SqlDatabase;
@@ -27,6 +38,8 @@ import main.com.bsuir.autoservice.dao.crud.staff.IStaffDao;
 import main.com.bsuir.autoservice.dao.crud.staff.StaffDao;
 import main.com.bsuir.autoservice.dao.crud.user.IUserDao;
 import main.com.bsuir.autoservice.dao.crud.user.UserDao;
+import main.com.bsuir.autoservice.dao.sql.ISql;
+import main.com.bsuir.autoservice.dao.sql.Sql;
 import main.com.bsuir.autoservice.dao.unitOfWork.IDaoUnitOfWork;
 import main.com.bsuir.autoservice.dao.unitOfWork.DefaultDaoUnitOfWork;
 import main.com.bsuir.autoservice.library.RequestType;
@@ -77,6 +90,7 @@ public class AutoServiceShopModule extends AbstractModule{
 
     private void bindController() {
         bindConcreteControllers();
+        bindControllerActionMaps();
         bind(ControllerProvider.class).in(Singleton.class);
         bind(new TypeLiteral<Map<String, IController>>(){}).
                 annotatedWith(ControllerProviderArgument.class).
@@ -84,15 +98,33 @@ public class AutoServiceShopModule extends AbstractModule{
                 in(Singleton.class);
     }
 
+    private void bindControllerActionMaps(){
+        bind(new TypeLiteral<Map<String, Action>>(){}).
+                annotatedWith(BeanActionMap.class).
+                toProvider(BeanActionMapProvider.class).in(Singleton.class);
+        bind(new TypeLiteral<Map<String, Action>>(){}).
+                annotatedWith(BeanAddActionMap.class).
+                toProvider(BeanAddActionMapProvider.class).in(Singleton.class);
+        bind(new TypeLiteral<Map<String, Action>>(){}).
+                annotatedWith(BeanViewActionMap.class).
+                toProvider(BeanViewActionMapProvider.class).in(Singleton.class);
+        bind(new TypeLiteral<Map<String, Action>>(){}).
+                annotatedWith(BeanEditActionMap.class).
+                toProvider(BeanEditActionMapProvider.class).in(Singleton.class);
+    }
+
     private void bindConcreteControllers() {
-        bind(BeanTablePageController.class).in(Singleton.class);
-        bind(BeanMainPageController.class).in(Singleton.class);
-        bind(BeanCreatePageController.class).in(Singleton.class);
+        bind(BeanController.class).in(Singleton.class);
+        bind(BeanAddController.class).in(Singleton.class);
+        bind(BeanViewController.class).in(Singleton.class);
+        bind(BeanEditController.class).in(Singleton.class);
     }
 
     private void bindCommand(){
-        bind(GetBeanTablePageCommand.class).in(Singleton.class);
+        bind(GetBeanAddPageCommand.class).in(Singleton.class);
+        bind(GetBeanViewPageCommand.class).in(Singleton.class);
         bind(GetBeanMainPageCommand.class).in(Singleton.class);
+        bind(GetBeanEditPageCommand.class).in(Singleton.class);
     }
 
     private void bindService() {
@@ -107,6 +139,7 @@ public class AutoServiceShopModule extends AbstractModule{
         bind(IOrderDao.class).to(OrderDao.class).in(Singleton.class);
         bind(IStaffDao.class).to(StaffDao.class).in(Singleton.class);
         bind(IDatabase.class).to(SqlDatabase.class).asEagerSingleton();
+        bind(ISql.class).to(Sql.class).in(Singleton.class);
     }
 
     private void bindConfig() {
