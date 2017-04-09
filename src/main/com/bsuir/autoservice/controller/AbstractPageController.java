@@ -49,7 +49,7 @@ public abstract class AbstractPageController implements IController {
     protected void setResultAttributes(HttpServletRequest request, Object resultData)
             throws ControllerException{
         try {
-            for (Field field: resultData.getClass().getDeclaredFields()) {
+            for (Field field: resultData.getClass().getFields()) {
                 field.setAccessible(true);
                 request.setAttribute(field.getName(), field.get(resultData));
             }

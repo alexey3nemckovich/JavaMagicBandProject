@@ -7,12 +7,13 @@ import java.util.Map;
 
 public interface ISql {
     //queries
-    String getUpdateQuery(Bean bean);
-    String getDeleteQuery(Bean bean);
+    String getDeleteQuery(String tableName, Map<String, String> values);
     String getInsertQuery(String tableName, List<String> values);
     String getInsertQuery(String tableName, Map<String, String> values);
-    String getScopedStatement(List<String> elements, boolean quotedValues);
+    String getUpdateQuery(String tableName, Map<String, String> oldValues, Map<String, String> newValues);
     //statements
     String getValuesStatement(List<String> values);
-    String getConditionStatement(Map<String, String> values);
+    String getSetStatement(Map<String, String> values);
+    String getWhereStatement(Map<String, String> values);
+    String getScopedStatement(List<String> elements, boolean quotedValues);
 }

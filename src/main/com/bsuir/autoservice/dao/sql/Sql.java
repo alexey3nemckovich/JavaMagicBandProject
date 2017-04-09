@@ -1,7 +1,5 @@
 package main.com.bsuir.autoservice.dao.sql;
 
-import main.com.bsuir.autoservice.bean.Bean;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -9,13 +7,10 @@ import java.util.Map;
 public class Sql implements ISql {
 
     @Override
-    public String getUpdateQuery(Bean bean) {
-        return null;
-    }
-
-    @Override
-    public String getDeleteQuery(Bean bean){
-        return null;
+    public String getDeleteQuery(String tableName, Map<String, String> values){
+        return " DELETE FROM " +
+                tableName +
+                getWhereStatement(values);
     }
 
     @Override
@@ -27,7 +22,7 @@ public class Sql implements ISql {
 
     @Override
     public String getInsertQuery(String tableName, Map<String, String> values){
-        return "INSERT INTO " +
+        return " INSERT INTO " +
                 tableName +
                 getScopedStatement(
                         new ArrayList<String>(values.keySet()), false
@@ -35,6 +30,16 @@ public class Sql implements ISql {
                 getValuesStatement(
                         new ArrayList<String>(values.values())
                 );
+    }
+
+    @Override
+    public String getUpdateQuery(String tableName, Map<String, String> oldValues, Map<String, String> newValues){
+        return null;
+    }
+
+    @Override
+    public String getSetStatement(Map<String, String> values){
+        return null;
     }
 
     @Override
@@ -46,8 +51,19 @@ public class Sql implements ISql {
     }
 
     @Override
-    public String getConditionStatement(Map<String, String> values){
-        return null;
+    public String getWhereStatement(Map<String, String> elements){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(" WHERE ");
+        Map.Entry[] array = elements.entrySet().toArray(new Map.Entry[0]);
+        for(int i = 0; i < elements.size(); i++){
+            stringBuilder.append(
+                    array[i].getKey() + "=" + "'" + array[i].getValue() + "' "
+            );
+            if(elements.size() - 1 != i){
+                stringBuilder.append(" and ");
+            }
+        }
+        return stringBuilder.toString();
     }
 
     @Override

@@ -4,25 +4,29 @@ import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.command.ICommandParam;
 import main.com.bsuir.autoservice.command.RequestParameter;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BeanViewPageInfo implements ICommandParam{
-    @RequestParameter
-    public String name;
+public class BeanViewPageInfo extends CrudPageInfo implements ICommandParam{
     @RequestParameter
     public int page;
     @RequestParameter
     public int countRecords;
 
-    public int totalPagesCount;
     public List<Bean> beans;
+    public int totalPagesCount;
 
     @Override
-    public BeanViewPageInfo parse(Map<String, String[]> params){
-        name = params.get("name")[0];
-        page = Integer.valueOf(params.get("page")[0]);
-        countRecords = Integer.valueOf(params.get("countRecords")[0]);
-        return this;
+    public Map<String, String[]> parse(Map<String, String[]> params){
+        LinkedHashMap<String, String[]> mParams = new LinkedHashMap<String, String[]>(super.parse(params, false));
+        page = Integer.valueOf(mParams.get("page")[0]);
+        mParams.remove("page");
+        countRecords = Integer.valueOf(mParams.get("countRecords")[0]);
+        mParams.remove("countRecords");
+        for (Map.Entry<String, String[]> param: mParams.entrySet()) {
+            fields.put(param.getKey(), param.getValue()[0]);
+        }
+        return mParams;
     }
 }

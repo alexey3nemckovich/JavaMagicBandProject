@@ -5,6 +5,7 @@ import com.google.inject.Injector;
 import main.com.bsuir.autoservice.command.bean.crud.DeleteBeanCommand;
 import main.com.bsuir.autoservice.command.param.BeanViewPageInfo;
 import main.com.bsuir.autoservice.command.bean.page.view.GetBeanViewPageCommand;
+import main.com.bsuir.autoservice.command.param.CrudPageInfo;
 
 
 public class BeanViewActionMapProvider extends ActionMapProvider {

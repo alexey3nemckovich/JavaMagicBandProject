@@ -56,7 +56,7 @@ public abstract class AbstractDaoCrud<Entity extends Bean, PrimaryKey> implement
     public boolean update(Entity entity) throws DaoException {
         try(Connection connection = db.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(
-                    sql.getUpdateQuery(entity)
+                    sql.getUpdateQuery(getTableName(), null, entity.getFieldValues())
             )) {
                 return ps.execute();
             }
@@ -69,7 +69,7 @@ public abstract class AbstractDaoCrud<Entity extends Bean, PrimaryKey> implement
     public boolean delete(Entity entity) throws DaoException {
         try(Connection connection = db.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(
-                    sql.getDeleteQuery(entity)
+                    sql.getDeleteQuery(getTableName(), entity.getFieldValues())
             )) {
                 return ps.execute();
             }

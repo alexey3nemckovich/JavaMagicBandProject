@@ -8,7 +8,12 @@ public class BeanMainPageInfo implements ICommandParam{
     public List<String> dbBeanNames;
 
     @Override
-    public BeanMainPageInfo parse(Map<String, String[]> params){
-        return this;
+    public Map<String, String[]> parse(Map<String, String[]> params){
+        return params;
+    }
+
+    @Override
+    public Map<String, String[]> parse(Map<String, String[]> params, boolean parseParamsToMap){
+        return params;
     }
 }

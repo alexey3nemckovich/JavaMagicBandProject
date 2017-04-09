@@ -27,7 +27,7 @@ public class GetBeanViewPageCommand implements ICommand<BeanViewPageInfo> {
             if(1 != beanViewPageInfo.page){
                 index = (beanViewPageInfo.page - 1) * beanViewPageInfo.countRecords;
             }
-            IServiceCrud serviceCrud = serviceUnitOfWork.getServiceCrudForBean(beanViewPageInfo.name);
+            IServiceCrud serviceCrud = serviceUnitOfWork.getServiceCrudForBean(beanViewPageInfo.tableName);
             beanViewPageInfo.beans = serviceCrud.read(index, beanViewPageInfo.countRecords);
             int totalBeanCount = serviceCrud.readTotalCount();
             beanViewPageInfo.totalPagesCount = totalBeanCount/ beanViewPageInfo.countRecords;
@@ -48,8 +48,8 @@ public class GetBeanViewPageCommand implements ICommand<BeanViewPageInfo> {
         if(0 == pageInfo.countRecords){
             pageInfo.countRecords = 3;
         }
-        if(pageInfo.name.isEmpty()){
-            pageInfo.name = "user";
+        if(pageInfo.tableName.isEmpty()){
+            pageInfo.tableName = "user";
         }
     }
 

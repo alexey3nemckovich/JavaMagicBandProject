@@ -51,21 +51,24 @@
 </head>
 <body>
 
-    <%
-        String beanName = (String) request.getAttribute("name");
-        beanName = beanName.substring(0,1).toUpperCase() + beanName.substring(1).toLowerCase();
-    %>
-
     <div style = "border: 2px solid black;">
         <h1 align = "center">AutoServiceShop - magic project of Nikita, Vova, Alex</h1>
     </div>
 
     <a href="../../index.jsp">To main page</a>
 
+    <%String url = (String) request.getAttribute("javax.servlet.include.query_string");%>
+
     <div class="centered_parent">
         <c:if test="${!empty beans}">
             <div class="centered">
-                <h1><%=beanName%></h1>
+
+                <h1>${tableName}</h1>
+
+                <c:if test='<%=request.getAttribute("action").equals("get")%>'>
+                    <h2>${result}</h2>
+                </c:if>
+
                 <table class="tg">
                     <tr>
                         <c:forEach items="${beans.get(0).getFieldsOrdered()}" var="field">
@@ -77,20 +80,20 @@
                             <tr>
                                 <c:forEach items="${bean.getFieldsOrdered()}" var="field">
                                     <td>
-                                        <input type="text" value="${field.get(bean)}" readonly/>
+                                        <input type="text" name="${field.getName()}" value="${field.get(bean)}"/>
                                     </td>
                                 </c:forEach>
                                 <td>
-                                    <button type="submit" formaction="/bean/edit.ass?name=${name}">Edit</button>
+                                    <%--<button type="submit" formaction="/bean/edit.ass?tableName=${name}&action=edit">Edit</button>--%>
                                 </td>
                                 <td>
-                                    <button type="submit" formaction="<%=request.getRequestURL()%>?name=${name}&action=delete">Delete</button>
+                                    <button formmethod="post" type="submit" formaction="/bean/view.ass?tableName=${tableName}&page=${page}&countRecords=${countRecords}&action=delete">Delete</button>
                                 </td>
                             </tr>
                         </form>
                     </c:forEach>
                 </table>
-                <c:url var="searchUri" value="/bean.ass?name=${name}&page=##&countRecords=${countRecords}" />
+                <c:url var="searchUri" value="/bean/view.ass?tableName=${name}&page=##&countRecords=${countRecords}" />
                 <paginator:display
                         maxLinks="5"
                         currPage="${page}"
