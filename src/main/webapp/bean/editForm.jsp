@@ -13,8 +13,14 @@
 
     <%String url = (String) request.getAttribute("javax.servlet.include.query_string");%>
 
+    <c:if test="${not empty result}">
+        <h1>
+            ${result}
+        </h1>
+    </c:if>
+
     <div class="centered_parent">
-        <form class="centered" action="${url}?name=${name}&action=${action}"  method="post">
+        <form class="centered" action="${url}?tableName=${tableName}&action=${action}"  method="post">
             <table>
                 <c:forEach items="${fields}" var="field">
                     <tr>

@@ -2,59 +2,45 @@ package main.com.bsuir.autoservice.bean;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 public abstract class Bean {
-    abstract List<Field> getFieldsOrdered();
+    public abstract Field[] getFieldsOrdered();
+    public abstract Bean setFields(Map<String, String> fieldValues);
 
-    public static Bean getBeanObject(String beanName, Map<String, String> fields){
-        return null;
+    public static Bean getBeanObject(String beanName, Map<String, String> fields)
+            throws ClassNotFoundException, IllegalAccessException, InstantiationException{
+        Class<? extends Bean> beanClass = (Class<? extends Bean>)Class.forName(Bean.class.getPackage().getName() + '.' + beanName);
+        Bean bean = beanClass.newInstance();
+        bean.setFields(fields);
+        return bean;
     }
 
-    public Map<String, String> getAllFields() throws BeanException{
-        Map<String, String> fieldsStringValues = new HashMap<String, String>();
-        Field[] fields = Bean.class.getFields();
+    public LinkedHashMap<String, String> getFieldValues() throws IllegalAccessException{
+        LinkedHashMap<String, String> fieldValues = new LinkedHashMap<>();
+        Field[] fields = getFieldsOrdered();
+        Object fieldValue = null;
         for (Field field: fields) {
-            field.setAccessible(true);
-            try {
-                fieldsStringValues.put(field.getName(), field.get(this).toString());
-            }catch (IllegalAccessException e){
-                throw new BeanException(e);
+            fieldValue = field.get(this);
+            if(null != fieldValue){
+                fieldValues.put(field.getName(), fieldValue.toString());
+            }else{
+                fieldValues.put(field.getName(), "");
             }
         }
-        return fieldsStringValues;
-    }
-
-    public String getField(String fieldName) throws BeanException{
-        try {
-            return this.getClass().getField(fieldName).toString();
-        }catch (NoSuchFieldException e){
-            throw new BeanException(e);
-        }
-    }
-
-    public void setField(String fieldName, Object value) throws BeanException{
-        try {
-            Field field = this.getClass().getField(fieldName);
-            field.setAccessible(true);
-            field.set(this, value);
-        }catch (NoSuchFieldException e){
-            throw new BeanException(e);
-        }
-        catch (IllegalAccessException e){
-            throw new BeanException(e);
-        }
+        return fieldValues;
     }
 
     @Override
     public String toString(){
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append('{');
-        List<Field> fields = getFieldsOrdered();
-        for(int i = 0; i < fields.size(); i++){
-            stringBuilder.append(fields.get(i));
-            if (fields.size() - 1 != i){
+        Field[] fields = getFieldsOrdered();
+        for(int i = 0; i < fields.length; i++){
+            stringBuilder.append(fields[i]);
+            if (fields.length - 1 != i){
                 stringBuilder.append(", ");
             }
         }

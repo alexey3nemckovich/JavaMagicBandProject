@@ -13,7 +13,6 @@ import java.util.List;
 //TODO: call with prepare statement set in components
 public abstract class AbstractDaoCrud<Entity extends Bean, PrimaryKey> implements IDaoCrud<Entity, PrimaryKey> {
 
-    protected abstract String getTableNameImpl();
     protected abstract String getPrimaryKeyName();
     protected abstract List<Entity> parseResultSet(ResultSet rs) throws DaoException;
 
@@ -83,7 +82,7 @@ public abstract class AbstractDaoCrud<Entity extends Bean, PrimaryKey> implement
     public boolean insert(Entity entity) throws DaoException {
         try(Connection connection = db.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(
-                    sql.getInsertQuery(entity)
+                    sql.getInsertQuery(getTableName(), entity.getFieldValues())
             )) {
                 return ps.execute();
             }
@@ -106,17 +105,8 @@ public abstract class AbstractDaoCrud<Entity extends Bean, PrimaryKey> implement
         }
     }
 
-    @Override
-    public String getTableName() throws DaoException{
-        try {
-            return getTableNameImpl();
-        }catch (Exception e){
-            throw new DaoException(e);
-        }
-    }
-
     private String getSelectAllQuery(){
-        return String.format("SELECT * FROM `%s`",getTableNameImpl());
+        return String.format("SELECT * FROM `%s`", getTableName());
     }
 
     private final IDatabase db;

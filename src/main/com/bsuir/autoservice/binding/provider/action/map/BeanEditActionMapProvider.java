@@ -2,9 +2,9 @@ package main.com.bsuir.autoservice.binding.provider.action.map;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import main.com.bsuir.autoservice.command.bean.crud.BeanCrudInfo;
 import main.com.bsuir.autoservice.command.bean.crud.EditBeanCommand;
-import main.com.bsuir.autoservice.command.bean.page.edit.GetBeanEditPageCommand;
+import main.com.bsuir.autoservice.command.param.CrudPageInfo;
+import main.com.bsuir.autoservice.command.bean.page.crud.GetBeanEditPageCommand;
 
 public class BeanEditActionMapProvider extends ActionMapProvider {
 
@@ -15,7 +15,7 @@ public class BeanEditActionMapProvider extends ActionMapProvider {
 
     @Override
     protected void initMap(Injector injector){
-        putAction("get", BeanCrudInfo.class, injector.getInstance(GetBeanEditPageCommand.class));
-        putAction("edit", BeanCrudInfo.class, injector.getInstance(EditBeanCommand.class));
+        putAction("get", injector.getInstance(CrudPageInfo.class), injector.getInstance(GetBeanEditPageCommand.class));
+        putAction("edit", injector.getInstance(CrudPageInfo.class), injector.getInstance(EditBeanCommand.class));
     }
 }

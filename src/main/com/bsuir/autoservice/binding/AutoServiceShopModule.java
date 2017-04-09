@@ -16,9 +16,12 @@ import main.com.bsuir.autoservice.binding.provider.action.map.BeanActionMapProvi
 import main.com.bsuir.autoservice.binding.provider.action.map.BeanAddActionMapProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.BeanEditActionMapProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.BeanViewActionMapProvider;
-import main.com.bsuir.autoservice.command.bean.page.add.GetBeanAddPageCommand;
-import main.com.bsuir.autoservice.command.bean.page.edit.GetBeanEditPageCommand;
+import main.com.bsuir.autoservice.command.param.CrudPageInfo;
+import main.com.bsuir.autoservice.command.bean.page.crud.GetBeanAddPageCommand;
+import main.com.bsuir.autoservice.command.bean.page.crud.GetBeanEditPageCommand;
+import main.com.bsuir.autoservice.command.param.BeanMainPageInfo;
 import main.com.bsuir.autoservice.command.bean.page.main.GetBeanMainPageCommand;
+import main.com.bsuir.autoservice.command.param.BeanViewPageInfo;
 import main.com.bsuir.autoservice.command.bean.page.view.GetBeanViewPageCommand;
 import main.com.bsuir.autoservice.config.database.impl.sql.ISqlConfigDatabase;
 import main.com.bsuir.autoservice.config.database.impl.sql.impl.SqlConfigDatabase;
@@ -43,10 +46,8 @@ import main.com.bsuir.autoservice.dao.sql.Sql;
 import main.com.bsuir.autoservice.dao.unitOfWork.IDaoUnitOfWork;
 import main.com.bsuir.autoservice.dao.unitOfWork.DefaultDaoUnitOfWork;
 import main.com.bsuir.autoservice.library.RequestType;
-import main.com.bsuir.autoservice.http.parser.IHttpParser;
 import main.com.bsuir.autoservice.library.binding.factory.IBindingFactory;
 import main.com.bsuir.autoservice.library.binding.factory.impl.DefaultBindingFactory;
-import main.com.bsuir.autoservice.http.parser.DefaultHttpParser;
 import main.com.bsuir.autoservice.service.BaseService;
 import main.com.bsuir.autoservice.service.IService;
 import main.com.bsuir.autoservice.service.crud.order.IOrderService;
@@ -67,6 +68,7 @@ public class AutoServiceShopModule extends AbstractModule{
         bindSupported();
         bindController();
         bindCommand();
+        bindCommandParams();
         bindService();
         bindDao();
 
@@ -76,7 +78,6 @@ public class AutoServiceShopModule extends AbstractModule{
     }
 
     private void bindDefault(){
-        bind(IHttpParser.class).annotatedWith(Default.class).to(DefaultHttpParser.class).in(Singleton.class);
         bind(IController.class).annotatedWith(Default.class).to(NoController.class).in(Singleton.class);
         bind(IServiceUnitOfWork.class).annotatedWith(Default.class).to(DefaultServiceUnitOfWork.class).in(Singleton.class);
         bind(IDaoUnitOfWork.class).annotatedWith(Default.class).to(DefaultDaoUnitOfWork.class).in(Singleton.class);
@@ -125,6 +126,12 @@ public class AutoServiceShopModule extends AbstractModule{
         bind(GetBeanViewPageCommand.class).in(Singleton.class);
         bind(GetBeanMainPageCommand.class).in(Singleton.class);
         bind(GetBeanEditPageCommand.class).in(Singleton.class);
+    }
+
+    private void bindCommandParams(){
+        bind(CrudPageInfo.class).in(Singleton.class);
+        bind(BeanMainPageInfo.class).in(Singleton.class);
+        bind(BeanViewPageInfo.class).in(Singleton.class);
     }
 
     private void bindService() {

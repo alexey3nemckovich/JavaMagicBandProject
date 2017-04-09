@@ -1,12 +1,9 @@
 package main.com.bsuir.autoservice.bean;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
-public class OrderedService extends Bean{
+public class ordered_service extends Bean{
     private int serviceId;
     private int orderId;
     private Date date;
@@ -36,7 +33,12 @@ public class OrderedService extends Bean{
     }
 
     @Override
-    public List<Field> getFieldsOrdered(){
+    public Field[] getFieldsOrdered(){
+        return null;
+    }
+
+    @Override
+    public ordered_service setFields(Map<String, String> fieldValues) {
         return null;
     }
 }

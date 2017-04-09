@@ -1,12 +1,9 @@
 package main.com.bsuir.autoservice.controller.bean;
 
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import main.com.bsuir.autoservice.binding.annotation.action.map.BeanEditActionMap;
-import main.com.bsuir.autoservice.command.bean.page.add.GetBeanAddPageCommand;
 import main.com.bsuir.autoservice.controller.AbstractPageController;
 import main.com.bsuir.autoservice.controller.action.Action;
-import main.com.bsuir.autoservice.controller.exception.ControllerException;
 
 import java.util.Map;
 

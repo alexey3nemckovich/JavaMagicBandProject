@@ -1,29 +1,23 @@
 package main.com.bsuir.autoservice.bean;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
-public class User extends Bean {
+public class user extends Bean {
     public enum Type{
         USER,
         STAFF;
     }
 
-    static {
+    public user(){}
 
-    }
-
-    public User(){}
-
-    public int id;
+    private int id;
     private String mail;
     private String login;
     private String password;
     private String phone;
     private String name;
-    private String lastName;
+    private String last_name;
     private Type type;
 
     public int getId(){
@@ -74,12 +68,12 @@ public class User extends Bean {
         this.name = name;
     }
 
-    public String getLastName(){
-        return lastName;
+    public String getLast_name(){
+        return last_name;
     }
 
-    public void setLastName(String lastName){
-        this.lastName = lastName;
+    public void setLastName(String last_name){
+        this.last_name = last_name;
     }
 
     public Type getType(){
@@ -91,19 +85,19 @@ public class User extends Bean {
     }
 
     @Override
-    public List<Field> getFieldsOrdered(){
+    public Field[] getFieldsOrdered(){
         try {
             Class type = this.getClass();
-            List<Field> fields = new ArrayList<Field>(Arrays.asList(
+            Field[] fields = {
                     type.getDeclaredField("id"),
                     type.getDeclaredField("mail"),
                     type.getDeclaredField("login"),
                     type.getDeclaredField("password"),
                     type.getDeclaredField("phone"),
                     type.getDeclaredField("name"),
-                    type.getDeclaredField("lastName"),
+                    type.getDeclaredField("last_name"),
                     type.getDeclaredField("type")
-            ));
+            };
             for (Field field: fields) {
                 field.setAccessible(true);
             }
@@ -112,5 +106,18 @@ public class User extends Bean {
             //impossible
             return null;
         }
+    }
+
+    @Override
+    public user setFields(Map<String, String> fieldValues) {
+        id = Integer.valueOf(fieldValues.get("id"));
+        mail = fieldValues.get("mail");
+        login = fieldValues.get("login");
+        password = fieldValues.get("password");
+        phone = fieldValues.get("phone");
+        name = fieldValues.get("name");
+        last_name = fieldValues.get("last_name");
+        type = Type.valueOf(fieldValues.get("type"));
+        return this;
     }
 }

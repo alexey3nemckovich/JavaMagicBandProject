@@ -1,12 +1,9 @@
 package main.com.bsuir.autoservice.bean;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
-public class Order extends Bean{
+public class order extends Bean{
     public enum State{
         QUEUED, EXECUTING, DONE, REJECTED
     }
@@ -76,7 +73,12 @@ public class Order extends Bean{
     }
 
     @Override
-    public List<Field> getFieldsOrdered(){
+    public Field[] getFieldsOrdered(){
+        return null;
+    }
+
+    @Override
+    public order setFields(Map<String, String> fieldValues) {
         return null;
     }
 }

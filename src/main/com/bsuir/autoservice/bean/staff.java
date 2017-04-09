@@ -4,8 +4,9 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
-public class Staff extends Bean{
+public class staff extends Bean{
     public enum Specialization{
         MECHANIC, CHIEF_MECHANIC, ADMIN, DIRECTOR
     }
@@ -48,15 +49,15 @@ public class Staff extends Bean{
     }
 
     @Override
-    public List<Field> getFieldsOrdered(){
+    public Field[] getFieldsOrdered(){
         try {
             Class type = this.getClass();
-            List<Field> fields = new ArrayList<Field>(Arrays.asList(
+            Field[] fields = {
                     type.getDeclaredField("id"),
                     type.getDeclaredField("serviceShopId"),
                     type.getDeclaredField("userId"),
                     type.getDeclaredField("specialization")
-            ));
+            };
             for (Field field: fields) {
                 field.setAccessible(true);
             }
@@ -65,5 +66,10 @@ public class Staff extends Bean{
             //impossible
             return null;
         }
+    }
+
+    @Override
+    public staff setFields(Map<String, String> fieldValues) {
+        return null;
     }
 }

@@ -1,11 +1,10 @@
 package main.com.bsuir.autoservice.bean;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
-public class Service extends Bean{
+public class service extends Bean{
     private int id;
     private String name;
     private int cost;
@@ -35,7 +34,12 @@ public class Service extends Bean{
     }
 
     @Override
-    public List<Field> getFieldsOrdered(){
+    public Field[] getFieldsOrdered(){
+        return null;
+    }
+
+    @Override
+    public service setFields(Map<String, String> fieldValues) {
         return null;
     }
 }

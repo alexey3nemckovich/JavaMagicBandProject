@@ -4,9 +4,12 @@ import com.google.inject.Inject;
 import main.com.bsuir.autoservice.binding.annotation.Default;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
+import main.com.bsuir.autoservice.command.param.BeanViewPageInfo;
 import main.com.bsuir.autoservice.service.crud.IServiceCrud;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+
+import java.util.Map;
 
 public class GetBeanViewPageCommand implements ICommand<BeanViewPageInfo> {
 
@@ -16,22 +19,22 @@ public class GetBeanViewPageCommand implements ICommand<BeanViewPageInfo> {
     }
 
     @Override
-    public BeanViewPageInfo execute(BeanViewPageInfo pageInfo)
+    public BeanViewPageInfo execute(BeanViewPageInfo beanViewPageInfo)
             throws CommandException {
         try {
-            CheckPageInfo(pageInfo);
+            CheckPageInfo(beanViewPageInfo);
             int index = 0;
-            if(1 != pageInfo.page){
-                index = (pageInfo.page - 1) * pageInfo.countRecords;
+            if(1 != beanViewPageInfo.page){
+                index = (beanViewPageInfo.page - 1) * beanViewPageInfo.countRecords;
             }
-            IServiceCrud serviceCrud = serviceUnitOfWork.getServiceCrudForBean(pageInfo.name);
-            pageInfo.beans = serviceCrud.read(index, pageInfo.countRecords);
+            IServiceCrud serviceCrud = serviceUnitOfWork.getServiceCrudForBean(beanViewPageInfo.name);
+            beanViewPageInfo.beans = serviceCrud.read(index, beanViewPageInfo.countRecords);
             int totalBeanCount = serviceCrud.readTotalCount();
-            pageInfo.totalPagesCount = totalBeanCount/ pageInfo.countRecords;
-            if(0 != totalBeanCount% pageInfo.countRecords){
-                pageInfo.totalPagesCount++;
+            beanViewPageInfo.totalPagesCount = totalBeanCount/ beanViewPageInfo.countRecords;
+            if(0 != totalBeanCount% beanViewPageInfo.countRecords){
+                beanViewPageInfo.totalPagesCount++;
             }
-            return pageInfo;
+            return beanViewPageInfo;
         }catch (Exception e){
             throw new CommandException(e);
         }

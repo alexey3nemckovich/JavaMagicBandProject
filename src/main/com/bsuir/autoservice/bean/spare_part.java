@@ -1,11 +1,10 @@
 package main.com.bsuir.autoservice.bean;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
-public class SparePart extends Bean{
+public class spare_part extends Bean{
     private int sparePartId;
     private String name;
     private int amountAvailable;
@@ -35,7 +34,12 @@ public class SparePart extends Bean{
     }
 
     @Override
-    public List<Field> getFieldsOrdered(){
+    public Field[] getFieldsOrdered(){
+        return null;
+    }
+
+    @Override
+    public spare_part setFields(Map<String, String> fieldValues) {
         return null;
     }
 }

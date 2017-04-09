@@ -1,7 +1,7 @@
 package main.com.bsuir.autoservice.dao.crud.order;
 
 import com.google.inject.Inject;
-import main.com.bsuir.autoservice.bean.Order;
+import main.com.bsuir.autoservice.bean.order;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.crud.AbstractDaoCrud;
@@ -9,11 +9,11 @@ import main.com.bsuir.autoservice.dao.sql.ISql;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.ResultSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class OrderDao extends AbstractDaoCrud<Order, Integer> implements IOrderDao {
-    private static final String tableName = "order";
-    private static final String primaryKeyName = "id";
+public class OrderDao extends AbstractDaoCrud<order, Integer> implements IOrderDao {
 
     @Inject
     public OrderDao(IDatabase db, ISql sql) {
@@ -21,7 +21,7 @@ public class OrderDao extends AbstractDaoCrud<Order, Integer> implements IOrderD
     }
 
     @Override
-    public String getTableNameImpl() {
+    public String getTableName() {
         return tableName;
     }
 
@@ -31,11 +31,15 @@ public class OrderDao extends AbstractDaoCrud<Order, Integer> implements IOrderD
     }
 
     @Override
-    public List<Order> parseResultSet(ResultSet rs) throws DaoException{
+    public List<order> parseResultSet(ResultSet rs) throws DaoException{
         try {
             throw new NotImplementedException();
         } catch (Exception e) {
             throw new DaoException(e);
         }
     }
+
+    private static final String tableName = "order";
+    private static final String primaryKeyName = "id";
+    private static final Map<String, String> dbFieldsNames = new HashMap<>();
 }

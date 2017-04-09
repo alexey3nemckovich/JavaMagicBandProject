@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import main.com.bsuir.autoservice.binding.annotation.Default;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
+import main.com.bsuir.autoservice.command.param.BeanMainPageInfo;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 
 public class GetBeanMainPageCommand implements ICommand<BeanMainPageInfo> {
@@ -14,11 +15,10 @@ public class GetBeanMainPageCommand implements ICommand<BeanMainPageInfo> {
     }
 
     @Override
-    public BeanMainPageInfo execute(BeanMainPageInfo pageInfo)
-            throws CommandException {
+    public BeanMainPageInfo execute(BeanMainPageInfo beanMainPageInfo) throws CommandException{
         try {
-            pageInfo.dbBeanNames = serviceUnitOfWork.getBaseService().getListTableNames();
-            return pageInfo;
+            beanMainPageInfo.dbBeanNames = serviceUnitOfWork.getBaseService().getListTableNames();
+            return beanMainPageInfo;
         }catch (Exception e){
             throw new CommandException(e);
         }

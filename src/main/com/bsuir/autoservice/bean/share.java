@@ -1,12 +1,9 @@
 package main.com.bsuir.autoservice.bean;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
-public class Share extends Bean{
+public class share extends Bean{
     public enum State{
         ACTIVE, EXPIRED
     }
@@ -67,7 +64,12 @@ public class Share extends Bean{
     }
 
     @Override
-    public List<Field> getFieldsOrdered(){
+    public Field[] getFieldsOrdered(){
+        return null;
+    }
+
+    @Override
+    public share setFields(Map<String, String> fieldValues) {
         return null;
     }
 }

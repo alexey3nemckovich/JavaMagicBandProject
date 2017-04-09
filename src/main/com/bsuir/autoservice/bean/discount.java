@@ -1,11 +1,10 @@
 package main.com.bsuir.autoservice.bean;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
-public class Discount extends Bean{
+public class discount extends Bean{
     private int id;
     private int serviceId;
     private int value;
@@ -35,7 +34,12 @@ public class Discount extends Bean{
     }
 
     @Override
-    public List<Field> getFieldsOrdered() {
+    public Field[] getFieldsOrdered(){
+        return null;
+    }
+
+    @Override
+    public discount setFields(Map<String, String> fieldValues) {
         return null;
     }
 }

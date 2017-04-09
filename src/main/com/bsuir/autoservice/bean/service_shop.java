@@ -1,11 +1,10 @@
 package main.com.bsuir.autoservice.bean;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
-public class ServiceShop extends Bean{
+public class service_shop extends Bean{
     private int id;
     private String city;
     private String street;
@@ -53,7 +52,12 @@ public class ServiceShop extends Bean{
     }
 
     @Override
-    public List<Field> getFieldsOrdered(){
+    public Field[] getFieldsOrdered(){
+        return null;
+    }
+
+    @Override
+    public service_shop setFields(Map<String, String> fieldValues) {
         return null;
     }
 }

@@ -5,10 +5,11 @@ import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.binding.annotation.Default;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
+import main.com.bsuir.autoservice.command.param.CrudPageInfo;
 import main.com.bsuir.autoservice.service.crud.IServiceCrud;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 
-public class DeleteBeanCommand implements ICommand<BeanCrudInfo> {
+public class DeleteBeanCommand implements ICommand<CrudPageInfo> {
 
     @Inject
     public DeleteBeanCommand(@Default IServiceUnitOfWork serviceUnitOfWork){
@@ -16,15 +17,15 @@ public class DeleteBeanCommand implements ICommand<BeanCrudInfo> {
     }
 
     @Override
-    public BeanCrudInfo execute(BeanCrudInfo info) throws CommandException {
+    public CrudPageInfo execute(CrudPageInfo crudPageInfo) throws CommandException {
         try {
-            IServiceCrud serviceCrud = serviceUnitOfWork.getServiceCrudForBean(info.name);
-            //Bean bean = Bean.getBeanObject(info.name, info.fieldValues);
-            //serviceCrud.delete(bean);
-            info.result = "Operation success";
-            return info;
+            IServiceCrud serviceCrud = serviceUnitOfWork.getServiceCrudForBean(crudPageInfo.tableName);
+            Bean bean = Bean.getBeanObject(crudPageInfo.tableName, crudPageInfo.fields);
+            serviceCrud.delete(bean);
+            crudPageInfo.result = "Operation success";
+            return crudPageInfo;
         }catch (Exception e){
-            info.result = "Failed to delete record.";
+            crudPageInfo.result = "Failed to delete record.";
             throw new CommandException(e);
         }
     }

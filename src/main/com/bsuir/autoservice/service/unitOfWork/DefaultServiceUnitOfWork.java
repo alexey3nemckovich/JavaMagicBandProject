@@ -28,17 +28,17 @@ public class DefaultServiceUnitOfWork implements IServiceUnitOfWork {
     }
 
     @Override
-    public IServiceCrud getServiceCrudForBean(String name)
+    public IServiceCrud getServiceCrudForBean(String tableName)
             throws ServiceException{
         try {
             Field[] fields = this.getClass().getDeclaredFields();
             for (Field field: fields) {
-                if(field.getName().contains(name)){
+                if(field.getName().contains(tableName)){
                     field.setAccessible(true);
                     return (IServiceCrud) field.get(this);
                 }
             }
-            throw new ServiceException(String.format("BaseService not found for user '%s'", name));
+            throw new ServiceException(String.format("BaseService not found for user '%s'", tableName));
         }catch (Exception e){
             throw new ServiceException(e);
         }

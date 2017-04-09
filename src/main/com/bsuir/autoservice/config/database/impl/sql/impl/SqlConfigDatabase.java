@@ -2,6 +2,7 @@ package main.com.bsuir.autoservice.config.database.impl.sql.impl;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import main.com.bsuir.autoservice.command.RequestParameter;
 import main.com.bsuir.autoservice.config.database.impl.sql.ISqlConfigDatabase;
 import main.com.bsuir.autoservice.config.exception.ConfigException;
 

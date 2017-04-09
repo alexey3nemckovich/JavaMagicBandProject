@@ -1,12 +1,12 @@
 package main.com.bsuir.autoservice.service.crud.order;
 
 import com.google.inject.Inject;
-import main.com.bsuir.autoservice.bean.Order;
+import main.com.bsuir.autoservice.bean.order;
 import main.com.bsuir.autoservice.binding.annotation.Default;
 import main.com.bsuir.autoservice.dao.unitOfWork.IDaoUnitOfWork;
 import main.com.bsuir.autoservice.service.crud.AbstractServiceCrud;
 
-public class OrderService extends AbstractServiceCrud<Integer,Order> implements IOrderService {
+public class OrderService extends AbstractServiceCrud<Integer,order> implements IOrderService {
     private final IDaoUnitOfWork daoUnitOfWork;
 
     @Inject
