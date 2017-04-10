@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractServiceCrud<PrimaryKey,Entity> implements IServiceCrud<PrimaryKey,Entity> {
-    private final IDaoCrud<Entity, PrimaryKey> daoCrud;
 
     protected AbstractServiceCrud(IDaoCrud daoCrud){
         this.daoCrud = daoCrud;
@@ -68,4 +67,6 @@ public abstract class AbstractServiceCrud<PrimaryKey,Entity> implements IService
             throw new ServiceException(e);
         }
     }
+
+    private final IDaoCrud<Entity, PrimaryKey> daoCrud;
 }

@@ -10,6 +10,8 @@ import main.com.bsuir.autoservice.service.crud.IServiceCrud;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 
+import java.text.ParseException;
+
 public class AddBeanCommand implements ICommand<CrudPageInfo>{
 
     @Inject
@@ -25,8 +27,12 @@ public class AddBeanCommand implements ICommand<CrudPageInfo>{
             serviceCrud.create(bean);
             crudPageInfo.result = "Operation success";
             return crudPageInfo;
-        }catch (ServiceException e){
-            crudPageInfo.result = "Failed to create new record.";
+        }catch (ServiceException | ParseException e){
+            crudPageInfo.result = String.format(
+                    "Failed to add new '%s': %s.",
+                    crudPageInfo.tableName,
+                    e.getMessage()
+            );
             return crudPageInfo;
         }catch (Exception e){
             throw new CommandException(e);

@@ -8,6 +8,7 @@ import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.BeanViewPageInfo;
 import main.com.bsuir.autoservice.command.param.CrudPageInfo;
 import main.com.bsuir.autoservice.service.crud.IServiceCrud;
+import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 
 public class DeleteBeanCommand implements ICommand<BeanViewPageInfo> {
@@ -27,20 +28,25 @@ public class DeleteBeanCommand implements ICommand<BeanViewPageInfo> {
             //change page content
             int totalBeanCount = serviceCrud.readTotalCount();
             beanViewPageInfo.totalPagesCount = totalBeanCount / beanViewPageInfo.countRecords;
-            if(0 != totalBeanCount % beanViewPageInfo.countRecords){
+            if (0 != totalBeanCount % beanViewPageInfo.countRecords) {
                 beanViewPageInfo.totalPagesCount++;
             }
-            if(beanViewPageInfo.totalPagesCount < beanViewPageInfo.page){
+            if (beanViewPageInfo.totalPagesCount < beanViewPageInfo.page) {
                 beanViewPageInfo.page--;
             }
             int index = 0;
-            if(1 != beanViewPageInfo.page){
+            if (1 != beanViewPageInfo.page) {
                 index = (beanViewPageInfo.page - 1) * beanViewPageInfo.countRecords;
             }
             beanViewPageInfo.beans = serviceCrud.read(index, beanViewPageInfo.countRecords);
             return beanViewPageInfo;
+        }catch (ServiceException e){
+            beanViewPageInfo.result = String.format(
+                    "Failed to delete record: %s",
+                    e.getMessage()
+            );
+            return beanViewPageInfo;
         }catch (Exception e){
-            beanViewPageInfo.result = "Failed to delete record.";
             throw new CommandException(e);
         }
     }

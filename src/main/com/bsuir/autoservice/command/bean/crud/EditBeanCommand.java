@@ -8,7 +8,10 @@ import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.CrudPageInfo;
 import main.com.bsuir.autoservice.command.param.EditPageInfo;
 import main.com.bsuir.autoservice.service.crud.IServiceCrud;
+import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+
+import java.text.ParseException;
 
 public class EditBeanCommand  implements ICommand<EditPageInfo> {
 
@@ -25,8 +28,13 @@ public class EditBeanCommand  implements ICommand<EditPageInfo> {
             serviceCrud.update(bean, editPageInfo.oldFields);
             editPageInfo.result = "Operation success";
             return editPageInfo;
+        }catch (ServiceException | ParseException e){
+            editPageInfo.result = String.format(
+                    "Failed to edit record: %s",
+                    e.getMessage()
+            );
+            return editPageInfo;
         }catch (Exception e){
-            editPageInfo.result = "Failed to update record.";
             throw new CommandException(e);
         }
     }
