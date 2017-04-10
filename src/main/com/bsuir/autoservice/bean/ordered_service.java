@@ -31,25 +31,33 @@ public class ordered_service extends Bean{
     }
 
     @Override
-    public Field[] getFieldsOrdered() throws NoSuchFieldException{
-        Class type = this.getClass();
-        Field[] fields = {
-                type.getDeclaredField("service_id"),
-                type.getDeclaredField("order_id"),
-                type.getDeclaredField("date")
-        };
-        for (Field field: fields) {
-            field.setAccessible(true);
+    public Field[] getFieldsOrdered() throws BeanException{
+        try {
+            Class type = this.getClass();
+            Field[] fields = {
+                    type.getDeclaredField("service_id"),
+                    type.getDeclaredField("order_id"),
+                    type.getDeclaredField("date")
+            };
+            for (Field field: fields) {
+                field.setAccessible(true);
+            }
+            return fields;
+        }catch (Exception e){
+            throw new BeanException(e);
         }
-        return fields;
     }
 
     @Override
-    public ordered_service setFields(Map<String, String> fieldValues) throws ParseException{
-        service_id = Integer.valueOf(fieldValues.get("service_id"));
-        order_id = Integer.valueOf(fieldValues.get("order_id"));
-        date = dateFormat.parse(fieldValues.get("date"));
-        return this;
+    public ordered_service setFields(Map<String, String> fieldValues) throws BeanException{
+        try {
+            service_id = Integer.valueOf(fieldValues.get("service_id"));
+            order_id = Integer.valueOf(fieldValues.get("order_id"));
+            date = dateFormat.parse(fieldValues.get("date"));
+            return this;
+        }catch (Exception e){
+            throw new BeanException(e);
+        }
     }
 
     private int service_id;

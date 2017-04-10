@@ -66,33 +66,41 @@ public class order extends Bean{
     }
 
     @Override
-    public Field[] getFieldsOrdered() throws NoSuchFieldException{
-        Class type = this.getClass();
-        Field[] fields = {
-                type.getDeclaredField("id"),
-                type.getDeclaredField("user_id"),
-                type.getDeclaredField("service_shop_id"),
-                type.getDeclaredField("date_open"),
-                type.getDeclaredField("date_close"),
-                type.getDeclaredField("sum"),
-                type.getDeclaredField("state")
-        };
-        for (Field field: fields) {
-            field.setAccessible(true);
+    public Field[] getFieldsOrdered() throws BeanException{
+        try {
+            Class type = this.getClass();
+            Field[] fields = {
+                    type.getDeclaredField("id"),
+                    type.getDeclaredField("user_id"),
+                    type.getDeclaredField("service_shop_id"),
+                    type.getDeclaredField("date_open"),
+                    type.getDeclaredField("date_close"),
+                    type.getDeclaredField("sum"),
+                    type.getDeclaredField("state")
+            };
+            for (Field field: fields) {
+                field.setAccessible(true);
+            }
+            return fields;
+        }catch (Exception e){
+            throw new BeanException(e);
         }
-        return fields;
     }
 
     @Override
-    public order setFields(Map<String, String> fieldValues) throws ParseException{
-        id = Integer.valueOf(fieldValues.get("id"));
-        user_id = Integer.valueOf(fieldValues.get("user_id"));
-        service_shop_id = Integer.valueOf(fieldValues.get("service_shop_id"));
-        date_open = dateFormat.parse(fieldValues.get("date_open"));
-        date_close = dateFormat.parse(fieldValues.get("date_close"));
-        sum = Integer.valueOf(fieldValues.get("sum"));
-        state = State.valueOf(fieldValues.get("state"));
-        return this;
+    public order setFields(Map<String, String> fieldValues) throws BeanException{
+        try {
+            id = Integer.valueOf(fieldValues.get("id"));
+            user_id = Integer.valueOf(fieldValues.get("user_id"));
+            service_shop_id = Integer.valueOf(fieldValues.get("service_shop_id"));
+            date_open = dateFormat.parse(fieldValues.get("date_open"));
+            date_close = dateFormat.parse(fieldValues.get("date_close"));
+            sum = Integer.valueOf(fieldValues.get("sum"));
+            state = State.valueOf(fieldValues.get("state"));
+            return this;
+        }catch (Exception e){
+            throw new BeanException(e);
+        }
     }
 
     private int id;

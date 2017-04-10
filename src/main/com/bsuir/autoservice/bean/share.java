@@ -58,31 +58,39 @@ public class share extends Bean{
     }
 
     @Override
-    public Field[] getFieldsOrdered() throws NoSuchFieldException{
-        Class type = this.getClass();
-        Field[] fields = {
-                type.getDeclaredField("id"),
-                type.getDeclaredField("date_start"),
-                type.getDeclaredField("date_end"),
-                type.getDeclaredField("value"),
-                type.getDeclaredField("description"),
-                type.getDeclaredField("state")
-        };
-        for (Field field: fields) {
-            field.setAccessible(true);
+    public Field[] getFieldsOrdered() throws BeanException{
+        try {
+            Class type = this.getClass();
+            Field[] fields = {
+                    type.getDeclaredField("id"),
+                    type.getDeclaredField("date_start"),
+                    type.getDeclaredField("date_end"),
+                    type.getDeclaredField("value"),
+                    type.getDeclaredField("description"),
+                    type.getDeclaredField("state")
+            };
+            for (Field field: fields) {
+                field.setAccessible(true);
+            }
+            return fields;
+        }catch (Exception e){
+            throw new BeanException(e);
         }
-        return fields;
     }
 
     @Override
-    public share setFields(Map<String, String> fieldValues) throws ParseException{
-        id = Integer.valueOf(fieldValues.get("id"));
-        date_start = dateFormat.parse(fieldValues.get("date_start"));
-        date_end = dateFormat.parse(fieldValues.get("date_end"));
-        value = Integer.valueOf(fieldValues.get("value"));
-        description = fieldValues.get("description");
-        state = State.valueOf(fieldValues.get("state"));
-        return this;
+    public share setFields(Map<String, String> fieldValues) throws BeanException{
+        try {
+            id = Integer.valueOf(fieldValues.get("id"));
+            date_start = dateFormat.parse(fieldValues.get("date_start"));
+            date_end = dateFormat.parse(fieldValues.get("date_end"));
+            value = Integer.valueOf(fieldValues.get("value"));
+            description = fieldValues.get("description");
+            state = State.valueOf(fieldValues.get("state"));
+            return this;
+        }catch (Exception e){
+            throw new BeanException(e);
+        }
     }
 
     private int id;

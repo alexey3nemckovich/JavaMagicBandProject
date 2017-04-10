@@ -27,15 +27,13 @@ public class AddBeanCommand implements ICommand<CrudPageInfo>{
             serviceCrud.create(bean);
             crudPageInfo.result = "Operation success";
             return crudPageInfo;
-        }catch (ServiceException | ParseException e){
+        }catch (Exception e){
             crudPageInfo.result = String.format(
                     "Failed to add new '%s': %s.",
                     crudPageInfo.tableName,
                     e.getMessage()
             );
             return crudPageInfo;
-        }catch (Exception e){
-            throw new CommandException(e);
         }
     }
 

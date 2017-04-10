@@ -58,31 +58,39 @@ public class notification extends Bean{
     }
 
     @Override
-    public Field[] getFieldsOrdered() throws NoSuchFieldException{
-        Class type = this.getClass();
-        Field[] fields = {
-                type.getDeclaredField("id"),
-                type.getDeclaredField("order_id"),
-                type.getDeclaredField("staff_id"),
-                type.getDeclaredField("date"),
-                type.getDeclaredField("content"),
-                type.getDeclaredField("state")
-        };
-        for (Field field: fields) {
-            field.setAccessible(true);
+    public Field[] getFieldsOrdered() throws BeanException{
+        try {
+            Class type = this.getClass();
+            Field[] fields = {
+                    type.getDeclaredField("id"),
+                    type.getDeclaredField("order_id"),
+                    type.getDeclaredField("staff_id"),
+                    type.getDeclaredField("date"),
+                    type.getDeclaredField("content"),
+                    type.getDeclaredField("state")
+            };
+            for (Field field: fields) {
+                field.setAccessible(true);
+            }
+            return fields;
+        }catch (Exception e){
+            throw new BeanException(e);
         }
-        return fields;
     }
 
     @Override
-    public notification setFields(Map<String, String> fieldValues) throws ParseException{
-        id = Integer.valueOf(fieldValues.get("discount_id"));
-        order_id = Integer.valueOf(fieldValues.get("order_id"));
-        staff_id = Integer.valueOf(fieldValues.get("staff_id"));
-        date = dateFormat.parse(fieldValues.get("date"));
-        content = fieldValues.get("content");
-        state = State.valueOf(fieldValues.get("state"));
-        return this;
+    public notification setFields(Map<String, String> fieldValues) throws BeanException{
+        try {
+            id = Integer.valueOf(fieldValues.get("discount_id"));
+            order_id = Integer.valueOf(fieldValues.get("order_id"));
+            staff_id = Integer.valueOf(fieldValues.get("staff_id"));
+            date = dateFormat.parse(fieldValues.get("date"));
+            content = fieldValues.get("content");
+            state = State.valueOf(fieldValues.get("state"));
+            return this;
+        }catch (Exception e){
+            throw new BeanException(e);
+        }
     }
 
     private int id;

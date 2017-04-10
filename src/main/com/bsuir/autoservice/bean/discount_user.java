@@ -22,16 +22,20 @@ public class discount_user extends Bean{
     }
 
     @Override
-    public Field[] getFieldsOrdered() throws NoSuchFieldException{
-        Class type = this.getClass();
-        Field[] fields = {
-                type.getDeclaredField("discount_id"),
-                type.getDeclaredField("user_id")
-        };
-        for (Field field: fields) {
-            field.setAccessible(true);
+    public Field[] getFieldsOrdered() throws BeanException{
+        try {
+            Class type = this.getClass();
+            Field[] fields = {
+                    type.getDeclaredField("discount_id"),
+                    type.getDeclaredField("user_id")
+            };
+            for (Field field: fields) {
+                field.setAccessible(true);
+            }
+            return fields;
+        }catch (Exception e){
+            throw new BeanException(e);
         }
-        return fields;
     }
 
     @Override

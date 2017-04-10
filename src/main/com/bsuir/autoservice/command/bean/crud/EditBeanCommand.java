@@ -28,14 +28,12 @@ public class EditBeanCommand  implements ICommand<EditPageInfo> {
             serviceCrud.update(bean, editPageInfo.oldFields);
             editPageInfo.result = "Operation success";
             return editPageInfo;
-        }catch (ServiceException | ParseException e){
+        }catch (Exception e){
             editPageInfo.result = String.format(
                     "Failed to edit record: %s",
                     e.getMessage()
             );
             return editPageInfo;
-        }catch (Exception e){
-            throw new CommandException(e);
         }
     }
 

@@ -40,7 +40,7 @@ public class DeleteBeanCommand implements ICommand<BeanViewPageInfo> {
             }
             beanViewPageInfo.beans = serviceCrud.read(index, beanViewPageInfo.countRecords);
             return beanViewPageInfo;
-        }catch (ServiceException e){
+        }catch (ServiceException |  e){
             beanViewPageInfo.result = String.format(
                     "Failed to delete record: %s",
                     e.getMessage()

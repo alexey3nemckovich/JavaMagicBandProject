@@ -46,19 +46,23 @@ public class service_shop extends Bean{
     }
 
     @Override
-    public Field[] getFieldsOrdered() throws NoSuchFieldException{
-        Class type = this.getClass();
-        Field[] fields = {
-                type.getDeclaredField("id"),
-                type.getDeclaredField("city"),
-                type.getDeclaredField("street"),
-                type.getDeclaredField("house"),
-                type.getDeclaredField("chief_id")
-        };
-        for (Field field: fields) {
-            field.setAccessible(true);
+    public Field[] getFieldsOrdered() throws BeanException{
+        try {
+            Class type = this.getClass();
+            Field[] fields = {
+                    type.getDeclaredField("id"),
+                    type.getDeclaredField("city"),
+                    type.getDeclaredField("street"),
+                    type.getDeclaredField("house"),
+                    type.getDeclaredField("chief_id")
+            };
+            for (Field field: fields) {
+                field.setAccessible(true);
+            }
+            return fields;
+        }catch (Exception e){
+            throw new BeanException(e);
         }
-        return fields;
     }
 
     @Override
