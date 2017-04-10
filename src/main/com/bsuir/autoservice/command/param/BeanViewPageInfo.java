@@ -19,11 +19,16 @@ public class BeanViewPageInfo extends CrudPageInfo implements ICommandParam{
 
     @Override
     public Map<String, String[]> parse(Map<String, String[]> params){
-        LinkedHashMap<String, String[]> mParams = new LinkedHashMap<String, String[]>(super.parse(params, false));
+        LinkedHashMap<String, String[]> mParams = new LinkedHashMap<String, String[]>(
+                super.parse(params, false)
+        );
+
         page = Integer.valueOf(mParams.get("page")[0]);
         mParams.remove("page");
+
         countRecords = Integer.valueOf(mParams.get("countRecords")[0]);
         mParams.remove("countRecords");
+
         for (Map.Entry<String, String[]> param: mParams.entrySet()) {
             fields.put(param.getKey(), param.getValue()[0]);
         }

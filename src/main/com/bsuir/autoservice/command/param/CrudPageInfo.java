@@ -28,14 +28,17 @@ public class CrudPageInfo implements ICommandParam{
 
     public Map<String, String[]> parse(Map<String, String[]> params, boolean passRemainderToFieldsMap){
         LinkedHashMap<String, String[]> mParams = new LinkedHashMap<>(params);
+
         tableName = mParams.get("tableName")[0];
         mParams.remove("tableName");
+
         if(mParams.containsKey("action")) {
             action = mParams.get("action")[0];
             mParams.remove("action");
         }else {
             action = "get";
         }
+
         if(passRemainderToFieldsMap){
             for (Map.Entry<String, String[]> param: mParams.entrySet()) {
                 fields.put(param.getKey(), param.getValue()[0]);

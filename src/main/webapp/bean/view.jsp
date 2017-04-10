@@ -81,7 +81,7 @@
 
                                 <c:forEach items="${bean.getFieldsOrdered()}" var="field">
                                     <td>
-                                        <input type="text" name="${field.getName()}" value="${field.get(bean)}"/>
+                                        <input type="text" name="${field.getName()}" value="${field.get(bean)}" readonly/>
                                     </td>
                                 </c:forEach>
 

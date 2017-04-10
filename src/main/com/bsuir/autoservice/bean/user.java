@@ -9,17 +9,6 @@ public class user extends Bean {
         STAFF;
     }
 
-    public user(){}
-
-    private int id;
-    private String mail;
-    private String login;
-    private String password;
-    private String phone;
-    private String name;
-    private String last_name;
-    private Type type;
-
     public int getId(){
         return id;
     }
@@ -85,27 +74,22 @@ public class user extends Bean {
     }
 
     @Override
-    public Field[] getFieldsOrdered(){
-        try {
-            Class type = this.getClass();
-            Field[] fields = {
-                    type.getDeclaredField("id"),
-                    type.getDeclaredField("mail"),
-                    type.getDeclaredField("login"),
-                    type.getDeclaredField("password"),
-                    type.getDeclaredField("phone"),
-                    type.getDeclaredField("name"),
-                    type.getDeclaredField("last_name"),
-                    type.getDeclaredField("type")
-            };
-            for (Field field: fields) {
-                field.setAccessible(true);
-            }
-            return fields;
-        }catch (Exception e){
-            //impossible
-            return null;
+    public Field[] getFieldsOrdered() throws NoSuchFieldException{
+        Class type = this.getClass();
+        Field[] fields = {
+                type.getDeclaredField("id"),
+                type.getDeclaredField("mail"),
+                type.getDeclaredField("login"),
+                type.getDeclaredField("password"),
+                type.getDeclaredField("phone"),
+                type.getDeclaredField("name"),
+                type.getDeclaredField("last_name"),
+                type.getDeclaredField("type")
+        };
+        for (Field field: fields) {
+            field.setAccessible(true);
         }
+        return fields;
     }
 
     @Override
@@ -120,4 +104,13 @@ public class user extends Bean {
         type = Type.valueOf(fieldValues.get("type"));
         return this;
     }
+
+    private int id;
+    private String mail;
+    private String login;
+    private String password;
+    private String phone;
+    private String name;
+    private String last_name;
+    private Type type;
 }

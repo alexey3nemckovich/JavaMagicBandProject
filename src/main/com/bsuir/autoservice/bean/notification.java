@@ -1,19 +1,13 @@
 package main.com.bsuir.autoservice.bean;
 
 import java.lang.reflect.Field;
+import java.text.ParseException;
 import java.util.*;
 
 public class notification extends Bean{
     public enum State{
         CONFIRMED, UNCONFIRMED
     }
-
-    private int id;
-    private int orderId;
-    private int staffId;
-    private Date date;
-    private String content;
-    private State state;
 
     public int getId(){
         return id;
@@ -24,19 +18,19 @@ public class notification extends Bean{
     }
 
     public int getOrderId(){
-        return orderId;
+        return order_id;
     }
 
     public void setOrderId(int value){
-        this.orderId = value;
+        this.order_id = value;
     }
 
     public int getStaffId(){
-        return staffId;
+        return staff_id;
     }
 
     public void setStaffId(int value){
-        this.staffId = value;
+        this.staff_id = value;
     }
 
     public Date getDate(){
@@ -64,12 +58,37 @@ public class notification extends Bean{
     }
 
     @Override
-    public Field[] getFieldsOrdered(){
-        return null;
+    public Field[] getFieldsOrdered() throws NoSuchFieldException{
+        Class type = this.getClass();
+        Field[] fields = {
+                type.getDeclaredField("id"),
+                type.getDeclaredField("order_id"),
+                type.getDeclaredField("staff_id"),
+                type.getDeclaredField("date"),
+                type.getDeclaredField("content"),
+                type.getDeclaredField("state")
+        };
+        for (Field field: fields) {
+            field.setAccessible(true);
+        }
+        return fields;
     }
 
     @Override
-    public notification setFields(Map<String, String> fieldValues) {
-        return null;
+    public notification setFields(Map<String, String> fieldValues) throws ParseException{
+        id = Integer.valueOf(fieldValues.get("discount_id"));
+        order_id = Integer.valueOf(fieldValues.get("order_id"));
+        staff_id = Integer.valueOf(fieldValues.get("staff_id"));
+        date = dateFormat.parse(fieldValues.get("date"));
+        content = fieldValues.get("content");
+        state = State.valueOf(fieldValues.get("state"));
+        return this;
     }
+
+    private int id;
+    private int order_id;
+    private int staff_id;
+    private Date date;
+    private String content;
+    private State state;
 }

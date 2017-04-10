@@ -1,27 +1,25 @@
 package main.com.bsuir.autoservice.bean;
 
 import java.lang.reflect.Field;
+import java.text.ParseException;
 import java.util.*;
 
 public class ordered_service extends Bean{
-    private int serviceId;
-    private int orderId;
-    private Date date;
 
     public int getServiceId(){
-        return serviceId;
+        return service_id;
     }
 
     public void setServiceId(int value){
-        this.serviceId = value;
+        this.service_id = value;
     }
 
     public int getOrderId(){
-        return orderId;
+        return order_id;
     }
 
     public void setOrderId(int value){
-        this.orderId = value;
+        this.order_id = value;
     }
 
     public Date getDate(){
@@ -33,12 +31,28 @@ public class ordered_service extends Bean{
     }
 
     @Override
-    public Field[] getFieldsOrdered(){
-        return null;
+    public Field[] getFieldsOrdered() throws NoSuchFieldException{
+        Class type = this.getClass();
+        Field[] fields = {
+                type.getDeclaredField("service_id"),
+                type.getDeclaredField("order_id"),
+                type.getDeclaredField("date")
+        };
+        for (Field field: fields) {
+            field.setAccessible(true);
+        }
+        return fields;
     }
 
     @Override
-    public ordered_service setFields(Map<String, String> fieldValues) {
-        return null;
+    public ordered_service setFields(Map<String, String> fieldValues) throws ParseException{
+        service_id = Integer.valueOf(fieldValues.get("service_id"));
+        order_id = Integer.valueOf(fieldValues.get("order_id"));
+        date = dateFormat.parse(fieldValues.get("date"));
+        return this;
     }
+
+    private int service_id;
+    private int order_id;
+    private Date date;
 }

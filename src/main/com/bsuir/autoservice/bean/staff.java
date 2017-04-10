@@ -1,20 +1,12 @@
 package main.com.bsuir.autoservice.bean;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 public class staff extends Bean{
     public enum Specialization{
         MECHANIC, CHIEF_MECHANIC, ADMIN, DIRECTOR
     }
-
-    private int id;
-    private int serviceShopId;
-    private int userId;
-    private Specialization specialization;
 
     public int getId(){
         return id;
@@ -25,19 +17,19 @@ public class staff extends Bean{
     }
 
     public int getServiceShopId(){
-        return serviceShopId;
+        return service_shop_id;
     }
 
     public void setServiceShopId(int value){
-        this.serviceShopId = value;
+        this.service_shop_id = value;
     }
 
     public int getUserId(){
-        return userId;
+        return user_id;
     }
 
     public void setUserId(int value){
-        this.userId = value;
+        this.user_id = value;
     }
 
     public Specialization getSpecialization(){
@@ -49,27 +41,31 @@ public class staff extends Bean{
     }
 
     @Override
-    public Field[] getFieldsOrdered(){
-        try {
-            Class type = this.getClass();
-            Field[] fields = {
-                    type.getDeclaredField("id"),
-                    type.getDeclaredField("serviceShopId"),
-                    type.getDeclaredField("userId"),
-                    type.getDeclaredField("specialization")
-            };
-            for (Field field: fields) {
-                field.setAccessible(true);
-            }
-            return fields;
-        }catch (Exception e){
-            //impossible
-            return null;
+    public Field[] getFieldsOrdered() throws NoSuchFieldException{
+        Class type = this.getClass();
+        Field[] fields = {
+                type.getDeclaredField("id"),
+                type.getDeclaredField("service_shop_id"),
+                type.getDeclaredField("user_id"),
+                type.getDeclaredField("specialization")
+        };
+        for (Field field: fields) {
+            field.setAccessible(true);
         }
+        return fields;
     }
 
     @Override
     public staff setFields(Map<String, String> fieldValues) {
-        return null;
+        id = Integer.valueOf(fieldValues.get("id"));
+        service_shop_id = Integer.valueOf(fieldValues.get("service_shop_id"));
+        user_id = Integer.valueOf(fieldValues.get("user_id"));
+        specialization = Specialization.valueOf(fieldValues.get("specialization"));
+        return this;
     }
+
+    private int id;
+    private int service_shop_id;
+    private int user_id;
+    private Specialization specialization;
 }

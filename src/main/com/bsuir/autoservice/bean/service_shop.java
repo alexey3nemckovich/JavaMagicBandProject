@@ -1,15 +1,9 @@
 package main.com.bsuir.autoservice.bean;
 
 import java.lang.reflect.Field;
-import java.util.List;
 import java.util.Map;
 
 public class service_shop extends Bean{
-    private int id;
-    private String city;
-    private String street;
-    private String house;
-    private int chiefId;
 
     public int getId(){
         return id;
@@ -44,20 +38,42 @@ public class service_shop extends Bean{
     }
 
     public int getChiefId(){
-        return chiefId;
+        return chief_id;
     }
 
     public void setChiefId(int value){
-        this.chiefId = value;
+        this.chief_id = value;
     }
 
     @Override
-    public Field[] getFieldsOrdered(){
-        return null;
+    public Field[] getFieldsOrdered() throws NoSuchFieldException{
+        Class type = this.getClass();
+        Field[] fields = {
+                type.getDeclaredField("id"),
+                type.getDeclaredField("city"),
+                type.getDeclaredField("street"),
+                type.getDeclaredField("house"),
+                type.getDeclaredField("chief_id")
+        };
+        for (Field field: fields) {
+            field.setAccessible(true);
+        }
+        return fields;
     }
 
     @Override
     public service_shop setFields(Map<String, String> fieldValues) {
-        return null;
+        id = Integer.valueOf(fieldValues.get("id"));
+        city = fieldValues.get("city");
+        street = fieldValues.get("street");
+        house = fieldValues.get("house");
+        chief_id = Integer.valueOf(fieldValues.get("chief_id"));
+        return this;
     }
+
+    private int id;
+    private String city;
+    private String street;
+    private String house;
+    private int chief_id;
 }

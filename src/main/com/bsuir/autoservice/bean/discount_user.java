@@ -1,36 +1,46 @@
 package main.com.bsuir.autoservice.bean;
 
 import java.lang.reflect.Field;
-import java.util.List;
 import java.util.Map;
 
 public class discount_user extends Bean{
-    private int discountId;
-    private int userId;
 
     public int getDiscountId(){
-        return discountId;
+        return discount_id;
     }
 
-    public void setDiscountId(int value){
-        this.discountId = value;
+    public void setDiscount_id(int value){
+        this.discount_id = value;
     }
 
     public int getUserId(){
-        return userId;
+        return user_id;
     }
 
     public void setUserId(int value){
-        this.userId = value;
+        this.user_id = value;
     }
 
     @Override
-    public Field[] getFieldsOrdered(){
-        return null;
+    public Field[] getFieldsOrdered() throws NoSuchFieldException{
+        Class type = this.getClass();
+        Field[] fields = {
+                type.getDeclaredField("discount_id"),
+                type.getDeclaredField("user_id")
+        };
+        for (Field field: fields) {
+            field.setAccessible(true);
+        }
+        return fields;
     }
 
     @Override
     public discount_user setFields(Map<String, String> fieldValues) {
-        return null;
+        discount_id = Integer.valueOf(fieldValues.get("discount_id"));
+        user_id = Integer.valueOf(fieldValues.get("user_id"));
+        return this;
     }
+
+    private int discount_id;
+    private int user_id;
 }

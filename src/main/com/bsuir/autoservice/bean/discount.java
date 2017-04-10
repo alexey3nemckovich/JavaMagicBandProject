@@ -1,13 +1,9 @@
 package main.com.bsuir.autoservice.bean;
 
 import java.lang.reflect.Field;
-import java.util.List;
 import java.util.Map;
 
 public class discount extends Bean{
-    private int id;
-    private int serviceId;
-    private int value;
 
     public int getId(){
         return id;
@@ -18,11 +14,11 @@ public class discount extends Bean{
     }
 
     public int getServiceId(){
-        return this.serviceId;
+        return this.service_id;
     }
 
     public void setServiceId(int value){
-        this.serviceId = value;
+        this.service_id = value;
     }
 
     public int getValue(){
@@ -34,12 +30,28 @@ public class discount extends Bean{
     }
 
     @Override
-    public Field[] getFieldsOrdered(){
-        return null;
+    public Field[] getFieldsOrdered() throws NoSuchFieldException{
+        Class type = this.getClass();
+        Field[] fields = {
+                type.getDeclaredField("id"),
+                type.getDeclaredField("service_id"),
+                type.getDeclaredField("value")
+        };
+        for (Field field: fields) {
+            field.setAccessible(true);
+        }
+        return fields;
     }
 
     @Override
     public discount setFields(Map<String, String> fieldValues) {
-        return null;
+        id = Integer.valueOf(fieldValues.get("id"));
+        service_id = Integer.valueOf(fieldValues.get("service_id"));
+        value = Integer.valueOf(fieldValues.get("value"));
+        return this;
     }
+
+    private int id;
+    private int service_id;
+    private int value;
 }

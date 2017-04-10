@@ -1,20 +1,16 @@
 package main.com.bsuir.autoservice.bean;
 
 import java.lang.reflect.Field;
-import java.util.List;
 import java.util.Map;
 
 public class spare_part extends Bean{
-    private int sparePartId;
-    private String name;
-    private int amountAvailable;
 
     public int getSparePartId(){
-        return sparePartId;
+        return spare_part_id;
     }
 
     public void setSparePartId(int value){
-        this.sparePartId = value;
+        this.spare_part_id = value;
     }
 
     public String getName(){
@@ -26,20 +22,36 @@ public class spare_part extends Bean{
     }
 
     public int getAmountAvailable(){
-        return amountAvailable;
+        return amount_available;
     }
 
     public void setAmountAvailable(int value){
-        this.amountAvailable = value;
+        this.amount_available = value;
     }
 
     @Override
-    public Field[] getFieldsOrdered(){
-        return null;
+    public Field[] getFieldsOrdered() throws NoSuchFieldException{
+        Class type = this.getClass();
+        Field[] fields = {
+                type.getDeclaredField("spare_part_id"),
+                type.getDeclaredField("name"),
+                type.getDeclaredField("amount_available")
+        };
+        for (Field field: fields) {
+            field.setAccessible(true);
+        }
+        return fields;
     }
 
     @Override
     public spare_part setFields(Map<String, String> fieldValues) {
-        return null;
+        spare_part_id = Integer.valueOf(fieldValues.get("spare_part_id"));
+        name = fieldValues.get("name");
+        amount_available = Integer.valueOf(fieldValues.get("amount_available"));
+        return this;
     }
+
+    private int spare_part_id;
+    private String name;
+    private int amount_available;
 }

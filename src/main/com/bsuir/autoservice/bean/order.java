@@ -1,20 +1,13 @@
 package main.com.bsuir.autoservice.bean;
 
 import java.lang.reflect.Field;
+import java.text.ParseException;
 import java.util.*;
 
 public class order extends Bean{
     public enum State{
         QUEUED, EXECUTING, DONE, REJECTED
     }
-
-    private int id;
-    private int userId;
-    private int serviceShopId;
-    private Date dateOpen;
-    private Date dateClose;
-    private int sum;
-    private State state;
 
     public int getId() {
         return id;
@@ -25,35 +18,35 @@ public class order extends Bean{
     }
 
     public int getUserId(){
-        return userId;
+        return user_id;
     }
 
     public void setUserId(int value){
-        this.userId = value;
+        this.user_id = value;
     }
 
     public int getServiceShopId(){
-        return serviceShopId;
+        return service_shop_id;
     }
 
     public void setServiceShopId(int value){
-        this.serviceShopId = value;
+        this.service_shop_id = value;
     }
 
     public Date getDateOpen(){
-        return dateOpen;
+        return date_open;
     }
 
     public void setDateOpen(Date value){
-        this.dateOpen = value;
+        this.date_open = value;
     }
 
     public Date getDateClose(){
-        return dateClose;
+        return date_close;
     }
 
     public void setDateClose(Date value){
-        this.dateClose = value;
+        this.date_close = value;
     }
 
     public int getSum(){
@@ -73,12 +66,40 @@ public class order extends Bean{
     }
 
     @Override
-    public Field[] getFieldsOrdered(){
-        return null;
+    public Field[] getFieldsOrdered() throws NoSuchFieldException{
+        Class type = this.getClass();
+        Field[] fields = {
+                type.getDeclaredField("id"),
+                type.getDeclaredField("user_id"),
+                type.getDeclaredField("service_shop_id"),
+                type.getDeclaredField("date_open"),
+                type.getDeclaredField("date_close"),
+                type.getDeclaredField("sum"),
+                type.getDeclaredField("state")
+        };
+        for (Field field: fields) {
+            field.setAccessible(true);
+        }
+        return fields;
     }
 
     @Override
-    public order setFields(Map<String, String> fieldValues) {
-        return null;
+    public order setFields(Map<String, String> fieldValues) throws ParseException{
+        id = Integer.valueOf(fieldValues.get("id"));
+        user_id = Integer.valueOf(fieldValues.get("user_id"));
+        service_shop_id = Integer.valueOf(fieldValues.get("service_shop_id"));
+        date_open = dateFormat.parse(fieldValues.get("date_open"));
+        date_close = dateFormat.parse(fieldValues.get("date_close"));
+        sum = Integer.valueOf(fieldValues.get("sum"));
+        state = State.valueOf(fieldValues.get("state"));
+        return this;
     }
+
+    private int id;
+    private int user_id;
+    private int service_shop_id;
+    private Date date_open;
+    private Date date_close;
+    private int sum;
+    private State state;
 }

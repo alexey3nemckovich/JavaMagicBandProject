@@ -47,7 +47,6 @@ public class Servlet extends HttpServlet {
     private void executeRequest(HttpServletRequest request, HttpServletResponse response)
             throws ControllerException, CommandException {
         String url = getUrl(request.getRequestURI());
-        Enumeration en = request.getParameterNames();
         IController controller = controllerProvider.getController(url);
         Object resultData = controller.invokeCommand(request.getParameterMap());
         controller.returnResult(request, response, resultData);

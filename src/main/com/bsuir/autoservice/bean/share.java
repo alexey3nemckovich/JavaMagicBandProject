@@ -1,19 +1,13 @@
 package main.com.bsuir.autoservice.bean;
 
 import java.lang.reflect.Field;
+import java.text.ParseException;
 import java.util.*;
 
 public class share extends Bean{
     public enum State{
         ACTIVE, EXPIRED
     }
-
-    private int id;
-    private Date dateStart;
-    private Date dateEnd;
-    private int value;
-    private String description;
-    private State state;
 
     public int getId(){
         return id;
@@ -24,19 +18,19 @@ public class share extends Bean{
     }
 
     public Date getDateStart(){
-        return dateStart;
+        return date_start;
     }
 
     public void setDateStart(Date value){
-        this.dateStart = value;
+        this.date_start = value;
     }
 
     public Date getDateEnd(){
-        return dateEnd;
+        return date_end;
     }
 
     public void setDateEnd(Date value){
-        this.dateEnd = value;
+        this.date_end = value;
     }
 
     public int getValue(){
@@ -64,12 +58,37 @@ public class share extends Bean{
     }
 
     @Override
-    public Field[] getFieldsOrdered(){
-        return null;
+    public Field[] getFieldsOrdered() throws NoSuchFieldException{
+        Class type = this.getClass();
+        Field[] fields = {
+                type.getDeclaredField("id"),
+                type.getDeclaredField("date_start"),
+                type.getDeclaredField("date_end"),
+                type.getDeclaredField("value"),
+                type.getDeclaredField("description"),
+                type.getDeclaredField("state")
+        };
+        for (Field field: fields) {
+            field.setAccessible(true);
+        }
+        return fields;
     }
 
     @Override
-    public share setFields(Map<String, String> fieldValues) {
-        return null;
+    public share setFields(Map<String, String> fieldValues) throws ParseException{
+        id = Integer.valueOf(fieldValues.get("id"));
+        date_start = dateFormat.parse(fieldValues.get("date_start"));
+        date_end = dateFormat.parse(fieldValues.get("date_end"));
+        value = Integer.valueOf(fieldValues.get("value"));
+        description = fieldValues.get("description");
+        state = State.valueOf(fieldValues.get("state"));
+        return this;
     }
+
+    private int id;
+    private Date date_start;
+    private Date date_end;
+    private int value;
+    private String description;
+    private State state;
 }

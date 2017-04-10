@@ -1,27 +1,34 @@
 package main.com.bsuir.autoservice.bean;
 
+import javax.swing.text.DateFormatter;
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public abstract class Bean {
-    public abstract Field[] getFieldsOrdered();
-    public abstract Bean setFields(Map<String, String> fieldValues);
 
+    public abstract Field[] getFieldsOrdered() throws NoSuchFieldException;
+    public abstract Bean setFields(Map<String, String> fieldValues) throws ParseException;
+
+    @SuppressWarnings("unchecked")
     public static Bean getBeanObject(String beanName, Map<String, String> fields)
-            throws ClassNotFoundException, IllegalAccessException, InstantiationException{
-        Class<? extends Bean> beanClass = (Class<? extends Bean>)Class.forName(Bean.class.getPackage().getName() + '.' + beanName);
+            throws ClassNotFoundException, IllegalAccessException, InstantiationException, ParseException{
+        Class<? extends Bean> beanClass =
+                (Class<? extends Bean>)Class.forName(
+                        Bean.class.getPackage().getName() + '.' + beanName
+                );
         Bean bean = beanClass.newInstance();
         bean.setFields(fields);
         return bean;
     }
 
-    public LinkedHashMap<String, String> getFieldValues() throws IllegalAccessException{
+    public LinkedHashMap<String, String> getFieldValues()
+            throws IllegalAccessException, NoSuchFieldException{
         LinkedHashMap<String, String> fieldValues = new LinkedHashMap<>();
         Field[] fields = getFieldsOrdered();
-        Object fieldValue = null;
+        Object fieldValue;
         for (Field field: fields) {
             fieldValue = field.get(this);
             if(null != fieldValue){
@@ -33,17 +40,5 @@ public abstract class Bean {
         return fieldValues;
     }
 
-    @Override
-    public String toString(){
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append('{');
-        Field[] fields = getFieldsOrdered();
-        for(int i = 0; i < fields.length; i++){
-            stringBuilder.append(fields[i]);
-            if (fields.length - 1 != i){
-                stringBuilder.append(", ");
-            }
-        }
-        return stringBuilder.toString();
-    }
+    protected static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 }

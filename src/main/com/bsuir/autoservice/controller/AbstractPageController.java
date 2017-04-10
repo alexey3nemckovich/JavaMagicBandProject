@@ -1,9 +1,11 @@
 package main.com.bsuir.autoservice.controller;
 
+import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.ICommandParam;
 import main.com.bsuir.autoservice.controller.action.Action;
 import main.com.bsuir.autoservice.controller.exception.ControllerException;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Field;
@@ -14,6 +16,7 @@ public abstract class AbstractPageController implements IController {
 
     protected abstract String getJspName();
 
+    @Inject
     protected AbstractPageController(Map<String, Action> actionMap){
         this.actionMap = actionMap;
     }
@@ -28,8 +31,9 @@ public abstract class AbstractPageController implements IController {
                 action = actionMap.get(params.get("action")[0]);
             }
             ICommandParam commandParam = action.getCommandParam();
+            ICommand command = action.getCommand();
             commandParam.parse(params);
-            return action.getCommand().execute(commandParam);
+            return command.execute(commandParam);
         } catch (Exception e){
             throw new ControllerException(e);
         }

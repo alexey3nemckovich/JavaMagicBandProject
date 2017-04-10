@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 public class service extends Bean{
-    private int id;
-    private String name;
-    private int cost;
 
     public int getId(){
         return id;
@@ -34,12 +31,28 @@ public class service extends Bean{
     }
 
     @Override
-    public Field[] getFieldsOrdered(){
-        return null;
+    public Field[] getFieldsOrdered() throws NoSuchFieldException{
+        Class type = this.getClass();
+        Field[] fields = {
+                type.getDeclaredField("id"),
+                type.getDeclaredField("name"),
+                type.getDeclaredField("cost")
+        };
+        for (Field field: fields) {
+            field.setAccessible(true);
+        }
+        return fields;
     }
 
     @Override
     public service setFields(Map<String, String> fieldValues) {
-        return null;
+        id = Integer.valueOf(fieldValues.get("id"));
+        name = fieldValues.get("name");
+        cost = Integer.valueOf(fieldValues.get("cost"));
+        return this;
     }
+
+    private int id;
+    private String name;
+    private int cost;
 }
