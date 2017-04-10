@@ -34,7 +34,10 @@ public class Sql implements ISql {
 
     @Override
     public String getUpdateQuery(String tableName, Map<String, String> oldValues, Map<String, String> newValues){
-        return null;
+        return " UPDATE " +
+                tableName +
+                getSetStatement(newValues) +
+                getWhereStatement(oldValues);
     }
 
     @Override

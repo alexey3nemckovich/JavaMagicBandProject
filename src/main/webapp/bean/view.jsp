@@ -78,17 +78,24 @@
                     <c:forEach items="${beans}" var="bean">
                         <form>
                             <tr>
+
                                 <c:forEach items="${bean.getFieldsOrdered()}" var="field">
                                     <td>
                                         <input type="text" name="${field.getName()}" value="${field.get(bean)}"/>
                                     </td>
                                 </c:forEach>
+
                                 <td>
-                                    <%--<button type="submit" formaction="/bean/edit.ass?tableName=${name}&action=edit">Edit</button>--%>
+                                    <button formmethod="post" type="submit" formaction="/bean/edit.ass?tableName=${tableName}">
+                                        Edit
+                                    </button>
                                 </td>
                                 <td>
-                                    <button formmethod="post" type="submit" formaction="/bean/view.ass?tableName=${tableName}&page=${page}&countRecords=${countRecords}&action=delete">Delete</button>
+                                    <button formmethod="post" type="submit" formaction="/bean/view.ass?tableName=${tableName}&page=${page}&countRecords=${countRecords}&action=delete">
+                                        Delete
+                                    </button>
                                 </td>
+
                             </tr>
                         </form>
                     </c:forEach>

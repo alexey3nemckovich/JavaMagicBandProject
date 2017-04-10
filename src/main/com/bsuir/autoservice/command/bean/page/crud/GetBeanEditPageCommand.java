@@ -18,6 +18,7 @@ public class GetBeanEditPageCommand implements ICommand<CrudPageInfo> {
     public CrudPageInfo execute(CrudPageInfo crudPageInfo)
             throws CommandException {
         try {
+            crudPageInfo.action = "edit";
             return crudPageInfo;
         }catch (Exception e){
             throw new CommandException(e);
