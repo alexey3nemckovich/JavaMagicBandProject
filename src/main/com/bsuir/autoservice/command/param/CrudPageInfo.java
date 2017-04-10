@@ -26,8 +26,7 @@ public class CrudPageInfo implements ICommandParam{
         return parse(params, true);
     }
 
-    @Override
-    public Map<String, String[]> parse(Map<String, String[]> params, boolean passRemainderToMap){
+    public Map<String, String[]> parse(Map<String, String[]> params, boolean passRemainderToFieldsMap){
         LinkedHashMap<String, String[]> mParams = new LinkedHashMap<>(params);
         tableName = mParams.get("tableName")[0];
         mParams.remove("tableName");
@@ -37,7 +36,7 @@ public class CrudPageInfo implements ICommandParam{
         }else {
             action = "get";
         }
-        if(passRemainderToMap){
+        if(passRemainderToFieldsMap){
             for (Map.Entry<String, String[]> param: mParams.entrySet()) {
                 fields.put(param.getKey(), param.getValue()[0]);
             }

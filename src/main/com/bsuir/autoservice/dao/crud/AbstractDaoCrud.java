@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
+import java.util.Map;
 
 //TODO: call with prepare statement set in components
 public abstract class AbstractDaoCrud<Entity extends Bean, PrimaryKey> implements IDaoCrud<Entity, PrimaryKey> {
@@ -53,10 +54,10 @@ public abstract class AbstractDaoCrud<Entity extends Bean, PrimaryKey> implement
     }
 
     @Override
-    public boolean update(Entity entity) throws DaoException {
+    public boolean update(Entity entity, Map<String, String> conditionValues) throws DaoException {
         try(Connection connection = db.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(
-                    sql.getUpdateQuery(getTableName(), null, entity.getFieldValues())
+                    sql.getUpdateQuery(getTableName(), conditionValues, entity.getFieldValues())
             )) {
                 return ps.execute();
             }

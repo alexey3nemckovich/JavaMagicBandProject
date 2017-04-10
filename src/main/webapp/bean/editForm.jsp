@@ -1,3 +1,6 @@
+<%@ page import="org.json.JSONObject" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.net.URLEncoder" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -12,15 +15,21 @@
     </div>
 
     <%
-        String url = (String) request.getAttribute("javax.servlet.include.query_string");
         String action = request.getAttribute("action").toString();
         String tableName = request.getAttribute("tableName").toString();
-        String formAction = url + "?tableName=" + tableName + "&action=" + action;
+        String formAction = "?tableName=" + tableName + "&action=" + action;
         if(action.equals("edit")){
-            
-            formAction += "";
+            Map<String, String> fields = (Map<String, String>)request.getAttribute("fields");
+            JSONObject oldValues = new JSONObject(fields);
+            String oldValuesParamString = oldValues.toString();
+            oldValuesParamString = oldValuesParamString.replace("\"", "\\\"");
+            formAction += "&oldValues=" + URLEncoder.encode(oldValuesParamString, "UTF-8");
         }
     %>
+
+    <h2>
+        <%=formAction%>
+    </h2>
 
     <c:if test="${not empty result}">
         <h1>
@@ -30,7 +39,7 @@
 
     <div class="centered_parent">
 
-        <form class="centered" action=""<%=formAction%>"  method="post">
+        <form class="centered" action="<%=formAction%>"  method="post">
 
             <table>
                 <c:forEach items="${fields}" var="field">

@@ -5,6 +5,7 @@ import main.com.bsuir.autoservice.dao.crud.IDaoCrud;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 
 import java.util.List;
+import java.util.Map;
 
 public abstract class AbstractServiceCrud<PrimaryKey,Entity> implements IServiceCrud<PrimaryKey,Entity> {
     private final IDaoCrud<Entity, PrimaryKey> daoCrud;
@@ -42,9 +43,9 @@ public abstract class AbstractServiceCrud<PrimaryKey,Entity> implements IService
     }
 
     @Override
-    public boolean update(Entity entity) throws ServiceException {
+    public boolean update(Entity entity, Map<String, String> conditionValues) throws ServiceException {
         try {
-            return daoCrud.update(entity);
+            return daoCrud.update(entity, conditionValues);
         }catch (Exception e){
             throw new ServiceException(e);
         }

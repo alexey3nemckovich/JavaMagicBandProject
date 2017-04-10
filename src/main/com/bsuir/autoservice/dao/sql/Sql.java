@@ -33,16 +33,27 @@ public class Sql implements ISql {
     }
 
     @Override
-    public String getUpdateQuery(String tableName, Map<String, String> oldValues, Map<String, String> newValues){
+    public String getUpdateQuery(String tableName, Map<String, String> conditionValues, Map<String, String> newValues){
         return " UPDATE " +
                 tableName +
                 getSetStatement(newValues) +
-                getWhereStatement(oldValues);
+                getWhereStatement(conditionValues);
     }
 
     @Override
     public String getSetStatement(Map<String, String> values){
-        return null;
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(" SET ");
+        Map.Entry[] array = values.entrySet().toArray(new Map.Entry[0]);
+        for(int i = 0; i < values.size(); i++){
+            stringBuilder.append(
+                    array[i].getKey() + "=" + "'" + array[i].getValue() + "' "
+            );
+            if(values.size() - 1 != i){
+                stringBuilder.append(", ");
+            }
+        }
+        return stringBuilder.toString();
     }
 
     @Override

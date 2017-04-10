@@ -10,7 +10,7 @@ public interface ISql {
     String getDeleteQuery(String tableName, Map<String, String> values);
     String getInsertQuery(String tableName, List<String> values);
     String getInsertQuery(String tableName, Map<String, String> values);
-    String getUpdateQuery(String tableName, Map<String, String> oldValues, Map<String, String> newValues);
+    String getUpdateQuery(String tableName, Map<String, String> conditionValues, Map<String, String> newValues);
     //statements
     String getValuesStatement(List<String> values);
     String getSetStatement(Map<String, String> values);

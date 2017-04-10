@@ -11,9 +11,4 @@ public class BeanMainPageInfo implements ICommandParam{
     public Map<String, String[]> parse(Map<String, String[]> params){
         return params;
     }
-
-    @Override
-    public Map<String, String[]> parse(Map<String, String[]> params, boolean parseParamsToMap){
-        return params;
-    }
 }
