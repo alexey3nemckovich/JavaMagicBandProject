@@ -17,7 +17,7 @@ public class BeanViewActionMapProvider extends ActionMapProvider {
 
     @Override
     protected void initMap(Injector injector){
-        putAction("get", injector.getInstance(BeanViewPageInfo.class), injector.getInstance(GetBeanViewPageCommand.class));
-        putAction("delete", injector.getInstance(BeanViewPageInfo.class), injector.getInstance(DeleteBeanCommand.class));
+        putAction("get", BeanViewPageInfo.class, injector.getInstance(GetBeanViewPageCommand.class));
+        putAction("delete", BeanViewPageInfo.class, injector.getInstance(DeleteBeanCommand.class));
     }
 }

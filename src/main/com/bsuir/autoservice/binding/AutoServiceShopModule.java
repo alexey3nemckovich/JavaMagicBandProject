@@ -23,6 +23,7 @@ import main.com.bsuir.autoservice.command.param.BeanMainPageInfo;
 import main.com.bsuir.autoservice.command.bean.page.main.GetBeanMainPageCommand;
 import main.com.bsuir.autoservice.command.param.BeanViewPageInfo;
 import main.com.bsuir.autoservice.command.bean.page.view.GetBeanViewPageCommand;
+import main.com.bsuir.autoservice.command.param.EditPageInfo;
 import main.com.bsuir.autoservice.config.database.impl.sql.ISqlConfigDatabase;
 import main.com.bsuir.autoservice.config.database.impl.sql.impl.SqlConfigDatabase;
 import main.com.bsuir.autoservice.controller.IController;
@@ -129,9 +130,9 @@ public class AutoServiceShopModule extends AbstractModule{
     }
 
     private void bindCommandParams(){
-        bind(CrudPageInfo.class).in(Singleton.class);
-        bind(BeanMainPageInfo.class).in(Singleton.class);
-        bind(BeanViewPageInfo.class).in(Singleton.class);
+        bind(CrudPageInfo.class);
+        bind(EditPageInfo.class);
+        bind(BeanViewPageInfo.class);
     }
 
     private void bindService() {

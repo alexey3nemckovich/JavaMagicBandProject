@@ -14,6 +14,6 @@ public class BeanActionMapProvider extends ActionMapProvider {
 
     @Override
     protected void initMap(Injector injector){
-        putAction("get", injector.getInstance(BeanMainPageInfo.class), injector.getInstance(GetBeanMainPageCommand.class));
+        putAction("get", BeanMainPageInfo.class, injector.getInstance(GetBeanMainPageCommand.class));
     }
 }

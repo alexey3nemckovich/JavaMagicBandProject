@@ -12,7 +12,7 @@ public class EditPageInfo extends CrudPageInfo implements ICommandParam{
     public LinkedHashMap<String, String> oldFields;
 
     @Inject
-    EditPageInfo(){
+    public EditPageInfo(){
         oldFields = new LinkedHashMap<>();
     }
 
@@ -31,7 +31,7 @@ public class EditPageInfo extends CrudPageInfo implements ICommandParam{
                 this.oldFields.put(entry.getKey(), entry.getValue().toString());
             }
         }
-        mParams.remove("oldValuesJsonString");
+        mParams.remove("oldValues");
 
         for (Map.Entry<String, String[]> param: mParams.entrySet()) {
             fields.put(param.getKey(), param.getValue()[0]);

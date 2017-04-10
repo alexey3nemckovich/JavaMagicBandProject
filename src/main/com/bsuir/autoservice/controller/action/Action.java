@@ -4,19 +4,19 @@ import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.ICommandParam;
 
 public class Action {
-    public Action(ICommandParam commandParam, ICommand command){
-        this.commandParam = commandParam;
+    public Action(Class<? extends ICommandParam> commandParamClass, ICommand command){
+        this.commandParamClass = commandParamClass;
         this.command = command;
     }
 
-    public ICommandParam getCommandParam(){
-        return commandParam;
+    public Class<? extends ICommandParam> getCommandParamClass(){
+        return commandParamClass;
     }
 
     public ICommand getCommand(){
         return command;
     }
 
-    private final ICommandParam commandParam;
+    private final Class<? extends ICommandParam> commandParamClass;
     private final ICommand command;
 }

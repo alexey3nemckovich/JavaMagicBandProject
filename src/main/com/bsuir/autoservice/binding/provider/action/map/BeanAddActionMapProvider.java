@@ -15,7 +15,7 @@ public class BeanAddActionMapProvider extends ActionMapProvider {
 
     @Override
     protected void initMap(Injector injector){
-        putAction("get", injector.getInstance(CrudPageInfo.class), injector.getInstance(GetBeanAddPageCommand.class));
-        putAction("add", injector.getInstance(CrudPageInfo.class), injector.getInstance(AddBeanCommand.class));
+        putAction("get", CrudPageInfo.class, injector.getInstance(GetBeanAddPageCommand.class));
+        putAction("add", CrudPageInfo.class, injector.getInstance(AddBeanCommand.class));
     }
 }

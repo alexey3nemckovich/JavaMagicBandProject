@@ -10,7 +10,7 @@ public abstract class ActionMapProvider extends MapProvider<String, Action>{
 
     protected ActionMapProvider(Injector injector){super(injector);}
 
-    protected void putAction(String action, ICommandParam commandParam, ICommand command){
-        map.put(action, new Action(commandParam, command));
+    protected void putAction(String action, Class<? extends ICommandParam> commandParamClass, ICommand command){
+        map.put(action, new Action(commandParamClass, command));
     }
 }
