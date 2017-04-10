@@ -2,11 +2,13 @@ package main.com.bsuir.autoservice.command.bean.crud;
 
 import com.google.inject.Inject;
 import main.com.bsuir.autoservice.bean.Bean;
+import main.com.bsuir.autoservice.bean.BeanException;
 import main.com.bsuir.autoservice.binding.annotation.Default;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.BeanViewPageInfo;
 import main.com.bsuir.autoservice.command.param.CrudPageInfo;
+import main.com.bsuir.autoservice.exception.ExceptionUnwrapper;
 import main.com.bsuir.autoservice.service.crud.IServiceCrud;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
@@ -40,10 +42,11 @@ public class DeleteBeanCommand implements ICommand<BeanViewPageInfo> {
             }
             beanViewPageInfo.beans = serviceCrud.read(index, beanViewPageInfo.countRecords);
             return beanViewPageInfo;
-        }catch (ServiceException |  e){
+        }catch (ServiceException | BeanException e){
+            //log
             beanViewPageInfo.result = String.format(
                     "Failed to delete record: %s",
-                    e.getMessage()
+                    ExceptionUnwrapper.getRootException(e).getMessage()
             );
             return beanViewPageInfo;
         }catch (Exception e){

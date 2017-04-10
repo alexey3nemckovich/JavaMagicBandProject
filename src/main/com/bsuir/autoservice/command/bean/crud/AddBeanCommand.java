@@ -2,10 +2,12 @@ package main.com.bsuir.autoservice.command.bean.crud;
 
 import com.google.inject.Inject;
 import main.com.bsuir.autoservice.bean.Bean;
+import main.com.bsuir.autoservice.bean.BeanException;
 import main.com.bsuir.autoservice.binding.annotation.Default;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.CrudPageInfo;
+import main.com.bsuir.autoservice.exception.ExceptionUnwrapper;
 import main.com.bsuir.autoservice.service.crud.IServiceCrud;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
@@ -27,13 +29,16 @@ public class AddBeanCommand implements ICommand<CrudPageInfo>{
             serviceCrud.create(bean);
             crudPageInfo.result = "Operation success";
             return crudPageInfo;
-        }catch (Exception e){
+        }catch (ServiceException | BeanException e){
+            //log
             crudPageInfo.result = String.format(
                     "Failed to add new '%s': %s.",
                     crudPageInfo.tableName,
-                    e.getMessage()
+                    ExceptionUnwrapper.getRootException(e).getMessage()
             );
             return crudPageInfo;
+        }catch (Exception e){
+            throw new CommandException(e);
         }
     }
 
