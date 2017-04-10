@@ -25,11 +25,6 @@ public class StaffDao extends AbstractDaoCrud<staff, Integer> implements IStaffD
     }
 
     @Override
-    public String getPrimaryKeyName() {
-        return primaryKeyName;
-    }
-
-    @Override
     public List<staff> parseResultSet(ResultSet rs) throws DaoException {
         LinkedList<staff> result = new LinkedList<>();
         try {
@@ -48,6 +43,4 @@ public class StaffDao extends AbstractDaoCrud<staff, Integer> implements IStaffD
     }
 
     private static final String tableName = "staff";
-    private static final String primaryKeyName = "id";
-    private static final Map<String, String> dbFieldsNames = new HashMap<>();
 }

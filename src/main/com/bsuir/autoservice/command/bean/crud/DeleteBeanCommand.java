@@ -24,11 +24,10 @@ public class DeleteBeanCommand implements ICommand<BeanViewPageInfo> {
             Bean bean = Bean.getBeanObject(beanViewPageInfo.tableName, beanViewPageInfo.fields);
             serviceCrud.delete(bean);
             beanViewPageInfo.result = "Operation success";
-            beanViewPageInfo.beans.remove(bean);
             //change page content
             int totalBeanCount = serviceCrud.readTotalCount();
             beanViewPageInfo.totalPagesCount = totalBeanCount / beanViewPageInfo.countRecords;
-            if(0 != totalBeanCount% beanViewPageInfo.countRecords){
+            if(0 != totalBeanCount % beanViewPageInfo.countRecords){
                 beanViewPageInfo.totalPagesCount++;
             }
             if(beanViewPageInfo.totalPagesCount < beanViewPageInfo.page){

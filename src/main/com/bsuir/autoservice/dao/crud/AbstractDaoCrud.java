@@ -11,10 +11,8 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 
-//TODO: call with prepare statement set in components
 public abstract class AbstractDaoCrud<Entity extends Bean, PrimaryKey> implements IDaoCrud<Entity, PrimaryKey> {
 
-    protected abstract String getPrimaryKeyName();
     protected abstract List<Entity> parseResultSet(ResultSet rs) throws DaoException;
 
     protected AbstractDaoCrud(IDatabase db, ISql sql){
@@ -24,13 +22,14 @@ public abstract class AbstractDaoCrud<Entity extends Bean, PrimaryKey> implement
 
     @Override
     public int getCountRecords() throws DaoException{
+        String varName = "rowcount";
         try(Connection connection = db.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(
-                    String.format("SELECT COUNT(*) AS rowcount FROM %s", getTableName())
+                    sql.getSelectCountQuery(getTableName(), varName)
             )) {
                 ResultSet rs = ps.executeQuery();
                 rs.next();
-                int count = rs.getInt("rowcount");
+                int count = rs.getInt(varName);
                 rs.close();
                 return count;
             }
@@ -40,10 +39,10 @@ public abstract class AbstractDaoCrud<Entity extends Bean, PrimaryKey> implement
     }
 
     @Override
-    public List<Entity> getRange(int startRange, int count) throws DaoException {
+    public List<Entity> getRange(int startIndex, int count) throws DaoException {
         try(Connection connection = db.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(
-                    String.format("%s LIMIT %d, %d", getSelectAllQuery(),startRange,count)
+                    sql.getSelectRangeQuery(getTableName(), startIndex, count)
             )) {
                 ResultSet rs = ps.executeQuery();
                 return parseResultSet(rs);
@@ -90,24 +89,6 @@ public abstract class AbstractDaoCrud<Entity extends Bean, PrimaryKey> implement
         } catch (Exception e) {
             throw new DaoException(e);
         }
-    }
-
-    @Override
-    public Entity getByPrimaryKey(PrimaryKey key) throws DaoException{
-        try(Connection connection = db.getConnection()){
-            try(PreparedStatement ps = connection.prepareStatement(
-                    String.format("%s WHERE `%s` = '%s'", getSelectAllQuery(), getPrimaryKeyName(), key.toString())
-            )) {
-                ResultSet rs = ps.executeQuery();
-                return parseResultSet(rs).get(0);
-            }
-        } catch (Exception e) {
-            throw new DaoException(e);
-        }
-    }
-
-    private String getSelectAllQuery(){
-        return String.format("SELECT * FROM `%s`", getTableName());
     }
 
     private final IDatabase db;

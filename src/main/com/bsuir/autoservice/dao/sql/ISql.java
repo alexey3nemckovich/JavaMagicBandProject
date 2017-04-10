@@ -6,7 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 public interface ISql {
-    //queries
+    //select queries
+    String getSelectAllQuery(String tableName);
+    String getSelectCountQuery(String tableName, String varName);
+    String getSelectRangeQuery(String tableName, int startIndex, int count);
+    //crud
     String getDeleteQuery(String tableName, Map<String, String> values);
     String getInsertQuery(String tableName, List<String> values);
     String getInsertQuery(String tableName, Map<String, String> values);

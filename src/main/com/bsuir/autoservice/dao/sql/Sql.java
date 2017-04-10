@@ -7,6 +7,25 @@ import java.util.Map;
 public class Sql implements ISql {
 
     @Override
+    public String getSelectAllQuery(String tableName){
+        return " SELECT * FROM " + tableName;
+    }
+
+    @Override
+    public String getSelectCountQuery(String tableName, String varName){
+        return " SELECT COUNT(*) AS " +
+                varName +
+                " FROM " + tableName;
+    }
+
+    @Override
+    public String getSelectRangeQuery(String tableName, int startIndex, int count){
+        return getSelectAllQuery(tableName) +
+                " LIMIT " +
+                startIndex + ", " + count;
+    }
+
+    @Override
     public String getDeleteQuery(String tableName, Map<String, String> values){
         return " DELETE FROM " +
                 tableName +

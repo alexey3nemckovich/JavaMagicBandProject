@@ -26,11 +26,6 @@ public class OrderDao extends AbstractDaoCrud<order, Integer> implements IOrderD
     }
 
     @Override
-    public String getPrimaryKeyName() {
-        return primaryKeyName;
-    }
-
-    @Override
     public List<order> parseResultSet(ResultSet rs) throws DaoException{
         try {
             throw new NotImplementedException();
@@ -40,6 +35,4 @@ public class OrderDao extends AbstractDaoCrud<order, Integer> implements IOrderD
     }
 
     private static final String tableName = "order";
-    private static final String primaryKeyName = "id";
-    private static final Map<String, String> dbFieldsNames = new HashMap<>();
 }

@@ -19,25 +19,11 @@ public class UserDao extends AbstractDaoCrud<user, Integer> implements IUserDao 
     @Inject
     public UserDao(IDatabase db, ISql sql) {
         super(db, sql);
-        dbFieldsNames = new HashMap<>();
-        dbFieldsNames.put("id", "id");
-        dbFieldsNames.put("mail", "mail");
-        dbFieldsNames.put("login", "login");
-        dbFieldsNames.put("password", "password");
-        dbFieldsNames.put("phone", "phone");
-        dbFieldsNames.put("name", "name");
-        dbFieldsNames.put("lastName", "last_name");
-        dbFieldsNames.put("type", "type");
     }
 
     @Override
     public String getTableName() {
         return tableName;
-    }
-
-    @Override
-    public String getPrimaryKeyName() {
-        return primaryKeyName;
     }
 
     @Override
@@ -63,6 +49,4 @@ public class UserDao extends AbstractDaoCrud<user, Integer> implements IUserDao 
     }
 
     private final String tableName = "user";
-    private final String primaryKeyName = "id";
-    private final Map<String, String> dbFieldsNames;
 }

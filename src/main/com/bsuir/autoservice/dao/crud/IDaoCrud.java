@@ -11,5 +11,4 @@ public interface IDaoCrud<Entity, PrimaryKey> extends IDao{
     boolean update(Entity entity, Map<String, String> conditionValues) throws DaoException;
     boolean delete(Entity entity) throws DaoException;
     boolean insert(Entity entity) throws DaoException;
-    Entity getByPrimaryKey(PrimaryKey key) throws DaoException;
 }
