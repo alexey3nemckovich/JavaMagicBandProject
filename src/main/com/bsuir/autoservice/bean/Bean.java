@@ -1,59 +1,50 @@
 package main.com.bsuir.autoservice.bean;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public abstract class Bean {
-    abstract List<String> getFieldsOrdered();
 
-    public Map<String, String> getAllFields() throws BeanException{
-        Map<String, String> fieldsStringValues = new HashMap<String, String>();
-        Field[] fields = Bean.class.getFields();
-        for (Field field: fields) {
-            field.setAccessible(true);
-            try {
-                fieldsStringValues.put(field.getName(), field.get(this).toString());
-            }catch (IllegalAccessException e){
-                throw new BeanException(e);
-            }
-        }
-        return fieldsStringValues;
-    }
+    public abstract Field[] getFieldsOrdered() throws BeanException;
+    public abstract Bean setFields(Map<String, String> fieldValues) throws BeanException;
 
-    public String getField(String fieldName) throws BeanException{
+    @SuppressWarnings("unchecked")
+    public static Bean getBeanObject(String beanName, Map<String, String> fields) throws BeanException{
         try {
-            return this.getClass().getField(fieldName).toString();
-        }catch (NoSuchFieldException e){
+            Class<? extends Bean> beanClass =
+                    (Class<? extends Bean>)Class.forName(
+                            Bean.class.getPackage().getName() + '.' + beanName
+                    );
+            Bean bean = beanClass.newInstance();
+            bean.setFields(fields);
+            return bean;
+        }catch (Exception e){
             throw new BeanException(e);
         }
     }
 
-    public void setField(String fieldName, Object value) throws BeanException{
+    public LinkedHashMap<String, String> getFieldValues() throws BeanException{
         try {
-            Field field = this.getClass().getField(fieldName);
-            field.setAccessible(true);
-            field.set(this, value);
-        }catch (NoSuchFieldException e){
-            throw new BeanException(e);
-        }
-        catch (IllegalAccessException e){
+            LinkedHashMap<String, String> fieldValues = new LinkedHashMap<>();
+            Field[] fields = getFieldsOrdered();
+            Object fieldValue;
+            for (Field field: fields) {
+                fieldValue = field.get(this);
+                if(null != fieldValue){
+                    fieldValues.put(field.getName(), fieldValue.toString());
+                }else{
+                    fieldValues.put(field.getName(), "");
+                }
+            }
+            return fieldValues;
+        }catch (Exception e){
             throw new BeanException(e);
         }
     }
 
-    @Override
-    public String toString(){
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append('{');
-        List<String> fields = getFieldsOrdered();
-        for(int i = 0; i < fields.size(); i++){
-            stringBuilder.append(fields.get(i));
-            if (fields.size() - 1 != i){
-                stringBuilder.append(", ");
-            }
-        }
-        return stringBuilder.toString();
-    }
+    protected static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 }
