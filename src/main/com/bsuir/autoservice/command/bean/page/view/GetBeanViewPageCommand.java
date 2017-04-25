@@ -9,9 +9,7 @@ import main.com.bsuir.autoservice.service.crud.IServiceCrud;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 
-import java.util.Map;
-
-public class GetBeanViewPageCommand implements ICommand<BeanViewPageInfo> {
+public class GetBeanViewPageCommand implements ICommand<BeanViewPageInfo, BeanViewPageInfo> {
 
     @Inject
     public GetBeanViewPageCommand(@Default IServiceUnitOfWork serviceUnitOfWork){

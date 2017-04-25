@@ -8,10 +8,7 @@ import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.CrudPageInfo;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 
-import java.lang.reflect.Field;
-import java.util.HashMap;
-
-public class GetBeanAddPageCommand implements ICommand<CrudPageInfo> {
+public class GetBeanAddPageCommand implements ICommand<CrudPageInfo, CrudPageInfo> {
 
     @Inject
     public GetBeanAddPageCommand(@Default IServiceUnitOfWork serviceUnitOfWork){

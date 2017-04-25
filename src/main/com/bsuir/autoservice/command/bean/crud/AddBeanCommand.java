@@ -12,9 +12,7 @@ import main.com.bsuir.autoservice.service.crud.IServiceCrud;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 
-import java.text.ParseException;
-
-public class AddBeanCommand implements ICommand<CrudPageInfo>{
+public class AddBeanCommand implements ICommand<CrudPageInfo, CrudPageInfo>{
 
     @Inject
     public AddBeanCommand(@Default IServiceUnitOfWork serviceUnitOfWork){

@@ -7,7 +7,7 @@ import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.BeanMainPageInfo;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 
-public class GetBeanMainPageCommand implements ICommand<BeanMainPageInfo> {
+public class GetBeanMainPageCommand implements ICommand<BeanMainPageInfo, BeanMainPageInfo> {
 
     @Inject
     public GetBeanMainPageCommand(@Default IServiceUnitOfWork serviceUnitOfWork){

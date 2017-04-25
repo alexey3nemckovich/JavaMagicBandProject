@@ -7,7 +7,7 @@ import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.CrudPageInfo;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 
-public class GetBeanEditPageCommand implements ICommand<CrudPageInfo> {
+public class GetBeanEditPageCommand implements ICommand<CrudPageInfo, CrudPageInfo> {
 
     @Inject
     public GetBeanEditPageCommand(@Default IServiceUnitOfWork serviceUnitOfWork){
