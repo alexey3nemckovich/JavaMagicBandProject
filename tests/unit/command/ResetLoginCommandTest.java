@@ -1,6 +1,5 @@
-package command;
+package unit.command;
 
-import general.MockGeneral;
 import general.service.MockService;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.main.ResetLoginCommand;
@@ -8,16 +7,25 @@ import main.com.bsuir.autoservice.command.param.ResetLoginInfo;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 import main.com.bsuir.autoservice.service.crud.user.IUserService;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class ResetLoginCommandTest {
+    private IUserService userService;
+    private ResetLoginCommand resetLoginCommand;
+
+    @Before
+    public void beforeTest(){
+        userService = getUserSevice();
+        IServiceUnitOfWork mockUOF = getServiceUOF(userService);
+        resetLoginCommand = getResetLoginCommand(mockUOF);
+    }
+
     private static IServiceUnitOfWork getServiceUOF(IUserService service){
-        IServiceUnitOfWork mock = MockGeneral.getServiceUnitOfWork();
-        when(mock.getUserService()).thenReturn(service);
-        return mock;
+        return new MockService.ServiceUOFBuilder().setUserService(service).build();
     }
 
     private static IUserService getUserSevice(){
@@ -38,20 +46,14 @@ public class ResetLoginCommandTest {
 
     @Test
     public void resetLoginSuccess() throws ServiceException, CommandException {
-        boolean verifyResetLogin = true;
-        IUserService userService = getUserSevice();
+        final boolean verifyResetLogin = true;
         when(userService.resetLogin(MOCK_EMAIL)).thenReturn(verifyResetLogin);
-        IServiceUnitOfWork mockUOF = getServiceUOF(userService);
-        ResetLoginCommand resetLoginCommand = getResetLoginCommand(mockUOF);
         assertEquals(resetLoginCommand.execute(getResetLoginInfo()), verifyResetLogin);
     }
 
     @Test(expected = CommandException.class)
     public void resetLoginException() throws ServiceException, CommandException {
-        IUserService userService = getUserSevice();
         when(userService.resetLogin(anyString())).thenThrow(ServiceException.class);
-        IServiceUnitOfWork mockUOF =  getServiceUOF(userService);
-        ResetLoginCommand resetLoginCommand = getResetLoginCommand(mockUOF);
         resetLoginCommand.execute(getResetLoginInfo());
     }
 }

@@ -2,8 +2,9 @@ package main.com.bsuir.autoservice.service.unitOfWork;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import main.com.bsuir.autoservice.service.BaseService;
 import main.com.bsuir.autoservice.service.IService;
+import main.com.bsuir.autoservice.service.IServiceService;
+import main.com.bsuir.autoservice.service.IShareService;
 import main.com.bsuir.autoservice.service.crud.IServiceCrud;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 import main.com.bsuir.autoservice.service.crud.order.IOrderService;
@@ -18,6 +19,8 @@ public class DefaultServiceUnitOfWork implements IServiceUnitOfWork {
     private final IUserService userService;
     private final IOrderService orderService;
     private final IStaffService staffService;
+    private final IShareService shareService;
+    private final IServiceService serviceService;
 
     @Inject
     public DefaultServiceUnitOfWork(Injector injector){
@@ -25,6 +28,8 @@ public class DefaultServiceUnitOfWork implements IServiceUnitOfWork {
         userService = injector.getInstance(IUserService.class);
         orderService = injector.getInstance(IOrderService.class);
         staffService = injector.getInstance(IStaffService.class);
+        shareService = injector.getInstance(IShareService.class);
+        serviceService = injector.getInstance(IServiceService.class);
     }
 
     @Override
@@ -42,6 +47,16 @@ public class DefaultServiceUnitOfWork implements IServiceUnitOfWork {
         }catch (Exception e){
             throw new ServiceException(e);
         }
+    }
+
+    @Override
+    public IServiceService getServiceService() {
+        return serviceService;
+    }
+
+    @Override
+    public IShareService getShareService() {
+        return shareService;
     }
 
     @Override
