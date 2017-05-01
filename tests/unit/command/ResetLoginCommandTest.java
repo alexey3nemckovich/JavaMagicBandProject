@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 public class ResetLoginCommandTest {
@@ -55,5 +56,6 @@ public class ResetLoginCommandTest {
     public void resetLoginException() throws ServiceException, CommandException {
         when(userService.resetLogin(anyString())).thenThrow(ServiceException.class);
         resetLoginCommand.execute(getResetLoginInfo());
+        fail();
     }
 }

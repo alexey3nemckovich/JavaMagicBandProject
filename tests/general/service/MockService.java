@@ -1,5 +1,6 @@
 package general.service;
 
+import main.com.bsuir.autoservice.service.INotificationService;
 import main.com.bsuir.autoservice.service.IServiceService;
 import main.com.bsuir.autoservice.service.IShareService;
 import main.com.bsuir.autoservice.service.crud.order.IOrderService;
@@ -17,6 +18,7 @@ public class MockService{
         private IStaffService staffService;
         private IServiceService serviceService;
         private IShareService shareService;
+        private INotificationService notificationService;
 
         public ServiceUOFBuilder setUserService(IUserService userService) {
             this.userService = userService;
@@ -48,6 +50,12 @@ public class MockService{
             return this;
         }
 
+        public ServiceUOFBuilder setNotificationService(INotificationService notificationService) {
+            this.notificationService = notificationService;
+
+            return this;
+        }
+
         public IServiceUnitOfWork build(){
             IServiceUnitOfWork mock = mock(IServiceUnitOfWork.class);
             when(mock.getUserService()).thenReturn(userService);
@@ -55,6 +63,7 @@ public class MockService{
             when(mock.getOrderService()).thenReturn(orderService);
             when(mock.getServiceService()).thenReturn(serviceService);
             when(mock.getShareService()).thenReturn(shareService);
+            when(mock.getNotificationService()).thenReturn(notificationService);
             return mock;
         }
     }
@@ -75,5 +84,9 @@ public class MockService{
 
     public static IShareService getShareService() {
         return mock(IShareService.class);
+    }
+
+    public static INotificationService getNotificationService() {
+        return mock(INotificationService.class);
     }
 }

@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 public class LoginCommandTest {
@@ -57,5 +58,6 @@ public class LoginCommandTest {
     public void checkLoginException() throws ServiceException, CommandException {
         when(userService.checkLogin(anyString(), anyString())).thenThrow(ServiceException.class);
         loginCommand.execute(getLoginInfo());
+        fail();
     }
 }

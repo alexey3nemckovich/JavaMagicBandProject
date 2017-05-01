@@ -1,5 +1,6 @@
 package main.com.bsuir.autoservice.service.unitOfWork;
 
+import main.com.bsuir.autoservice.service.INotificationService;
 import main.com.bsuir.autoservice.service.IService;
 import main.com.bsuir.autoservice.service.IServiceService;
 import main.com.bsuir.autoservice.service.IShareService;
@@ -17,4 +18,5 @@ public interface IServiceUnitOfWork {
    IServiceCrud getServiceCrudForBean(String name) throws ServiceException;
    IServiceService getServiceService();
    IShareService getShareService();
+   INotificationService getNotificationService();
 }

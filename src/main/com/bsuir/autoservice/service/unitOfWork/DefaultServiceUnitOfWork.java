@@ -2,6 +2,7 @@ package main.com.bsuir.autoservice.service.unitOfWork;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import main.com.bsuir.autoservice.service.INotificationService;
 import main.com.bsuir.autoservice.service.IService;
 import main.com.bsuir.autoservice.service.IServiceService;
 import main.com.bsuir.autoservice.service.IShareService;
@@ -21,6 +22,7 @@ public class DefaultServiceUnitOfWork implements IServiceUnitOfWork {
     private final IStaffService staffService;
     private final IShareService shareService;
     private final IServiceService serviceService;
+    private final INotificationService notificationService;
 
     @Inject
     public DefaultServiceUnitOfWork(Injector injector){
@@ -30,6 +32,7 @@ public class DefaultServiceUnitOfWork implements IServiceUnitOfWork {
         staffService = injector.getInstance(IStaffService.class);
         shareService = injector.getInstance(IShareService.class);
         serviceService = injector.getInstance(IServiceService.class);
+        notificationService = injector.getInstance(INotificationService.class);
     }
 
     @Override
@@ -57,6 +60,11 @@ public class DefaultServiceUnitOfWork implements IServiceUnitOfWork {
     @Override
     public IShareService getShareService() {
         return shareService;
+    }
+
+    @Override
+    public INotificationService getNotificationService() {
+        return notificationService;
     }
 
     @Override

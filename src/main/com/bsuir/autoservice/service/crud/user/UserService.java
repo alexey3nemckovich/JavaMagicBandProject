@@ -25,4 +25,9 @@ public class UserService extends AbstractServiceCrud<Integer, user> implements I
     public Boolean resetLogin(String email) throws ServiceException {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public user getGeneralInformation(int userId) throws ServiceException {
+        throw new UnsupportedOperationException();
+    }
 }
