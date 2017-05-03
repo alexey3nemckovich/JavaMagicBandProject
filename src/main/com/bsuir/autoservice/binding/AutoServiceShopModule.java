@@ -1,10 +1,10 @@
 package main.com.bsuir.autoservice.binding;
 
-import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.matcher.Matchers;
 import com.google.inject.name.Names;
+import com.google.inject.servlet.ServletModule;
 import com.google.inject.util.Providers;
 import main.com.bsuir.autoservice.binding.annotation.ControllerProviderArgument;
 import main.com.bsuir.autoservice.binding.annotation.Default;
@@ -40,6 +40,7 @@ import main.com.bsuir.autoservice.controller.bean.BeanController;
 import main.com.bsuir.autoservice.controller.bean.BeanEditController;
 import main.com.bsuir.autoservice.controller.bean.BeanViewController;
 import main.com.bsuir.autoservice.controller.provider.ControllerProvider;
+import main.com.bsuir.autoservice.controller.provider.IControllerProvider;
 import main.com.bsuir.autoservice.dao.crud.order.IOrderDao;
 import main.com.bsuir.autoservice.dao.crud.order.OrderDao;
 import main.com.bsuir.autoservice.dao.crud.staff.IStaffDao;
@@ -67,9 +68,9 @@ import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 
 import java.util.Map;
 
-public class AutoServiceShopModule extends AbstractModule{
-    @Override
-    protected void configure() {
+public abstract class AutoServiceShopModule extends ServletModule {
+
+    protected void configBindings() {
         bindDefault();
         bindSupported();
         bindController();
@@ -104,7 +105,7 @@ public class AutoServiceShopModule extends AbstractModule{
     private void bindController() {
         bindConcreteControllers();
         bindControllerActionMaps();
-        bind(ControllerProvider.class).in(Singleton.class);
+        bind(IControllerProvider.class).to(ControllerProvider.class).in(Singleton.class);
         bind(new TypeLiteral<Map<String, IController>>(){}).
                 annotatedWith(ControllerProviderArgument.class).
                 toProvider(ControllerMapProvider.class).
@@ -182,4 +183,6 @@ public class AutoServiceShopModule extends AbstractModule{
         bind(IBindingFactory.class).annotatedWith(Names.named("provider")).to(DefaultBindingFactory.class).in(Singleton.class);
         bind(IBindingFactory.class).toProvider(BindingFactroryProvider.class).in(Singleton.class);
     }
+
+    protected abstract void configureServlets();
 }

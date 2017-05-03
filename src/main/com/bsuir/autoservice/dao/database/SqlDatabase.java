@@ -2,7 +2,6 @@ package main.com.bsuir.autoservice.dao.database;
 
 import com.google.inject.Inject;
 import main.com.bsuir.autoservice.config.database.impl.sql.ISqlConfigDatabase;
-import main.com.bsuir.autoservice.dao.exception.DaoException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -27,11 +26,7 @@ public class SqlDatabase implements IDatabase {
 
     @Override
     public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/auto_service_shop?useLegacyDatetimeCode=false&serverTimezone=UTC",
-                "root",
-                "root"
-        );
+        return DriverManager.getConnection(url, login, password);
     }
 
     @Override

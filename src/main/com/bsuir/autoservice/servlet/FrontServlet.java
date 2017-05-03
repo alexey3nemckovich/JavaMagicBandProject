@@ -1,29 +1,23 @@
 package main.com.bsuir.autoservice.servlet;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import main.com.bsuir.autoservice.binding.AutoServiceShopModule;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.controller.IController;
-import main.com.bsuir.autoservice.controller.bean.BeanViewController;
 import main.com.bsuir.autoservice.controller.exception.ControllerException;
-import main.com.bsuir.autoservice.controller.provider.ControllerProvider;
+import main.com.bsuir.autoservice.controller.provider.IControllerProvider;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Enumeration;
 
-public class Servlet extends HttpServlet {
-    static {
-        try {
-            Injector injector = Guice.createInjector(new AutoServiceShopModule());
-            injector.getInstance(BeanViewController.class);
-            controllerProvider =  injector.getInstance(ControllerProvider.class);
-        }catch (Exception e){
-            throw new RuntimeException(e);
-        }
+@Singleton
+public class FrontServlet extends HttpServlet {
+
+    @Inject
+    public FrontServlet(IControllerProvider controllerProvider){
+        this.controllerProvider = controllerProvider;
     }
 
     @Override
@@ -52,7 +46,7 @@ public class Servlet extends HttpServlet {
         controller.returnResult(request, response, resultData);
     }
 
-    private static final ControllerProvider controllerProvider;
+    private final IControllerProvider controllerProvider;
     private String getUrl(String requestURL) {
         return requestURL.replace(".ass","");
     }
