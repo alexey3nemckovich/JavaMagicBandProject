@@ -1,6 +1,6 @@
 package main.com.bsuir.autoservice.session;
 
-import main.com.bsuir.autoservice.binding.annotation.permission.PermissionLevel;
+import main.com.bsuir.autoservice.config.permission.PermissionLevel;
 import main.com.bsuir.autoservice.session.exception.SessionException;
 
 public interface ISession<UserIdType> {

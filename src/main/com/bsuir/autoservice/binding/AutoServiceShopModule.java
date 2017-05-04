@@ -6,23 +6,19 @@ import com.google.inject.matcher.Matchers;
 import com.google.inject.name.Names;
 import com.google.inject.servlet.ServletModule;
 import com.google.inject.util.Providers;
-import main.com.bsuir.autoservice.binding.annotation.ControllerProviderArgument;
-import main.com.bsuir.autoservice.binding.annotation.Default;
-import main.com.bsuir.autoservice.binding.annotation.Supported;
+import main.com.bsuir.autoservice.binding.annotation.*;
 import main.com.bsuir.autoservice.binding.annotation.action.map.BeanActionMap;
 import main.com.bsuir.autoservice.binding.annotation.action.map.BeanAddActionMap;
 import main.com.bsuir.autoservice.binding.annotation.action.map.BeanEditActionMap;
 import main.com.bsuir.autoservice.binding.annotation.action.map.BeanViewActionMap;
-import main.com.bsuir.autoservice.binding.annotation.permission.Permission;
-import main.com.bsuir.autoservice.binding.annotation.permission.PermissionInterceptor;
 import main.com.bsuir.autoservice.binding.log4j.Log4JTypeListener;
 import main.com.bsuir.autoservice.binding.provider.BindingFactroryProvider;
 import main.com.bsuir.autoservice.binding.provider.ControllerMapProvider;
+import main.com.bsuir.autoservice.binding.provider.PermissionProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.BeanActionMapProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.BeanAddActionMapProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.BeanEditActionMapProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.BeanViewActionMapProvider;
-import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.bean.page.crud.GetBeanAddPageCommand;
 import main.com.bsuir.autoservice.command.bean.page.crud.GetBeanEditPageCommand;
 import main.com.bsuir.autoservice.command.bean.page.main.GetBeanMainPageCommand;
@@ -30,8 +26,10 @@ import main.com.bsuir.autoservice.command.bean.page.view.GetBeanViewPageCommand;
 import main.com.bsuir.autoservice.command.param.BeanViewPageInfo;
 import main.com.bsuir.autoservice.command.param.CrudPageInfo;
 import main.com.bsuir.autoservice.command.param.EditPageInfo;
+import main.com.bsuir.autoservice.config.RouteConfig;
 import main.com.bsuir.autoservice.config.database.impl.sql.ISqlConfigDatabase;
 import main.com.bsuir.autoservice.config.database.impl.sql.impl.SqlConfigDatabase;
+import main.com.bsuir.autoservice.config.permission.Permission;
 import main.com.bsuir.autoservice.controller.IController;
 import main.com.bsuir.autoservice.controller.NoController;
 import main.com.bsuir.autoservice.controller.action.Action;
@@ -65,29 +63,39 @@ import main.com.bsuir.autoservice.service.crud.user.IUserService;
 import main.com.bsuir.autoservice.service.crud.user.UserService;
 import main.com.bsuir.autoservice.service.unitOfWork.DefaultServiceUnitOfWork;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import main.com.bsuir.autoservice.session.ISession;
+import main.com.bsuir.autoservice.session.impl.CustomHttpSession;
 
 import java.util.Map;
 
 public abstract class AutoServiceShopModule extends ServletModule {
 
+    private static final String RESOURCE_DATABASE = "database";
+    private static final String ERROR_JSP_PAGE = "./error.jsp";
+
     protected void configBindings() {
+        bindConfig();
         bindDefault();
         bindSupported();
+        bindSession();
+        bindPages();
         bindController();
         bindCommand();
         bindCommandParams();
         bindService();
         bindDao();
 
-        /*unchecked*/
-        bindConfig();
         bindPermission();
         bindLibraries();
     }
 
+    private void bindSession() {
+        bind(ISession.class).to(CustomHttpSession.class);
+    }
+
     private void bindPermission() {
-        bindInterceptor(Matchers.subclassesOf(ICommand.class), Matchers.annotatedWith(Permission.class),
-                new PermissionInterceptor());
+        bind(new TypeLiteral<Map<String, Permission>>(){}).annotatedWith(PermissionUrl.class).
+                toProvider(PermissionProvider.class).in(Singleton.class);
     }
 
     private void bindDefault(){
@@ -100,6 +108,10 @@ public abstract class AutoServiceShopModule extends ServletModule {
         bind(RequestType[].class).
                 annotatedWith(Supported.class).
                 toInstance(new RequestType[]{RequestType.GET, RequestType.POST});
+    }
+
+    private void bindPages(){
+        bind(String.class).annotatedWith(ErrorJspPage.class).toInstance(ERROR_JSP_PAGE);
     }
 
     private void bindController() {
@@ -168,6 +180,11 @@ public abstract class AutoServiceShopModule extends ServletModule {
     private void bindConfig() {
         bindLog4J();
         bindDatabase();
+        bindRoute();
+    }
+
+    private void bindRoute() {
+        bind(RouteConfig.class).in(Singleton.class);
     }
 
     private void bindLog4J() {
@@ -175,7 +192,7 @@ public abstract class AutoServiceShopModule extends ServletModule {
     }
 
     private void bindDatabase() {
-        bind(String.class).annotatedWith(Names.named("sqlConfig")).toInstance("database");
+        bind(String.class).annotatedWith(Names.named("sqlConfig")).toInstance(RESOURCE_DATABASE);
         bind(ISqlConfigDatabase.class).to(SqlConfigDatabase.class).in(Singleton.class);
     }
 
@@ -183,6 +200,4 @@ public abstract class AutoServiceShopModule extends ServletModule {
         bind(IBindingFactory.class).annotatedWith(Names.named("provider")).to(DefaultBindingFactory.class).in(Singleton.class);
         bind(IBindingFactory.class).toProvider(BindingFactroryProvider.class).in(Singleton.class);
     }
-
-    protected abstract void configureServlets();
 }

@@ -1,16 +1,20 @@
 package main.com.bsuir.autoservice.session.impl;
 
-import main.com.bsuir.autoservice.binding.annotation.permission.PermissionLevel;
+import com.google.inject.Inject;
+import com.google.inject.servlet.SessionScoped;
+import main.com.bsuir.autoservice.config.permission.PermissionLevel;
 import main.com.bsuir.autoservice.session.ISession;
 import main.com.bsuir.autoservice.session.exception.SessionException;
 
 import javax.servlet.http.HttpSession;
 
+@SessionScoped
 public class CustomHttpSession implements ISession<Integer> {
     private final HttpSession httpSession;
     private static final String KEY_USER_ID = "id";
     private static final String KEY_USER_LEVEL = "user_level";
 
+    @Inject
     public CustomHttpSession(HttpSession httpSession){
         this.httpSession = httpSession;
     }
@@ -65,7 +69,7 @@ public class CustomHttpSession implements ISession<Integer> {
     }
 
     @Override
-    public void update(Integer userId, PermissionLevel userLevel) throws SessionException {
+    public synchronized void update(Integer userId, PermissionLevel userLevel) throws SessionException {
         try{
             setUserIdImpl(userId);
             setUserLevelImpl(userLevel);

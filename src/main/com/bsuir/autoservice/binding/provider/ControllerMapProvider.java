@@ -2,18 +2,23 @@ package main.com.bsuir.autoservice.binding.provider;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import main.com.bsuir.autoservice.config.RouteConfig;
 import main.com.bsuir.autoservice.controller.IController;
-import main.com.bsuir.autoservice.controller.bean.BeanAddController;
-import main.com.bsuir.autoservice.controller.bean.BeanController;
-import main.com.bsuir.autoservice.controller.bean.BeanEditController;
-import main.com.bsuir.autoservice.controller.exception.ControllerException;
-import main.com.bsuir.autoservice.controller.bean.BeanViewController;
+import main.com.bsuir.autoservice.controller.NoController;
+import main.com.bsuir.autoservice.library.DefaultHashMap;
+
+import java.util.Map;
 
 public class ControllerMapProvider extends MapProvider<String, IController> {
 
     @Inject
     public ControllerMapProvider(Injector injector){
         super(injector);
+    }
+
+    @Override
+    protected  Map<String, IController> createBasicMap(Injector injector) {
+        return new DefaultHashMap<>(injector.getInstance(NoController.class));
     }
 
     @Override
@@ -26,21 +31,21 @@ public class ControllerMapProvider extends MapProvider<String, IController> {
         }
     }
 
-    private void addGetRequestControllers(Injector injector) throws ControllerException {
-        addControllerForUrlAction("/bean", injector.getInstance(BeanController.class));
-        addControllerForUrlAction("/bean/add", injector.getInstance(BeanAddController.class));
-        addControllerForUrlAction("/bean/view", injector.getInstance(BeanViewController.class));
-        addControllerForUrlAction("/bean/edit", injector.getInstance(BeanEditController.class));
+    private void addGetRequestControllers(Injector injector) {
+        for (Map.Entry<String, Class<? extends IController>> urlControllerClass :
+                injector.getInstance(RouteConfig.class).getControllerMap().entrySet()) {
+            addControllerForUrlAction(urlControllerClass.getKey(),
+                    injector.getInstance(urlControllerClass.getValue()));
+        }
     }
 
-    private void addPostRequestControllers(Injector injector)
-            throws ControllerException {
-
+    private void addPostRequestControllers(Injector injector) {
+        // Not have post request
     }
 
     private void addControllerForUrlAction(String url,
                                            IController controller
-    ) throws ControllerException {
+    ) {
         map.put(url, controller);
     }
 }

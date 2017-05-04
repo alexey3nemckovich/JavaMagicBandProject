@@ -5,6 +5,8 @@ import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceServletContextListener;
 import main.com.bsuir.autoservice.binding.AutoServiceShopModule;
 import main.com.bsuir.autoservice.servlet.FrontServlet;
+import main.com.bsuir.autoservice.servlet.filter.PermissionFilter;
+import main.com.bsuir.autoservice.servlet.filter.UnknownPageFilter;
 
 public class ServletConfig extends GuiceServletContextListener {
     @Override
@@ -13,8 +15,18 @@ public class ServletConfig extends GuiceServletContextListener {
 
             @Override
             protected void configureServlets() {
-                serve("*.ass").with(FrontServlet.class);
+                bindServlets();
+                bindFilters();
                 configBindings();
+            }
+
+            private void bindServlets() {
+                serve("*.ass").with(FrontServlet.class);
+            }
+
+            private void bindFilters() {
+                filter("*.ass").through(PermissionFilter.class);
+                filterRegex(".*(?<!\\.ass)$").through(UnknownPageFilter.class);
             }
         });
     }
