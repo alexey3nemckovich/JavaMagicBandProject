@@ -1,7 +1,5 @@
 package main.com.bsuir.autoservice.dao.database;
 
-import main.com.bsuir.autoservice.dao.exception.DaoException;
-
 import java.sql.*;
 import java.util.List;
 

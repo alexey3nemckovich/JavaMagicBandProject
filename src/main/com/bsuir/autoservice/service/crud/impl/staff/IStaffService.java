@@ -1,4 +1,4 @@
-package main.com.bsuir.autoservice.service.crud.staff;
+package main.com.bsuir.autoservice.service.crud.impl.staff;
 
 import main.com.bsuir.autoservice.bean.staff;
 import main.com.bsuir.autoservice.service.crud.IServiceCrud;

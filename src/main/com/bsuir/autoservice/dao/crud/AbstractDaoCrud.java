@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractDaoCrud<Entity extends Bean, PrimaryKey> implements IDaoCrud<Entity, PrimaryKey> {
+public abstract class AbstractDaoCrud<PrimaryKey, Entity extends Bean> implements IDaoCrud<PrimaryKey, Entity> {
 
     protected abstract List<Entity> parseResultSet(ResultSet rs) throws DaoException;
 
@@ -39,7 +39,21 @@ public abstract class AbstractDaoCrud<Entity extends Bean, PrimaryKey> implement
     }
 
     @Override
-    public List<Entity> getRange(int startIndex, int count) throws DaoException {
+    public List<Entity> read(Map<String, String> conditions) throws DaoException{
+        try(Connection connection = db.getConnection()){
+            try(PreparedStatement ps = connection.prepareStatement(
+                    sql.getSelectWhereStatement(getTableName(), conditions)
+            )) {
+                ResultSet rs = ps.executeQuery();
+                return parseResultSet(rs);
+            }
+        } catch (Exception e) {
+            throw new DaoException(e);
+        }
+    }
+
+    @Override
+    public List<Entity> read(int startIndex, int count) throws DaoException {
         try(Connection connection = db.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(
                     sql.getSelectRangeQuery(getTableName(), startIndex, count)

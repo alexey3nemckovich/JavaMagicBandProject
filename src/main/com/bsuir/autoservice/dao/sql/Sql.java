@@ -12,6 +12,11 @@ public class Sql implements ISql {
     }
 
     @Override
+    public String getSelectWhereStatement(String tableName, Map<String, String> conditions){
+        return getSelectAllQuery(tableName) + getWhereStatement(conditions);
+    }
+
+    @Override
     public String getSelectCountQuery(String tableName, String varName){
         return " SELECT COUNT(*) AS " +
                 varName +

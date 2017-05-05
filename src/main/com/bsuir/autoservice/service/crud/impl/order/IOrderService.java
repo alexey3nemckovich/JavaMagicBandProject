@@ -1,4 +1,4 @@
-package main.com.bsuir.autoservice.service.crud.order;
+package main.com.bsuir.autoservice.service.crud.impl.order;
 
 import main.com.bsuir.autoservice.bean.order;
 import main.com.bsuir.autoservice.service.crud.IServiceCrud;

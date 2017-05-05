@@ -1,6 +1,8 @@
 package main.com.bsuir.autoservice.binding;
 
-import com.google.inject.*;
+import com.google.inject.AbstractModule;
+import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
 import com.google.inject.matcher.Matchers;
 import com.google.inject.name.Names;
 import main.com.bsuir.autoservice.binding.annotation.ControllerProviderArgument;
@@ -11,18 +13,18 @@ import main.com.bsuir.autoservice.binding.annotation.action.map.BeanAddActionMap
 import main.com.bsuir.autoservice.binding.annotation.action.map.BeanEditActionMap;
 import main.com.bsuir.autoservice.binding.annotation.action.map.BeanViewActionMap;
 import main.com.bsuir.autoservice.binding.log4j.Log4JTypeListener;
-import main.com.bsuir.autoservice.binding.provider.*;
+import main.com.bsuir.autoservice.binding.provider.BindingFactroryProvider;
+import main.com.bsuir.autoservice.binding.provider.ControllerMapProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.BeanActionMapProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.BeanAddActionMapProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.BeanEditActionMapProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.BeanViewActionMapProvider;
-import main.com.bsuir.autoservice.command.param.CrudPageInfo;
 import main.com.bsuir.autoservice.command.bean.page.crud.GetBeanAddPageCommand;
 import main.com.bsuir.autoservice.command.bean.page.crud.GetBeanEditPageCommand;
-import main.com.bsuir.autoservice.command.param.BeanMainPageInfo;
 import main.com.bsuir.autoservice.command.bean.page.main.GetBeanMainPageCommand;
-import main.com.bsuir.autoservice.command.param.BeanViewPageInfo;
 import main.com.bsuir.autoservice.command.bean.page.view.GetBeanViewPageCommand;
+import main.com.bsuir.autoservice.command.param.BeanViewPageInfo;
+import main.com.bsuir.autoservice.command.param.CrudPageInfo;
 import main.com.bsuir.autoservice.command.param.EditPageInfo;
 import main.com.bsuir.autoservice.config.database.impl.sql.ISqlConfigDatabase;
 import main.com.bsuir.autoservice.config.database.impl.sql.impl.SqlConfigDatabase;
@@ -34,31 +36,63 @@ import main.com.bsuir.autoservice.controller.bean.BeanController;
 import main.com.bsuir.autoservice.controller.bean.BeanEditController;
 import main.com.bsuir.autoservice.controller.bean.BeanViewController;
 import main.com.bsuir.autoservice.controller.provider.ControllerProvider;
-import main.com.bsuir.autoservice.dao.database.IDatabase;
-import main.com.bsuir.autoservice.dao.database.SqlDatabase;
+import main.com.bsuir.autoservice.dao.crud.discount.DiscountDao;
+import main.com.bsuir.autoservice.dao.crud.discount.IDiscountDao;
+import main.com.bsuir.autoservice.dao.crud.discount_user.DiscountUserDao;
+import main.com.bsuir.autoservice.dao.crud.discount_user.IDiscountUserDao;
+import main.com.bsuir.autoservice.dao.crud.notification.INotificationDao;
+import main.com.bsuir.autoservice.dao.crud.notification.NotificationDao;
 import main.com.bsuir.autoservice.dao.crud.order.IOrderDao;
 import main.com.bsuir.autoservice.dao.crud.order.OrderDao;
+import main.com.bsuir.autoservice.dao.crud.order_spare_part.IOrderSparePartDao;
+import main.com.bsuir.autoservice.dao.crud.order_spare_part.OrderSparePartDao;
+import main.com.bsuir.autoservice.dao.crud.ordered_service.IOrderedServiceDao;
+import main.com.bsuir.autoservice.dao.crud.ordered_service.OrderedServiceDao;
+import main.com.bsuir.autoservice.dao.crud.service.IServiceDao;
+import main.com.bsuir.autoservice.dao.crud.service.ServiceDao;
+import main.com.bsuir.autoservice.dao.crud.service_shop.IServiceShopDao;
+import main.com.bsuir.autoservice.dao.crud.service_shop.ServiceShopDao;
+import main.com.bsuir.autoservice.dao.crud.share.IShareDao;
+import main.com.bsuir.autoservice.dao.crud.share.ShareDao;
+import main.com.bsuir.autoservice.dao.crud.share_discount.IShareDiscountDao;
+import main.com.bsuir.autoservice.dao.crud.share_discount.ShareDiscountDao;
+import main.com.bsuir.autoservice.dao.crud.spare_part.ISparePartDao;
+import main.com.bsuir.autoservice.dao.crud.spare_part.SparePartDao;
 import main.com.bsuir.autoservice.dao.crud.staff.IStaffDao;
 import main.com.bsuir.autoservice.dao.crud.staff.StaffDao;
 import main.com.bsuir.autoservice.dao.crud.user.IUserDao;
 import main.com.bsuir.autoservice.dao.crud.user.UserDao;
+import main.com.bsuir.autoservice.dao.database.IDatabase;
+import main.com.bsuir.autoservice.dao.database.SqlDatabase;
 import main.com.bsuir.autoservice.dao.sql.ISql;
 import main.com.bsuir.autoservice.dao.sql.Sql;
-import main.com.bsuir.autoservice.dao.unitOfWork.IDaoUnitOfWork;
 import main.com.bsuir.autoservice.dao.unitOfWork.DefaultDaoUnitOfWork;
+import main.com.bsuir.autoservice.dao.unitOfWork.IDaoUnitOfWork;
 import main.com.bsuir.autoservice.library.RequestType;
 import main.com.bsuir.autoservice.library.binding.factory.IBindingFactory;
 import main.com.bsuir.autoservice.library.binding.factory.impl.DefaultBindingFactory;
 import main.com.bsuir.autoservice.service.BaseService;
 import main.com.bsuir.autoservice.service.IService;
-import main.com.bsuir.autoservice.service.crud.order.IOrderService;
-import main.com.bsuir.autoservice.service.crud.order.OrderService;
-import main.com.bsuir.autoservice.service.crud.staff.IStaffService;
-import main.com.bsuir.autoservice.service.crud.staff.StaffService;
-import main.com.bsuir.autoservice.service.crud.user.IUserService;
-import main.com.bsuir.autoservice.service.crud.user.UserService;
-import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import main.com.bsuir.autoservice.service.crud.impl.discount.DiscountService;
+import main.com.bsuir.autoservice.service.crud.impl.discount.IDiscountService;
+import main.com.bsuir.autoservice.service.crud.impl.notifiaction.INotificationService;
+import main.com.bsuir.autoservice.service.crud.impl.notifiaction.NotificationService;
+import main.com.bsuir.autoservice.service.crud.impl.order.IOrderService;
+import main.com.bsuir.autoservice.service.crud.impl.order.OrderService;
+import main.com.bsuir.autoservice.service.crud.impl.service.IServiceBeanService;
+import main.com.bsuir.autoservice.service.crud.impl.service.ServiceBeanService;
+import main.com.bsuir.autoservice.service.crud.impl.service_shop.IServiceShopBeanService;
+import main.com.bsuir.autoservice.service.crud.impl.service_shop.ServiceShopBeanService;
+import main.com.bsuir.autoservice.service.crud.impl.share.IShareService;
+import main.com.bsuir.autoservice.service.crud.impl.share.ShareService;
+import main.com.bsuir.autoservice.service.crud.impl.spare_part.ISparePartService;
+import main.com.bsuir.autoservice.service.crud.impl.spare_part.SparePartService;
+import main.com.bsuir.autoservice.service.crud.impl.staff.IStaffService;
+import main.com.bsuir.autoservice.service.crud.impl.staff.StaffService;
+import main.com.bsuir.autoservice.service.crud.impl.user.IUserService;
+import main.com.bsuir.autoservice.service.crud.impl.user.UserService;
 import main.com.bsuir.autoservice.service.unitOfWork.DefaultServiceUnitOfWork;
+import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 
 import java.util.Map;
 
@@ -137,17 +171,35 @@ public class AutoServiceShopModule extends AbstractModule{
 
     private void bindService() {
         bind(IService.class).to(BaseService.class).in(Singleton.class);
-        bind(IUserService.class).to(UserService.class).in(Singleton.class);
+
+        bind(IDiscountService.class).to(DiscountService.class).in(Singleton.class);
+        bind(INotificationService.class).to(NotificationService.class).in(Singleton.class);
         bind(IOrderService.class).to(OrderService.class).in(Singleton.class);
+        bind(IServiceBeanService.class).to(ServiceBeanService.class).in(Singleton.class);
+        bind(IServiceShopBeanService.class).to(ServiceShopBeanService.class).in(Singleton.class);
+        bind(IShareService.class).to(ShareService.class).in(Singleton.class);
+        bind(ISparePartService.class).to(SparePartService.class).in(Singleton.class);
         bind(IStaffService.class).to(StaffService.class).in(Singleton.class);
+        bind(IUserService.class).to(UserService.class).in(Singleton.class);
     }
 
     private void bindDao() {
-        bind(IUserDao.class).to(UserDao.class).in(Singleton.class);
-        bind(IOrderDao.class).to(OrderDao.class).in(Singleton.class);
-        bind(IStaffDao.class).to(StaffDao.class).in(Singleton.class);
         bind(IDatabase.class).to(SqlDatabase.class).asEagerSingleton();
         bind(ISql.class).to(Sql.class).in(Singleton.class);
+
+        bind(IDiscountDao.class).to(DiscountDao.class).in(Singleton.class);
+        bind(IDiscountUserDao.class).to(DiscountUserDao.class).in(Singleton.class);
+        bind(INotificationDao.class).to(NotificationDao.class).in(Singleton.class);
+        bind(IOrderDao.class).to(OrderDao.class).in(Singleton.class);
+        bind(IOrderSparePartDao.class).to(OrderSparePartDao.class).in(Singleton.class);
+        bind(IOrderedServiceDao.class).to(OrderedServiceDao.class).in(Singleton.class);
+        bind(IServiceDao.class).to(ServiceDao.class).in(Singleton.class);
+        bind(IServiceShopDao.class).to(ServiceShopDao.class).in(Singleton.class);
+        bind(IShareDao.class).to(ShareDao.class).in(Singleton.class);
+        bind(IShareDiscountDao.class).to(ShareDiscountDao.class).in(Singleton.class);
+        bind(ISparePartDao.class).to(SparePartDao.class).in(Singleton.class);
+        bind(IStaffDao.class).to(StaffDao.class).in(Singleton.class);
+        bind(IUserDao.class).to(UserDao.class).in(Singleton.class);
     }
 
     private void bindConfig() {

@@ -5,11 +5,11 @@ import java.util.Map;
 
 public class spare_part extends Bean{
 
-    public int getSparePartId(){
+    public int getId(){
         return spare_part_id;
     }
 
-    public void setSparePartId(int value){
+    public void setId(int value){
         this.spare_part_id = value;
     }
 

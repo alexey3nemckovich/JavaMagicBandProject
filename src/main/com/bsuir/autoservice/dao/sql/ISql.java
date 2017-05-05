@@ -1,7 +1,5 @@
 package main.com.bsuir.autoservice.dao.sql;
 
-import main.com.bsuir.autoservice.bean.Bean;
-
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +8,7 @@ public interface ISql {
     String getSelectAllQuery(String tableName);
     String getSelectCountQuery(String tableName, String varName);
     String getSelectRangeQuery(String tableName, int startIndex, int count);
+    String getSelectWhereStatement(String tableName, Map<String, String> conditions);
     //crud
     String getDeleteQuery(String tableName, Map<String, String> values);
     String getInsertQuery(String tableName, List<String> values);

@@ -9,12 +9,10 @@ import main.com.bsuir.autoservice.dao.sql.ISql;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
-public class StaffDao extends AbstractDaoCrud<staff, Integer> implements IStaffDao{
+public class StaffDao extends AbstractDaoCrud<Integer, staff> implements IStaffDao{
 
     @Inject
     public StaffDao(IDatabase db, ISql sql){super(db, sql);}
