@@ -12,7 +12,6 @@ import main.com.bsuir.autoservice.binding.annotation.action.map.BeanAddActionMap
 import main.com.bsuir.autoservice.binding.annotation.action.map.BeanEditActionMap;
 import main.com.bsuir.autoservice.binding.annotation.action.map.BeanViewActionMap;
 import main.com.bsuir.autoservice.binding.log4j.Log4JTypeListener;
-import main.com.bsuir.autoservice.binding.provider.BindingFactroryProvider;
 import main.com.bsuir.autoservice.binding.provider.ControllerMapProvider;
 import main.com.bsuir.autoservice.binding.provider.PermissionProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.BeanActionMapProvider;
@@ -62,8 +61,6 @@ import main.com.bsuir.autoservice.infrastructure.session.impl.CustomHttpSession;
 import main.com.bsuir.autoservice.infrastructure.transaction.ITransaction;
 import main.com.bsuir.autoservice.infrastructure.transaction.impl.RequestTransaction;
 import main.com.bsuir.autoservice.library.RequestType;
-import main.com.bsuir.autoservice.library.binding.factory.IBindingFactory;
-import main.com.bsuir.autoservice.library.binding.factory.impl.DefaultBindingFactory;
 import main.com.bsuir.autoservice.service.*;
 import main.com.bsuir.autoservice.service.crud.order.IOrderService;
 import main.com.bsuir.autoservice.service.crud.order.OrderService;
@@ -230,7 +227,5 @@ public abstract class AutoServiceShopModule extends ServletModule {
     }
 
     private void bindLibraries() {
-        bind(IBindingFactory.class).annotatedWith(Names.named("provider")).to(DefaultBindingFactory.class).in(Singleton.class);
-        bind(IBindingFactory.class).toProvider(BindingFactroryProvider.class).in(Singleton.class);
     }
 }
