@@ -1,9 +1,9 @@
-package main.com.bsuir.autoservice.session;
+package main.com.bsuir.autoservice.infrastructure.session;
 
 import main.com.bsuir.autoservice.config.permission.PermissionLevel;
-import main.com.bsuir.autoservice.session.exception.SessionException;
+import main.com.bsuir.autoservice.infrastructure.session.exception.SessionException;
 
-public interface ISession<UserIdType> {
+public interface ISession<UserIdType>{
     UserIdType getUserId() throws SessionException;
     void setUserId(UserIdType userId) throws SessionException;
     PermissionLevel getUserLevel() throws SessionException;

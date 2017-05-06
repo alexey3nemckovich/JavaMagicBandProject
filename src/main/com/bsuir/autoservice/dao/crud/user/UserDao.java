@@ -2,17 +2,15 @@ package main.com.bsuir.autoservice.dao.crud.user;
 
 import com.google.inject.Inject;
 import main.com.bsuir.autoservice.bean.user;
+import main.com.bsuir.autoservice.dao.crud.AbstractDaoCrud;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
-import main.com.bsuir.autoservice.dao.crud.AbstractDaoCrud;
 import main.com.bsuir.autoservice.dao.sql.ISql;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class UserDao extends AbstractDaoCrud<user, Integer> implements IUserDao {
 
@@ -48,5 +46,5 @@ public class UserDao extends AbstractDaoCrud<user, Integer> implements IUserDao 
         return result;
     }
 
-    private final String tableName = "user";
+    private static final String tableName = "user";
 }

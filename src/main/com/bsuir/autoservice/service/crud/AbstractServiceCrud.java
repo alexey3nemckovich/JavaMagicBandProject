@@ -1,7 +1,7 @@
 package main.com.bsuir.autoservice.service.crud;
 
-import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.crud.IDaoCrud;
+import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.Map;
 
 public abstract class AbstractServiceCrud<PrimaryKey,Entity> implements IServiceCrud<PrimaryKey,Entity> {
 
-    protected AbstractServiceCrud(IDaoCrud daoCrud){
+    protected AbstractServiceCrud(IDaoCrud<Entity, PrimaryKey> daoCrud){
         this.daoCrud = daoCrud;
     }
 

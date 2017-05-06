@@ -19,6 +19,8 @@ import main.com.bsuir.autoservice.binding.provider.action.map.BeanActionMapProvi
 import main.com.bsuir.autoservice.binding.provider.action.map.BeanAddActionMapProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.BeanEditActionMapProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.BeanViewActionMapProvider;
+import main.com.bsuir.autoservice.binding.provider.fakeUOF.FakeDaoUOFProvider;
+import main.com.bsuir.autoservice.binding.provider.fakeUOF.FakeServiceUOFProvider;
 import main.com.bsuir.autoservice.command.bean.page.crud.GetBeanAddPageCommand;
 import main.com.bsuir.autoservice.command.bean.page.crud.GetBeanEditPageCommand;
 import main.com.bsuir.autoservice.command.bean.page.main.GetBeanMainPageCommand;
@@ -47,10 +49,18 @@ import main.com.bsuir.autoservice.dao.crud.user.IUserDao;
 import main.com.bsuir.autoservice.dao.crud.user.UserDao;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.dao.database.SqlDatabase;
+import main.com.bsuir.autoservice.dao.database.SqlRequestDatabase;
+import main.com.bsuir.autoservice.dao.database.SqlRequestDatabaseProvider;
 import main.com.bsuir.autoservice.dao.sql.ISql;
 import main.com.bsuir.autoservice.dao.sql.Sql;
 import main.com.bsuir.autoservice.dao.unitOfWork.DefaultDaoUnitOfWork;
 import main.com.bsuir.autoservice.dao.unitOfWork.IDaoUnitOfWork;
+import main.com.bsuir.autoservice.infrastructure.interceptor.TransactionInterceptor;
+import main.com.bsuir.autoservice.infrastructure.listener.DatabaseConnectionListener;
+import main.com.bsuir.autoservice.infrastructure.session.ISession;
+import main.com.bsuir.autoservice.infrastructure.session.impl.CustomHttpSession;
+import main.com.bsuir.autoservice.infrastructure.transaction.ITransaction;
+import main.com.bsuir.autoservice.infrastructure.transaction.impl.RequestTransaction;
 import main.com.bsuir.autoservice.library.RequestType;
 import main.com.bsuir.autoservice.library.binding.factory.IBindingFactory;
 import main.com.bsuir.autoservice.library.binding.factory.impl.DefaultBindingFactory;
@@ -63,8 +73,6 @@ import main.com.bsuir.autoservice.service.crud.user.IUserService;
 import main.com.bsuir.autoservice.service.crud.user.UserService;
 import main.com.bsuir.autoservice.service.unitOfWork.DefaultServiceUnitOfWork;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
-import main.com.bsuir.autoservice.session.ISession;
-import main.com.bsuir.autoservice.session.impl.CustomHttpSession;
 
 import java.util.Map;
 
@@ -77,7 +85,7 @@ public abstract class AutoServiceShopModule extends ServletModule {
         bindConfig();
         bindDefault();
         bindSupported();
-        bindSession();
+        bindInfrastructure();
         bindPages();
         bindController();
         bindCommand();
@@ -87,6 +95,22 @@ public abstract class AutoServiceShopModule extends ServletModule {
 
         bindPermission();
         bindLibraries();
+    }
+
+    private void bindInfrastructure() {
+        bindSession();
+        bindListener();
+        bindTransaction();
+    }
+
+    private void bindListener() {
+        bind(DatabaseConnectionListener.class);
+    }
+
+    private void bindTransaction() {
+        bind(ITransaction.class).to(RequestTransaction.class);
+        bindInterceptor(Matchers.any(), Matchers.annotatedWith(Transaction.class),
+                new TransactionInterceptor(getProvider(ITransaction.class)));
     }
 
     private void bindSession() {
@@ -160,20 +184,29 @@ public abstract class AutoServiceShopModule extends ServletModule {
     }
 
     private void bindService() {
-        bind(IService.class).to(BaseService.class).in(Singleton.class);
+        bind(IServiceUnitOfWork.class).annotatedWith(FakeUOF.class).toProvider(FakeServiceUOFProvider.class).
+                in(Singleton.class);
+
+        bind(IBaseService.class).to(BaseService.class).in(Singleton.class);
         bind(IUserService.class).to(UserService.class).in(Singleton.class);
         bind(IOrderService.class).to(OrderService.class).in(Singleton.class);
         bind(IStaffService.class).to(StaffService.class).in(Singleton.class);
+
+        //TODO: set right classes
         bind(IShareService.class).toProvider(Providers.of(null)).in(Singleton.class);
         bind(IServiceService.class).toProvider(Providers.of(null)).in(Singleton.class);
         bind(INotificationService.class).toProvider(Providers.of(null)).in(Singleton.class);
     }
 
     private void bindDao() {
+        bind(IDaoUnitOfWork.class).annotatedWith(FakeUOF.class).toProvider(FakeDaoUOFProvider.class).in(Singleton.class);
+
         bind(IUserDao.class).to(UserDao.class).in(Singleton.class);
         bind(IOrderDao.class).to(OrderDao.class).in(Singleton.class);
         bind(IStaffDao.class).to(StaffDao.class).in(Singleton.class);
-        bind(IDatabase.class).to(SqlDatabase.class).asEagerSingleton();
+        bind(IDatabase.class).to(SqlRequestDatabaseProvider.class);
+        bind(SqlRequestDatabase.class);
+        bind(SqlDatabase.class).asEagerSingleton();
         bind(ISql.class).to(Sql.class).in(Singleton.class);
     }
 

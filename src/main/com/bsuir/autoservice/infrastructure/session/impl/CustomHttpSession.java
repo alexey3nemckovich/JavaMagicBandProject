@@ -1,10 +1,10 @@
-package main.com.bsuir.autoservice.session.impl;
+package main.com.bsuir.autoservice.infrastructure.session.impl;
 
 import com.google.inject.Inject;
 import com.google.inject.servlet.SessionScoped;
 import main.com.bsuir.autoservice.config.permission.PermissionLevel;
-import main.com.bsuir.autoservice.session.ISession;
-import main.com.bsuir.autoservice.session.exception.SessionException;
+import main.com.bsuir.autoservice.infrastructure.session.ISession;
+import main.com.bsuir.autoservice.infrastructure.session.exception.SessionException;
 
 import javax.servlet.http.HttpSession;
 

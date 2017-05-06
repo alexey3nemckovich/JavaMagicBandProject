@@ -1,9 +1,9 @@
 package main.com.bsuir.autoservice.service.unitOfWork;
 
 import com.google.inject.Inject;
-import com.google.inject.Injector;
+import main.com.bsuir.autoservice.binding.annotation.FakeUOF;
+import main.com.bsuir.autoservice.service.IBaseService;
 import main.com.bsuir.autoservice.service.INotificationService;
-import main.com.bsuir.autoservice.service.IService;
 import main.com.bsuir.autoservice.service.IServiceService;
 import main.com.bsuir.autoservice.service.IShareService;
 import main.com.bsuir.autoservice.service.crud.IServiceCrud;
@@ -15,7 +15,7 @@ import main.com.bsuir.autoservice.service.crud.user.IUserService;
 import java.lang.reflect.Field;
 
 public class DefaultServiceUnitOfWork implements IServiceUnitOfWork {
-    private final IService baseService;
+    private final IBaseService baseService;
 
     private final IUserService userService;
     private final IOrderService orderService;
@@ -25,14 +25,14 @@ public class DefaultServiceUnitOfWork implements IServiceUnitOfWork {
     private final INotificationService notificationService;
 
     @Inject
-    public DefaultServiceUnitOfWork(Injector injector){
-        baseService = injector.getInstance(IService.class);
-        userService = injector.getInstance(IUserService.class);
-        orderService = injector.getInstance(IOrderService.class);
-        staffService = injector.getInstance(IStaffService.class);
-        shareService = injector.getInstance(IShareService.class);
-        serviceService = injector.getInstance(IServiceService.class);
-        notificationService = injector.getInstance(INotificationService.class);
+    public DefaultServiceUnitOfWork(@FakeUOF IServiceUnitOfWork fakeServiceUOF){
+        baseService = fakeServiceUOF.getBaseService();
+        userService = fakeServiceUOF.getUserService();
+        orderService = fakeServiceUOF.getOrderService();
+        staffService = fakeServiceUOF.getStaffService();
+        shareService = fakeServiceUOF.getShareService();
+        serviceService = fakeServiceUOF.getServiceService();
+        notificationService = fakeServiceUOF.getNotificationService();
     }
 
     @Override
@@ -68,7 +68,7 @@ public class DefaultServiceUnitOfWork implements IServiceUnitOfWork {
     }
 
     @Override
-    public IService getBaseService(){return baseService;}
+    public IBaseService getBaseService(){return baseService;}
 
     @Override
     public IUserService getUserService() {

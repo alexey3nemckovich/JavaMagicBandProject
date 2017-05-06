@@ -1,4 +1,4 @@
-package main.com.bsuir.autoservice.session.exception;
+package main.com.bsuir.autoservice.infrastructure.session.exception;
 
 public class SessionException extends Exception{
     public SessionException(Exception e){

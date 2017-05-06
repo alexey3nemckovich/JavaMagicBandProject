@@ -7,7 +7,7 @@ import main.com.bsuir.autoservice.binding.annotation.InjectLogger;
 import main.com.bsuir.autoservice.binding.annotation.PermissionUrl;
 import main.com.bsuir.autoservice.config.permission.Permission;
 import main.com.bsuir.autoservice.config.permission.PermissionLevel;
-import main.com.bsuir.autoservice.session.ISession;
+import main.com.bsuir.autoservice.infrastructure.session.ISession;
 import org.apache.log4j.Logger;
 
 import javax.servlet.*;
