@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.servlet.RequestScoped;
 import main.com.bsuir.autoservice.binding.annotation.InjectLogger;
-import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.dao.database.SqlRequestDatabase;
 import org.apache.log4j.Logger;
 
@@ -26,7 +25,7 @@ public class DatabaseConnectionListener implements AutoCloseable{
     }
 
     public void closeIfOpenConnection() {
-        IDatabase requestDatabase = requestDatabaseProvider.get();
+        SqlRequestDatabase requestDatabase = requestDatabaseProvider.get();
         try{
         if (isGetConnection){
             requestDatabase.returnConnection(requestDatabase.getConnection());

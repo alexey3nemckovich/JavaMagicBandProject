@@ -2,7 +2,7 @@ package main.com.bsuir.autoservice.infrastructure.transaction.impl;
 
 import com.google.inject.Inject;
 import com.google.inject.servlet.RequestScoped;
-import main.com.bsuir.autoservice.dao.database.IDatabase;
+import main.com.bsuir.autoservice.dao.database.SqlRequestDatabase;
 import main.com.bsuir.autoservice.infrastructure.transaction.ITransaction;
 import main.com.bsuir.autoservice.infrastructure.transaction.exception.TransactionException;
 
@@ -15,13 +15,13 @@ public class RequestTransaction implements ITransaction {
         PREPARE ,IN_TRANSACTION, MARKED, COMPLETED
     }
 
-    private final IDatabase requestDatabase;
+    private final SqlRequestDatabase requestDatabase;
     private Connection connection;
     private boolean lastAutoCommitState;
     private TransactionState transactionState;
 
     @Inject
-    public RequestTransaction(IDatabase requestDatabase){
+    public RequestTransaction(SqlRequestDatabase requestDatabase){
         this.requestDatabase = requestDatabase;
         connection = null;
         transactionState = TransactionState.PREPARE;

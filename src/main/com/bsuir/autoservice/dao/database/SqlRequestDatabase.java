@@ -25,7 +25,6 @@ public class SqlRequestDatabase implements IDatabase{
         requestConnection = null;
     }
 
-    @Override
     public Connection getConnection() throws SQLException {
         requestConnection = requestConnection == null
                 ? getConnectionNotify()
@@ -39,7 +38,6 @@ public class SqlRequestDatabase implements IDatabase{
         return connection;
     }
 
-    @Override
     public void returnConnection(Connection connection) throws SQLException {
         assert connection != null : "Connection is null";
         sqlDatabase.returnConnection(connection);

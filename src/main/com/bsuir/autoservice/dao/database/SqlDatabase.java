@@ -26,12 +26,10 @@ public class SqlDatabase implements IDatabase {
         }
     }
 
-    @Override
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, login, password);
     }
 
-    @Override
     public void returnConnection(Connection connection) throws SQLException {
         connection.close();
     }
