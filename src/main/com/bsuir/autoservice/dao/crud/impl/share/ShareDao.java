@@ -30,6 +30,12 @@ public class ShareDao extends AbstractDaoCrud<Integer, share> implements IShareD
         try {
             while (rs.next()) {
                 share bean = new share();
+                bean.setId(rs.getInt("id"));
+                bean.setDateStart(rs.getDate("date_start"));
+                bean.setDateEnd(rs.getDate("date_end"));
+                bean.setValue(rs.getInt("value"));
+                bean.setDescription(rs.getString("description"));
+                bean.setState(share.State.valueOf(rs.getString("state")));
                 result.add(bean);
             }
         } catch (SQLException e) {

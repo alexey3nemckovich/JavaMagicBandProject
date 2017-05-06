@@ -22,10 +22,10 @@ public abstract class AbstractDaoCrud<PrimaryKey, Entity extends Bean> implement
 
     @Override
     public int getCountRecords() throws DaoException{
-        String varName = "rowcount";
+        final String varName = "rowcount";
         try(Connection connection = db.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(
-                    sql.getSelectCountQuery(getTableName(), varName)
+                    sql.getSelectCountQuery(getFullTableName(), varName)
             )) {
                 ResultSet rs = ps.executeQuery();
                 rs.next();
@@ -42,7 +42,7 @@ public abstract class AbstractDaoCrud<PrimaryKey, Entity extends Bean> implement
     public List<Entity> read(Map<String, String> conditions) throws DaoException{
         try(Connection connection = db.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(
-                    sql.getSelectWhereStatement(getTableName(), conditions)
+                    sql.getSelectWhereStatement(getFullTableName(), conditions)
             )) {
                 ResultSet rs = ps.executeQuery();
                 return parseResultSet(rs);
@@ -56,7 +56,7 @@ public abstract class AbstractDaoCrud<PrimaryKey, Entity extends Bean> implement
     public List<Entity> read(int startIndex, int count) throws DaoException {
         try(Connection connection = db.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(
-                    sql.getSelectRangeQuery(getTableName(), startIndex, count)
+                    sql.getSelectRangeQuery(getFullTableName(), startIndex, count)
             )) {
                 ResultSet rs = ps.executeQuery();
                 return parseResultSet(rs);
@@ -70,7 +70,7 @@ public abstract class AbstractDaoCrud<PrimaryKey, Entity extends Bean> implement
     public boolean update(Entity entity, Map<String, String> conditionValues) throws DaoException {
         try(Connection connection = db.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(
-                    sql.getUpdateQuery(getTableName(), conditionValues, entity.getFieldValues())
+                    sql.getUpdateQuery(getFullTableName(), conditionValues, entity.getFieldValues())
             )) {
                 return ps.execute();
             }
@@ -83,7 +83,7 @@ public abstract class AbstractDaoCrud<PrimaryKey, Entity extends Bean> implement
     public boolean delete(Entity entity) throws DaoException {
         try(Connection connection = db.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(
-                    sql.getDeleteQuery(getTableName(), entity.getFieldValues())
+                    sql.getDeleteQuery(getFullTableName(), entity.getFieldValues())
             )) {
                 return ps.execute();
             }
@@ -96,13 +96,18 @@ public abstract class AbstractDaoCrud<PrimaryKey, Entity extends Bean> implement
     public boolean insert(Entity entity) throws DaoException {
         try(Connection connection = db.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(
-                    sql.getInsertQuery(getTableName(), entity.getFieldValues())
+                    sql.getInsertQuery(getFullTableName(), entity.getFieldValues())
             )) {
                 return ps.execute();
             }
         } catch (Exception e) {
             throw new DaoException(e);
         }
+    }
+
+    @Override
+    public String getFullTableName(){
+        return db.getName() + "." + getTableName();
     }
 
     private final IDatabase db;

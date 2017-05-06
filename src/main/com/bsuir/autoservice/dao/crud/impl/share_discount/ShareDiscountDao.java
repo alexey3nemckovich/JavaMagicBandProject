@@ -30,6 +30,8 @@ public class ShareDiscountDao extends AbstractDaoCrud<Integer, share_discount> i
         try {
             while (rs.next()) {
                 share_discount bean = new share_discount();
+                bean.setShareId(rs.getInt("share_id"));
+                bean.setDiscountId(rs.getInt("discount_id"));
                 result.add(bean);
             }
         } catch (SQLException e) {

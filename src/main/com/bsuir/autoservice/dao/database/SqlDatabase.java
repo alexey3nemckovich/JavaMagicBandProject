@@ -2,7 +2,6 @@ package main.com.bsuir.autoservice.dao.database;
 
 import com.google.inject.Inject;
 import main.com.bsuir.autoservice.config.database.impl.sql.ISqlConfigDatabase;
-import main.com.bsuir.autoservice.dao.exception.DaoException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -23,6 +22,11 @@ public class SqlDatabase implements IDatabase {
         }catch (Exception e){
             throw new RuntimeException();
         }
+    }
+
+    @Override
+    public String getName(){
+        return "auto_service_shop";
     }
 
     @Override

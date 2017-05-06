@@ -30,6 +30,12 @@ public class NotificationDao extends AbstractDaoCrud<Integer, notification> impl
         try {
             while (rs.next()) {
                 notification bean = new notification();
+                bean.setId(rs.getInt("id"));
+                bean.setOrderId(rs.getInt("order_id"));
+                bean.setStaffId(rs.getInt("staff_id"));
+                bean.setDate(rs.getDate("date"));
+                bean.setContent(rs.getString("content"));
+                bean.setState(notification.State.valueOf(rs.getString("state")));
                 result.add(bean);
             }
         } catch (SQLException e) {

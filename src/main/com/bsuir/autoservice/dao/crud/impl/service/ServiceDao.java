@@ -30,6 +30,9 @@ public class ServiceDao extends AbstractDaoCrud<Integer, service> implements ISe
         try {
             while (rs.next()) {
                 service bean = new service();
+                bean.setId(rs.getInt("id"));
+                bean.setName(rs.getString("name"));
+                bean.setCost(rs.getInt("cost"));
                 result.add(bean);
             }
         } catch (SQLException e) {

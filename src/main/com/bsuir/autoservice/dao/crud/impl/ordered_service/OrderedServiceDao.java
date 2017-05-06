@@ -30,6 +30,9 @@ public class OrderedServiceDao extends AbstractDaoCrud<Integer, ordered_service>
         try {
             while (rs.next()) {
                 ordered_service bean = new ordered_service();
+                bean.setServiceId(rs.getInt("service_id"));
+                bean.setOrderId(rs.getInt("order_id"));
+                bean.setDate(rs.getDate("date"));
                 result.add(bean);
             }
         } catch (SQLException e) {

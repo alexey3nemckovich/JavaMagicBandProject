@@ -33,7 +33,7 @@ public class UserService extends AbstractServiceCrud<Integer, user> implements I
             );
             return dependencies;
         }catch (Exception e){
-            throw new ServiceException(e);
+                throw new ServiceException(e);
         }
     }
 

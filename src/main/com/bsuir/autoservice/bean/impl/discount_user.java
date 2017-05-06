@@ -12,7 +12,7 @@ public class discount_user extends Bean {
         return discount_id;
     }
 
-    public void setDiscount_id(int value){
+    public void setDiscountId(int value){
         this.discount_id = value;
     }
 

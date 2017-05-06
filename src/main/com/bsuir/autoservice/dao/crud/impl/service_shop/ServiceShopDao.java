@@ -30,6 +30,11 @@ public class ServiceShopDao extends AbstractDaoCrud<Integer, service_shop> imple
         try {
             while (rs.next()) {
                 service_shop bean = new service_shop();
+                bean.setId(rs.getInt("id"));
+                bean.setCity(rs.getString("city"));
+                bean.setStreet(rs.getString("street"));
+                bean.setHouse(rs.getString("house"));
+                bean.setChiefId(rs.getInt("chief_id"));
                 result.add(bean);
             }
         } catch (SQLException e) {

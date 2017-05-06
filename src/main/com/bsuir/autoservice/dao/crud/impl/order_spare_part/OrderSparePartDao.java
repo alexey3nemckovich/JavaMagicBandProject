@@ -30,6 +30,9 @@ public class OrderSparePartDao extends AbstractDaoCrud<Integer, order_spare_part
         try {
             while (rs.next()) {
                 order_spare_part bean = new order_spare_part();
+                bean.setSparePartId(rs.getInt("spare_part_id"));
+                bean.setOrderId(rs.getInt("order_id"));
+                bean.setCount(rs.getInt("count"));
                 result.add(bean);
             }
         } catch (SQLException e) {

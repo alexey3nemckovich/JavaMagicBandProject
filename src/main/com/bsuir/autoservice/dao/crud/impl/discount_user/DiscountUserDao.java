@@ -30,6 +30,8 @@ public class DiscountUserDao extends AbstractDaoCrud<Integer, discount_user> imp
         try {
             while (rs.next()) {
                 discount_user bean = new discount_user();
+                bean.setDiscountId(rs.getInt("discount_id"));
+                bean.setUserId(rs.getInt("user_id"));
                 result.add(bean);
             }
         } catch (SQLException e) {
