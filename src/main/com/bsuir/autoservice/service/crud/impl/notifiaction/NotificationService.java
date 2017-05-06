@@ -8,9 +8,7 @@ import main.com.bsuir.autoservice.service.Dependency;
 import main.com.bsuir.autoservice.service.crud.AbstractServiceCrud;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class NotificationService extends AbstractServiceCrud<Integer, notification> implements INotificationService{
 
@@ -21,14 +19,15 @@ public class NotificationService extends AbstractServiceCrud<Integer, notificati
     }
 
     @Override
-    public List<Dependency> readDependencies(notification bean) throws ServiceException {
-        try {
-            List<Dependency> dependencies = new ArrayList<>();
-            dependencies.addAll(
-                    Arrays.asList(
+    public List<String> getDependencyTablesNames(){
+        List<String> dependencyTableNames = new ArrayList<>();
+        return dependencyTableNames;
+    }
 
-                    )
-            );
+    @Override
+    public Map<String, Dependency> readDependencies(notification bean) throws ServiceException {
+        try {
+            Map<String, Dependency> dependencies = new LinkedHashMap<>();
             return dependencies;
         }catch (Exception e){
             throw new ServiceException(e);

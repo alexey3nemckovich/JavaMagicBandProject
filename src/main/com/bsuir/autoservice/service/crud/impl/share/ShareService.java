@@ -8,9 +8,7 @@ import main.com.bsuir.autoservice.service.Dependency;
 import main.com.bsuir.autoservice.service.crud.AbstractServiceCrud;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class ShareService extends AbstractServiceCrud<Integer, share> implements IShareService{
 
@@ -21,13 +19,19 @@ public class ShareService extends AbstractServiceCrud<Integer, share> implements
     }
 
     @Override
-    public List<Dependency> readDependencies(share bean) throws ServiceException {
+    public List<String> getDependencyTablesNames(){
+        List<String> dependencyTableNames = new ArrayList<>();
+        dependencyTableNames.add(daoUnitOfWork.getShareDiscountDao().getTableName());
+        return dependencyTableNames;
+    }
+
+    @Override
+    public Map<String, Dependency> readDependencies(share bean) throws ServiceException {
         try {
-            List<Dependency> dependencies = new ArrayList<>();
-            dependencies.addAll(
-                    Arrays.asList(
-                        getDependencyForTable(daoUnitOfWork.getShareDiscountDao(),"share_id", bean.getId())
-                    )
+            Map<String, Dependency> dependencies = new LinkedHashMap<>();
+            dependencies.put(
+                    daoUnitOfWork.getShareDiscountDao().getTableName(),
+                    getDependencyForTable(daoUnitOfWork.getShareDiscountDao(),"share_id", bean.getId())
             );
             return dependencies;
         }catch (Exception e){

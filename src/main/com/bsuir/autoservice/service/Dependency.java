@@ -13,6 +13,10 @@ public class Dependency {
         this.beans = beans;
     }
 
+    public List<? extends Bean> getBeans(){
+        return beans;
+    }
+
     public String name;
     public Object value;
     public String tableName;

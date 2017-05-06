@@ -8,9 +8,7 @@ import main.com.bsuir.autoservice.service.Dependency;
 import main.com.bsuir.autoservice.service.crud.AbstractServiceCrud;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class ServiceBeanService extends AbstractServiceCrud<Integer, service> implements IServiceBeanService{
 
@@ -21,14 +19,24 @@ public class ServiceBeanService extends AbstractServiceCrud<Integer, service> im
     }
 
     @Override
-    public List<Dependency> readDependencies(service bean) throws ServiceException {
+    public List<String> getDependencyTablesNames(){
+        List<String> dependencyTableNames = new ArrayList<>();
+        dependencyTableNames.add(daoUnitOfWork.getDiscountDao().getTableName());
+        dependencyTableNames.add(daoUnitOfWork.getOrderedServiceDao().getTableName());
+        return dependencyTableNames;
+    }
+
+    @Override
+    public Map<String, Dependency> readDependencies(service bean) throws ServiceException {
         try {
-            List<Dependency> dependencies = new ArrayList<>();
-            dependencies.addAll(
-                    Arrays.asList(
-                            getDependencyForTable(daoUnitOfWork.getDiscountDao(), "service_id", bean.getId()),
-                            getDependencyForTable(daoUnitOfWork.getOrderedServiceDao(), "service_id", bean.getId())
-                    )
+            Map<String, Dependency> dependencies = new LinkedHashMap<>();
+            dependencies.put(
+                    daoUnitOfWork.getDiscountDao().getTableName(),
+                    getDependencyForTable(daoUnitOfWork.getDiscountDao(), "service_id", bean.getId())
+            );
+            dependencies.put(
+                    daoUnitOfWork.getOrderedServiceDao().getTableName(),
+                    getDependencyForTable(daoUnitOfWork.getOrderedServiceDao(), "service_id", bean.getId())
             );
             return dependencies;
         }catch (Exception e){

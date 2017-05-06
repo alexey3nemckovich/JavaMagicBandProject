@@ -17,13 +17,14 @@ public class BeanViewPageInfo extends CrudPageInfo implements ICommandParam{
     public int countRecords;
 
     public List<Bean> beans;
-    public LinkedHashMap<Bean, List<Dependency>> dependenciesMap;
+    public List<String> dependencyTableNames;
+    public LinkedHashMap<Bean, Map<String, Dependency>> dependencyMap;
     public int totalPagesCount;
 
     public BeanViewPageInfo(){
         super();
         beans = new ArrayList<>();
-        dependenciesMap = new LinkedHashMap<>();
+        dependencyMap = new LinkedHashMap<>();
     }
 
     @Override

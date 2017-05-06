@@ -8,9 +8,7 @@ import main.com.bsuir.autoservice.service.Dependency;
 import main.com.bsuir.autoservice.service.crud.AbstractServiceCrud;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class SparePartService extends AbstractServiceCrud<Integer, spare_part> implements ISparePartService{
 
@@ -21,13 +19,19 @@ public class SparePartService extends AbstractServiceCrud<Integer, spare_part> i
     }
 
     @Override
-    public List<Dependency> readDependencies(spare_part bean) throws ServiceException {
+    public List<String> getDependencyTablesNames(){
+        List<String> dependencyTableNames = new ArrayList<>();
+        dependencyTableNames.add(daoUnitOfWork.getSparePartDao().getTableName());
+        return dependencyTableNames;
+    }
+
+    @Override
+    public Map<String, Dependency> readDependencies(spare_part bean) throws ServiceException {
         try {
-            List<Dependency> dependencies = new ArrayList<>();
-            dependencies.addAll(
-                    Arrays.asList(
-                        getDependencyForTable(daoUnitOfWork.getSparePartDao(), "spare_part_id", bean.getId())
-                    )
+            Map<String, Dependency> dependencies = new LinkedHashMap<>();
+            dependencies.put(
+                    daoUnitOfWork.getSparePartDao().getTableName(),
+                    getDependencyForTable(daoUnitOfWork.getSparePartDao(), "spare_part_id", bean.getId())
             );
             return dependencies;
         }catch (Exception e){

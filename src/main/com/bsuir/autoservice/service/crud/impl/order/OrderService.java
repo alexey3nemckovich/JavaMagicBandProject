@@ -8,9 +8,7 @@ import main.com.bsuir.autoservice.service.Dependency;
 import main.com.bsuir.autoservice.service.crud.AbstractServiceCrud;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class OrderService extends AbstractServiceCrud<Integer,order> implements IOrderService {
 
@@ -21,15 +19,29 @@ public class OrderService extends AbstractServiceCrud<Integer,order> implements 
     }
 
     @Override
-    public List<Dependency> readDependencies(order bean) throws ServiceException {
+    public List<String> getDependencyTablesNames(){
+        List<String> dependencyTableNames = new ArrayList<>();
+        dependencyTableNames.add(daoUnitOfWork.getOrderedServiceDao().getTableName());
+        dependencyTableNames.add(daoUnitOfWork.getOrderSparePartDao().getTableName());
+        dependencyTableNames.add(daoUnitOfWork.getNotificationDao().getTableName());
+        return dependencyTableNames;
+    }
+
+    @Override
+    public Map<String, Dependency> readDependencies(order bean) throws ServiceException {
         try {
-            List<Dependency> dependencies = new ArrayList<>();
-            dependencies.addAll(
-                    Arrays.asList(
-                            getDependencyForTable(daoUnitOfWork.getOrderedServiceDao(), "order_id", bean.getId()),
-                            getDependencyForTable(daoUnitOfWork.getOrderSparePartDao(), "order_id", bean.getId()),
-                            getDependencyForTable(daoUnitOfWork.getNotificationDao(), "order_id", bean.getId())
-                    )
+            Map<String, Dependency> dependencies = new LinkedHashMap<>();
+            dependencies.put(
+                    daoUnitOfWork.getOrderedServiceDao().getTableName(),
+                    getDependencyForTable(daoUnitOfWork.getOrderedServiceDao(), "order_id", bean.getId())
+            );
+            dependencies.put(
+                    daoUnitOfWork.getOrderSparePartDao().getTableName(),
+                    getDependencyForTable(daoUnitOfWork.getOrderSparePartDao(), "order_id", bean.getId())
+            );
+            dependencies.put(
+                    daoUnitOfWork.getNotificationDao().getTableName(),
+                    getDependencyForTable(daoUnitOfWork.getNotificationDao(), "order_id", bean.getId())
             );
             return dependencies;
         }catch (Exception e){

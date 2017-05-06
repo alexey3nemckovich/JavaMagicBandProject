@@ -14,6 +14,27 @@ public abstract class Bean {
     public abstract Field[] getFieldsOrdered() throws BeanException;
     public abstract Bean setFields(Map<String, String> fieldValues) throws BeanException;
 
+    @Override
+    public String toString(){
+        try {
+            Field[] fields = getFieldsOrdered();
+            StringBuilder stringBuilder = new StringBuilder("{");
+            for(int i = 0; i < fields.length - 2; i++){
+                stringBuilder.append(fields[i].getName());
+                stringBuilder.append("=");
+                stringBuilder.append(fields[i].get(this).toString());
+                stringBuilder.append(", ");
+            }
+            stringBuilder.append(fields[fields.length-1].getName());
+            stringBuilder.append("=");
+            stringBuilder.append(fields[fields.length-1].get(this).toString());
+            stringBuilder.append("}");
+            return stringBuilder.toString();
+        }catch (Exception e){
+            return "";
+        }
+    }
+
     @SuppressWarnings("unchecked")
     public static Bean getBeanObject(String beanName, Map<String, String> fields) throws BeanException{
         try {

@@ -11,7 +11,7 @@ import main.com.bsuir.autoservice.service.crud.IServiceCrud;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 
-import java.util.List;
+import java.util.Map;
 
 public class GetBeanViewPageCommand implements ICommand<BeanViewPageInfo> {
 
@@ -40,9 +40,10 @@ public class GetBeanViewPageCommand implements ICommand<BeanViewPageInfo> {
     }
 
     private void setDependencies(BeanViewPageInfo beanViewPageInfo, IServiceCrud serviceCrud) throws ServiceException{
+        beanViewPageInfo.dependencyTableNames = serviceCrud.getDependencyTablesNames();
         for(Bean bean: beanViewPageInfo.beans){
-            List<Dependency> beanDependencies = serviceCrud.readDependencies(bean);
-            beanViewPageInfo.dependenciesMap.put(bean, beanDependencies);
+            Map<String, Dependency> beanDependencies = serviceCrud.readDependencies(bean);
+            beanViewPageInfo.dependencyMap.put(bean, beanDependencies);
         }
     }
 

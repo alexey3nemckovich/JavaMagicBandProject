@@ -8,11 +8,13 @@ import java.util.List;
 import java.util.Map;
 
 public interface IServiceCrud<PrimaryKey, Entity extends Bean>{
+    String getTableName();
+    List<String> getDependencyTablesNames();
     int readTotalCount() throws ServiceException;
+
     List<Entity> read(int index, int count) throws ServiceException;
-    List<Dependency> readDependencies(Entity entity) throws ServiceException;
+    Map<String, Dependency> readDependencies(Entity entity) throws ServiceException;
     boolean create(Entity entity) throws ServiceException;
     boolean update(Entity entity, Map<String, String> conditionValues) throws ServiceException;
     boolean delete(Entity entity) throws ServiceException;
-    String getTableName() throws ServiceException;
 }

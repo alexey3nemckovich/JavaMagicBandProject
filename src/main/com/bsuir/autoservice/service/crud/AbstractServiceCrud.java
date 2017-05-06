@@ -63,12 +63,8 @@ public abstract class AbstractServiceCrud<PrimaryKey,Entity extends Bean> implem
     }
 
     @Override
-    public String getTableName() throws ServiceException {
-        try{
-            return daoCrud.getTableName();
-        }catch (Exception e) {
-            throw new ServiceException(e);
-        }
+    public String getTableName(){
+        return daoCrud.getTableName();
     }
 
     protected Dependency getDependencyForTable(

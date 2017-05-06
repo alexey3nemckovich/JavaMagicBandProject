@@ -1,67 +1,34 @@
+<%@ page import="main.com.bsuir.autoservice.service.Dependency" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.LinkedHashMap" %>
+<%@ page import="main.com.bsuir.autoservice.bean.Bean" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="paginator" uri="/WEB-INF/tlds/Paginator" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+
 <head>
     <title>Bean</title>
-    <link rel="stylesheet" href="/css/classes.css">
-    <style type="text/css">
-        .tg {
-            border-collapse: collapse;
-            border-spacing: 0;
-            border-color: #ccc;
-        }
-
-        .tg td {
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-            padding: 10px 5px;
-            border-style: solid;
-            border-width: 1px;
-            overflow: hidden;
-            word-break: normal;
-            border-color: #ccc;
-            color: #333;
-            background-color: #fff;
-        }
-
-        .tg th {
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-            font-weight: normal;
-            padding: 10px 5px;
-            border-style: solid;
-            border-width: 1px;
-            overflow: hidden;
-            word-break: normal;
-            border-color: #ccc;
-            color: #333;
-            background-color: #f0f0f0;
-        }
-
-        .tg .tg-4eph {
-            background-color: #f9f9f9
-        }
-
-        .paginatorList { margin: 2px 6px; list-style: none outside none; }
-        .paginatorList li { float: left; padding: 2px 4px; font-size: 1.2em; }
-        li.paginatorCurr { font-weight: bold; font-size: 1.5em; margin-top: -2px; }
-        li.paginatorLast { float: none; }
-    </style>
 </head>
+
 <body>
 
-    <div style = "border: 2px solid black;">
+    <div>
         <h1 align = "center">AutoServiceShop - magic project of Nikita, Vova, Alex</h1>
     </div>
 
     <a href="../../index.jsp">To main page</a>
 
-    <%String url = (String) request.getAttribute("javax.servlet.include.query_string");%>
+    <%
+        String url = (String) request.getAttribute("javax.servlet.include.query_string");
+    %>
 
-    <div class="centered_parent">
+    <div>
+
         <c:if test="${!empty beans}">
-            <div class="centered">
+
+            <div>
 
                 <h1>${tableName}</h1>
 
@@ -69,19 +36,57 @@
                     <h2>${result}</h2>
                 </c:if>
 
-                <table class="tg">
+                <table>
+
+                    <%-- Header row --%>
                     <tr>
+
                         <c:forEach items="${beans.get(0).getFieldsOrdered()}" var="field">
                             <th>${field.getName()}</th>
                         </c:forEach>
+
+                        <c:forEach items="${dependencyTableNames}" var="dependecyTableName">
+                            <th>${dependecyTableName}</th>
+                        </c:forEach>
+
                     </tr>
+
+                    <%-- Entities rows --%>
                     <c:forEach items="${beans}" var="bean">
+
+                        <%-- Every enrity row is form --%>
                         <form>
                             <tr>
 
+                                <%-- Enity fields --%>
                                 <c:forEach items="${bean.getFieldsOrdered()}" var="field">
                                     <td>
                                         <input type="text" name="${field.getName()}" value="${field.get(bean)}" readonly/>
+                                    </td>
+                                </c:forEach>
+
+                                <%-- Entity dependencies --%>
+                                <c:forEach items="${dependencyTableNames}" var="dependecyTableName">
+                                    <td>
+
+                                        <c:choose>
+
+                                            <c:when test="${! empty dependencyMap.get(bean).get(dependecyTableName).getBeans()}">
+                                                <select>
+                                                    <c:forEach items="${dependencyMap.get(bean).get(dependecyTableName).getBeans()}" var="dependencyTableBean">
+                                                        <option>
+                                                                ${dependencyTableBean.toString()}
+                                                        </option>
+                                                    </c:forEach>
+                                                </select>
+                                            </c:when>
+
+                                            <c:otherwise>
+                                                -
+                                            </c:otherwise>
+
+                                        </c:choose>
+
                                     </td>
                                 </c:forEach>
 
@@ -90,6 +95,7 @@
                                         Edit
                                     </button>
                                 </td>
+
                                 <td>
                                     <button formmethod="post" type="submit" formaction="/bean/view.ass?tableName=${tableName}&page=${page}&countRecords=${countRecords}&action=delete">
                                         Delete
@@ -98,7 +104,9 @@
 
                             </tr>
                         </form>
+
                     </c:forEach>
+
                 </table>
                 <c:url var="searchUri" value="/bean/view.ass?tableName=${name}&page=##&countRecords=${countRecords}" />
                 <paginator:display
@@ -108,7 +116,10 @@
                         uri="${searchUri}"
                 />
             </div>
+
         </c:if>
+
     </div>
+
 </body>
 </html>

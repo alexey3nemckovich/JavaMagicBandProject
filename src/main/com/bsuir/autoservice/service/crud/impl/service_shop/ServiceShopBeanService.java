@@ -8,9 +8,7 @@ import main.com.bsuir.autoservice.service.Dependency;
 import main.com.bsuir.autoservice.service.crud.AbstractServiceCrud;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class ServiceShopBeanService extends AbstractServiceCrud<Integer, service_shop> implements IServiceShopBeanService{
 
@@ -21,14 +19,24 @@ public class ServiceShopBeanService extends AbstractServiceCrud<Integer, service
     }
 
     @Override
-    public List<Dependency> readDependencies(service_shop bean) throws ServiceException {
+    public List<String> getDependencyTablesNames(){
+        List<String> dependencyTableNames = new ArrayList<>();
+        dependencyTableNames.add(daoUnitOfWork.getOrderDao().getTableName());
+        dependencyTableNames.add(daoUnitOfWork.getStaffDao().getTableName());
+        return dependencyTableNames;
+    }
+
+    @Override
+    public Map<String, Dependency> readDependencies(service_shop bean) throws ServiceException {
         try {
-            List<Dependency> dependencies = new ArrayList<>();
-            dependencies.addAll(
-                    Arrays.asList(
-                            getDependencyForTable(daoUnitOfWork.getOrderDao(), "service_shop_id", bean.getId()),
-                            getDependencyForTable(daoUnitOfWork.getStaffDao(), "service_shop_id", bean.getId())
-                    )
+            Map<String, Dependency> dependencies = new LinkedHashMap<>();
+            dependencies.put(
+                    daoUnitOfWork.getOrderDao().getTableName(),
+                    getDependencyForTable(daoUnitOfWork.getOrderDao(), "service_shop_id", bean.getId())
+            );
+            dependencies.put(
+                    daoUnitOfWork.getStaffDao().getTableName(),
+                    getDependencyForTable(daoUnitOfWork.getStaffDao(), "service_shop_id", bean.getId())
             );
             return dependencies;
         }catch (Exception e){
