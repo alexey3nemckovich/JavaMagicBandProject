@@ -2,18 +2,15 @@ package main.com.bsuir.autoservice.command.bean.crud;
 
 import com.google.inject.Inject;
 import main.com.bsuir.autoservice.bean.Bean;
-import main.com.bsuir.autoservice.bean.BeanException;
+import main.com.bsuir.autoservice.bean.exception.BeanException;
 import main.com.bsuir.autoservice.binding.annotation.Default;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
-import main.com.bsuir.autoservice.command.param.CrudPageInfo;
 import main.com.bsuir.autoservice.command.param.EditPageInfo;
 import main.com.bsuir.autoservice.exception.ExceptionUnwrapper;
 import main.com.bsuir.autoservice.service.crud.IServiceCrud;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
-
-import java.text.ParseException;
 
 public class EditBeanCommand  implements ICommand<EditPageInfo> {
 

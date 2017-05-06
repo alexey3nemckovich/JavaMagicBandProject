@@ -2,19 +2,19 @@ package main.com.bsuir.autoservice.dao.unitOfWork;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import main.com.bsuir.autoservice.dao.crud.discount.IDiscountDao;
-import main.com.bsuir.autoservice.dao.crud.discount_user.IDiscountUserDao;
-import main.com.bsuir.autoservice.dao.crud.notification.INotificationDao;
-import main.com.bsuir.autoservice.dao.crud.order.IOrderDao;
-import main.com.bsuir.autoservice.dao.crud.order_spare_part.IOrderSparePartDao;
-import main.com.bsuir.autoservice.dao.crud.ordered_service.IOrderedServiceDao;
-import main.com.bsuir.autoservice.dao.crud.service.IServiceDao;
-import main.com.bsuir.autoservice.dao.crud.service_shop.IServiceShopDao;
-import main.com.bsuir.autoservice.dao.crud.share.IShareDao;
-import main.com.bsuir.autoservice.dao.crud.share_discount.IShareDiscountDao;
-import main.com.bsuir.autoservice.dao.crud.spare_part.ISparePartDao;
-import main.com.bsuir.autoservice.dao.crud.staff.IStaffDao;
-import main.com.bsuir.autoservice.dao.crud.user.IUserDao;
+import main.com.bsuir.autoservice.dao.crud.impl.discount.IDiscountDao;
+import main.com.bsuir.autoservice.dao.crud.impl.discount_user.IDiscountUserDao;
+import main.com.bsuir.autoservice.dao.crud.impl.notification.INotificationDao;
+import main.com.bsuir.autoservice.dao.crud.impl.order.IOrderDao;
+import main.com.bsuir.autoservice.dao.crud.impl.order_spare_part.IOrderSparePartDao;
+import main.com.bsuir.autoservice.dao.crud.impl.ordered_service.IOrderedServiceDao;
+import main.com.bsuir.autoservice.dao.crud.impl.service.IServiceDao;
+import main.com.bsuir.autoservice.dao.crud.impl.service_shop.IServiceShopDao;
+import main.com.bsuir.autoservice.dao.crud.impl.share.IShareDao;
+import main.com.bsuir.autoservice.dao.crud.impl.share_discount.IShareDiscountDao;
+import main.com.bsuir.autoservice.dao.crud.impl.spare_part.ISparePartDao;
+import main.com.bsuir.autoservice.dao.crud.impl.staff.IStaffDao;
+import main.com.bsuir.autoservice.dao.crud.impl.user.IUserDao;
 
 public class DefaultDaoUnitOfWork implements IDaoUnitOfWork {
     private final IDiscountDao discountDao;

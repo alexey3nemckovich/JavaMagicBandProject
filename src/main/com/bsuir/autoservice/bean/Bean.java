@@ -1,5 +1,7 @@
 package main.com.bsuir.autoservice.bean;
 
+import main.com.bsuir.autoservice.bean.exception.BeanException;
+
 import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
