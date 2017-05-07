@@ -8,19 +8,14 @@ import com.google.inject.name.Names;
 import main.com.bsuir.autoservice.binding.annotation.ControllerProviderArgument;
 import main.com.bsuir.autoservice.binding.annotation.Default;
 import main.com.bsuir.autoservice.binding.annotation.Supported;
-import main.com.bsuir.autoservice.binding.annotation.action.map.BeanActionMap;
-import main.com.bsuir.autoservice.binding.annotation.action.map.BeanAddActionMap;
-import main.com.bsuir.autoservice.binding.annotation.action.map.BeanEditActionMap;
-import main.com.bsuir.autoservice.binding.annotation.action.map.BeanViewActionMap;
+import main.com.bsuir.autoservice.binding.annotation.action.map.*;
 import main.com.bsuir.autoservice.binding.log4j.Log4JTypeListener;
+import main.com.bsuir.autoservice.binding.provider.action.map.impl.*;
 import main.com.bsuir.autoservice.binding.provider.impl.BindingFactroryProvider;
 import main.com.bsuir.autoservice.binding.provider.impl.ControllerMapProvider;
-import main.com.bsuir.autoservice.binding.provider.action.map.impl.BeanActionMapProvider;
-import main.com.bsuir.autoservice.binding.provider.action.map.impl.BeanAddActionMapProvider;
-import main.com.bsuir.autoservice.binding.provider.action.map.impl.BeanEditActionMapProvider;
-import main.com.bsuir.autoservice.binding.provider.action.map.impl.BeanViewActionMapProvider;
 import main.com.bsuir.autoservice.command.bean.page.crud.GetBeanAddPageCommand;
 import main.com.bsuir.autoservice.command.bean.page.crud.GetBeanEditPageCommand;
+import main.com.bsuir.autoservice.command.bean.page.dependence.GetBeanDependencyViewPageCommand;
 import main.com.bsuir.autoservice.command.bean.page.main.GetBeanMainPageCommand;
 import main.com.bsuir.autoservice.command.bean.page.view.GetBeanViewPageCommand;
 import main.com.bsuir.autoservice.command.param.BeanViewPageInfo;
@@ -35,6 +30,7 @@ import main.com.bsuir.autoservice.controller.bean.BeanAddController;
 import main.com.bsuir.autoservice.controller.bean.BeanController;
 import main.com.bsuir.autoservice.controller.bean.BeanEditController;
 import main.com.bsuir.autoservice.controller.bean.BeanViewController;
+import main.com.bsuir.autoservice.controller.bean.BeanDependencyViewController;
 import main.com.bsuir.autoservice.controller.provider.ControllerProvider;
 import main.com.bsuir.autoservice.dao.crud.impl.discount.DiscountDao;
 import main.com.bsuir.autoservice.dao.crud.impl.discount.IDiscountDao;
@@ -147,6 +143,9 @@ public class AutoServiceShopModule extends AbstractModule{
         bind(new TypeLiteral<Map<String, Action>>(){}).
                 annotatedWith(BeanEditActionMap.class).
                 toProvider(BeanEditActionMapProvider.class).in(Singleton.class);
+        bind(new TypeLiteral<Map<String, Action>>(){}).
+                annotatedWith(DependencyViewActionMap.class).
+                toProvider(BeanDependencyViewActionMapProvider.class).in(Singleton.class);
     }
 
     private void bindConcreteControllers() {
@@ -154,6 +153,7 @@ public class AutoServiceShopModule extends AbstractModule{
         bind(BeanAddController.class).in(Singleton.class);
         bind(BeanViewController.class).in(Singleton.class);
         bind(BeanEditController.class).in(Singleton.class);
+        bind(BeanDependencyViewController.class).in(Singleton.class);
     }
 
     private void bindCommand(){
@@ -161,6 +161,7 @@ public class AutoServiceShopModule extends AbstractModule{
         bind(GetBeanViewPageCommand.class).in(Singleton.class);
         bind(GetBeanMainPageCommand.class).in(Singleton.class);
         bind(GetBeanEditPageCommand.class).in(Singleton.class);
+        bind(GetBeanDependencyViewPageCommand.class).in(Singleton.class);
     }
 
     private void bindCommandParams(){

@@ -15,6 +15,6 @@ public class BeanEditController extends AbstractPageController{
 
     @Override
     protected String getJspName() {
-        return "./editForm.jsp";
+        return "./dependency/view.jsp";
     }
 }

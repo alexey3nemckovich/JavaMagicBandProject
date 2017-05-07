@@ -3,7 +3,6 @@ package main.com.bsuir.autoservice.command.param;
 import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.command.ICommandParam;
 import main.com.bsuir.autoservice.command.RequestParameter;
-import main.com.bsuir.autoservice.service.Dependency;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -16,15 +15,13 @@ public class BeanViewPageInfo extends CrudPageInfo implements ICommandParam{
     @RequestParameter
     public int countRecords;
 
-    public List<Bean> beans;
+    public List<? extends Bean> beans;
     public List<String> dependencyTableNames;
-    public LinkedHashMap<Bean, Map<String, Dependency>> dependencyMap;
     public int totalPagesCount;
 
     public BeanViewPageInfo(){
         super();
         beans = new ArrayList<>();
-        dependencyMap = new LinkedHashMap<>();
     }
 
     @Override
@@ -33,11 +30,25 @@ public class BeanViewPageInfo extends CrudPageInfo implements ICommandParam{
                 super.parse(params, false)
         );
 
-        page = Integer.valueOf(mParams.get("page")[0]);
-        mParams.remove("page");
+        if(!mParams.containsKey("page")){
+            page = 1;
+        }else{
+            page = Integer.valueOf(mParams.get("page")[0]);
+            mParams.remove("page");
+            if(0 == page){
+                page = 1;
+            }
+        }
 
-        countRecords = Integer.valueOf(mParams.get("countRecords")[0]);
-        mParams.remove("countRecords");
+        if(!mParams.containsKey("page")){
+            countRecords = 3;
+        }else {
+            countRecords = Integer.valueOf(mParams.get("countRecords")[0]);
+            mParams.remove("countRecords");
+            if(0 == countRecords){
+                countRecords = 3;
+            }
+        }
 
         for (Map.Entry<String, String[]> param: mParams.entrySet()) {
             fields.put(param.getKey(), param.getValue()[0]);

@@ -40,7 +40,7 @@ public abstract class Bean {
         try {
             Class<? extends Bean> beanClass =
                     (Class<? extends Bean>)Class.forName(
-                            Bean.class.getPackage().getName() + '.' + beanName
+                            Bean.class.getPackage().getName() + ".impl." + beanName
                     );
             Bean bean = beanClass.newInstance();
             bean.setFields(fields);

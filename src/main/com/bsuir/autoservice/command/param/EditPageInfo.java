@@ -4,16 +4,20 @@ import main.com.bsuir.autoservice.command.ICommandParam;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class EditPageInfo extends CrudPageInfo implements ICommandParam{
 
     public LinkedHashMap<String, String> oldFields;
+    public List<String> notModifiableFieldsNames;
 
     @Inject
     public EditPageInfo(){
         oldFields = new LinkedHashMap<>();
+        notModifiableFieldsNames = new ArrayList<>();
     }
 
     @Override

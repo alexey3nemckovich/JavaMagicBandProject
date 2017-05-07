@@ -7,6 +7,7 @@ import main.com.bsuir.autoservice.controller.IController;
 import main.com.bsuir.autoservice.controller.bean.BeanAddController;
 import main.com.bsuir.autoservice.controller.bean.BeanController;
 import main.com.bsuir.autoservice.controller.bean.BeanEditController;
+import main.com.bsuir.autoservice.controller.bean.BeanDependencyViewController;
 import main.com.bsuir.autoservice.controller.exception.ControllerException;
 import main.com.bsuir.autoservice.controller.bean.BeanViewController;
 
@@ -32,6 +33,7 @@ public class ControllerMapProvider extends MapProvider<String, IController> {
         addControllerForUrlAction("/bean/add", injector.getInstance(BeanAddController.class));
         addControllerForUrlAction("/bean/view", injector.getInstance(BeanViewController.class));
         addControllerForUrlAction("/bean/edit", injector.getInstance(BeanEditController.class));
+        addControllerForUrlAction("/bean/dependency/view", injector.getInstance(BeanDependencyViewController.class));
     }
 
     private void addPostRequestControllers(Injector injector)

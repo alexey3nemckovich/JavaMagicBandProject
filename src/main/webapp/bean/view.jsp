@@ -45,9 +45,13 @@
                             <th>${field.getName()}</th>
                         </c:forEach>
 
-                        <c:forEach items="${dependencyTableNames}" var="dependecyTableName">
-                            <th>${dependecyTableName}</th>
-                        </c:forEach>
+                        <th>
+                            Action
+                        </th>
+
+                        <th>
+                            Dependencies
+                        </th>
 
                     </tr>
 
@@ -65,42 +69,36 @@
                                     </td>
                                 </c:forEach>
 
-                                <%-- Entity dependencies --%>
-                                <c:forEach items="${dependencyTableNames}" var="dependecyTableName">
-                                    <td>
-
-                                        <c:choose>
-
-                                            <c:when test="${! empty dependencyMap.get(bean).get(dependecyTableName).getBeans()}">
-                                                <select>
-                                                    <c:forEach items="${dependencyMap.get(bean).get(dependecyTableName).getBeans()}" var="dependencyTableBean">
-                                                        <option>
-                                                                ${dependencyTableBean.toString()}
-                                                        </option>
-                                                    </c:forEach>
-                                                </select>
-                                            </c:when>
-
-                                            <c:otherwise>
-                                                -
-                                            </c:otherwise>
-
-                                        </c:choose>
-
-                                    </td>
-                                </c:forEach>
-
+                                <%-- Action buttons --%>
                                 <td>
+
                                     <button formmethod="post" type="submit" formaction="/bean/edit.ass?tableName=${tableName}">
                                         Edit
                                     </button>
-                                </td>
 
-                                <td>
                                     <button formmethod="post" type="submit" formaction="/bean/view.ass?tableName=${tableName}&page=${page}&countRecords=${countRecords}&action=delete">
                                         Delete
                                     </button>
+
                                 </td>
+
+                                <%-- Dependencies --%>
+                                <c:if test="${!empty dependencyTableNames}">
+                                    <td>
+                                        <select name="dependencyTableName">
+                                            <c:forEach items="${dependencyTableNames}" var="dependecyTableName">
+                                                <option value="${dependecyTableName}">
+                                                    ${dependecyTableName}
+                                                </option>
+                                            </c:forEach>
+                                        </select>
+
+                                        <button formmethod="post" type="submit" formaction="/bean/dependency/view.ass?action=get&tableName=${tableName}&page=1&countRecords=3">
+                                            View
+                                        </button>
+
+                                    </td>
+                                </c:if>
 
                             </tr>
                         </form>
