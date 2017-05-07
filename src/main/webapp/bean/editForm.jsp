@@ -1,6 +1,7 @@
 <%@ page import="org.json.JSONObject" %>
-<%@ page import="java.util.Map" %>
 <%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -18,6 +19,14 @@
         String action = request.getAttribute("action").toString();
         String tableName = request.getAttribute("tableName").toString();
         String formAction = "?tableName=" + tableName + "&action=" + action;
+        formAction += "&notModifiableFieldsNames=";
+        List<String> notModifiableFieldsNames = (List<String>)request.getAttribute("notModifiableFieldsNames");
+        for(int i = 0; i < notModifiableFieldsNames.size(); i++){
+            formAction += notModifiableFieldsNames.get(i);
+            if(i != notModifiableFieldsNames.size() - 1){
+                formAction += ',';
+            }
+        }
         if(action.equals("edit")){
             Map<String, String> fields = (Map<String, String>)request.getAttribute("fields");
             JSONObject oldValues = new JSONObject(fields);
@@ -26,10 +35,6 @@
             formAction += "&oldValues=" + URLEncoder.encode(oldValuesParamString, "UTF-8");
         }
     %>
-
-    <h2>
-        <%=formAction%>
-    </h2>
 
     <c:if test="${not empty result}">
         <h1>
@@ -48,7 +53,14 @@
                            ${field.getKey()}
                         </td>
                         <td>
-                            <input type="text" name="${field.getKey()}" value="${field.getValue()}"/>
+                            <c:choose>
+                                <c:when test="${notModifiableFieldsNames.contains(field.getKey())}">
+                                    <input type="text" name="${field.getKey()}" value="${field.getValue()}" readonly/>
+                                </c:when>
+                                <c:otherwise>
+                                    <input type="text" name="${field.getKey()}" value="${field.getValue()}"/>
+                                </c:otherwise>
+                            </c:choose>
                         </td>
                     </tr>
                 </c:forEach>

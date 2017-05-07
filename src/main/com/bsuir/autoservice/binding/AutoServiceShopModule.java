@@ -18,9 +18,7 @@ import main.com.bsuir.autoservice.command.crud.delete.DeleteBeanCommand;
 import main.com.bsuir.autoservice.command.crud.delete.DeleteBeanDependencyCommand;
 import main.com.bsuir.autoservice.command.crud.edit.EditBeanCommand;
 import main.com.bsuir.autoservice.command.crud.get.*;
-import main.com.bsuir.autoservice.command.param.BeanViewPageInfo;
-import main.com.bsuir.autoservice.command.param.CrudPageInfo;
-import main.com.bsuir.autoservice.command.param.EditPageInfo;
+import main.com.bsuir.autoservice.command.param.*;
 import main.com.bsuir.autoservice.config.database.impl.sql.ISqlConfigDatabase;
 import main.com.bsuir.autoservice.config.database.impl.sql.impl.SqlConfigDatabase;
 import main.com.bsuir.autoservice.controller.IController;
@@ -140,8 +138,14 @@ public class AutoServiceShopModule extends AbstractModule{
                 annotatedWith(BeanEditActionMap.class).
                 toProvider(BeanEditActionMapProvider.class).in(Singleton.class);
         bind(new TypeLiteral<Map<String, Action>>(){}).
-                annotatedWith(DependencyViewActionMap.class).
+                annotatedWith(BeanDependencyViewActionMap.class).
                 toProvider(BeanDependencyViewActionMapProvider.class).in(Singleton.class);
+        bind(new TypeLiteral<Map<String, Action>>(){}).
+                annotatedWith(BeanDependencyEditActionMap.class).
+                toProvider(BeanDependencyEditActionMapProvider.class).in(Singleton.class);
+        bind(new TypeLiteral<Map<String, Action>>(){}).
+                annotatedWith(BeanDependencyAddActionMap.class).
+                toProvider(BeanDependencyAddActionMapProvider.class).in(Singleton.class);
     }
 
     private void bindConcreteControllers() {
@@ -150,6 +154,8 @@ public class AutoServiceShopModule extends AbstractModule{
         bind(BeanViewController.class).in(Singleton.class);
         bind(BeanEditController.class).in(Singleton.class);
         bind(BeanDependencyViewController.class).in(Singleton.class);
+        bind(BeanDependencyEditController.class).in(Singleton.class);
+        bind(BeanDependencyAddController.class).in(Singleton.class);
     }
 
     private void bindCommand(){
@@ -170,8 +176,9 @@ public class AutoServiceShopModule extends AbstractModule{
 
     private void bindCommandParams(){
         bind(CrudPageInfo.class);
-        bind(EditPageInfo.class);
+        bind(BeanEditPageInfo.class);
         bind(BeanViewPageInfo.class);
+        bind(BeanDependencyViewPageInfo.class);
     }
 
     private void bindService() {

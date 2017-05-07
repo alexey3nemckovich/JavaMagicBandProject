@@ -76,7 +76,7 @@
                                         Edit
                                     </button>
 
-                                    <button formmethod="post" type="submit" formaction="/bean/view.ass?tableName=${tableName}&page=${page}&countRecords=${countRecords}&action=delete">
+                                    <button formmethod="post" type="submit" formaction="/bean/view.ass?action=delete&tableName=${tableName}&page=${page}&countRecords=${countRecords}">
                                         Delete
                                     </button>
 

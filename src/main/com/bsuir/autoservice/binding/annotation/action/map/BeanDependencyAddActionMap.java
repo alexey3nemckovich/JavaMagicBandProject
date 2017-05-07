@@ -10,5 +10,5 @@ import java.lang.annotation.Target;
 @BindingAnnotation
 @Target({ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface DependencyViewActionMap {
+public @interface BeanDependencyAddActionMap{
 }

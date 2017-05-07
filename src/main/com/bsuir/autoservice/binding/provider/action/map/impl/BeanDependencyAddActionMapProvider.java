@@ -7,10 +7,10 @@ import main.com.bsuir.autoservice.command.crud.add.AddBeanCommand;
 import main.com.bsuir.autoservice.command.crud.get.GetBeanAddPageCommand;
 import main.com.bsuir.autoservice.command.param.BeanAddPageInfo;
 
-public class BeanAddActionMapProvider extends ActionMapProvider {
+public class BeanDependencyAddActionMapProvider extends ActionMapProvider{
 
     @Inject
-    private BeanAddActionMapProvider(Injector injector){
+    private BeanDependencyAddActionMapProvider(Injector injector){
         super(injector);
     }
 

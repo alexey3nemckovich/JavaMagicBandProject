@@ -26,7 +26,8 @@ public class GetBeanDependencyViewPageCommand extends AbstractGetBeanPageCommand
             Bean bean = Bean.getBeanObject(beanDependencyViewPageInfo.tableName, beanDependencyViewPageInfo.fields);
             Dependency dependency = (Dependency)serviceCrud.readDependencies(bean).get(beanDependencyViewPageInfo.dependencyTableName);
             beanDependencyViewPageInfo.beans = dependency.beans;
-            beanDependencyViewPageInfo.dependencyField = dependency.name;
+            beanDependencyViewPageInfo.dependencyFieldName = dependency.name;
+            beanDependencyViewPageInfo.dependencyFieldValue = dependency.value;
             beanDependencyViewPageInfo.totalPagesCount = getTotalPagesCount(beanDependencyViewPageInfo.countRecords, serviceCrud);
             return beanDependencyViewPageInfo;
         }catch (Exception e){

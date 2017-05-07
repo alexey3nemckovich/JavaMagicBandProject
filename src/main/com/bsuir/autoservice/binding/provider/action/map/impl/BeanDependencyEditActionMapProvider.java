@@ -7,10 +7,10 @@ import main.com.bsuir.autoservice.command.crud.edit.EditBeanCommand;
 import main.com.bsuir.autoservice.command.crud.get.GetBeanEditPageCommand;
 import main.com.bsuir.autoservice.command.param.BeanEditPageInfo;
 
-public class BeanEditActionMapProvider extends ActionMapProvider {
+public class BeanDependencyEditActionMapProvider extends ActionMapProvider{
 
     @Inject
-    private BeanEditActionMapProvider(Injector injector){
+    private BeanDependencyEditActionMapProvider(Injector injector){
         super(injector);
     }
 

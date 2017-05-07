@@ -3,6 +3,9 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.LinkedHashMap" %>
 <%@ page import="main.com.bsuir.autoservice.bean.Bean" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="org.json.JSONObject" %>
+<%@ page import="java.net.URLEncoder" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="paginator" uri="/WEB-INF/tlds/Paginator" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -22,6 +25,17 @@
 
 <%
     String url = (String) request.getAttribute("javax.servlet.include.query_string");
+    String dependencyFieldName = request.getAttribute("dependencyFieldName").toString();
+    Object dependencyFieldValue = request.getAttribute("dependencyFieldValue");
+
+    String notModifiableFieldsNames = dependencyFieldName;
+
+    Map<String, String> defaultValuesMap = new LinkedHashMap<>();
+    defaultValuesMap.put(dependencyFieldName, dependencyFieldValue.toString());
+    JSONObject jsonObject = new JSONObject(defaultValuesMap);
+    String defaultValues = jsonObject.toString();
+    defaultValues = defaultValues.replace("\"", "\\\"");
+    defaultValues = URLEncoder.encode(defaultValues, "UTF-8");
 %>
 
 <div>
@@ -68,11 +82,11 @@
                                 <%-- Action buttons --%>
                             <td>
 
-                                <button formmethod="post" type="submit" formaction="/bean/dependency/edit.ass?action=edit&tableName=${tableName}&dependencyTableName=${dependencyTableName}&page=${page}&countRecords=${countRecords}">
+                                <button formmethod="post" type="submit" formaction="/bean/dependency/edit.ass?tableName=${dependencyTableName}&notModifiableFieldsNames=<%=notModifiableFieldsNames%>">
                                     Edit
                                 </button>
 
-                                <button formmethod="post" type="submit" formaction="/bean/dependency/view.ass?action=delete&tableName=${tableName}&dependencyTableName=${dependencyTableName}&page=${page}&countRecords=${countRecords}">
+                                <button formmethod="post" type="submit" formaction="/bean/dependency/view.ass?action=delete&tableName=${tableName}&dependencyTableName=${dependencyTableName}&page=${page}&countRecords=${countRecords}&dependencyFieldName=<%=dependencyFieldName%>&dependencyFieldValue=<%=dependencyFieldValue%>">
                                     Delete
                                 </button>
 
@@ -84,6 +98,7 @@
                 </c:forEach>
 
             </table>
+
             <c:url var="searchUri" value="/bean/dependency/view.ass?action=get&tableName=${tableName}&dependencyTableName=${dependencyTableName}&page=##&countRecords=${countRecords}" />
             <paginator:display
                     maxLinks="5"
@@ -92,6 +107,15 @@
                     uri="${searchUri}"
             />
         </div>
+
+        <form action="/bean/dependency/add.ass?tableName=${dependencyTableName}" method="POST">
+
+            <input type="hidden" name="notModifiableFieldsNames" value="<%=notModifiableFieldsNames%>" />
+            <input type="hidden" name="defaultValues" value="<%=defaultValues%>" />
+
+            <a href="#" onclick="this.parentNode.submit()">Add new dependency</a>
+
+        </form>
 
     </c:if>
 

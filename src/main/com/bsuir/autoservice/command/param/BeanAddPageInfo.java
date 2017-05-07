@@ -3,24 +3,14 @@ package main.com.bsuir.autoservice.command.param;
 import main.com.bsuir.autoservice.command.ICommandParam;
 import main.com.bsuir.autoservice.command.RequestParameter;
 
-import javax.inject.Inject;
 import java.text.ParseException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class CrudPageInfo implements ICommandParam{
-    @RequestParameter
-    public String tableName;
-    @RequestParameter
-    public String action;
+public class BeanAddPageInfo extends EditFormPageInfo implements ICommandParam{
 
-    public LinkedHashMap<String, String> fields;
-    public String result;
-
-    @Inject
-    public CrudPageInfo(){
-        fields = new LinkedHashMap<>();
-    }
+    @RequestParameter
+    public LinkedHashMap<String, String> defaultValues;
 
     @Override
     public Map<String, String[]> parse(Map<String, String[]> params)
@@ -28,18 +18,16 @@ public class CrudPageInfo implements ICommandParam{
         return parse(params, true);
     }
 
+    @Override
     protected Map<String, String[]> parse(Map<String, String[]> params, boolean passRemainderToFieldsMap)
         throws ParseException{
-        LinkedHashMap<String, String[]> mParams = new LinkedHashMap<>(params);
+        LinkedHashMap<String, String[]> mParams = new LinkedHashMap<>(
+                super.parse(params, false)
+        );
 
-        tableName = mParams.get("tableName")[0];
-        mParams.remove("tableName");
-
-        if(mParams.containsKey("action")) {
-            action = mParams.get("action")[0];
-            mParams.remove("action");
-        }else {
-            action = "get";
+        if(mParams.containsKey("defaultValues")){
+            defaultValues = parseJsonMap(mParams.get("defaultValues")[0].toString());
+            mParams.remove("defaultValues");
         }
 
         if(passRemainderToFieldsMap){

@@ -4,10 +4,10 @@ import com.google.inject.Inject;
 import main.com.bsuir.autoservice.binding.annotation.Default;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
-import main.com.bsuir.autoservice.command.param.CrudPageInfo;
+import main.com.bsuir.autoservice.command.param.BeanEditPageInfo;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 
-public class GetBeanEditPageCommand implements ICommand<CrudPageInfo> {
+public class GetBeanEditPageCommand implements ICommand<BeanEditPageInfo> {
 
     @Inject
     public GetBeanEditPageCommand(@Default IServiceUnitOfWork serviceUnitOfWork){
@@ -15,7 +15,7 @@ public class GetBeanEditPageCommand implements ICommand<CrudPageInfo> {
     }
 
     @Override
-    public CrudPageInfo execute(CrudPageInfo crudPageInfo)
+    public BeanEditPageInfo execute(BeanEditPageInfo crudPageInfo)
             throws CommandException {
         try {
             crudPageInfo.action = "edit";

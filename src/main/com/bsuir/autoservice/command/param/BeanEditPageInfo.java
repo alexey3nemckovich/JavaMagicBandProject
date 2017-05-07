@@ -8,18 +8,15 @@ import java.text.ParseException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class CrudPageInfo implements ICommandParam{
-    @RequestParameter
-    public String tableName;
-    @RequestParameter
-    public String action;
+public class BeanEditPageInfo extends EditFormPageInfo implements ICommandParam{
 
-    public LinkedHashMap<String, String> fields;
-    public String result;
+    @RequestParameter
+    public LinkedHashMap<String, String> oldFields;
 
     @Inject
-    public CrudPageInfo(){
-        fields = new LinkedHashMap<>();
+    public BeanEditPageInfo(){
+        super();
+        oldFields = new LinkedHashMap<>();
     }
 
     @Override
@@ -28,18 +25,16 @@ public class CrudPageInfo implements ICommandParam{
         return parse(params, true);
     }
 
+    @Override
     protected Map<String, String[]> parse(Map<String, String[]> params, boolean passRemainderToFieldsMap)
         throws ParseException{
-        LinkedHashMap<String, String[]> mParams = new LinkedHashMap<>(params);
+        LinkedHashMap<String, String[]> mParams = new LinkedHashMap<>(
+                super.parse(params, false)
+        );
 
-        tableName = mParams.get("tableName")[0];
-        mParams.remove("tableName");
-
-        if(mParams.containsKey("action")) {
-            action = mParams.get("action")[0];
-            mParams.remove("action");
-        }else {
-            action = "get";
+        if(!action.equals("get")){
+            oldFields = parseJsonMap(mParams.get("oldValues")[0].toString());
+            mParams.remove("oldValues");
         }
 
         if(passRemainderToFieldsMap){

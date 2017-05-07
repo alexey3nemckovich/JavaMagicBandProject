@@ -4,6 +4,7 @@ import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.command.ICommandParam;
 import main.com.bsuir.autoservice.command.RequestParameter;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -25,12 +26,14 @@ public class BeanViewPageInfo extends CrudPageInfo implements ICommandParam{
     }
 
     @Override
-    public Map<String, String[]> parse(Map<String, String[]> params){
+    public Map<String, String[]> parse(Map<String, String[]> params)
+        throws ParseException{
         return parse(params, true);
     }
 
     @Override
-    protected Map<String, String[]> parse(Map<String, String[]> params, boolean passRemainderToFieldsMap){
+    protected Map<String, String[]> parse(Map<String, String[]> params, boolean passRemainderToFieldsMap)
+        throws ParseException{
         LinkedHashMap<String, String[]> mParams = new LinkedHashMap<String, String[]>(
                 super.parse(params, false)
         );

@@ -5,10 +5,12 @@ import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.binding.annotation.Default;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
-import main.com.bsuir.autoservice.command.param.CrudPageInfo;
+import main.com.bsuir.autoservice.command.param.BeanAddPageInfo;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 
-public class GetBeanAddPageCommand implements ICommand<CrudPageInfo> {
+import java.util.Map;
+
+public class GetBeanAddPageCommand implements ICommand<BeanAddPageInfo> {
 
     @Inject
     public GetBeanAddPageCommand(@Default IServiceUnitOfWork serviceUnitOfWork){
@@ -16,14 +18,17 @@ public class GetBeanAddPageCommand implements ICommand<CrudPageInfo> {
     }
 
     @Override
-    public CrudPageInfo execute(CrudPageInfo crudPageInfo)
+    public BeanAddPageInfo execute(BeanAddPageInfo beanAddPageInfo)
             throws CommandException {
         try {
-            Class<? extends Bean> beanClass = (Class<? extends Bean>)Class.forName(Bean.class.getPackage().getName() + '.' + crudPageInfo.tableName);
+            Class<? extends Bean> beanClass = (Class<? extends Bean>)Class.forName(Bean.class.getPackage().getName() + ".impl." + beanAddPageInfo.tableName);
             Bean bean = beanClass.newInstance();
-            crudPageInfo.fields = bean.getFieldValues();
-            crudPageInfo.action = "add";
-            return crudPageInfo;
+            beanAddPageInfo.fields = bean.getFieldValues();
+            for(Map.Entry<String, String> entry : beanAddPageInfo.defaultValues.entrySet()){
+                beanAddPageInfo.fields.put(entry.getKey(), entry.getValue());
+            }
+            beanAddPageInfo.action = "add";
+            return beanAddPageInfo;
         }catch (Exception e){
             throw new CommandException(e);
         }
