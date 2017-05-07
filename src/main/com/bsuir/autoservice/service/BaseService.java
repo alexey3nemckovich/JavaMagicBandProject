@@ -1,6 +1,7 @@
 package main.com.bsuir.autoservice.service;
 
 import com.google.inject.Inject;
+import main.com.bsuir.autoservice.binding.annotation.Cached;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 
@@ -14,6 +15,7 @@ public class BaseService implements IBaseService {
         db = database;
     }
 
+    @Cached
     public List<String> getListTableNames() throws ServiceException{
         try {
             return db.getListTableNames();

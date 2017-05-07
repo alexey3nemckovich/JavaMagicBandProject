@@ -54,6 +54,9 @@ import main.com.bsuir.autoservice.dao.sql.ISql;
 import main.com.bsuir.autoservice.dao.sql.Sql;
 import main.com.bsuir.autoservice.dao.unitOfWork.DefaultDaoUnitOfWork;
 import main.com.bsuir.autoservice.dao.unitOfWork.IDaoUnitOfWork;
+import main.com.bsuir.autoservice.infrastructure.cache.IMethodCache;
+import main.com.bsuir.autoservice.infrastructure.cache.impl.MethodCache;
+import main.com.bsuir.autoservice.infrastructure.interceptor.CacheInterceptor;
 import main.com.bsuir.autoservice.infrastructure.interceptor.TransactionInterceptor;
 import main.com.bsuir.autoservice.infrastructure.listener.DatabaseConnectionListener;
 import main.com.bsuir.autoservice.infrastructure.session.ISession;
@@ -98,6 +101,13 @@ public abstract class AutoServiceShopModule extends ServletModule {
         bindSession();
         bindListener();
         bindTransaction();
+        bindCache();
+    }
+
+    private void bindCache() {
+        bind(IMethodCache.class).to(MethodCache.class).in(Singleton.class);
+        bindInterceptor(Matchers.any(), Matchers.annotatedWith(Cached.class),
+                new CacheInterceptor(getProvider(IMethodCache.class)));
     }
 
     private void bindListener() {
