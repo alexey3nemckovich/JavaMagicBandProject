@@ -30,6 +30,8 @@ import main.com.bsuir.autoservice.command.param.EditPageInfo;
 import main.com.bsuir.autoservice.config.RouteConfig;
 import main.com.bsuir.autoservice.config.database.impl.sql.ISqlConfigDatabase;
 import main.com.bsuir.autoservice.config.database.impl.sql.impl.SqlConfigDatabase;
+import main.com.bsuir.autoservice.config.database.map.IDatabaseMap;
+import main.com.bsuir.autoservice.config.database.map.impl.DataMapConfig;
 import main.com.bsuir.autoservice.config.permission.Permission;
 import main.com.bsuir.autoservice.controller.IController;
 import main.com.bsuir.autoservice.controller.NoController;
@@ -80,6 +82,7 @@ public abstract class AutoServiceShopModule extends ServletModule {
 
     private static final String RESOURCE_DATABASE = "database";
     private static final String ERROR_JSP_PAGE = "./error.jsp";
+    private static final String RESOURCE_DATABASE_MAP = "databaseMap.xml";
 
     protected void configBindings() {
         bindConfig();
@@ -234,6 +237,9 @@ public abstract class AutoServiceShopModule extends ServletModule {
     private void bindDatabase() {
         bind(String.class).annotatedWith(Names.named("sqlConfig")).toInstance(RESOURCE_DATABASE);
         bind(ISqlConfigDatabase.class).to(SqlConfigDatabase.class).in(Singleton.class);
+
+        bind(String.class).annotatedWith(Names.named("dataMapConfig")).toInstance(RESOURCE_DATABASE_MAP);
+        bind(IDatabaseMap.class).to(DataMapConfig.class).asEagerSingleton();
     }
 
     private void bindLibraries() {

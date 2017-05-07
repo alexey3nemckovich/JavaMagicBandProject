@@ -1,8 +1,8 @@
 package general.bean;
 
+import main.com.bsuir.autoservice.bean.User;
 import main.com.bsuir.autoservice.bean.service;
 import main.com.bsuir.autoservice.bean.share;
-import main.com.bsuir.autoservice.bean.user;
 
 import static org.mockito.Mockito.mock;
 
@@ -31,8 +31,8 @@ public class MockBean {
 
     private static final int MOCK_USER_ID = 1;
 
-    public static user getMockUser(){
-        user user = mock(user.class);
+    public static User getMockUser(){
+        User user = mock(User.class);
         user.setId(MOCK_USER_ID);
         return user;
     }

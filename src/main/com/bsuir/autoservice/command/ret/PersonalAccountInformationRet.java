@@ -1,17 +1,17 @@
 package main.com.bsuir.autoservice.command.ret;
 
-import main.com.bsuir.autoservice.bean.user;
+import main.com.bsuir.autoservice.bean.User;
 
 import java.util.Objects;
 
 public class PersonalAccountInformationRet {
-    //TODO: get only important information for user
+    //TODO: get only important information for User
     private final boolean isContinueWork;
-    private final user generalUserInformation;
+    private final User generalUserInformation;
     private final boolean haveNewNotification;
 
 
-    public PersonalAccountInformationRet(boolean isContinueWork, user generalUserInformation,
+    public PersonalAccountInformationRet(boolean isContinueWork, User generalUserInformation,
                                           boolean haveNewNotification){
         this.isContinueWork = isContinueWork;
         this.generalUserInformation = generalUserInformation;
@@ -20,7 +20,7 @@ public class PersonalAccountInformationRet {
 
     public static class Builder{
         private boolean nestedIsContinueWork;
-        private user nestedGeneralUserInformation;
+        private User nestedGeneralUserInformation;
         private boolean nestedHaveNewNotification;
 
         public Builder setNestedIsContinueWork(boolean nestedIsContinueWork) {
@@ -29,7 +29,7 @@ public class PersonalAccountInformationRet {
             return this;
         }
 
-        public Builder setNestedGeneralUserInformation(user nestedGeneralUserInformation) {
+        public Builder setNestedGeneralUserInformation(User nestedGeneralUserInformation) {
             this.nestedGeneralUserInformation = nestedGeneralUserInformation;
 
             return this;
@@ -49,7 +49,7 @@ public class PersonalAccountInformationRet {
         }
     }
 
-    public user getGeneralUserInformation() {
+    public User getGeneralUserInformation() {
         return generalUserInformation;
     }
 

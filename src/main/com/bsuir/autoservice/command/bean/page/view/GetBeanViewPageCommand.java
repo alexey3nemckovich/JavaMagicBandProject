@@ -47,7 +47,7 @@ public class GetBeanViewPageCommand implements ICommand<BeanViewPageInfo, BeanVi
             pageInfo.countRecords = 3;
         }
         if(pageInfo.tableName.isEmpty()){
-            pageInfo.tableName = "user";
+            pageInfo.tableName = "User";
         }
     }
 

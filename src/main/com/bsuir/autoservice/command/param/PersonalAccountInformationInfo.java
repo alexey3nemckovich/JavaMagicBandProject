@@ -1,13 +1,13 @@
 package main.com.bsuir.autoservice.command.param;
 
-import main.com.bsuir.autoservice.bean.user;
+import main.com.bsuir.autoservice.bean.User;
 import main.com.bsuir.autoservice.command.ICommandParam;
 
 import java.util.Map;
 
 public class PersonalAccountInformationInfo implements ICommandParam{
     private boolean authorized;
-    private user.Type accountLevel;
+    private User.Type accountLevel;
     private int userId;
 
     @Override
@@ -19,7 +19,7 @@ public class PersonalAccountInformationInfo implements ICommandParam{
         return authorized;
     }
 
-    public user.Type getAccountLevel() {
+    public User.Type getAccountLevel() {
         return accountLevel;
     }
 

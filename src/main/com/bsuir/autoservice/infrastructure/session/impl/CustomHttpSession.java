@@ -23,7 +23,7 @@ public class CustomHttpSession implements ISession<Integer> {
     public Integer getUserId() throws SessionException {
         try {
             Integer userId = (Integer) httpSession.getAttribute(KEY_USER_ID);
-            assert userId != null : "Session user id is null";
+            assert userId != null : "Session User id is null";
             return userId;
         }catch (Exception e){
             throw new SessionException(e);

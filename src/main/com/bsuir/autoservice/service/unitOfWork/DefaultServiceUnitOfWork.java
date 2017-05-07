@@ -16,7 +16,6 @@ import java.lang.reflect.Field;
 
 public class DefaultServiceUnitOfWork implements IServiceUnitOfWork {
     private final IBaseService baseService;
-
     private final IUserService userService;
     private final IOrderService orderService;
     private final IStaffService staffService;
@@ -46,7 +45,7 @@ public class DefaultServiceUnitOfWork implements IServiceUnitOfWork {
                     return (IServiceCrud) field.get(this);
                 }
             }
-            throw new ServiceException(String.format("BaseService not found for user '%s'", tableName));
+            throw new ServiceException(String.format("BaseService isn't found for table '%s'", tableName));
         }catch (Exception e){
             throw new ServiceException(e);
         }

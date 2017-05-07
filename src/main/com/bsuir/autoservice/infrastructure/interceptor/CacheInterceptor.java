@@ -20,12 +20,34 @@ public class CacheInterceptor implements MethodInterceptor{
 
     @Override
     public Object invoke(MethodInvocation methodInvocation) throws Throwable {
-        IMethodCache methodCache = methodCacheProvider.get();
-        String methodName = getMethodName(methodInvocation);
-        Object thisObject = methodInvocation.getThis();
-        return methodCache.containsMethodResult(thisObject, methodName)
-                ? methodCache.getResult(thisObject, methodName)
-                : cachedResult(methodCache, thisObject, methodName, methodInvocation.proceed());
+        return getResult(methodCacheProvider.get(),
+                methodInvocation.getThis(),
+                getMethodName(methodInvocation),
+                methodInvocation);
+    }
+
+    private static Object getResult(IMethodCache methodCache, Object thisObject,
+                             String methodName, MethodInvocation methodInvocation) throws Throwable {
+        return containsInCache(methodCache, thisObject, methodName)
+                ? getCachedResult(methodCache, thisObject, methodName)
+                : syncCachedResult(methodCache, thisObject, methodName, methodInvocation);
+    }
+
+    private static boolean containsInCache(IMethodCache methodCache, Object thisObject, String methodName) {
+        return methodCache.containsMethodResult(thisObject, methodName);
+    }
+
+    private static Object getCachedResult(IMethodCache methodCache, Object thisObject, String methodName) {
+        return methodCache.getResult(thisObject, methodName);
+    }
+
+    private static Object syncCachedResult(IMethodCache methodCache, Object thisObject,
+                                           String methodName, MethodInvocation methodInvocation) throws Throwable {
+        synchronized (methodInvocation.getMethod()){
+            return containsInCache(methodCache, thisObject, methodName)
+                    ? getCachedResult(methodCache, thisObject, methodName)
+                    : cachedResult(methodCache, thisObject, methodName, methodInvocation.proceed());
+        }
     }
 
     private static Object cachedResult(IMethodCache methodCache, Object thisObject, String methodName, Object proceed) {

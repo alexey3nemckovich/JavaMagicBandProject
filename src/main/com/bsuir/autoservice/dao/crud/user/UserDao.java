@@ -1,7 +1,7 @@
 package main.com.bsuir.autoservice.dao.crud.user;
 
 import com.google.inject.Inject;
-import main.com.bsuir.autoservice.bean.user;
+import main.com.bsuir.autoservice.bean.User;
 import main.com.bsuir.autoservice.dao.crud.AbstractDaoCrud;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class UserDao extends AbstractDaoCrud<user, Integer> implements IUserDao {
+public class UserDao extends AbstractDaoCrud<User, Integer> implements IUserDao {
 
     @Inject
     public UserDao(IDatabase db, ISql sql) {
@@ -25,11 +25,11 @@ public class UserDao extends AbstractDaoCrud<user, Integer> implements IUserDao 
     }
 
     @Override
-    public List<user> parseResultSet(ResultSet rs) throws DaoException{
-        LinkedList<user> result = new LinkedList<>();
+    public List<User> parseResultSet(ResultSet rs) throws DaoException{
+        LinkedList<User> result = new LinkedList<>();
         try {
             while (rs.next()) {
-                user user = new user();
+                User user = new User();
                 user.setId(rs.getInt("id"));
                 user.setMail(rs.getString("mail"));
                 user.setLogin(rs.getString("login"));
@@ -37,7 +37,7 @@ public class UserDao extends AbstractDaoCrud<user, Integer> implements IUserDao 
                 user.setPhone(rs.getString("phone"));
                 user.setName(rs.getString("name"));
                 user.setLastName(rs.getString("last_name"));
-                user.setType(main.com.bsuir.autoservice.bean.user.Type.valueOf(rs.getString("type")));
+                user.setType(User.Type.valueOf(rs.getString("type")));
                 result.add(user);
             }
         } catch (SQLException e) {
@@ -46,5 +46,5 @@ public class UserDao extends AbstractDaoCrud<user, Integer> implements IUserDao 
         return result;
     }
 
-    private static final String tableName = "user";
+    private static final String tableName = "User";
 }

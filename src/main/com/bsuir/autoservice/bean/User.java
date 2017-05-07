@@ -1,12 +1,12 @@
 package main.com.bsuir.autoservice.bean;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.Map;
 
-public class user extends Bean {
+public class User extends Bean {
     public enum Type{
         USER,
-        STAFF;
+        STAFF
     }
 
     public int getId(){
@@ -97,7 +97,7 @@ public class user extends Bean {
     }
 
     @Override
-    public user setFields(Map<String, String> fieldValues) {
+    public User setFields(Map<String, String> fieldValues) {
         id = Integer.valueOf(fieldValues.get("id"));
         mail = fieldValues.get("mail");
         login = fieldValues.get("login");
