@@ -1,7 +1,6 @@
 package main.com.bsuir.autoservice.command.bean.page.view;
 
 import com.google.inject.Inject;
-import main.com.bsuir.autoservice.binding.annotation.Default;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.BeanViewPageInfo;
@@ -12,7 +11,7 @@ import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 public class GetBeanViewPageCommand implements ICommand<BeanViewPageInfo, BeanViewPageInfo> {
 
     @Inject
-    public GetBeanViewPageCommand(@Default IServiceUnitOfWork serviceUnitOfWork){
+    public GetBeanViewPageCommand(IServiceUnitOfWork serviceUnitOfWork){
         this.serviceUnitOfWork = serviceUnitOfWork;
     }
 

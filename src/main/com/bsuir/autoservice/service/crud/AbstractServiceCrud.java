@@ -59,14 +59,5 @@ public abstract class AbstractServiceCrud<PrimaryKey,Entity> implements IService
         }
     }
 
-    @Override
-    public String getTableName() throws ServiceException {
-        try{
-            return daoCrud.getTableName();
-        }catch (Exception e) {
-            throw new ServiceException(e);
-        }
-    }
-
     private final IDaoCrud<Entity, PrimaryKey> daoCrud;
 }

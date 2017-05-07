@@ -59,12 +59,7 @@ public class TransactionInterceptor implements MethodInterceptor{
                 LAYER_GENERAL_INTERFACE.getName());
     }
 
-    private static boolean isHaveLayerInterface(Class checkedClass) {
-        for (Class checkedInterface : checkedClass.getInterfaces()){
-            if (checkedInterface.equals(LAYER_GENERAL_INTERFACE) || isHaveLayerInterface(checkedInterface)){
-                return true;
-            }
-        }
-        return false;
+    private static boolean isHaveLayerInterface(Class<?> checkedClass) {
+        return checkedClass.isAssignableFrom(LAYER_GENERAL_INTERFACE);
     }
 }

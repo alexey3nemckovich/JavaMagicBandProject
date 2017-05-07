@@ -1,20 +1,25 @@
 package main.com.bsuir.autoservice.service.unitOfWork;
 
 import com.google.inject.Inject;
+import main.com.bsuir.autoservice.binding.annotation.Cached;
 import main.com.bsuir.autoservice.binding.annotation.FakeUOF;
+import main.com.bsuir.autoservice.config.database.map.IDatabaseMap;
 import main.com.bsuir.autoservice.service.IBaseService;
 import main.com.bsuir.autoservice.service.INotificationService;
 import main.com.bsuir.autoservice.service.IServiceService;
 import main.com.bsuir.autoservice.service.IShareService;
+import main.com.bsuir.autoservice.service.crud.IOrderService;
 import main.com.bsuir.autoservice.service.crud.IServiceCrud;
+import main.com.bsuir.autoservice.service.crud.IStaffService;
+import main.com.bsuir.autoservice.service.crud.IUserService;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
-import main.com.bsuir.autoservice.service.crud.order.IOrderService;
-import main.com.bsuir.autoservice.service.crud.staff.IStaffService;
-import main.com.bsuir.autoservice.service.crud.user.IUserService;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DefaultServiceUnitOfWork implements IServiceUnitOfWork {
+    private final IDatabaseMap databaseMap;
     private final IBaseService baseService;
     private final IUserService userService;
     private final IOrderService orderService;
@@ -24,7 +29,8 @@ public class DefaultServiceUnitOfWork implements IServiceUnitOfWork {
     private final INotificationService notificationService;
 
     @Inject
-    public DefaultServiceUnitOfWork(@FakeUOF IServiceUnitOfWork fakeServiceUOF){
+    public DefaultServiceUnitOfWork(@FakeUOF IServiceUnitOfWork fakeServiceUOF, IDatabaseMap databaseMap){
+        this.databaseMap = databaseMap;
         baseService = fakeServiceUOF.getBaseService();
         userService = fakeServiceUOF.getUserService();
         orderService = fakeServiceUOF.getOrderService();
@@ -34,20 +40,43 @@ public class DefaultServiceUnitOfWork implements IServiceUnitOfWork {
         notificationService = fakeServiceUOF.getNotificationService();
     }
 
-    @Override
-    public IServiceCrud getServiceCrudForBean(String tableName)
-            throws ServiceException{
+    @Cached
+    protected Map<String, IServiceCrud> getTableNameCrudServices() {
+        final Map<String, Class<? extends IServiceCrud>> tableNameCrudServiceClassMap =
+                databaseMap.getShowTableNameServiceCrud();
+        final Map<String, IServiceCrud> tableNameCrudServiceMap = new HashMap<>();
         try {
-            Field[] fields = this.getClass().getDeclaredFields();
-            for (Field field: fields) {
-                if(field.getName().contains(tableName)){
-                    field.setAccessible(true);
-                    return (IServiceCrud) field.get(this);
+            for (Field field : DefaultServiceUnitOfWork.class.getDeclaredFields()) {
+                for (Map.Entry<String, Class<? extends IServiceCrud>> entryTableNameCrudClass :
+                        tableNameCrudServiceClassMap.entrySet()) {
+                    if (field.getType().isAssignableFrom(entryTableNameCrudClass.getValue())) {
+                        tableNameCrudServiceMap.put(entryTableNameCrudClass.getKey(), (IServiceCrud) field.get(this));
+                        tableNameCrudServiceClassMap.remove(entryTableNameCrudClass.getKey());
+                        break;
+                    }
+                }
+                if (tableNameCrudServiceClassMap.size() == 0){
+                    break;
                 }
             }
-            throw new ServiceException(String.format("BaseService isn't found for table '%s'", tableName));
         }catch (Exception e){
-            throw new ServiceException(e);
+            throw new RuntimeException(e);
+        }
+
+        assert tableNameCrudServiceClassMap.isEmpty()
+                : String.format("Not all databaseMap crud found in '%s'", getClass().getName());
+
+        return tableNameCrudServiceMap;
+    }
+
+    @Override
+    public IServiceCrud getServiceCrudForBean(String tableName)
+            throws ServiceException {
+        IServiceCrud serviceCrud = getTableNameCrudServices().get(tableName);
+        if (serviceCrud != null) {
+            return serviceCrud;
+        } else {
+            throw new ServiceException(String.format("BaseService isn't found for table '%s'", tableName));
         }
     }
 

@@ -3,7 +3,6 @@ package main.com.bsuir.autoservice.command.bean.crud;
 import com.google.inject.Inject;
 import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.bean.BeanException;
-import main.com.bsuir.autoservice.binding.annotation.Default;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.BeanViewPageInfo;
@@ -15,7 +14,7 @@ import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 public class DeleteBeanCommand implements ICommand<BeanViewPageInfo, BeanViewPageInfo> {
 
     @Inject
-    public DeleteBeanCommand(@Default IServiceUnitOfWork serviceUnitOfWork){
+    public DeleteBeanCommand(IServiceUnitOfWork serviceUnitOfWork){
         this.serviceUnitOfWork = serviceUnitOfWork;
     }
 

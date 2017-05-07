@@ -1,7 +1,6 @@
-package main.com.bsuir.autoservice.service.crud.user;
+package main.com.bsuir.autoservice.service.crud;
 
 import main.com.bsuir.autoservice.bean.User;
-import main.com.bsuir.autoservice.service.crud.IServiceCrud;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 
 public interface IUserService extends IServiceCrud<Integer, User> {

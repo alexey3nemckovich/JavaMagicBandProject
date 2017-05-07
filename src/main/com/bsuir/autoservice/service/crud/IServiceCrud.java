@@ -12,5 +12,4 @@ public interface IServiceCrud<PrimaryKey, Entity> extends IService {
     boolean create(Entity entity) throws ServiceException;
     boolean update(Entity entity, Map<String, String> conditionValues) throws ServiceException;
     boolean delete(Entity entity) throws ServiceException;
-    String getTableName() throws ServiceException;
 }

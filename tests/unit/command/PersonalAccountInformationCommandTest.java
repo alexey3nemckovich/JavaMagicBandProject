@@ -2,14 +2,14 @@ package unit.command;
 
 import general.bean.MockBean;
 import general.service.MockService;
-import main.com.bsuir.autoservice.bean.user;
+import main.com.bsuir.autoservice.bean.User;
 import main.com.bsuir.autoservice.command.account.PersonalAccountInformationCommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.PersonalAccountInformationInfo;
 import main.com.bsuir.autoservice.command.ret.PersonalAccountInformationRet;
 import main.com.bsuir.autoservice.service.INotificationService;
+import main.com.bsuir.autoservice.service.crud.IUserService;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
-import main.com.bsuir.autoservice.service.crud.user.IUserService;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 import org.junit.Before;
 import org.junit.Test;
@@ -72,7 +72,7 @@ public class PersonalAccountInformationCommandTest {
         return new PersonalAccountInformationRet.Builder().setNestedIsContinueWork(!MOCK_AUTHORIZED).build();
     }
 
-    private static PersonalAccountInformationRet getAuthorizedPersonalAccountInformationRet(user user,
+    private static PersonalAccountInformationRet getAuthorizedPersonalAccountInformationRet(User user,
                                                                                             boolean haveNotification){
         return new PersonalAccountInformationRet.Builder()
                 .setNestedIsContinueWork(MOCK_AUTHORIZED)
@@ -86,7 +86,7 @@ public class PersonalAccountInformationCommandTest {
         return new PersonalAccountInformationCommand(serviceUnitOfWork);
     }
 
-    private static user getMockUser() {
+    private static User getMockUser() {
         return MockBean.getMockUser();
     }
 
@@ -100,7 +100,7 @@ public class PersonalAccountInformationCommandTest {
 
     @Test
     public void checkEnterAuthorizedClient() throws CommandException, ServiceException {
-        user mockUser = getMockUser();
+        User mockUser = getMockUser();
         when(userService.getGeneralInformation(MOCK_USER_ID)).thenReturn(mockUser);
         final boolean haveNewNotification = true;
         when(notificationService.haveNewNotification()).thenReturn(haveNewNotification);

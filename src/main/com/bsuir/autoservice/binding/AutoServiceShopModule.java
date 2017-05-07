@@ -67,11 +67,11 @@ import main.com.bsuir.autoservice.infrastructure.transaction.ITransaction;
 import main.com.bsuir.autoservice.infrastructure.transaction.impl.RequestTransaction;
 import main.com.bsuir.autoservice.library.RequestType;
 import main.com.bsuir.autoservice.service.*;
-import main.com.bsuir.autoservice.service.crud.order.IOrderService;
+import main.com.bsuir.autoservice.service.crud.IOrderService;
+import main.com.bsuir.autoservice.service.crud.IStaffService;
+import main.com.bsuir.autoservice.service.crud.IUserService;
 import main.com.bsuir.autoservice.service.crud.order.OrderService;
-import main.com.bsuir.autoservice.service.crud.staff.IStaffService;
 import main.com.bsuir.autoservice.service.crud.staff.StaffService;
-import main.com.bsuir.autoservice.service.crud.user.IUserService;
 import main.com.bsuir.autoservice.service.crud.user.UserService;
 import main.com.bsuir.autoservice.service.unitOfWork.DefaultServiceUnitOfWork;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
@@ -134,8 +134,6 @@ public abstract class AutoServiceShopModule extends ServletModule {
 
     private void bindDefault(){
         bind(IController.class).annotatedWith(Default.class).to(NoController.class).in(Singleton.class);
-        bind(IServiceUnitOfWork.class).annotatedWith(Default.class).to(DefaultServiceUnitOfWork.class).in(Singleton.class);
-        bind(IDaoUnitOfWork.class).annotatedWith(Default.class).to(DefaultDaoUnitOfWork.class).in(Singleton.class);
     }
 
     private void bindSupported(){
@@ -194,6 +192,7 @@ public abstract class AutoServiceShopModule extends ServletModule {
     }
 
     private void bindService() {
+        bind(IServiceUnitOfWork.class).to(DefaultServiceUnitOfWork.class).in(Singleton.class);
         bind(IServiceUnitOfWork.class).annotatedWith(FakeUOF.class).toProvider(FakeServiceUOFProvider.class).
                 in(Singleton.class);
 
@@ -209,6 +208,7 @@ public abstract class AutoServiceShopModule extends ServletModule {
     }
 
     private void bindDao() {
+        bind(IDaoUnitOfWork.class).to(DefaultDaoUnitOfWork.class).in(Singleton.class);
         bind(IDaoUnitOfWork.class).annotatedWith(FakeUOF.class).toProvider(FakeDaoUOFProvider.class).in(Singleton.class);
 
         bind(IUserDao.class).to(UserDao.class).in(Singleton.class);
