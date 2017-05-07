@@ -3,6 +3,7 @@ package main.com.bsuir.autoservice.config.database.map.impl;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import main.com.bsuir.autoservice.bean.Bean;
+import main.com.bsuir.autoservice.bean.BeanException;
 import main.com.bsuir.autoservice.binding.annotation.Cached;
 import main.com.bsuir.autoservice.config.database.map.ColumnMap;
 import main.com.bsuir.autoservice.config.database.map.IDatabaseMap;
@@ -22,18 +23,18 @@ import java.util.Map;
 
 import static main.com.bsuir.autoservice.library.XmlUtil.asList;
 
-public class DataMapConfig implements IDatabaseMap{
+public class DataMapConfig implements IDatabaseMap {
     private static final String TAG_TABLE = "table";
 
     //tables subnodes
     private static final String ATTRIBUTE_DATABASE_NAME = "database_name";
-    private static final String ATTRIBUTE_APPLICATION_CLASS = "application_class";
+    private static final String ATTRIBUTE_BEAN_CLASS = "bean_class";
     private static final String ATTRIBUTE_SHOW_NAME = "show_name";
     private static final String ATTRIBUTE_SERVICE_CRUD_NAME = "service_crud";
 
     //table subnodes
     private static final String ATTRIBUTE_COLUMN_DATABASE_FIELD = "database_field";
-    private static final String ATTRIBUTE_COLUMN_APPLICATION_FIELD = "application_field";
+    private static final String ATTRIBUTE_COLUMN_BEAN_FIELD = "bean_field";
 
     //column subnodes
     private static final String TAG_DEPENDENCY = "dependency";
@@ -89,7 +90,7 @@ public class DataMapConfig implements IDatabaseMap{
     private TableMap getTableMap(Node tableNode) {
         final NamedNodeMap namedNodeMap = tableNode.getAttributes();
         return new TableMap(
-                getBeanClass(getExistAttributeValue(namedNodeMap, ATTRIBUTE_APPLICATION_CLASS)),
+                getLoadBeanClass(getExistAttributeValue(namedNodeMap, ATTRIBUTE_BEAN_CLASS)),
                 getExistAttributeValue(namedNodeMap, ATTRIBUTE_DATABASE_NAME),
                 getExistAttributeValue(namedNodeMap, ATTRIBUTE_SHOW_NAME),
                 getTableColums(tableNode));
@@ -103,22 +104,22 @@ public class DataMapConfig implements IDatabaseMap{
                 NamedNodeMap namedNodeMap = columnNode.getAttributes();
                 columnMaps.add(new ColumnMap(
                         getExistAttributeValue(namedNodeMap, ATTRIBUTE_COLUMN_DATABASE_FIELD),
-                        getExistAttributeValue(namedNodeMap, ATTRIBUTE_COLUMN_APPLICATION_FIELD)
+                        getExistAttributeValue(namedNodeMap, ATTRIBUTE_COLUMN_BEAN_FIELD)
                 ));
             }
         });
         return columnMaps;
     }
 
-    private static Class<? extends Bean> getBeanClass(String beanClassName) {
-        return getClass(beanClassName, Bean.class);
+    private static Class<? extends Bean> getLoadBeanClass(String beanClassName) {
+        return getLoadClass(beanClassName, Bean.class);
     }
 
-    private static Class<? extends IServiceCrud> getServiceCrudClass(String serviceCrudClassName){
-        return getClass(serviceCrudClassName, IServiceCrud.class);
+    private static Class<? extends IServiceCrud> getLoadServiceCrudClass(String serviceCrudClassName) {
+        return getLoadClass(serviceCrudClassName, IServiceCrud.class);
     }
 
-    private static <T> Class<? extends T> getClass(String className, Class<T> classType){
+    private static <T> Class<? extends T> getLoadClass(String className, Class<T> classType) {
         try {
             return Class.forName(String.format("%s.%s", classType.getPackage().getName(), className))
                     .asSubclass(classType);
@@ -127,10 +128,16 @@ public class DataMapConfig implements IDatabaseMap{
         }
     }
 
+    @Override
     public TableMap getTableMap(String showTableName) {
-        return getTableMap(getTableNodes().get(getMapShowTableNameIndex().get(showTableName)));
+        return getTableMap(getShowTableNode(showTableName));
     }
 
+    private Node getShowTableNode(String showTableName) {
+        return getTableNodes().get(getMapShowTableNameIndex().get(showTableName));
+    }
+
+    //call 2 times, not need to cached
     @Override
     public Map<String, Class<? extends IServiceCrud>> getShowTableNameServiceCrud() {
         final Map<String, Class<? extends IServiceCrud>> showTableServiceCrudMap = new HashMap<>();
@@ -138,15 +145,35 @@ public class DataMapConfig implements IDatabaseMap{
             Node tableName = node.getAttributes().getNamedItem(ATTRIBUTE_SHOW_NAME);
             Node serviceName = node.getAttributes().getNamedItem(ATTRIBUTE_SERVICE_CRUD_NAME);
             if (tableName != null && serviceName != null) {
-                showTableServiceCrudMap.put(tableName.getNodeValue(), getServiceCrudClass(serviceName.getNodeValue()));
+                showTableServiceCrudMap.put(tableName.getNodeValue(), getLoadServiceCrudClass(serviceName.getNodeValue()));
             }
         });
         return showTableServiceCrudMap;
     }
 
     @Cached
+    protected Map<String, Class<? extends Bean>> getShowTableNameBean() {
+        Map<String, Class<? extends Bean>> showTableNamesBean = new HashMap<>(getMapShowTableNameIndex().size());
+        for (String showTableName : getMapShowTableNameIndex().keySet()) {
+            showTableNamesBean.put(showTableName, getLoadBeanClass(getExistAttributeValue(
+                    getShowTableNode(showTableName).getAttributes(), ATTRIBUTE_BEAN_CLASS)));
+        }
+        return showTableNamesBean;
+    }
+
+    @Override
+    public Class<? extends Bean> getBeanClass(String showTableName) {
+        return getShowTableNameBean().get(showTableName);
+    }
+
+    @Override
+    public Bean getBeanInstance(String showTableName, HashMap<String, String> fields) throws BeanException {
+        return Bean.getBeanObject(getBeanClass(showTableName), fields);
+    }
+
+    @Cached
     @Override
     public List<String> getShowTableNames() {
-        return new ArrayList<String>(getShowTableNameServiceCrud().keySet());
+        return new ArrayList<>(getShowTableNameServiceCrud().keySet());
     }
 }

@@ -6,6 +6,7 @@ import main.com.bsuir.autoservice.bean.BeanException;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.BeanViewPageInfo;
+import main.com.bsuir.autoservice.config.database.map.IDatabaseMap;
 import main.com.bsuir.autoservice.exception.ExceptionUnwrapper;
 import main.com.bsuir.autoservice.service.crud.IServiceCrud;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
@@ -13,16 +14,19 @@ import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 
 public class DeleteBeanCommand implements ICommand<BeanViewPageInfo, BeanViewPageInfo> {
 
+    private final IDatabaseMap databaseMap;
+
     @Inject
-    public DeleteBeanCommand(IServiceUnitOfWork serviceUnitOfWork){
+    public DeleteBeanCommand(IServiceUnitOfWork serviceUnitOfWork, IDatabaseMap databaseMap){
         this.serviceUnitOfWork = serviceUnitOfWork;
+        this.databaseMap = databaseMap;
     }
 
     @Override
     public BeanViewPageInfo execute(BeanViewPageInfo beanViewPageInfo) throws CommandException {
         try {
             IServiceCrud serviceCrud = serviceUnitOfWork.getServiceCrudForBean(beanViewPageInfo.tableName);
-            Bean bean = Bean.getBeanObject(beanViewPageInfo.tableName, beanViewPageInfo.fields);
+            Bean bean = databaseMap.getBeanInstance(beanViewPageInfo.tableName, beanViewPageInfo.fields);
             serviceCrud.delete(bean);
             beanViewPageInfo.result = "Operation success";
             //change page content

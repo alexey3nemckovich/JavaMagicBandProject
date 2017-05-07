@@ -3,7 +3,7 @@ package main.com.bsuir.autoservice.bean;
 import java.lang.reflect.Field;
 import java.util.Map;
 
-public class staff extends Bean{
+public class Staff extends Bean{
     public enum Specialization{
         MECHANIC, CHIEF_MECHANIC, ADMIN, DIRECTOR
     }
@@ -60,7 +60,7 @@ public class staff extends Bean{
     }
 
     @Override
-    public staff setFields(Map<String, String> fieldValues) {
+    public Staff setFields(Map<String, String> fieldValues) {
         id = Integer.valueOf(fieldValues.get("id"));
         service_shop_id = Integer.valueOf(fieldValues.get("service_shop_id"));
         user_id = Integer.valueOf(fieldValues.get("user_id"));

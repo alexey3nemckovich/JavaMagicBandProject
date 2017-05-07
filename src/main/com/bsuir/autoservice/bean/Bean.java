@@ -12,13 +12,8 @@ public abstract class Bean {
     public abstract Field[] getFieldsOrdered() throws BeanException;
     public abstract Bean setFields(Map<String, String> fieldValues) throws BeanException;
 
-    @SuppressWarnings("unchecked")
-    public static Bean getBeanObject(String beanName, Map<String, String> fields) throws BeanException{
+    public static Bean getBeanObject(Class<? extends Bean> beanClass, Map<String, String> fields) throws BeanException{
         try {
-            Class<? extends Bean> beanClass =
-                    (Class<? extends Bean>)Class.forName(
-                            Bean.class.getPackage().getName() + '.' + beanName
-                    );
             Bean bean = beanClass.newInstance();
             bean.setFields(fields);
             return bean;

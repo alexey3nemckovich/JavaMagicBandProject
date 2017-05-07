@@ -6,6 +6,7 @@ import main.com.bsuir.autoservice.bean.BeanException;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.CrudPageInfo;
+import main.com.bsuir.autoservice.config.database.map.IDatabaseMap;
 import main.com.bsuir.autoservice.exception.ExceptionUnwrapper;
 import main.com.bsuir.autoservice.service.crud.IServiceCrud;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
@@ -13,16 +14,19 @@ import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 
 public class AddBeanCommand implements ICommand<CrudPageInfo, CrudPageInfo>{
 
+    private final IDatabaseMap databaseMap;
+
     @Inject
-    public AddBeanCommand(IServiceUnitOfWork serviceUnitOfWork){
+    public AddBeanCommand(IServiceUnitOfWork serviceUnitOfWork, IDatabaseMap databaseMap){
         this.serviceUnitOfWork = serviceUnitOfWork;
+        this.databaseMap = databaseMap;
     }
 
     @Override
     public CrudPageInfo execute(CrudPageInfo crudPageInfo) throws CommandException{
         try {
             IServiceCrud serviceCrud = serviceUnitOfWork.getServiceCrudForBean(crudPageInfo.tableName);
-            Bean bean = Bean.getBeanObject(crudPageInfo.tableName, crudPageInfo.fields);
+            Bean bean = databaseMap.getBeanInstance(crudPageInfo.tableName, crudPageInfo.fields);
             serviceCrud.create(bean);
             crudPageInfo.result = "Operation success";
             return crudPageInfo;
