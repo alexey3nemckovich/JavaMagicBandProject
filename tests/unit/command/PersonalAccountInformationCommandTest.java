@@ -2,11 +2,14 @@ package unit.command;
 
 import general.bean.MockBean;
 import general.service.MockService;
+import general.session.MockSession;
 import main.com.bsuir.autoservice.bean.User;
 import main.com.bsuir.autoservice.command.account.PersonalAccountInformationCommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.PersonalAccountInformationInfo;
 import main.com.bsuir.autoservice.command.ret.PersonalAccountInformationRet;
+import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
+import main.com.bsuir.autoservice.infrastructure.session.exception.SessionException;
 import main.com.bsuir.autoservice.service.INotificationService;
 import main.com.bsuir.autoservice.service.crud.IUserService;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
@@ -26,11 +29,16 @@ public class PersonalAccountInformationCommandTest {
     private PersonalAccountInformationCommand personalAccountInformationCommand;
 
     @Before
-    public void beforeTest(){
+    public void beforeTest() throws SessionException {
         userService = getUserSevice();
         notificationService = getNotificationService();
         IServiceUnitOfWork mockUOF = getServiceUOF(userService, notificationService);
-        personalAccountInformationCommand = getPersonalAccountInformationCommand(mockUOF);
+        IUserSession session = getSession();
+        personalAccountInformationCommand = getPersonalAccountInformationCommand(mockUOF, session);
+    }
+
+    private static IUserSession getSession() throws SessionException {
+        return MockSession.getSession();
     }
 
     private static IServiceUnitOfWork getServiceUOF(IUserService userService, INotificationService notificationService){
@@ -48,54 +56,24 @@ public class PersonalAccountInformationCommandTest {
         return MockService.getNotificationService();
     }
 
-    private static final boolean MOCK_AUTHORIZED = true;
-    private static final int MOCK_USER_ID = 1;
+    private static final int MOCK_USER_ID = MockSession.MOCK_SESSION_ID;
 
     private static PersonalAccountInformationInfo getPersonalAccountInformationInfo(){
         return mock(PersonalAccountInformationInfo.class);
     }
 
-    private static PersonalAccountInformationInfo getAuthorizedPersonalAccountInformationInfo(){
-        PersonalAccountInformationInfo personalAccountInformationInfo = getPersonalAccountInformationInfo();
-        when(personalAccountInformationInfo.isAuthorized()).thenReturn(MOCK_AUTHORIZED);
-        when(personalAccountInformationInfo.getUserId()).thenReturn(MOCK_USER_ID);
-        return personalAccountInformationInfo;
-    }
-
-    private static PersonalAccountInformationInfo getUnauthorizedPersonalAccountInformationInfo(){
-        PersonalAccountInformationInfo personalAccountInformationInfo = getPersonalAccountInformationInfo();
-        when(personalAccountInformationInfo.isAuthorized()).thenReturn(!MOCK_AUTHORIZED);
-        return personalAccountInformationInfo;
-    }
-
-    private static PersonalAccountInformationRet getUnauthorizedPersonalAccountInformationRet(){
-        return new PersonalAccountInformationRet.Builder().setNestedIsContinueWork(!MOCK_AUTHORIZED).build();
-    }
-
     private static PersonalAccountInformationRet getAuthorizedPersonalAccountInformationRet(User user,
                                                                                             boolean haveNotification){
-        return new PersonalAccountInformationRet.Builder()
-                .setNestedIsContinueWork(MOCK_AUTHORIZED)
-                .setNestedGeneralUserInformation(user)
-                .setNestedHaveNewNotification(haveNotification)
-                .build();
+        return new PersonalAccountInformationRet(user, haveNotification);
     }
 
     private static PersonalAccountInformationCommand getPersonalAccountInformationCommand(
-            IServiceUnitOfWork serviceUnitOfWork){
-        return new PersonalAccountInformationCommand(serviceUnitOfWork);
+            IServiceUnitOfWork serviceUnitOfWork, IUserSession session){
+        return new PersonalAccountInformationCommand(serviceUnitOfWork, session);
     }
 
     private static User getMockUser() {
         return MockBean.getMockUser();
-    }
-
-
-    @Test
-    public void checkEnterUnauthorizedClient() throws CommandException, ServiceException {
-        assertEquals(personalAccountInformationCommand.execute(
-                getUnauthorizedPersonalAccountInformationInfo()),
-                getUnauthorizedPersonalAccountInformationRet());
     }
 
     @Test
@@ -105,7 +83,7 @@ public class PersonalAccountInformationCommandTest {
         final boolean haveNewNotification = true;
         when(notificationService.haveNewNotification()).thenReturn(haveNewNotification);
         assertEquals(personalAccountInformationCommand.execute(
-                getAuthorizedPersonalAccountInformationInfo()),
+                getPersonalAccountInformationInfo()),
                 getAuthorizedPersonalAccountInformationRet(mockUser, haveNewNotification));
     }
 
@@ -114,7 +92,7 @@ public class PersonalAccountInformationCommandTest {
         when(userService.getGeneralInformation(anyInt())).thenThrow(ServiceException.class);
         when(notificationService.haveNewNotification()).thenThrow(ServiceException.class);
         personalAccountInformationCommand.execute(
-                getAuthorizedPersonalAccountInformationInfo()
+                getPersonalAccountInformationInfo()
         );
         fail();
     }

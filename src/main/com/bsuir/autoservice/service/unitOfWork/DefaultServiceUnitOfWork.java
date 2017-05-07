@@ -3,7 +3,7 @@ package main.com.bsuir.autoservice.service.unitOfWork;
 import com.google.inject.Inject;
 import main.com.bsuir.autoservice.binding.annotation.Cached;
 import main.com.bsuir.autoservice.binding.annotation.FakeUOF;
-import main.com.bsuir.autoservice.config.database.map.IDatabaseMap;
+import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
 import main.com.bsuir.autoservice.service.IBaseService;
 import main.com.bsuir.autoservice.service.INotificationService;
 import main.com.bsuir.autoservice.service.IServiceService;

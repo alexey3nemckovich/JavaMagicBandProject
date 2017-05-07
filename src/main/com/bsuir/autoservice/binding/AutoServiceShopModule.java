@@ -30,8 +30,6 @@ import main.com.bsuir.autoservice.command.param.EditPageInfo;
 import main.com.bsuir.autoservice.config.RouteConfig;
 import main.com.bsuir.autoservice.config.database.impl.sql.ISqlConfigDatabase;
 import main.com.bsuir.autoservice.config.database.impl.sql.impl.SqlConfigDatabase;
-import main.com.bsuir.autoservice.config.database.map.IDatabaseMap;
-import main.com.bsuir.autoservice.config.database.map.impl.DataMapConfig;
 import main.com.bsuir.autoservice.config.permission.Permission;
 import main.com.bsuir.autoservice.controller.IController;
 import main.com.bsuir.autoservice.controller.NoController;
@@ -52,6 +50,8 @@ import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.dao.database.SqlDatabase;
 import main.com.bsuir.autoservice.dao.database.SqlRequestDatabase;
 import main.com.bsuir.autoservice.dao.database.SqlRequestDatabaseProvider;
+import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
+import main.com.bsuir.autoservice.dao.database.map.impl.DataMapConfig;
 import main.com.bsuir.autoservice.dao.sql.ISql;
 import main.com.bsuir.autoservice.dao.sql.Sql;
 import main.com.bsuir.autoservice.dao.unitOfWork.DefaultDaoUnitOfWork;
@@ -61,8 +61,9 @@ import main.com.bsuir.autoservice.infrastructure.cache.impl.MethodCache;
 import main.com.bsuir.autoservice.infrastructure.interceptor.CacheInterceptor;
 import main.com.bsuir.autoservice.infrastructure.interceptor.TransactionInterceptor;
 import main.com.bsuir.autoservice.infrastructure.listener.DatabaseConnectionListener;
-import main.com.bsuir.autoservice.infrastructure.session.ISession;
+import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
 import main.com.bsuir.autoservice.infrastructure.session.impl.CustomHttpSession;
+import main.com.bsuir.autoservice.infrastructure.session.impl.CustomHttpSessionProvider;
 import main.com.bsuir.autoservice.infrastructure.transaction.ITransaction;
 import main.com.bsuir.autoservice.infrastructure.transaction.impl.RequestTransaction;
 import main.com.bsuir.autoservice.library.RequestType;
@@ -124,7 +125,8 @@ public abstract class AutoServiceShopModule extends ServletModule {
     }
 
     private void bindSession() {
-        bind(ISession.class).to(CustomHttpSession.class);
+        bind(IUserSession.class).to(CustomHttpSessionProvider.class);
+        bind(CustomHttpSession.class);
     }
 
     private void bindPermission() {

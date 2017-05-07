@@ -1,14 +1,14 @@
-package main.com.bsuir.autoservice.config.database.map.impl;
+package main.com.bsuir.autoservice.dao.database.map.impl;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.bean.BeanException;
 import main.com.bsuir.autoservice.binding.annotation.Cached;
-import main.com.bsuir.autoservice.config.database.map.ColumnMap;
-import main.com.bsuir.autoservice.config.database.map.IDatabaseMap;
-import main.com.bsuir.autoservice.config.database.map.TableMap;
 import main.com.bsuir.autoservice.config.exception.ConfigException;
+import main.com.bsuir.autoservice.dao.database.map.ColumnMap;
+import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
+import main.com.bsuir.autoservice.dao.database.map.TableMap;
 import main.com.bsuir.autoservice.service.crud.IServiceCrud;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;

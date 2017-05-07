@@ -2,7 +2,7 @@ package main.com.bsuir.autoservice.service;
 
 import com.google.inject.Inject;
 import main.com.bsuir.autoservice.binding.annotation.Cached;
-import main.com.bsuir.autoservice.config.database.map.IDatabaseMap;
+import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 
 import java.util.List;

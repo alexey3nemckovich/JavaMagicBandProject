@@ -1,13 +1,12 @@
 package main.com.bsuir.autoservice.servlet.filter;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import main.com.bsuir.autoservice.binding.annotation.InjectLogger;
 import main.com.bsuir.autoservice.binding.annotation.PermissionUrl;
 import main.com.bsuir.autoservice.config.permission.Permission;
 import main.com.bsuir.autoservice.config.permission.PermissionLevel;
-import main.com.bsuir.autoservice.infrastructure.session.ISession;
+import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
 import org.apache.log4j.Logger;
 
 import javax.servlet.*;
@@ -21,14 +20,14 @@ import java.util.Map;
 @Singleton
 public class PermissionFilter implements Filter {
     private final Map<String, Permission> permissionMap;
-    private final Provider<ISession> sessionProvider;
+    private final IUserSession session;
     @InjectLogger
     Logger logger;
 
     @Inject
-    public PermissionFilter(@PermissionUrl Map<String, Permission> permissionMap, Provider<ISession> sessionProvider) {
+    public PermissionFilter(@PermissionUrl Map<String, Permission> permissionMap, IUserSession session) {
         this.permissionMap = permissionMap;
-        this.sessionProvider = sessionProvider;
+        this.session = session;
     }
 
     @Override
@@ -47,7 +46,7 @@ public class PermissionFilter implements Filter {
     private boolean isUserHavePermissions(Permission permission) {
         boolean isHavePermission = false;
         try {
-            isHavePermission = isUserHavePermissionProceed(permission, sessionProvider.get().getUserLevel());
+            isHavePermission = isUserHavePermissionProceed(permission, session.getUserLevel());
         } catch (Exception e){
             logger.error(String.format("Problem with checks permissions, %s", e.getMessage()));
         }
