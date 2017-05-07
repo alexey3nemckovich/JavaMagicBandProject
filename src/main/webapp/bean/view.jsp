@@ -32,7 +32,7 @@
 
                 <h1>${tableName}</h1>
 
-                <c:if test='<%=request.getAttribute("action").equals("get")%>'>
+                <c:if test='<%=!request.getAttribute("action").equals("get")%>'>
                     <h2>${result}</h2>
                 </c:if>
 

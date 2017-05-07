@@ -13,11 +13,11 @@ import main.com.bsuir.autoservice.binding.log4j.Log4JTypeListener;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.*;
 import main.com.bsuir.autoservice.binding.provider.impl.BindingFactroryProvider;
 import main.com.bsuir.autoservice.binding.provider.impl.ControllerMapProvider;
-import main.com.bsuir.autoservice.command.bean.page.crud.GetBeanAddPageCommand;
-import main.com.bsuir.autoservice.command.bean.page.crud.GetBeanEditPageCommand;
-import main.com.bsuir.autoservice.command.bean.page.dependence.GetBeanDependencyViewPageCommand;
-import main.com.bsuir.autoservice.command.bean.page.main.GetBeanMainPageCommand;
-import main.com.bsuir.autoservice.command.bean.page.view.GetBeanViewPageCommand;
+import main.com.bsuir.autoservice.command.crud.add.AddBeanCommand;
+import main.com.bsuir.autoservice.command.crud.delete.DeleteBeanCommand;
+import main.com.bsuir.autoservice.command.crud.delete.DeleteBeanDependencyCommand;
+import main.com.bsuir.autoservice.command.crud.edit.EditBeanCommand;
+import main.com.bsuir.autoservice.command.crud.get.*;
 import main.com.bsuir.autoservice.command.param.BeanViewPageInfo;
 import main.com.bsuir.autoservice.command.param.CrudPageInfo;
 import main.com.bsuir.autoservice.command.param.EditPageInfo;
@@ -26,11 +26,7 @@ import main.com.bsuir.autoservice.config.database.impl.sql.impl.SqlConfigDatabas
 import main.com.bsuir.autoservice.controller.IController;
 import main.com.bsuir.autoservice.controller.NoController;
 import main.com.bsuir.autoservice.controller.action.Action;
-import main.com.bsuir.autoservice.controller.bean.BeanAddController;
-import main.com.bsuir.autoservice.controller.bean.BeanController;
-import main.com.bsuir.autoservice.controller.bean.BeanEditController;
-import main.com.bsuir.autoservice.controller.bean.BeanViewController;
-import main.com.bsuir.autoservice.controller.bean.BeanDependencyViewController;
+import main.com.bsuir.autoservice.controller.bean.*;
 import main.com.bsuir.autoservice.controller.provider.ControllerProvider;
 import main.com.bsuir.autoservice.dao.crud.impl.discount.DiscountDao;
 import main.com.bsuir.autoservice.dao.crud.impl.discount.IDiscountDao;
@@ -157,11 +153,19 @@ public class AutoServiceShopModule extends AbstractModule{
     }
 
     private void bindCommand(){
+        //get
         bind(GetBeanAddPageCommand.class).in(Singleton.class);
         bind(GetBeanViewPageCommand.class).in(Singleton.class);
         bind(GetBeanMainPageCommand.class).in(Singleton.class);
         bind(GetBeanEditPageCommand.class).in(Singleton.class);
         bind(GetBeanDependencyViewPageCommand.class).in(Singleton.class);
+        //delete
+        bind(DeleteBeanDependencyCommand.class).in(Singleton.class);
+        bind(DeleteBeanCommand.class).in(Singleton.class);
+        //add
+        bind(AddBeanCommand.class).in(Singleton.class);
+        //edit
+        bind(EditBeanCommand.class).in(Singleton.class);
     }
 
     private void bindCommandParams(){

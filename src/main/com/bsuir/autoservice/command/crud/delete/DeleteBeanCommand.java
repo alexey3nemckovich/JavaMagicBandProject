@@ -1,40 +1,41 @@
-package main.com.bsuir.autoservice.command.bean.crud;
+package main.com.bsuir.autoservice.command.crud.delete;
 
 import com.google.inject.Inject;
 import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.bean.exception.BeanException;
 import main.com.bsuir.autoservice.binding.annotation.Default;
+import main.com.bsuir.autoservice.command.AbstractGetBeanPageCommand;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
-import main.com.bsuir.autoservice.command.param.CrudPageInfo;
+import main.com.bsuir.autoservice.command.param.BeanViewPageInfo;
 import main.com.bsuir.autoservice.exception.ExceptionUnwrapper;
 import main.com.bsuir.autoservice.service.crud.IServiceCrud;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 
-public class AddBeanCommand implements ICommand<CrudPageInfo>{
+public class DeleteBeanCommand extends AbstractGetBeanPageCommand implements ICommand<BeanViewPageInfo> {
 
     @Inject
-    public AddBeanCommand(@Default IServiceUnitOfWork serviceUnitOfWork){
+    public DeleteBeanCommand(@Default IServiceUnitOfWork serviceUnitOfWork){
         this.serviceUnitOfWork = serviceUnitOfWork;
     }
 
     @Override
-    public CrudPageInfo execute(CrudPageInfo crudPageInfo) throws CommandException{
+    public BeanViewPageInfo execute(BeanViewPageInfo beanViewPageInfo) throws CommandException {
         try {
-            IServiceCrud serviceCrud = serviceUnitOfWork.getServiceCrudForBean(crudPageInfo.tableName);
-            Bean bean = Bean.getBeanObject(crudPageInfo.tableName, crudPageInfo.fields);
-            serviceCrud.create(bean);
-            crudPageInfo.result = "Operation success";
-            return crudPageInfo;
+            IServiceCrud serviceCrud = serviceUnitOfWork.getServiceCrudForBean(beanViewPageInfo.tableName);
+            Bean bean = Bean.getBeanObject(beanViewPageInfo.tableName, beanViewPageInfo.fields);
+            serviceCrud.delete(bean);
+            beanViewPageInfo.result = "Operation success";
+            readPage(beanViewPageInfo, serviceCrud);
+            return beanViewPageInfo;
         }catch (ServiceException | BeanException e){
             //log
-            crudPageInfo.result = String.format(
-                    "Failed to add new '%s': %s.",
-                    crudPageInfo.tableName,
+            beanViewPageInfo.result = String.format(
+                    "Failed to delete record: %s",
                     ExceptionUnwrapper.getRootException(e).getMessage()
             );
-            return crudPageInfo;
+            return beanViewPageInfo;
         }catch (Exception e){
             throw new CommandException(e);
         }

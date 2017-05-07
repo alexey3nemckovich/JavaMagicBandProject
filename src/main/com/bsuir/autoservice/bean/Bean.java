@@ -4,7 +4,9 @@ import main.com.bsuir.autoservice.bean.exception.BeanException;
 
 import java.lang.reflect.Field;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -67,6 +69,10 @@ public abstract class Bean {
         }catch (Exception e){
             throw new BeanException(e);
         }
+    }
+
+    public static Date tryParseDate(String dateStr) throws ParseException{
+        return dateFormat.parse(dateStr);
     }
 
     protected static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());

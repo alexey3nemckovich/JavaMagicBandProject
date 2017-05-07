@@ -55,7 +55,7 @@ public class ordered_service extends Bean {
         try {
             service_id = Integer.valueOf(fieldValues.get("service_id"));
             order_id = Integer.valueOf(fieldValues.get("order_id"));
-            date = dateFormat.parse(fieldValues.get("date"));
+            date = tryParseDate(fieldValues.get("date"));
             return this;
         }catch (Exception e){
             throw new BeanException(e);

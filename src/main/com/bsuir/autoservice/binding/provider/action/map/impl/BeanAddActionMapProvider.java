@@ -3,9 +3,9 @@ package main.com.bsuir.autoservice.binding.provider.action.map.impl;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import main.com.bsuir.autoservice.binding.provider.action.map.ActionMapProvider;
-import main.com.bsuir.autoservice.command.bean.crud.AddBeanCommand;
+import main.com.bsuir.autoservice.command.crud.add.AddBeanCommand;
 import main.com.bsuir.autoservice.command.param.CrudPageInfo;
-import main.com.bsuir.autoservice.command.bean.page.crud.GetBeanAddPageCommand;
+import main.com.bsuir.autoservice.command.crud.get.GetBeanAddPageCommand;
 
 public class BeanAddActionMapProvider extends ActionMapProvider {
 

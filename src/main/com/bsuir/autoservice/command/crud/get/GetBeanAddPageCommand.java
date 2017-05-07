@@ -1,4 +1,4 @@
-package main.com.bsuir.autoservice.command.bean.page.crud;
+package main.com.bsuir.autoservice.command.crud.get;
 
 import com.google.inject.Inject;
 import main.com.bsuir.autoservice.bean.Bean;
@@ -7,9 +7,6 @@ import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.CrudPageInfo;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
-
-import java.lang.reflect.Field;
-import java.util.HashMap;
 
 public class GetBeanAddPageCommand implements ICommand<CrudPageInfo> {
 

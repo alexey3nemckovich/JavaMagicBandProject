@@ -3,10 +3,9 @@ package main.com.bsuir.autoservice.binding.provider.action.map.impl;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import main.com.bsuir.autoservice.binding.provider.action.map.ActionMapProvider;
-import main.com.bsuir.autoservice.command.bean.crud.DeleteBeanCommand;
+import main.com.bsuir.autoservice.command.crud.delete.DeleteBeanCommand;
 import main.com.bsuir.autoservice.command.param.BeanViewPageInfo;
-import main.com.bsuir.autoservice.command.bean.page.view.GetBeanViewPageCommand;
-import main.com.bsuir.autoservice.command.param.CrudPageInfo;
+import main.com.bsuir.autoservice.command.crud.get.GetBeanViewPageCommand;
 
 
 public class BeanViewActionMapProvider extends ActionMapProvider {

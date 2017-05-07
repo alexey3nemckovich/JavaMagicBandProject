@@ -26,7 +26,7 @@ public class CrudPageInfo implements ICommandParam{
         return parse(params, true);
     }
 
-    public Map<String, String[]> parse(Map<String, String[]> params, boolean passRemainderToFieldsMap){
+    protected Map<String, String[]> parse(Map<String, String[]> params, boolean passRemainderToFieldsMap){
         LinkedHashMap<String, String[]> mParams = new LinkedHashMap<>(params);
 
         tableName = mParams.get("tableName")[0];

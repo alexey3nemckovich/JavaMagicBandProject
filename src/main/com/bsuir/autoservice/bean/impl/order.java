@@ -2,6 +2,7 @@ package main.com.bsuir.autoservice.bean.impl;
 
 import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.bean.exception.BeanException;
+import main.com.bsuir.autoservice.library.type.date.SimpleDate;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -39,7 +40,7 @@ public class order extends Bean {
         return date_open;
     }
 
-    public void setDateOpen(Date value){
+    public void setDateOpen(SimpleDate value){
         this.date_open = value;
     }
 
@@ -47,7 +48,7 @@ public class order extends Bean {
         return date_close;
     }
 
-    public void setDateClose(Date value){
+    public void setDateClose(SimpleDate value){
         this.date_close = value;
     }
 
@@ -95,8 +96,8 @@ public class order extends Bean {
             id = Integer.valueOf(fieldValues.get("id"));
             user_id = Integer.valueOf(fieldValues.get("user_id"));
             service_shop_id = Integer.valueOf(fieldValues.get("service_shop_id"));
-            date_open = dateFormat.parse(fieldValues.get("date_open"));
-            date_close = dateFormat.parse(fieldValues.get("date_close"));
+            date_open = new SimpleDate(fieldValues.get("date_open"));
+            date_close = new SimpleDate(fieldValues.get("date_close"));
             sum = Integer.valueOf(fieldValues.get("sum"));
             state = State.valueOf(fieldValues.get("state"));
             return this;
@@ -108,8 +109,8 @@ public class order extends Bean {
     private int id;
     private int user_id;
     private int service_shop_id;
-    private Date date_open;
-    private Date date_close;
+    private SimpleDate date_open;
+    private SimpleDate date_close;
     private int sum;
     private State state;
 }

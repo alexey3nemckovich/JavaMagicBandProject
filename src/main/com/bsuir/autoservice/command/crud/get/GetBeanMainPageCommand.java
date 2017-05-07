@@ -1,25 +1,24 @@
-package main.com.bsuir.autoservice.command.bean.page.crud;
+package main.com.bsuir.autoservice.command.crud.get;
 
 import com.google.inject.Inject;
 import main.com.bsuir.autoservice.binding.annotation.Default;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
-import main.com.bsuir.autoservice.command.param.CrudPageInfo;
+import main.com.bsuir.autoservice.command.param.BeanMainPageInfo;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 
-public class GetBeanEditPageCommand implements ICommand<CrudPageInfo> {
+public class GetBeanMainPageCommand implements ICommand<BeanMainPageInfo> {
 
     @Inject
-    public GetBeanEditPageCommand(@Default IServiceUnitOfWork serviceUnitOfWork){
+    public GetBeanMainPageCommand(@Default IServiceUnitOfWork serviceUnitOfWork){
         this.serviceUnitOfWork = serviceUnitOfWork;
     }
 
     @Override
-    public CrudPageInfo execute(CrudPageInfo crudPageInfo)
-            throws CommandException {
+    public BeanMainPageInfo execute(BeanMainPageInfo beanMainPageInfo) throws CommandException{
         try {
-            crudPageInfo.action = "edit";
-            return crudPageInfo;
+            beanMainPageInfo.dbBeanNames = serviceUnitOfWork.getBaseService().getListTableNames();
+            return beanMainPageInfo;
         }catch (Exception e){
             throw new CommandException(e);
         }

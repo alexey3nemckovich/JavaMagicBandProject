@@ -86,7 +86,7 @@ public class notification extends Bean {
             id = Integer.valueOf(fieldValues.get("discount_id"));
             order_id = Integer.valueOf(fieldValues.get("order_id"));
             staff_id = Integer.valueOf(fieldValues.get("staff_id"));
-            date = dateFormat.parse(fieldValues.get("date"));
+            date = tryParseDate(fieldValues.get("date"));
             content = fieldValues.get("content");
             state = State.valueOf(fieldValues.get("state"));
             return this;

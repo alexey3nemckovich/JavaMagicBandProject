@@ -32,7 +32,7 @@
 
             <h1>${dependencyTableName}</h1>
 
-            <c:if test='<%=request.getAttribute("action").equals("get")%>'>
+            <c:if test='<%=!request.getAttribute("action").equals("get")%>'>
                 <h2>${result}</h2>
             </c:if>
 
@@ -68,11 +68,11 @@
                                 <%-- Action buttons --%>
                             <td>
 
-                                <button formmethod="post" type="submit" formaction="/bean/edit.ass?tableName=${tableName}">
+                                <button formmethod="post" type="submit" formaction="/bean/dependency/edit.ass?action=edit&tableName=${tableName}&dependencyTableName=${dependencyTableName}&page=${page}&countRecords=${countRecords}">
                                     Edit
                                 </button>
 
-                                <button formmethod="post" type="submit" formaction="/bean/view.ass?tableName=${tableName}&page=${page}&countRecords=${countRecords}&action=delete">
+                                <button formmethod="post" type="submit" formaction="/bean/dependency/view.ass?action=delete&tableName=${tableName}&dependencyTableName=${dependencyTableName}&page=${page}&countRecords=${countRecords}">
                                     Delete
                                 </button>
 

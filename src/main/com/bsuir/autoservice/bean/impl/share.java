@@ -84,8 +84,8 @@ public class share extends Bean {
     public share setFields(Map<String, String> fieldValues) throws BeanException{
         try {
             id = Integer.valueOf(fieldValues.get("id"));
-            date_start = dateFormat.parse(fieldValues.get("date_start"));
-            date_end = dateFormat.parse(fieldValues.get("date_end"));
+            date_start = tryParseDate(fieldValues.get("date_start"));
+            date_end = tryParseDate(fieldValues.get("date_end"));
             value = Integer.valueOf(fieldValues.get("value"));
             description = fieldValues.get("description");
             state = State.valueOf(fieldValues.get("state"));

@@ -15,7 +15,7 @@ public class BeanDependencyViewPageInfo extends BeanViewPageInfo implements ICom
     @Override
     public Map<String, String[]> parse(Map<String, String[]> params){
         LinkedHashMap<String, String[]> mParams = new LinkedHashMap<String, String[]>(
-                super.parse(params)
+                super.parse(params, false)
         );
 
         dependencyTableName = (mParams.get("dependencyTableName")[0]);

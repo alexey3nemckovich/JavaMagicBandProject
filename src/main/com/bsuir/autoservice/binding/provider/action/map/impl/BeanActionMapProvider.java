@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import main.com.bsuir.autoservice.binding.provider.action.map.ActionMapProvider;
 import main.com.bsuir.autoservice.command.param.BeanMainPageInfo;
-import main.com.bsuir.autoservice.command.bean.page.main.GetBeanMainPageCommand;
+import main.com.bsuir.autoservice.command.crud.get.GetBeanMainPageCommand;
 
 public class BeanActionMapProvider extends ActionMapProvider {
 

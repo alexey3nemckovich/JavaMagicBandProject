@@ -26,6 +26,11 @@ public class BeanViewPageInfo extends CrudPageInfo implements ICommandParam{
 
     @Override
     public Map<String, String[]> parse(Map<String, String[]> params){
+        return parse(params, true);
+    }
+
+    @Override
+    protected Map<String, String[]> parse(Map<String, String[]> params, boolean passRemainderToFieldsMap){
         LinkedHashMap<String, String[]> mParams = new LinkedHashMap<String, String[]>(
                 super.parse(params, false)
         );
@@ -40,7 +45,7 @@ public class BeanViewPageInfo extends CrudPageInfo implements ICommandParam{
             }
         }
 
-        if(!mParams.containsKey("page")){
+        if(!mParams.containsKey("countRecords")){
             countRecords = 3;
         }else {
             countRecords = Integer.valueOf(mParams.get("countRecords")[0]);
@@ -50,8 +55,10 @@ public class BeanViewPageInfo extends CrudPageInfo implements ICommandParam{
             }
         }
 
-        for (Map.Entry<String, String[]> param: mParams.entrySet()) {
-            fields.put(param.getKey(), param.getValue()[0]);
+        if(passRemainderToFieldsMap){
+            for (Map.Entry<String, String[]> param: mParams.entrySet()) {
+                fields.put(param.getKey(), param.getValue()[0]);
+            }
         }
         return mParams;
     }
