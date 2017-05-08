@@ -1,15 +1,13 @@
 package general.bean;
 
 import general.session.MockSession;
-import main.com.bsuir.autoservice.bean.User;
-import main.com.bsuir.autoservice.bean.order;
-import main.com.bsuir.autoservice.bean.service;
-import main.com.bsuir.autoservice.bean.share;
+import main.com.bsuir.autoservice.bean.*;
 
 import static org.mockito.Mockito.mock;
 
+//id preferably should be unique
 public class MockBean {
-    public static final int MOCK_SERVICE_ID = 4;
+    public static final int MOCK_SERVICE_ID = 2;
     private static final String MOCK_SERVICE_NAME = "test_service_name";
 
     public static service getMockService() {
@@ -40,11 +38,19 @@ public class MockBean {
     }
 
 
-    public static final int MOCK_ORDER_ID = 2;
+    public static final int MOCK_ORDER_ID = 4;
 
     public static order getMockOrder() {
         order order = mock(order.class);
         order.setId(MOCK_ORDER_ID);
         return order;
+    }
+
+    public static final int MOCK_NOTIFICATION_ID = 5;
+
+    public static notification getMockNotification() {
+        notification notification = mock(notification.class);
+        notification.setId(MOCK_NOTIFICATION_ID);
+        return notification;
     }
 }
