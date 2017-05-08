@@ -4,9 +4,10 @@ import com.google.inject.Inject;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.ResetLoginInfo;
+import main.com.bsuir.autoservice.command.ret.ResetLoginRet;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 
-public class ResetLoginCommand implements ICommand<ResetLoginInfo, Boolean>{
+public class ResetLoginCommand implements ICommand<ResetLoginInfo, ResetLoginRet>{
 
     private final IServiceUnitOfWork serviceUnitOfWork;
 
@@ -16,9 +17,9 @@ public class ResetLoginCommand implements ICommand<ResetLoginInfo, Boolean>{
     }
 
     @Override
-    public Boolean execute(ResetLoginInfo param) throws CommandException {
+    public ResetLoginRet execute(ResetLoginInfo param) throws CommandException {
         try {
-            return serviceUnitOfWork.getUserService().resetLogin(param.getEmail());
+            return new ResetLoginRet(serviceUnitOfWork.getUserService().resetLogin(param.getEmail()));
         }catch (Exception e){
             throw new CommandException(e);
         }

@@ -17,12 +17,12 @@ public class UserService extends AbstractServiceCrud<Integer, User> implements I
     }
 
     @Override
-    public Boolean checkLogin(String login, String password) throws ServiceException {
+    public boolean checkLogin(String login, String password) throws ServiceException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Boolean resetLogin(String email) throws ServiceException {
+    public boolean resetLogin(String email) throws ServiceException {
         throw new UnsupportedOperationException();
     }
 

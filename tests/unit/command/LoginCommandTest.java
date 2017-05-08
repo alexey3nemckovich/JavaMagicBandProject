@@ -4,6 +4,7 @@ import general.service.MockService;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.main.LoginCommand;
 import main.com.bsuir.autoservice.command.param.LoginInfo;
+import main.com.bsuir.autoservice.command.ret.LoginRet;
 import main.com.bsuir.autoservice.service.crud.IUserService;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
@@ -47,11 +48,15 @@ public class LoginCommandTest {
         return new LoginCommand(serviceUnitOfWork);
     }
 
+    private static LoginRet getTestLoginRet(boolean isAuthorized){
+        return new LoginRet(isAuthorized);
+    }
+
     @Test
     public void checkLoginSuccess() throws CommandException, ServiceException {
         final boolean verifyCheckLogin = true;
         when(userService.checkLogin(MOCK_LOGIN, MOCK_PASSWORD)).thenReturn(verifyCheckLogin);
-        assertEquals(loginCommand.execute(getLoginInfo()), verifyCheckLogin);
+        assertEquals(loginCommand.execute(getLoginInfo()), getTestLoginRet(verifyCheckLogin));
     }
 
     @Test(expected = CommandException.class)
