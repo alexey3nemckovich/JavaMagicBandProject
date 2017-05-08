@@ -2,6 +2,7 @@ package general.bean;
 
 import general.session.MockSession;
 import main.com.bsuir.autoservice.bean.User;
+import main.com.bsuir.autoservice.bean.order;
 import main.com.bsuir.autoservice.bean.service;
 import main.com.bsuir.autoservice.bean.share;
 
@@ -36,5 +37,14 @@ public class MockBean {
         User user = mock(User.class);
         user.setId(MOCK_USER_ID);
         return user;
+    }
+
+
+    private static final int MOCK_ORDER_ID = MockSession.MOCK_SESSION_ID;
+
+    public static order getMockOrder() {
+        order order = mock(order.class);
+        order.setId(MOCK_ORDER_ID);
+        return order;
     }
 }
