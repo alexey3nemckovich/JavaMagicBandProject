@@ -65,15 +65,19 @@
                         Action
                     </th>
 
+                    <th>
+                        Dependencies
+                    </th>
+
                 </tr>
 
                     <%-- Entities rows --%>
                 <c:forEach items="${beans}" var="bean">
 
                     <%-- Every enrity row is form --%>
-                    <form>
-                        <tr>
+                    <tr>
 
+                        <form>
                                 <%-- Enity fields --%>
                             <c:forEach items="${bean.getFieldsOrdered()}" var="field">
                                 <td>
@@ -94,8 +98,35 @@
 
                             </td>
 
-                        </tr>
-                    </form>
+                        </form>
+
+                            <%-- Dependencies --%>
+                        <td>
+                            <c:choose>
+                                <c:when test="${!empty dependencyMap.get(bean)}">
+                                    <form>
+
+                                        <select name="dependency">
+                                            <c:forEach items="${dependencyMap.get(bean)}" var="dependecy">
+                                                <option value="${dependecy.getUrlEncodedJson()}">
+                                                        ${dependecy.getTableName()}
+                                                </option>
+                                            </c:forEach>
+                                        </select>
+
+                                        <button formmethod="post" type="submit" formaction="/bean/dependency/view.ass?action=get&tableName=<%=dependency.getTableName()%>&page=1&countRecords=3">
+                                            View
+                                        </button>
+
+                                    </form>
+                                </c:when>
+                                <c:otherwise>
+                                    -
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+
+                    </tr>
 
                 </c:forEach>
 

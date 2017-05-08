@@ -84,23 +84,28 @@
 
                                     <%-- Dependencies --%>
                             <td>
-                                <c:if test="${!empty dependencyMap.get(bean)}">
-                                    <form>
+                                <c:choose>
+                                    <c:when test="${!empty dependencyMap.get(bean)}">
+                                        <form>
 
-                                        <select name="dependency">
-                                            <c:forEach items="${dependencyMap.get(bean)}" var="dependecy">
-                                                <option value="${dependecy.getUrlEncodedJson()}">
-                                                        ${dependecy.getTableName()}
-                                                </option>
-                                            </c:forEach>
-                                        </select>
+                                            <select name="dependency">
+                                                <c:forEach items="${dependencyMap.get(bean)}" var="dependecy">
+                                                    <option value="${dependecy.getUrlEncodedJson()}">
+                                                            ${dependecy.getTableName()}
+                                                    </option>
+                                                </c:forEach>
+                                            </select>
 
-                                        <button formmethod="post" type="submit" formaction="/bean/dependency/view.ass?action=get&tableName=${tableName}&page=1&countRecords=3">
-                                            View
-                                        </button>
+                                            <button formmethod="post" type="submit" formaction="/bean/dependency/view.ass?action=get&tableName=${tableName}&page=1&countRecords=3">
+                                                View
+                                            </button>
 
-                                    </form>
-                                </c:if>
+                                        </form>
+                                    </c:when>
+                                    <c:otherwise>
+                                        -
+                                    </c:otherwise>
+                                </c:choose>
                             </td>
 
                         </tr>

@@ -1,6 +1,7 @@
 package main.com.bsuir.autoservice.command.crud.get;
 
 import com.google.inject.Inject;
+import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.binding.annotation.Default;
 import main.com.bsuir.autoservice.command.AbstractGetBeanPageCommand;
 import main.com.bsuir.autoservice.command.ICommand;
@@ -30,6 +31,9 @@ public class GetBeanDependencyViewPageCommand extends AbstractGetBeanPageCommand
                     beanDependencyViewPageInfo.countRecords,
                     beanDependencyViewPageInfo.beans.size()
             );
+            for(Bean bean : beanDependencyViewPageInfo.beans){
+                beanDependencyViewPageInfo.dependencyMap.put(bean, dependencyTableServiceCrud.readDependencies(bean));
+            }
             return beanDependencyViewPageInfo;
         }catch (Exception e){
             throw new CommandException(e);
