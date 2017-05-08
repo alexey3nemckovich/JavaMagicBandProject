@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import main.com.bsuir.autoservice.config.permission.PermissionLevel;
-import main.com.bsuir.autoservice.infrastructure.session.ISession;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
 import main.com.bsuir.autoservice.infrastructure.session.exception.SessionException;
 
@@ -17,7 +16,7 @@ public class CustomHttpSessionProvider implements IUserSession {
         this.customHttpSessionProvider = customHttpSessionProvider;
     }
 
-    private ISession<Integer> getSession(){
+    private IUserSession getSession(){
         return customHttpSessionProvider.get();
     }
 
@@ -42,7 +41,37 @@ public class CustomHttpSessionProvider implements IUserSession {
     }
 
     @Override
-    public void update(Integer userId, PermissionLevel userLevel) throws SessionException {
-        getSession().update(userId, userLevel);
+    public Integer getStaffLevel() throws SessionException {
+        return getSession().getStaffLevel();
+    }
+
+    @Override
+    public void setStaffLevel(Integer staffLevel) throws SessionException {
+        getSession().setStaffLevel(staffLevel);
+    }
+
+    @Override
+    public void update(Integer userId, String userName, PermissionLevel userLevel) throws SessionException {
+        getSession().update(userId, userName, userLevel);
+    }
+
+    @Override
+    public Integer getStaffServiceShopId() throws SessionException {
+        return getSession().getStaffServiceShopId();
+    }
+
+    @Override
+    public void setStaffServiceShopId(Integer staffServiceShopId) throws SessionException {
+        getSession().setStaffServiceShopId(staffServiceShopId);
+    }
+
+    @Override
+    public String getUserName() throws SessionException {
+        return getSession().getUserName();
+    }
+
+    @Override
+    public void setUserName(String userName) throws SessionException {
+        getSession().setUserName(userName);
     }
 }

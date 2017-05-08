@@ -1,4 +1,4 @@
-package unit.command;
+package unit.command.main;
 
 import general.service.MockService;
 import main.com.bsuir.autoservice.command.exception.CommandException;

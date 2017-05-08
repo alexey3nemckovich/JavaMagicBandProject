@@ -1,4 +1,4 @@
-package unit.command;
+package unit.command.main;
 
 import general.bean.MockBean;
 import general.service.MockService;
