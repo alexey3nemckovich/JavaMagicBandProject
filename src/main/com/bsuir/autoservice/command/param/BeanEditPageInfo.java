@@ -37,6 +37,10 @@ public class BeanEditPageInfo extends EditFormPageInfo implements ICommandParam{
             mParams.remove("oldValues");
         }
 
+        if(mParams.containsKey("dependencyTableName")){
+            mParams.remove("dependencyTableName");
+        }
+
         if(passRemainderToFieldsMap){
             for (Map.Entry<String, String[]> param: mParams.entrySet()) {
                 fields.put(param.getKey(), param.getValue()[0]);

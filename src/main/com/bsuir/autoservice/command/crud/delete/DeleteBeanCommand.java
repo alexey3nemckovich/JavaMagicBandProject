@@ -28,6 +28,7 @@ public class DeleteBeanCommand extends AbstractGetBeanPageCommand implements ICo
             serviceCrud.delete(bean);
             beanViewPageInfo.result = "Operation success";
             readPage(beanViewPageInfo, serviceCrud);
+            beanViewPageInfo.dependencyTableNames = serviceCrud.getDependencyTablesNames();
             return beanViewPageInfo;
         }catch (ServiceException | BeanException e){
             //log

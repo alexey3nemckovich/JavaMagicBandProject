@@ -106,7 +106,7 @@
                     </c:forEach>
 
                 </table>
-                <c:url var="searchUri" value="/bean/view.ass?tableName=${name}&page=##&countRecords=${countRecords}" />
+                <c:url var="searchUri" value="/bean/view.ass?tableName=${tableName}&page=##&countRecords=${countRecords}"/>
                 <paginator:display
                         maxLinks="5"
                         currPage="${page}"

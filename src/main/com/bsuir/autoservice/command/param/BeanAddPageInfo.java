@@ -1,5 +1,6 @@
 package main.com.bsuir.autoservice.command.param;
 
+import com.google.inject.Inject;
 import main.com.bsuir.autoservice.command.ICommandParam;
 import main.com.bsuir.autoservice.command.RequestParameter;
 
@@ -11,6 +12,11 @@ public class BeanAddPageInfo extends EditFormPageInfo implements ICommandParam{
 
     @RequestParameter
     public LinkedHashMap<String, String> defaultValues;
+
+    @Inject
+    public BeanAddPageInfo(){
+        defaultValues = new LinkedHashMap<>();
+    }
 
     @Override
     public Map<String, String[]> parse(Map<String, String[]> params)

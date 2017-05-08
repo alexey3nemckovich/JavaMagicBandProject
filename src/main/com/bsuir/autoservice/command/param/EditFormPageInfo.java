@@ -34,7 +34,9 @@ public class EditFormPageInfo extends CrudPageInfo{
                 super.parse(params, false)
         );
 
-        setNotModifiableFieldsNames(mParams);
+        if(mParams.containsKey("notModifiableFieldsNames")){
+            setNotModifiableFieldsNames(mParams);
+        }
 
         if(passRemainderToFieldsMap){
             for (Map.Entry<String, String[]> param: mParams.entrySet()) {
