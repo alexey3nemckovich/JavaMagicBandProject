@@ -1,5 +1,6 @@
 package main.com.bsuir.autoservice.command.main;
 
+import com.google.inject.Inject;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.ResetLoginInfo;
@@ -9,6 +10,7 @@ public class ResetLoginCommand implements ICommand<ResetLoginInfo, Boolean>{
 
     private final IServiceUnitOfWork serviceUnitOfWork;
 
+    @Inject
     public ResetLoginCommand(IServiceUnitOfWork serviceUnitOfWork) {
         this.serviceUnitOfWork = serviceUnitOfWork;
     }
