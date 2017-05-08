@@ -30,4 +30,9 @@ public class UserService extends AbstractServiceCrud<Integer, User> implements I
     public User getGeneralInformation(int userId) throws ServiceException {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public boolean updateUserInformation(int userId, User newUser) throws ServiceException {
+        throw new UnsupportedOperationException();
+    }
 }

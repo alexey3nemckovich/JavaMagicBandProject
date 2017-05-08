@@ -7,4 +7,5 @@ public interface IUserService extends IServiceCrud<Integer, User> {
     boolean checkLogin(String login, String password) throws ServiceException;
     boolean resetLogin(String email) throws ServiceException;
     User getGeneralInformation(int userId) throws ServiceException;
+    boolean updateUserInformation(int userId, User newUser) throws ServiceException;
 }
