@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface IShareService extends IService {
     List<share> getActiveShares() throws ServiceException;
+    List<share> getActiveAccountShares(Integer userId) throws ServiceException;
 }

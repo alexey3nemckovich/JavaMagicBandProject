@@ -9,7 +9,6 @@ import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.PersonalAccountInformationInfo;
 import main.com.bsuir.autoservice.command.ret.PersonalAccountInformationRet;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
-import main.com.bsuir.autoservice.infrastructure.session.exception.SessionException;
 import main.com.bsuir.autoservice.service.INotificationService;
 import main.com.bsuir.autoservice.service.crud.IUserService;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
@@ -29,7 +28,7 @@ public class PersonalAccountInformationCommandTest {
     private PersonalAccountInformationCommand personalAccountInformationCommand;
 
     @Before
-    public void beforeTest() throws SessionException {
+    public void beforeTest() {
         userService = getUserSevice();
         notificationService = getNotificationService();
         IServiceUnitOfWork mockUOF = getServiceUOF(userService, notificationService);
@@ -37,7 +36,7 @@ public class PersonalAccountInformationCommandTest {
         personalAccountInformationCommand = getPersonalAccountInformationCommand(mockUOF, session);
     }
 
-    private static IUserSession getSession() throws SessionException {
+    private static IUserSession getSession() {
         return MockSession.getSession();
     }
 

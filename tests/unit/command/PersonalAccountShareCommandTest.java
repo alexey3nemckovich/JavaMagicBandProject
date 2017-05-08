@@ -1,15 +1,39 @@
 package unit.command;
 
+import general.bean.MockBean;
+import general.service.MockService;
+import general.session.MockSession;
+import main.com.bsuir.autoservice.bean.share;
+import main.com.bsuir.autoservice.command.account.PersonalAccountShareCommand;
+import main.com.bsuir.autoservice.command.exception.CommandException;
+import main.com.bsuir.autoservice.command.param.PersonalAccountShareInfo;
+import main.com.bsuir.autoservice.command.ret.PersonalAccountShareRet;
+import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
+import main.com.bsuir.autoservice.service.IShareService;
+import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
+import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 public class PersonalAccountShareCommandTest {
-    /*
     private IShareService shareService;
-    private PersonalAccountInformationCommand personalAccountShareCommand;
+    private PersonalAccountShareCommand personalAccountShareCommand;
 
     @Before
-    public void beforeTest(){
+    public void beforeTest() {
         shareService = getShareService();
         IServiceUnitOfWork mockUOF = getServiceUOF(shareService);
-        personalAccountShareCommand = getPersonalAccountShareCommand(mockUOF);
+        IUserSession session = getSession();
+        personalAccountShareCommand = getPersonalAccountShareCommand(mockUOF, session);
     }
 
     private static IServiceUnitOfWork getServiceUOF(IShareService service){
@@ -22,67 +46,43 @@ public class PersonalAccountShareCommandTest {
         return MockService.getShareService();
     }
 
-    private static final boolean MOCK_AUTHORIZED = true;
-    private static final int MOCK_USER_ID = 1;
+    private static final int MOCK_USER_ID = MockSession.MOCK_SESSION_ID;
 
     private static PersonalAccountShareInfo getPersonalAccountShareInfo(){
         return mock(PersonalAccountShareInfo.class);
     }
 
-    private static PersonalAccountInformationInfo getAuthorizedPersonalAccountInformationInfo(){
-        PersonalAccountInformationInfo personalAccountInformationInfo = getPersonalAccountShareInfo();
-        when(personalAccountInformationInfo.isAuthorized()).thenReturn(MOCK_AUTHORIZED);
-        when(personalAccountInformationInfo.getUserId()).thenReturn(MOCK_USER_ID);
-        return personalAccountInformationInfo;
+    private static PersonalAccountShareRet getTestPersonalAccountShareRet(List<share> shares){
+        return new PersonalAccountShareRet(shares);
     }
 
-    private static PersonalAccountInformationInfo getUnauthorizedPersonalAccountInformationInfo(){
-        PersonalAccountInformationInfo personalAccountInformationInfo = getPersonalAccountShareInfo();
-        when(personalAccountInformationInfo.isAuthorized()).thenReturn(!MOCK_AUTHORIZED);
-        return personalAccountInformationInfo;
+    private static IUserSession getSession() {
+        return MockSession.getSession();
+    }
+    
+    private static PersonalAccountShareCommand getPersonalAccountShareCommand(
+            IServiceUnitOfWork serviceUnitOfWork, IUserSession session){
+        return new PersonalAccountShareCommand(serviceUnitOfWork, session);
     }
 
-    private static PersonalAccountInformationRet getUnauthorizedPersonalAccountInformationRet(){
-        return new PersonalAccountInformationRet.Builder().setNestedIsContinueWork(!MOCK_AUTHORIZED).build();
-    }
-
-    private static PersonalAccountInformationRet getAuthorizedPersonalAccountInformationRet(user user,
-                                                                                            boolean haveNotification){
-        return new PersonalAccountInformationRet.Builder()
-                .setNestedIsContinueWork(MOCK_AUTHORIZED)
-                .setNestedGeneralUserInformation(user)
-                .setNestedHaveNewNotification(haveNotification)
-                .build();
-    }
-
-    private static PersonalAccountInformationCommand getPersonalAccountShareCommand(
-            IServiceUnitOfWork serviceUnitOfWork){
-        return new PersonalAccountInformationCommand(serviceUnitOfWork);
-    }
-
-    private static user getMockUser() {
-        return MockBean.getMockUser();
+    private static List<share> getMockAccountShares(){
+                return new ArrayList<share>(){{
+                    add(MockBean.getMockShare());
+                }};
     }
 
     @Test
     public void getAccountAvailableShare() throws CommandException, ServiceException {
-        user mockUser = getMockUser();
-        when(shareService.getGeneralInformation(MOCK_USER_ID)).thenReturn(mockUser);
-        final boolean haveNewNotification = true;
-        when(notificationService.haveNewNotification()).thenReturn(haveNewNotification);
-        assertEquals(personalAccountShareCommand.execute(
-                getAuthorizedPersonalAccountInformationInfo()),
-                getAuthorizedPersonalAccountInformationRet(mockUser, haveNewNotification));
+        List<share> mockAccountShares = getMockAccountShares();
+        when(shareService.getActiveAccountShares(MOCK_USER_ID)).thenReturn(mockAccountShares);
+        assertEquals(personalAccountShareCommand.execute(getPersonalAccountShareInfo()),
+                getTestPersonalAccountShareRet(mockAccountShares));
     }
 
     @Test(expected = CommandException.class)
     public void getAccountAvailableShareException() throws ServiceException, CommandException {
-        when(shareService.getGeneralInformation(anyInt())).thenThrow(ServiceException.class);
-        when(notificationService.haveNewNotification()).thenThrow(ServiceException.class);
-        personalAccountShareCommand.execute(
-                getAuthorizedPersonalAccountInformationInfo()
-        );
+        when(shareService.getActiveAccountShares(anyInt())).thenThrow(ServiceException.class);
+        personalAccountShareCommand.execute(getPersonalAccountShareInfo());
         fail();
     }
-    */
 }

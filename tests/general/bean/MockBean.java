@@ -1,5 +1,6 @@
 package general.bean;
 
+import general.session.MockSession;
 import main.com.bsuir.autoservice.bean.User;
 import main.com.bsuir.autoservice.bean.service;
 import main.com.bsuir.autoservice.bean.share;
@@ -7,7 +8,7 @@ import main.com.bsuir.autoservice.bean.share;
 import static org.mockito.Mockito.mock;
 
 public class MockBean {
-    private static final int MOCK_SERVICE_ID = 1;
+    private static final int MOCK_SERVICE_ID = MockSession.MOCK_SESSION_ID;
     private static final String MOCK_SERVICE_NAME = "test_service_name";
 
     public static service getMockService(){
@@ -18,7 +19,7 @@ public class MockBean {
     }
 
     //TODO: fill date fields
-    private static final int MOCK_SHARE_ID = 1;
+    private static final int MOCK_SHARE_ID = MockSession.MOCK_SESSION_ID;
     private static final String MOCK_SHARE_DESCRIPTION = "test_share_description";
 
     public static share getMockShare(){
@@ -29,7 +30,7 @@ public class MockBean {
     }
 
 
-    private static final int MOCK_USER_ID = 1;
+    private static final int MOCK_USER_ID = MockSession.MOCK_SESSION_ID;
 
     public static User getMockUser(){
         User user = mock(User.class);
