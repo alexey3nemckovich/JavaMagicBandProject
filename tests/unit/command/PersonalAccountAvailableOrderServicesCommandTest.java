@@ -55,7 +55,7 @@ public class PersonalAccountAvailableOrderServicesCommandTest {
         return MockService.getServiceService();
     }
 
-    private static final int MOCK_USER_ID = MockSession.MOCK_SESSION_ID;
+    private static final int MOCK_USER_ID = MockBean.MOCK_USER_ID;
 
     private static PersonalAccountAvailableOrderServicesInfo getPersonalAccountAvailableOrderServicesInfo(){
         return mock(PersonalAccountAvailableOrderServicesInfo.class);

@@ -9,4 +9,5 @@ import java.util.List;
 public interface IOrderService extends IServiceCrud<Integer, order> {
     boolean makeOrder(Integer userId, List<service> orderServices) throws ServiceException;
     List<order> getUserOrders(int userId, int currentGroup, int elementCount) throws ServiceException;
+    List<order> getOrderServices(Integer userId, int detailOrderId) throws ServiceException;
 }

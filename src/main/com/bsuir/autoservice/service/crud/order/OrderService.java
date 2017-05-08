@@ -28,4 +28,9 @@ public class OrderService extends AbstractServiceCrud<Integer,order> implements 
     public List<order> getUserOrders(int userId, int currentGroup, int elementCount) throws ServiceException {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public List<order> getOrderServices(Integer userId, int detailOrderId) throws ServiceException {
+        throw new UnsupportedOperationException();
+    }
 }

@@ -47,7 +47,7 @@ public class PersonalAccountMakeOrderTest {
         return MockService.getOrderService();
     }
 
-    private static final int MOCK_USER_ID = MockSession.MOCK_SESSION_ID;
+    private static final int MOCK_USER_ID = MockBean.MOCK_USER_ID;
 
     private static PersonalAccountMakeOrderInfo getPersonalAccountMakeOrderInfo(){
         return mock(PersonalAccountMakeOrderInfo.class);
@@ -66,7 +66,7 @@ public class PersonalAccountMakeOrderTest {
         return new PersonalAccountMakeOrderCommand(serviceUnitOfWork, session);
     }
 
-    private static List<service> getMockMakedOrder(){
+    private static List<service> getMockMakeOrder(){
         return new ArrayList<service>(){{
             add(MockBean.getMockService());
         }};
@@ -74,11 +74,11 @@ public class PersonalAccountMakeOrderTest {
 
     @Test
     public void checkAddedOrder() throws CommandException, ServiceException {
-        List<service> mockMakedOrder = getMockMakedOrder();
+        List<service> mockMakeOrder = getMockMakeOrder();
         PersonalAccountMakeOrderInfo mockInfo = getPersonalAccountMakeOrderInfo();
-        when(mockInfo.getOrderServices()).thenReturn(mockMakedOrder);
+        when(mockInfo.getOrderServices()).thenReturn(mockMakeOrder);
         final boolean isAddedOrder = true;
-        when(orderService.makeOrder(MOCK_USER_ID, mockMakedOrder)).thenReturn(isAddedOrder);
+        when(orderService.makeOrder(MOCK_USER_ID, mockMakeOrder)).thenReturn(isAddedOrder);
         assertEquals(personalAccountMakeOrderCommand.execute(mockInfo),
                 getTestPersonalAccountMakeOrderRet(isAddedOrder));
     }

@@ -55,7 +55,7 @@ public class PersonalAccountInformationCommandTest {
         return MockService.getNotificationService();
     }
 
-    private static final int MOCK_USER_ID = MockSession.MOCK_SESSION_ID;
+    private static final int MOCK_USER_ID = MockBean.MOCK_USER_ID;
 
     private static PersonalAccountInformationInfo getPersonalAccountInformationInfo(){
         return mock(PersonalAccountInformationInfo.class);
