@@ -1,12 +1,10 @@
 package main.com.bsuir.autoservice.service.crud;
 
 import main.com.bsuir.autoservice.bean.Bean;
-import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.crud.IDaoCrud;
-import main.com.bsuir.autoservice.service.Dependency;
+import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +20,15 @@ public abstract class AbstractServiceCrud<PrimaryKey,Entity extends Bean> implem
             return daoCrud.getCountRecords();
         }
         catch (DaoException e){
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public List<Entity> read(Map<String, String> conditions) throws ServiceException {
+        try {
+            return daoCrud.read(conditions);
+        }catch (Exception e){
             throw new ServiceException(e);
         }
     }
@@ -65,18 +72,6 @@ public abstract class AbstractServiceCrud<PrimaryKey,Entity extends Bean> implem
     @Override
     public String getTableName(){
         return daoCrud.getTableName();
-    }
-
-    protected Dependency getDependencyForTable(
-            IDaoCrud dependencyTableDao,
-            String dependencyFieldName,
-            Object dependencyFieldValue
-    ) throws DaoException{
-        Map<String,String> condition = new LinkedHashMap<>();
-        condition.put(dependencyFieldName, dependencyFieldValue.toString());
-        String tableName = dependencyTableDao.getTableName();
-        List<? extends Bean> dependencyBeans = dependencyTableDao.read(condition);
-        return new Dependency(dependencyFieldName, dependencyFieldValue, tableName, dependencyBeans);
     }
 
     private final IDaoCrud<PrimaryKey, Entity> daoCrud;

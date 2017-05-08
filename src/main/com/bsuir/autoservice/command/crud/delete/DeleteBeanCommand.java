@@ -24,11 +24,13 @@ public class DeleteBeanCommand extends AbstractGetBeanPageCommand implements ICo
     public BeanViewPageInfo execute(BeanViewPageInfo beanViewPageInfo) throws CommandException {
         try {
             IServiceCrud serviceCrud = serviceUnitOfWork.getServiceCrudForBean(beanViewPageInfo.tableName);
-            Bean bean = Bean.getBeanObject(beanViewPageInfo.tableName, beanViewPageInfo.fields);
-            serviceCrud.delete(bean);
+            Bean deleteBean = Bean.getBeanObject(beanViewPageInfo.tableName, beanViewPageInfo.fields);
+            serviceCrud.delete(deleteBean);
             beanViewPageInfo.result = "Operation success";
             readPage(beanViewPageInfo, serviceCrud);
-            beanViewPageInfo.dependencyTableNames = serviceCrud.getDependencyTablesNames();
+            for(Bean bean : beanViewPageInfo.beans){
+                beanViewPageInfo.dependencyMap.put(bean, serviceCrud.readDependencies(bean));
+            }
             return beanViewPageInfo;
         }catch (ServiceException | BeanException e){
             //log

@@ -19,20 +19,13 @@ public class SparePartService extends AbstractServiceCrud<Integer, spare_part> i
     }
 
     @Override
-    public List<String> getDependencyTablesNames(){
-        List<String> dependencyTableNames = new ArrayList<>();
-        dependencyTableNames.add(daoUnitOfWork.getSparePartDao().getTableName());
-        return dependencyTableNames;
-    }
-
-    @Override
-    public Map<String, Dependency> readDependencies(spare_part bean) throws ServiceException {
+    public List<Dependency> readDependencies(spare_part bean) throws ServiceException {
         try {
-            Map<String, Dependency> dependencies = new LinkedHashMap<>();
-            dependencies.put(
+            List<Dependency> dependencies = new ArrayList<>();
+            dependencies.add(new Dependency(
                     daoUnitOfWork.getSparePartDao().getTableName(),
-                    getDependencyForTable(daoUnitOfWork.getSparePartDao(), "spare_part_id", bean.getId())
-            );
+                    "spare_part_id", bean.getId()
+            ));
             return dependencies;
         }catch (Exception e){
             throw new ServiceException(e);

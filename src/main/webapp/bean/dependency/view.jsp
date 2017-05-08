@@ -25,13 +25,15 @@
 
 <%
     String url = (String) request.getAttribute("javax.servlet.include.query_string");
-    String dependencyFieldName = request.getAttribute("dependencyFieldName").toString();
-    Object dependencyFieldValue = request.getAttribute("dependencyFieldValue");
 
-    String notModifiableFieldsNames = dependencyFieldName;
+    Dependency dependency = (Dependency) request.getAttribute("dependency");
+
+    String dependencyJson = dependency.getUrlEncodedJson();
+
+    String notModifiableFieldsNames = dependency.getName();
 
     Map<String, String> defaultValuesMap = new LinkedHashMap<>();
-    defaultValuesMap.put(dependencyFieldName, dependencyFieldValue.toString());
+    defaultValuesMap.put(dependency.name, dependency.value.toString());
     JSONObject jsonObject = new JSONObject(defaultValuesMap);
     String defaultValues = jsonObject.toString();
     defaultValues = defaultValues.replace("\"", "\\\"");
@@ -82,11 +84,11 @@
                                 <%-- Action buttons --%>
                             <td>
 
-                                <button formmethod="post" type="submit" formaction="/bean/dependency/edit.ass?tableName=${dependencyTableName}&notModifiableFieldsNames=<%=notModifiableFieldsNames%>">
+                                <button formmethod="post" type="submit" formaction="/bean/dependency/edit.ass?tableName=<%=dependency.getTableName()%>&notModifiableFieldsNames=<%=notModifiableFieldsNames%>">
                                     Edit
                                 </button>
 
-                                <button formmethod="post" type="submit" formaction="/bean/dependency/view.ass?action=delete&tableName=${tableName}&dependencyTableName=${dependencyTableName}&page=${page}&countRecords=${countRecords}&dependencyFieldName=<%=dependencyFieldName%>&dependencyFieldValue=<%=dependencyFieldValue%>">
+                                <button formmethod="post" type="submit" formaction="/bean/dependency/view.ass?action=delete&tableName=${tableName}&dependency=<%=dependencyJson%>&page=${page}&countRecords=${countRecords}">
                                     Delete
                                 </button>
 
@@ -99,7 +101,7 @@
 
             </table>
 
-            <c:url var="searchUri" value="/bean/dependency/view.ass?action=get&tableName=${tableName}&dependencyTableName=${dependencyTableName}&page=##&countRecords=${countRecords}" />
+            <c:url var="searchUri" value="/bean/dependency/view.ass?action=get&tableName=${tableName}&dependency=<%=dependencyJson%>&page=##&countRecords=${countRecords}" />
             <paginator:display
                     maxLinks="5"
                     currPage="${page}"
@@ -108,7 +110,7 @@
             />
         </div>
 
-        <form action="/bean/dependency/add.ass?tableName=${dependencyTableName}" method="POST">
+        <form action="/bean/dependency/add.ass?tableName=<%=dependency.getTableName()%>" method="POST">
 
             <input type="hidden" name="notModifiableFieldsNames" value="<%=notModifiableFieldsNames%>" />
             <input type="hidden" name="defaultValues" value="<%=defaultValues%>" />

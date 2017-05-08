@@ -19,24 +19,16 @@ public class StaffService extends AbstractServiceCrud<Integer, staff> implements
     }
 
     @Override
-    public List<String> getDependencyTablesNames(){
-        List<String> dependencyTableNames = new ArrayList<>();
-        dependencyTableNames.add(daoUnitOfWork.getServiceShopDao().getTableName());
-        dependencyTableNames.add(daoUnitOfWork.getNotificationDao().getTableName());
-        return dependencyTableNames;
-    }
-
-    @Override
-    public Map<String, Dependency> readDependencies(staff bean) throws ServiceException{
+    public List<Dependency> readDependencies(staff bean) throws ServiceException{
         try {
-            Map<String, Dependency> dependencies = new LinkedHashMap<>();
-            dependencies.put(
+            List<Dependency> dependencies = new ArrayList<>();
+            dependencies.add(new Dependency(
                     daoUnitOfWork.getServiceShopDao().getTableName(),
-                    getDependencyForTable(daoUnitOfWork.getServiceShopDao(), "chief_id", bean.getId())
+                    "chief_id", bean.getId())
             );
-            dependencies.put(
+            dependencies.add(new Dependency(
                     daoUnitOfWork.getNotificationDao().getTableName(),
-                    getDependencyForTable(daoUnitOfWork.getNotificationDao(), "staff_id", bean.getId())
+                    "staff_id", bean.getId())
             );
             return dependencies;
         }catch (Exception e){

@@ -8,7 +8,7 @@ public abstract class AbstractGetBeanPageCommand {
 
     protected void readPage(BeanViewPageInfo beanViewPageInfo, IServiceCrud serviceCrud)
         throws ServiceException{
-        beanViewPageInfo.totalPagesCount = getTotalPagesCount(beanViewPageInfo.countRecords, serviceCrud);
+        beanViewPageInfo.totalPagesCount = getTotalPagesCount(beanViewPageInfo.countRecords, serviceCrud.readTotalCount());
         if (beanViewPageInfo.totalPagesCount < beanViewPageInfo.page){
             if(0 == beanViewPageInfo.totalPagesCount){
                 beanViewPageInfo.page = 1;
@@ -20,9 +20,8 @@ public abstract class AbstractGetBeanPageCommand {
         beanViewPageInfo.beans = serviceCrud.read(index, beanViewPageInfo.countRecords);
     }
 
-    protected int getTotalPagesCount(int countRecords, IServiceCrud beanServiceCrud)
+    protected int getTotalPagesCount(int countRecords, int totalBeanCount)
         throws ServiceException{
-        int totalBeanCount = beanServiceCrud.readTotalCount();
         int totalPagesCount = totalBeanCount / countRecords;
         if (0 != totalBeanCount % countRecords) {
             totalPagesCount++;

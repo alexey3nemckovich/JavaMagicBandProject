@@ -19,15 +19,9 @@ public class NotificationService extends AbstractServiceCrud<Integer, notificati
     }
 
     @Override
-    public List<String> getDependencyTablesNames(){
-        List<String> dependencyTableNames = new ArrayList<>();
-        return dependencyTableNames;
-    }
-
-    @Override
-    public Map<String, Dependency> readDependencies(notification bean) throws ServiceException {
+    public List<Dependency> readDependencies(notification bean) throws ServiceException {
         try {
-            Map<String, Dependency> dependencies = new LinkedHashMap<>();
+            List<Dependency> dependencies = new ArrayList<>();
             return dependencies;
         }catch (Exception e){
             throw new ServiceException(e);

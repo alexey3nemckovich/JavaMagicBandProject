@@ -19,25 +19,17 @@ public class ServiceShopBeanService extends AbstractServiceCrud<Integer, service
     }
 
     @Override
-    public List<String> getDependencyTablesNames(){
-        List<String> dependencyTableNames = new ArrayList<>();
-        dependencyTableNames.add(daoUnitOfWork.getOrderDao().getTableName());
-        dependencyTableNames.add(daoUnitOfWork.getStaffDao().getTableName());
-        return dependencyTableNames;
-    }
-
-    @Override
-    public Map<String, Dependency> readDependencies(service_shop bean) throws ServiceException {
+    public List<Dependency> readDependencies(service_shop bean) throws ServiceException {
         try {
-            Map<String, Dependency> dependencies = new LinkedHashMap<>();
-            dependencies.put(
+            List<Dependency> dependencies = new ArrayList<>();
+            dependencies.add(new Dependency(
                     daoUnitOfWork.getOrderDao().getTableName(),
-                    getDependencyForTable(daoUnitOfWork.getOrderDao(), "service_shop_id", bean.getId())
-            );
-            dependencies.put(
+                    "service_shop_id", bean.getId()
+            ));
+            dependencies.add(new Dependency(
                     daoUnitOfWork.getStaffDao().getTableName(),
-                    getDependencyForTable(daoUnitOfWork.getStaffDao(), "service_shop_id", bean.getId())
-            );
+                    "service_shop_id", bean.getId()
+            ));
             return dependencies;
         }catch (Exception e){
             throw new ServiceException(e);

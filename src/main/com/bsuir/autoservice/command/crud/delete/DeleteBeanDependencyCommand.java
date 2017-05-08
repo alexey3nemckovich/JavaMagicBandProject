@@ -20,8 +20,8 @@ public class DeleteBeanDependencyCommand extends AbstractGetBeanPageCommand impl
     @Override
     public BeanDependencyViewPageInfo execute(BeanDependencyViewPageInfo dependencyViewPageInfo) throws CommandException{
         try {
-            IServiceCrud dependencyTableServiceCrud = serviceUnitOfWork.getServiceCrudForBean(dependencyViewPageInfo.dependencyTableName);
-            Bean bean = Bean.getBeanObject(dependencyViewPageInfo.dependencyTableName, dependencyViewPageInfo.fields);
+            IServiceCrud dependencyTableServiceCrud = serviceUnitOfWork.getServiceCrudForBean(dependencyViewPageInfo.dependency.tableName);
+            Bean bean = Bean.getBeanObject(dependencyViewPageInfo.dependency.tableName, dependencyViewPageInfo.fields);
             dependencyTableServiceCrud.delete(bean);
             dependencyViewPageInfo.result = "Operation success";
             readPage(dependencyViewPageInfo, dependencyTableServiceCrud);

@@ -19,30 +19,21 @@ public class OrderService extends AbstractServiceCrud<Integer,order> implements 
     }
 
     @Override
-    public List<String> getDependencyTablesNames(){
-        List<String> dependencyTableNames = new ArrayList<>();
-        dependencyTableNames.add(daoUnitOfWork.getOrderedServiceDao().getTableName());
-        dependencyTableNames.add(daoUnitOfWork.getOrderSparePartDao().getTableName());
-        dependencyTableNames.add(daoUnitOfWork.getNotificationDao().getTableName());
-        return dependencyTableNames;
-    }
-
-    @Override
-    public Map<String, Dependency> readDependencies(order bean) throws ServiceException {
+    public List<Dependency> readDependencies(order bean) throws ServiceException {
         try {
-            Map<String, Dependency> dependencies = new LinkedHashMap<>();
-            dependencies.put(
+            List<Dependency> dependencies = new ArrayList<>();
+            dependencies.add(new Dependency(
                     daoUnitOfWork.getOrderedServiceDao().getTableName(),
-                    getDependencyForTable(daoUnitOfWork.getOrderedServiceDao(), "order_id", bean.getId())
-            );
-            dependencies.put(
+                    "order_id", bean.getId()
+            ));
+            dependencies.add(new Dependency(
                     daoUnitOfWork.getOrderSparePartDao().getTableName(),
-                    getDependencyForTable(daoUnitOfWork.getOrderSparePartDao(), "order_id", bean.getId())
-            );
-            dependencies.put(
+                    "order_id", bean.getId()
+            ));
+            dependencies.add(new Dependency(
                     daoUnitOfWork.getNotificationDao().getTableName(),
-                    getDependencyForTable(daoUnitOfWork.getNotificationDao(), "order_id", bean.getId())
-            );
+                    "order_id", bean.getId()
+            ));
             return dependencies;
         }catch (Exception e){
             throw new ServiceException(e);

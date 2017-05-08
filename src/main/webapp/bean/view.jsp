@@ -57,11 +57,10 @@
 
                     <%-- Entities rows --%>
                     <c:forEach items="${beans}" var="bean">
+                        <tr>
 
-                        <%-- Every enrity row is form --%>
-                        <form>
-                            <tr>
-
+                                <%-- Every enrity row is form --%>
+                            <form>
                                 <%-- Enity fields --%>
                                 <c:forEach items="${bean.getFieldsOrdered()}" var="field">
                                     <td>
@@ -81,14 +80,17 @@
                                     </button>
 
                                 </td>
+                            </form>
 
-                                <%-- Dependencies --%>
-                                <c:if test="${!empty dependencyTableNames}">
-                                    <td>
-                                        <select name="dependencyTableName">
-                                            <c:forEach items="${dependencyTableNames}" var="dependecyTableName">
-                                                <option value="${dependecyTableName}">
-                                                    ${dependecyTableName}
+                                    <%-- Dependencies --%>
+                            <td>
+                                <c:if test="${!empty dependencyMap.get(bean)}">
+                                    <form>
+
+                                        <select name="dependency">
+                                            <c:forEach items="${dependencyMap.get(bean)}" var="dependecy">
+                                                <option value="${dependecy.getUrlEncodedJson()}">
+                                                        ${dependecy.getTableName()}
                                                 </option>
                                             </c:forEach>
                                         </select>
@@ -97,12 +99,11 @@
                                             View
                                         </button>
 
-                                    </td>
+                                    </form>
                                 </c:if>
+                            </td>
 
-                            </tr>
-                        </form>
-
+                        </tr>
                     </c:forEach>
 
                 </table>

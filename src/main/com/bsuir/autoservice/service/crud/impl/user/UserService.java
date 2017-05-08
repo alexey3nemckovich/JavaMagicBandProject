@@ -8,7 +8,8 @@ import main.com.bsuir.autoservice.service.Dependency;
 import main.com.bsuir.autoservice.service.crud.AbstractServiceCrud;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserService extends AbstractServiceCrud<Integer, user> implements IUserService{
 
@@ -19,29 +20,20 @@ public class UserService extends AbstractServiceCrud<Integer, user> implements I
     }
 
     @Override
-    public List<String> getDependencyTablesNames(){
-        List<String> dependencyTableNames = new ArrayList<>();
-        dependencyTableNames.add(daoUnitOfWork.getDiscountUserDao().getTableName());
-        dependencyTableNames.add(daoUnitOfWork.getOrderDao().getTableName());
-        dependencyTableNames.add(daoUnitOfWork.getStaffDao().getTableName());
-        return dependencyTableNames;
-    }
-
-    @Override
-    public Map<String, Dependency> readDependencies(user bean) throws ServiceException {
+    public List<Dependency> readDependencies(user bean) throws ServiceException {
         try {
-            Map<String, Dependency> dependencies = new LinkedHashMap<>();
-            dependencies.put(
+            List<Dependency> dependencies = new ArrayList<>();
+            dependencies.add(new Dependency(
                     daoUnitOfWork.getDiscountUserDao().getTableName(),
-                    getDependencyForTable(daoUnitOfWork.getDiscountUserDao(), "user_id", bean.getId())
-            );
-            dependencies.put(
+                    "user_id", bean.getId()
+            ));
+            dependencies.add(new Dependency(
                     daoUnitOfWork.getOrderDao().getTableName(),
-                    getDependencyForTable(daoUnitOfWork.getOrderDao(), "user_id", bean.getId())
-            );
-            dependencies.put(
+                    "user_id", bean.getId()
+            ));
+            dependencies.add(new Dependency(
                     daoUnitOfWork.getStaffDao().getTableName(),
-                    getDependencyForTable(daoUnitOfWork.getStaffDao(), "user_id", bean.getId())
+                    "user_id", bean.getId())
             );
             return dependencies;
         }catch (Exception e){

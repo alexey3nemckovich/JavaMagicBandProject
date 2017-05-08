@@ -19,20 +19,13 @@ public class ShareService extends AbstractServiceCrud<Integer, share> implements
     }
 
     @Override
-    public List<String> getDependencyTablesNames(){
-        List<String> dependencyTableNames = new ArrayList<>();
-        dependencyTableNames.add(daoUnitOfWork.getShareDiscountDao().getTableName());
-        return dependencyTableNames;
-    }
-
-    @Override
-    public Map<String, Dependency> readDependencies(share bean) throws ServiceException {
+    public List<Dependency> readDependencies(share bean) throws ServiceException {
         try {
-            Map<String, Dependency> dependencies = new LinkedHashMap<>();
-            dependencies.put(
+            List<Dependency> dependencies = new ArrayList<>();
+            dependencies.add(new Dependency(
                     daoUnitOfWork.getShareDiscountDao().getTableName(),
-                    getDependencyForTable(daoUnitOfWork.getShareDiscountDao(),"share_id", bean.getId())
-            );
+                    "share_id", bean.getId()
+            ));
             return dependencies;
         }catch (Exception e){
             throw new ServiceException(e);

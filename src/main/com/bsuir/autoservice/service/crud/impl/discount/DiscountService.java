@@ -9,9 +9,7 @@ import main.com.bsuir.autoservice.service.crud.AbstractServiceCrud;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public class DiscountService extends AbstractServiceCrud<Integer, discount> implements IDiscountService{
 
@@ -22,25 +20,17 @@ public class DiscountService extends AbstractServiceCrud<Integer, discount> impl
     }
 
     @Override
-    public List<String> getDependencyTablesNames(){
-        List<String> dependencyTableNames = new ArrayList<>();
-        dependencyTableNames.add(daoUnitOfWork.getShareDiscountDao().getTableName());
-        dependencyTableNames.add(daoUnitOfWork.getDiscountUserDao().getTableName());
-        return dependencyTableNames;
-    }
-
-    @Override
-    public Map<String, Dependency> readDependencies(discount bean) throws ServiceException{
+    public List<Dependency> readDependencies(discount bean) throws ServiceException{
         try {
-            Map<String, Dependency> dependencies = new LinkedHashMap<>();
-            dependencies.put(
+            List<Dependency> dependencies = new ArrayList<>();
+            dependencies.add(new Dependency(
                     daoUnitOfWork.getShareDiscountDao().getTableName(),
-                    getDependencyForTable(daoUnitOfWork.getShareDiscountDao(), "discount_id", bean.getId())
-            );
-            dependencies.put(
+                    "discount_id", bean.getId()
+            ));
+            dependencies.add(new Dependency(
                     daoUnitOfWork.getDiscountUserDao().getTableName(),
-                    getDependencyForTable(daoUnitOfWork.getDiscountUserDao(),"discount_id", bean.getId())
-            );
+                    "discount_id", bean.getId()
+            ));
             return dependencies;
         }catch (Exception e){
             throw new ServiceException(e);
