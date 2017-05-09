@@ -13,7 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Enumeration;
+import java.io.UnsupportedEncodingException;
 
 public class Servlet extends HttpServlet {
     static {
@@ -45,7 +45,8 @@ public class Servlet extends HttpServlet {
     }
 
     private void executeRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ControllerException, CommandException {
+            throws ControllerException, CommandException, UnsupportedEncodingException {
+        request.setCharacterEncoding("utf-8");
         String url = getUrl(request.getRequestURI());
         IController controller = controllerProvider.getController(url);
         Object resultData = controller.invokeCommand(request.getParameterMap());

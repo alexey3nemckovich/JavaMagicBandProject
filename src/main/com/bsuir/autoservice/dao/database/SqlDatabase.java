@@ -32,7 +32,7 @@ public class SqlDatabase implements IDatabase {
     @Override
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/auto_service_shop?useLegacyDatetimeCode=false&serverTimezone=UTC",
+                "jdbc:mysql://localhost:3306/auto_service_shop?useLegacyDatetimeCode=false&serverTimezone=UTC&characterEncoding=utf-8",
                 "root",
                 "root"
         );

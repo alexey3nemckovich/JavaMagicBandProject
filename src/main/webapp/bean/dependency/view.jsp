@@ -8,7 +8,8 @@
 <%@ page import="java.net.URLEncoder" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="paginator" uri="/WEB-INF/tlds/Paginator" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=utf-8" language="java" %>
+<%@ page pageEncoding="utf-8"%>
 <html>
 
 <head>
@@ -17,129 +18,131 @@
 
 <body>
 
-<div>
-    <h1 align = "center">AutoServiceShop - magic project of Nikita, Vova, Alex</h1>
-</div>
+    <div>
+        <h1 align = "center">AutoServiceShop - magic project of Nikita, Vova, Alex</h1>
+    </div>
 
-<a href="../../index.jsp">To main page</a>
+    <a href="../../index.jsp">To main page</a>
 
-<%
-    String url = (String) request.getAttribute("javax.servlet.include.query_string");
+    <%
+        String url = (String) request.getAttribute("javax.servlet.include.query_string");
 
-    Dependency dependency = (Dependency) request.getAttribute("dependency");
+        Dependency dependency = (Dependency) request.getAttribute("dependency");
 
-    String dependencyJson = dependency.getUrlEncodedJson();
+        String dependencyJson = dependency.getUrlEncodedJson();
 
-    String notModifiableFieldsNames = dependency.getName();
+        String notModifiableFieldsNames = dependency.getName();
 
-    Map<String, String> defaultValuesMap = new LinkedHashMap<>();
-    defaultValuesMap.put(dependency.name, dependency.value.toString());
-    JSONObject jsonObject = new JSONObject(defaultValuesMap);
-    String defaultValues = jsonObject.toString();
-    defaultValues = defaultValues.replace("\"", "\\\"");
-    defaultValues = URLEncoder.encode(defaultValues, "UTF-8");
-%>
+        Map<String, String> defaultValuesMap = new LinkedHashMap<>();
+        defaultValuesMap.put(dependency.name, dependency.value.toString());
+        JSONObject jsonObject = new JSONObject(defaultValuesMap);
+        String defaultValues = jsonObject.toString();
+        defaultValues = defaultValues.replace("\"", "\\\"");
+        defaultValues = URLEncoder.encode(defaultValues, "UTF-8");
+    %>
 
-<div>
+    <div>
 
-    <c:if test="${!empty beans}">
+        <c:if test="${!empty beans}">
 
-        <div>
+            <div>
 
-            <h1>${dependencyTableName}</h1>
+                <h1>${dependencyTableName}</h1>
 
-            <c:if test='<%=!request.getAttribute("action").equals("get")%>'>
-                <h2>${result}</h2>
-            </c:if>
+                <c:if test='<%=!request.getAttribute("action").equals("get")%>'>
+                    <h2>${result}</h2>
+                </c:if>
 
-            <table>
+                <table>
 
-                    <%-- Header row --%>
-                <tr>
-
-                    <c:forEach items="${beans.get(0).getFieldsOrdered()}" var="field">
-                        <th>${field.getName()}</th>
-                    </c:forEach>
-
-                    <th>
-                        Action
-                    </th>
-
-                    <th>
-                        Dependencies
-                    </th>
-
-                </tr>
-
-                    <%-- Entities rows --%>
-                <c:forEach items="${beans}" var="bean">
-
-                    <%-- Every enrity row is form --%>
+                        <%-- Header row --%>
                     <tr>
 
-                        <form>
-                                <%-- Enity fields --%>
-                            <c:forEach items="${bean.getFieldsOrdered()}" var="field">
-                                <td>
-                                    <input type="text" name="${field.getName()}" value="${field.get(bean)}" readonly/>
-                                </td>
-                            </c:forEach>
+                        <c:forEach items="${beans.get(0).getFieldsOrdered()}" var="field">
+                            <th>${field.getName()}</th>
+                        </c:forEach>
 
-                                <%-- Action buttons --%>
-                            <td>
+                        <th>
+                            Action
+                        </th>
 
-                                <button formmethod="post" type="submit" formaction="/bean/dependency/edit.ass?tableName=<%=dependency.getTableName()%>&notModifiableFieldsNames=<%=notModifiableFieldsNames%>">
-                                    Edit
-                                </button>
-
-                                <button formmethod="post" type="submit" formaction="/bean/dependency/view.ass?action=delete&tableName=${tableName}&dependency=<%=dependencyJson%>&page=${page}&countRecords=${countRecords}">
-                                    Delete
-                                </button>
-
-                            </td>
-
-                        </form>
-
-                            <%-- Dependencies --%>
-                        <td>
-                            <c:choose>
-                                <c:when test="${!empty dependencyMap.get(bean)}">
-                                    <form>
-
-                                        <select name="dependency">
-                                            <c:forEach items="${dependencyMap.get(bean)}" var="dependecy">
-                                                <option value="${dependecy.getUrlEncodedJson()}">
-                                                        ${dependecy.getTableName()}
-                                                </option>
-                                            </c:forEach>
-                                        </select>
-
-                                        <button formmethod="post" type="submit" formaction="/bean/dependency/view.ass?action=get&tableName=<%=dependency.getTableName()%>&page=1&countRecords=3">
-                                            View
-                                        </button>
-
-                                    </form>
-                                </c:when>
-                                <c:otherwise>
-                                    -
-                                </c:otherwise>
-                            </c:choose>
-                        </td>
+                        <th>
+                            Dependencies
+                        </th>
 
                     </tr>
 
-                </c:forEach>
+                        <%-- Entities rows --%>
+                    <c:forEach items="${beans}" var="bean">
 
-            </table>
+                        <%-- Every enrity row is form --%>
+                        <tr>
 
-            <c:url var="searchUri" value="/bean/dependency/view.ass?action=get&tableName=${tableName}&dependency=<%=dependencyJson%>&page=##&countRecords=${countRecords}" />
-            <paginator:display
-                    maxLinks="5"
-                    currPage="${page}"
-                    totalPages="${totalPagesCount}"
-                    uri="${searchUri}"
-            />
-        </div>
+                            <form>
+                                    <%-- Enity fields --%>
+                                <c:forEach items="${bean.getFieldsOrdered()}" var="field">
+                                    <td>
+                                        <input type="text" name="${field.getName()}" value="${field.get(bean)}" readonly/>
+                                    </td>
+                                </c:forEach>
+
+                                    <%-- Action buttons --%>
+                                <td>
+
+                                    <button formmethod="post" type="submit" formaction="/bean/dependency/edit.ass?tableName=<%=dependency.getTableName()%>&notModifiableFieldsNames=<%=notModifiableFieldsNames%>">
+                                        Edit
+                                    </button>
+
+                                    <button formmethod="post" type="submit" formaction="/bean/dependency/view.ass?action=delete&tableName=${tableName}&dependency=<%=dependencyJson%>&page=${page}&countRecords=${countRecords}">
+                                        Delete
+                                    </button>
+
+                                </td>
+
+                            </form>
+
+                                <%-- Dependencies --%>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${!empty dependencyMap.get(bean)}">
+                                        <form>
+
+                                            <select name="dependency">
+                                                <c:forEach items="${dependencyMap.get(bean)}" var="dependecy">
+                                                    <option value="${dependecy.getUrlEncodedJson()}">
+                                                            ${dependecy.getTableName()}
+                                                    </option>
+                                                </c:forEach>
+                                            </select>
+
+                                            <button formmethod="post" type="submit" formaction="/bean/dependency/view.ass?action=get&tableName=<%=dependency.getTableName()%>&page=1&countRecords=3">
+                                                View
+                                            </button>
+
+                                        </form>
+                                    </c:when>
+                                    <c:otherwise>
+                                        -
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+
+                        </tr>
+
+                    </c:forEach>
+
+                </table>
+
+                <c:url var="searchUri" value="/bean/dependency/view.ass?action=get&tableName=${tableName}&dependency=<%=dependencyJson%>&page=##&countRecords=${countRecords}" />
+                <paginator:display
+                        maxLinks="5"
+                        currPage="${page}"
+                        totalPages="${totalPagesCount}"
+                        uri="${searchUri}"
+                />
+            </div>
+
+        </c:if>
 
         <form action="/bean/dependency/add.ass?tableName=<%=dependency.getTableName()%>" method="POST">
 
@@ -150,9 +153,7 @@
 
         </form>
 
-    </c:if>
-
-</div>
+    </div>
 
 </body>
 </html>

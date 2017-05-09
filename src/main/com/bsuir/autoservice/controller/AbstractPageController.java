@@ -44,6 +44,8 @@ public abstract class AbstractPageController implements IController {
             throws ControllerException {
         try {
             setResultAttributes(request, resultData);
+            response.setCharacterEncoding("cp1251");
+            response.setContentType("text/html;charset=cp1251");
             request.getRequestDispatcher(getJspName()).forward(request, response);
         } catch (Exception e) {
             throw new ControllerException(e);

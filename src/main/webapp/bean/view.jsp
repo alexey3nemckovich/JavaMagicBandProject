@@ -5,7 +5,8 @@
 <%@ page import="main.com.bsuir.autoservice.bean.Bean" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="paginator" uri="/WEB-INF/tlds/Paginator" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=utf-8" language="java" %>
+<%@ page pageEncoding="utf-8"%>
 <html>
 
 <head>
@@ -60,7 +61,7 @@
                         <tr>
 
                                 <%-- Every enrity row is form --%>
-                            <form>
+                            <form accept-charset="utf-8">
                                 <%-- Enity fields --%>
                                 <c:forEach items="${bean.getFieldsOrdered()}" var="field">
                                     <td>
@@ -122,6 +123,12 @@
             </div>
 
         </c:if>
+
+        <form action="/bean/add.ass?tableName=${tableName}" method="POST">
+
+            <a href="#" onclick="this.parentNode.submit()">Add new '${tableName}'</a>
+
+        </form>
 
     </div>
 

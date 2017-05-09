@@ -17,10 +17,7 @@
             <c:forEach items="${dbBeanNames}" var="name">
                 <tr>
                     <td>
-                        <a href="<c:url value="/bean/add.ass?tableName=${name}"/>">Add new '${name}'</a>
-                    </td>
-                    <td>
-                        <a href="<c:url value="/bean/view.ass?tableName=${name}&page=1&countRecords=3"/>">View table '${name}'</a>
+                        <a href="<c:url value="/bean/view.ass?tableName=${name}&page=1&countRecords=3"/>">Table '${name}'</a>
                     </td>
                 </tr>
             </c:forEach>
