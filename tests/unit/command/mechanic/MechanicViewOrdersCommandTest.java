@@ -51,7 +51,7 @@ public class MechanicViewOrdersCommandTest {
         return MockService.getServiceService();
     }
 
-    private static final int MOCK_STAFF_SERVICE_SHOP_ID = MockBean.MOCK_SERVICE_SHOP_ID;
+    private static final int MOCK_STAFF_ID = MockBean.MOCK_USER_ID;
 
     private static MechanicViewOrdersInfo getMechanicViewOrdersInfo(){
         return mock(MechanicViewOrdersInfo.class);
@@ -79,7 +79,7 @@ public class MechanicViewOrdersCommandTest {
     @Test
     public void checkGetServiceShopOrders() throws CommandException, ServiceException {
         List<order> mockServiceShopOrders = getMockServiceShopOrders();
-        when(orderService.getServiceShopOrders(eq(MOCK_STAFF_SERVICE_SHOP_ID),
+        when(orderService.getServiceShopOrders(eq(MOCK_STAFF_ID),
                 any(MechanicViewOrdersInfo.SortedType.class), anyInt(), anyInt())).thenReturn(mockServiceShopOrders);
         assertEquals(mechanicViewOrdersCommand.execute(getMechanicViewOrdersInfo()),
                 getTestMechanicViewOrdersRet(mockServiceShopOrders));

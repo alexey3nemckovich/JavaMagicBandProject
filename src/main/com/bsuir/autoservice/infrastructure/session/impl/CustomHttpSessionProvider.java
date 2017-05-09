@@ -56,16 +56,6 @@ public class CustomHttpSessionProvider implements IUserSession {
     }
 
     @Override
-    public Integer getStaffServiceShopId() throws SessionException {
-        return getSession().getStaffServiceShopId();
-    }
-
-    @Override
-    public void setStaffServiceShopId(Integer staffServiceShopId) throws SessionException {
-        getSession().setStaffServiceShopId(staffServiceShopId);
-    }
-
-    @Override
     public String getUserName() throws SessionException {
         return getSession().getUserName();
     }

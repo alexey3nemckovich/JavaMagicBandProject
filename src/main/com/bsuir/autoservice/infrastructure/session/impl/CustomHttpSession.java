@@ -8,13 +8,13 @@ import main.com.bsuir.autoservice.infrastructure.session.exception.SessionExcept
 
 import javax.servlet.http.HttpSession;
 
+// TODO: make user_level and staff_level at once
 @SessionScoped
 public class CustomHttpSession implements IUserSession {
     private final HttpSession httpSession;
     private static final String KEY_USER_ID = "id";
     private static final String KEY_USER_LEVEL = "user_level";
     private static final String KEY_USER_NAME = "user_name";
-    private static final String KEY_STAFF_SERVICE_SHOP_ID = "staff_service_shop_id";
     private static final String KEY_STAFF_LEVEL = "staff_level";
 
     @Inject
@@ -99,24 +99,6 @@ public class CustomHttpSession implements IUserSession {
             setUserIdImpl(userId);
             setUserNameImpl(userName);
             setUserLevelImpl(userLevel);
-        } catch (Exception e) {
-            throw new SessionException(e);
-        }
-    }
-
-    @Override
-    public Integer getStaffServiceShopId() throws SessionException {
-        try {
-            return (Integer) httpSession.getAttribute(KEY_STAFF_SERVICE_SHOP_ID);
-        } catch (Exception e) {
-            throw new SessionException(e);
-        }
-    }
-
-    @Override
-    public void setStaffServiceShopId(Integer staffServiceShopId) throws SessionException {
-        try {
-            httpSession.setAttribute(KEY_STAFF_SERVICE_SHOP_ID, staffServiceShopId);
         } catch (Exception e) {
             throw new SessionException(e);
         }

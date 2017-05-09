@@ -17,7 +17,7 @@ public class MechanicViewOrdersCommand extends AbstractSessionCommand<MechanicVi
     @Override
     protected MechanicViewOrdersRet executeImpl(MechanicViewOrdersInfo param) throws Exception {
         return new MechanicViewOrdersRet(serviceUnitOfWork.getOrderService().getServiceShopOrders(
-                session.getStaffServiceShopId(), param.getOrderSortType(), param.getOrderPage(),
+                session.getUserId(), param.getOrderSortType(), param.getOrderPage(),
                 param.getOrderCount()));
     }
 }

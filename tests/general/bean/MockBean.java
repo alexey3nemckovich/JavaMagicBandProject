@@ -54,7 +54,7 @@ public class MockBean {
         return notification;
     }
 
-    public static final int MOCK_SERVICE_SHOP_ID = MockSession.MOCK_STAFF_SERVICE_SHOP_ID;
+    public static final int MOCK_SERVICE_SHOP_ID = 6;
 
     public static service_shop getMockServiceShop(){
         service_shop serviceShop = mock(service_shop.class);
