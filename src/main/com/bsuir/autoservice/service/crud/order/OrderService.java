@@ -40,4 +40,9 @@ public class OrderService extends AbstractServiceCrud<Integer,order> implements 
                                             int orderPage, int orderCount) throws ServiceException {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public boolean changeOrderState(int changedStaffId, int orderId, order.State newOrderState) throws ServiceException {
+        throw new UnsupportedOperationException();
+    }
 }

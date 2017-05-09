@@ -1,29 +1,23 @@
 package main.com.bsuir.autoservice.command.account;
 
-import main.com.bsuir.autoservice.command.ICommand;
-import main.com.bsuir.autoservice.command.exception.CommandException;
+import com.google.inject.Inject;
+import main.com.bsuir.autoservice.command.AbstractSessionCommand;
 import main.com.bsuir.autoservice.command.param.PersonalAccountViewOrdersInfo;
 import main.com.bsuir.autoservice.command.ret.PersonalAccountViewOrdersRet;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 
-public class PersonalAccountViewOrdersCommand implements
-        ICommand<PersonalAccountViewOrdersInfo, PersonalAccountViewOrdersRet>{
-    private final IServiceUnitOfWork serviceUnitOfWork;
-    private final IUserSession session;
+public class PersonalAccountViewOrdersCommand extends
+        AbstractSessionCommand<PersonalAccountViewOrdersInfo, PersonalAccountViewOrdersRet>{
 
+    @Inject
     public PersonalAccountViewOrdersCommand(IServiceUnitOfWork serviceUnitOfWork, IUserSession session) {
-        this.serviceUnitOfWork = serviceUnitOfWork;
-        this.session = session;
+        super(serviceUnitOfWork, session);
     }
 
     @Override
-    public PersonalAccountViewOrdersRet execute(PersonalAccountViewOrdersInfo param) throws CommandException {
-        try{
-            return new PersonalAccountViewOrdersRet(serviceUnitOfWork.getOrderService().getUserOrders(
-                    session.getUserId(), param.getCurrentPage(), param.getPageElementCount()));
-        }catch (Exception e){
-            throw new CommandException(e);
-        }
+    protected PersonalAccountViewOrdersRet executeImpl(PersonalAccountViewOrdersInfo param) throws Exception {
+        return new PersonalAccountViewOrdersRet(serviceUnitOfWork.getOrderService().getUserOrders(
+                session.getUserId(), param.getCurrentPage(), param.getPageElementCount()));
     }
 }

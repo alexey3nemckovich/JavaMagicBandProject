@@ -1,5 +1,6 @@
 package main.com.bsuir.autoservice.command.account;
 
+import com.google.inject.Inject;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.PersonalAccountOrderDetailsInfo;
@@ -12,6 +13,7 @@ public class PersonalAccountOrderDetailsCommand implements
     private final IServiceUnitOfWork serviceUnifOfWork;
     private final IUserSession session;
 
+    @Inject
     public PersonalAccountOrderDetailsCommand(IServiceUnitOfWork serviceUnitOfWork, IUserSession session) {
         this.serviceUnifOfWork = serviceUnitOfWork;
         this.session = session;

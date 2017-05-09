@@ -13,4 +13,5 @@ public interface IOrderService extends IServiceCrud<Integer, order> {
     List<order> getOrderServices(Integer userId, int detailOrderId) throws ServiceException;
     List<order> getServiceShopOrders(int staffServiceShopId, MechanicViewOrdersInfo.SortedType orderSortType,
                                      int orderPage, int orderCount) throws ServiceException;
+    boolean changeOrderState(int changedStaffId, int orderId, order.State newOrderState) throws ServiceException;
 }
