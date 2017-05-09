@@ -6,7 +6,7 @@ import com.google.inject.Singleton;
 import main.com.bsuir.autoservice.infrastructure.transaction.ITransaction;
 import main.com.bsuir.autoservice.infrastructure.transaction.exception.TransactionException;
 import main.com.bsuir.autoservice.service.IService;
-import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
+import main.com.bsuir.autoservice.service.exception.ServiceException;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 

@@ -1,11 +1,11 @@
-package main.com.bsuir.autoservice.service.crud.user;
+package main.com.bsuir.autoservice.service.impl.crud.user;
 
 import com.google.inject.Inject;
 import main.com.bsuir.autoservice.bean.User;
 import main.com.bsuir.autoservice.dao.unitOfWork.IDaoUnitOfWork;
-import main.com.bsuir.autoservice.service.crud.AbstractServiceCrud;
-import main.com.bsuir.autoservice.service.crud.IUserService;
-import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
+import main.com.bsuir.autoservice.service.exception.ServiceException;
+import main.com.bsuir.autoservice.service.impl.IUserService;
+import main.com.bsuir.autoservice.service.impl.crud.AbstractServiceCrud;
 
 public class UserService extends AbstractServiceCrud<Integer, User> implements IUserService {
     private final IDaoUnitOfWork daoUnitOfWork;

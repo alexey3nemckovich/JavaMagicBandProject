@@ -1,7 +1,6 @@
-package main.com.bsuir.autoservice.service.crud;
+package main.com.bsuir.autoservice.service;
 
-import main.com.bsuir.autoservice.service.IService;
-import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
+import main.com.bsuir.autoservice.service.exception.ServiceException;
 
 import java.util.List;
 import java.util.Map;

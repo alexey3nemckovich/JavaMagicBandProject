@@ -61,4 +61,12 @@ public class MockBean {
         serviceShop.setId(MOCK_SERVICE_SHOP_ID);
         return serviceShop;
     }
+
+    public static final int MOCK_SPARE_PART_ID = 7;
+
+    public static spare_part getMockSparePart() {
+        spare_part sparePart = mock(spare_part.class);
+        sparePart.setSparePartId(MOCK_SPARE_PART_ID);
+        return sparePart;
+    }
 }

@@ -4,15 +4,9 @@ import com.google.inject.Inject;
 import main.com.bsuir.autoservice.binding.annotation.Cached;
 import main.com.bsuir.autoservice.binding.annotation.FakeUOF;
 import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
-import main.com.bsuir.autoservice.service.IBaseService;
-import main.com.bsuir.autoservice.service.INotificationService;
-import main.com.bsuir.autoservice.service.IServiceService;
-import main.com.bsuir.autoservice.service.IShareService;
-import main.com.bsuir.autoservice.service.crud.IOrderService;
-import main.com.bsuir.autoservice.service.crud.IServiceCrud;
-import main.com.bsuir.autoservice.service.crud.IStaffService;
-import main.com.bsuir.autoservice.service.crud.IUserService;
-import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
+import main.com.bsuir.autoservice.service.IServiceCrud;
+import main.com.bsuir.autoservice.service.exception.ServiceException;
+import main.com.bsuir.autoservice.service.impl.*;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -27,6 +21,7 @@ public class DefaultServiceUnitOfWork implements IServiceUnitOfWork {
     private final IShareService shareService;
     private final IServiceService serviceService;
     private final INotificationService notificationService;
+    private final ISparePartService sparePartService;
 
     @Inject
     public DefaultServiceUnitOfWork(@FakeUOF IServiceUnitOfWork fakeServiceUOF, IDatabaseMap databaseMap){
@@ -38,6 +33,7 @@ public class DefaultServiceUnitOfWork implements IServiceUnitOfWork {
         shareService = fakeServiceUOF.getShareService();
         serviceService = fakeServiceUOF.getServiceService();
         notificationService = fakeServiceUOF.getNotificationService();
+        sparePartService = fakeServiceUOF.getSparePartService();
     }
 
     @Cached
@@ -93,6 +89,11 @@ public class DefaultServiceUnitOfWork implements IServiceUnitOfWork {
     @Override
     public INotificationService getNotificationService() {
         return notificationService;
+    }
+
+    @Override
+    public ISparePartService getSparePartService() {
+        return sparePartService;
     }
 
     @Override

@@ -1,13 +1,13 @@
-package main.com.bsuir.autoservice.service.crud.order;
+package main.com.bsuir.autoservice.service.impl.crud.order;
 
 import com.google.inject.Inject;
 import main.com.bsuir.autoservice.bean.order;
 import main.com.bsuir.autoservice.bean.service;
 import main.com.bsuir.autoservice.command.param.MechanicViewOrdersInfo;
 import main.com.bsuir.autoservice.dao.unitOfWork.IDaoUnitOfWork;
-import main.com.bsuir.autoservice.service.crud.AbstractServiceCrud;
-import main.com.bsuir.autoservice.service.crud.IOrderService;
-import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
+import main.com.bsuir.autoservice.service.exception.ServiceException;
+import main.com.bsuir.autoservice.service.impl.IOrderService;
+import main.com.bsuir.autoservice.service.impl.crud.AbstractServiceCrud;
 
 import java.util.List;
 

@@ -67,13 +67,10 @@ import main.com.bsuir.autoservice.infrastructure.session.impl.CustomHttpSessionP
 import main.com.bsuir.autoservice.infrastructure.transaction.ITransaction;
 import main.com.bsuir.autoservice.infrastructure.transaction.impl.RequestTransaction;
 import main.com.bsuir.autoservice.library.RequestType;
-import main.com.bsuir.autoservice.service.*;
-import main.com.bsuir.autoservice.service.crud.IOrderService;
-import main.com.bsuir.autoservice.service.crud.IStaffService;
-import main.com.bsuir.autoservice.service.crud.IUserService;
-import main.com.bsuir.autoservice.service.crud.order.OrderService;
-import main.com.bsuir.autoservice.service.crud.staff.StaffService;
-import main.com.bsuir.autoservice.service.crud.user.UserService;
+import main.com.bsuir.autoservice.service.impl.*;
+import main.com.bsuir.autoservice.service.impl.crud.order.OrderService;
+import main.com.bsuir.autoservice.service.impl.crud.staff.StaffService;
+import main.com.bsuir.autoservice.service.impl.crud.user.UserService;
 import main.com.bsuir.autoservice.service.unitOfWork.DefaultServiceUnitOfWork;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 

@@ -1,8 +1,9 @@
-package main.com.bsuir.autoservice.service.crud;
+package main.com.bsuir.autoservice.service.impl.crud;
 
 import main.com.bsuir.autoservice.dao.crud.IDaoCrud;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
-import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
+import main.com.bsuir.autoservice.service.IServiceCrud;
+import main.com.bsuir.autoservice.service.exception.ServiceException;
 
 import java.util.List;
 import java.util.Map;

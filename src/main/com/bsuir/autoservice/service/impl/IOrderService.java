@@ -1,9 +1,10 @@
-package main.com.bsuir.autoservice.service.crud;
+package main.com.bsuir.autoservice.service.impl;
 
 import main.com.bsuir.autoservice.bean.order;
 import main.com.bsuir.autoservice.bean.service;
 import main.com.bsuir.autoservice.command.param.MechanicViewOrdersInfo;
-import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
+import main.com.bsuir.autoservice.service.IServiceCrud;
+import main.com.bsuir.autoservice.service.exception.ServiceException;
 
 import java.util.List;
 

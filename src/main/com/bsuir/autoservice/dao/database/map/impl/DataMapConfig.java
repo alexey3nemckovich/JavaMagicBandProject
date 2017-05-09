@@ -6,10 +6,10 @@ import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.bean.BeanException;
 import main.com.bsuir.autoservice.binding.annotation.Cached;
 import main.com.bsuir.autoservice.config.exception.ConfigException;
-import main.com.bsuir.autoservice.dao.database.map.ColumnMap;
 import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
-import main.com.bsuir.autoservice.dao.database.map.TableMap;
-import main.com.bsuir.autoservice.service.crud.IServiceCrud;
+import main.com.bsuir.autoservice.dao.database.map.beanhelper.ColumnMap;
+import main.com.bsuir.autoservice.dao.database.map.beanhelper.TableMap;
+import main.com.bsuir.autoservice.service.IServiceCrud;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -116,12 +116,16 @@ public class DataMapConfig implements IDatabaseMap {
     }
 
     private static Class<? extends IServiceCrud> getLoadServiceCrudClass(String serviceCrudClassName) {
-        return getLoadClass(serviceCrudClassName, IServiceCrud.class);
+        return getLoadClass(serviceCrudClassName, IServiceCrud.class, "impl");
     }
 
     private static <T> Class<? extends T> getLoadClass(String className, Class<T> classType) {
+        return getLoadClass(className, classType, "");
+    }
+
+    private static <T> Class<? extends T> getLoadClass(String className, Class<T> classType, String nearestRoot) {
         try {
-            return Class.forName(String.format("%s.%s", classType.getPackage().getName(), className))
+            return Class.forName(String.format("%s.%s.%s", classType.getPackage().getName(), nearestRoot, className))
                     .asSubclass(classType);
         } catch (Exception e) {
             throw new RuntimeException(String.format("Not found class '%s' as type '%s'", className, classType), e);

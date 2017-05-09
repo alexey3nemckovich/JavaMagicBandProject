@@ -8,8 +8,8 @@ import main.com.bsuir.autoservice.command.mechanic.MechanicAddOrderNotificationC
 import main.com.bsuir.autoservice.command.param.MechanicAddOrderNotificationInfo;
 import main.com.bsuir.autoservice.command.ret.MechanicAddOrderNotificationRet;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
-import main.com.bsuir.autoservice.service.crud.IOrderService;
-import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
+import main.com.bsuir.autoservice.service.exception.ServiceException;
+import main.com.bsuir.autoservice.service.impl.IOrderService;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 import org.junit.Before;
 import org.junit.Test;

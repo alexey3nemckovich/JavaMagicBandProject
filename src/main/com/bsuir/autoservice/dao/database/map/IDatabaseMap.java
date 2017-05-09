@@ -2,7 +2,8 @@ package main.com.bsuir.autoservice.dao.database.map;
 
 import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.bean.BeanException;
-import main.com.bsuir.autoservice.service.crud.IServiceCrud;
+import main.com.bsuir.autoservice.dao.database.map.beanhelper.TableMap;
+import main.com.bsuir.autoservice.service.IServiceCrud;
 
 import java.util.HashMap;
 import java.util.List;

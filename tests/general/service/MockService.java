@@ -1,11 +1,6 @@
 package general.service;
 
-import main.com.bsuir.autoservice.service.INotificationService;
-import main.com.bsuir.autoservice.service.IServiceService;
-import main.com.bsuir.autoservice.service.IShareService;
-import main.com.bsuir.autoservice.service.crud.IOrderService;
-import main.com.bsuir.autoservice.service.crud.IStaffService;
-import main.com.bsuir.autoservice.service.crud.IUserService;
+import main.com.bsuir.autoservice.service.impl.*;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 
 import static org.mockito.Mockito.mock;
@@ -19,6 +14,7 @@ public class MockService{
         private IServiceService serviceService;
         private IShareService shareService;
         private INotificationService notificationService;
+        private ISparePartService sparePartService;
 
         public ServiceUOFBuilder setUserService(IUserService userService) {
             this.userService = userService;
@@ -56,6 +52,12 @@ public class MockService{
             return this;
         }
 
+        public ServiceUOFBuilder setSparePartService(ISparePartService sparePartService) {
+            this.sparePartService = sparePartService;
+
+            return this;
+        }
+
         public IServiceUnitOfWork build(){
             IServiceUnitOfWork mock = mock(IServiceUnitOfWork.class);
             when(mock.getUserService()).thenReturn(userService);
@@ -64,6 +66,7 @@ public class MockService{
             when(mock.getServiceService()).thenReturn(serviceService);
             when(mock.getShareService()).thenReturn(shareService);
             when(mock.getNotificationService()).thenReturn(notificationService);
+            when(mock.getSparePartService()).thenReturn(sparePartService);
             return mock;
         }
     }
@@ -88,5 +91,9 @@ public class MockService{
 
     public static INotificationService getNotificationService() {
         return mock(INotificationService.class);
+    }
+
+    public static ISparePartService getSparePartService() {
+        return mock(ISparePartService.class);
     }
 }

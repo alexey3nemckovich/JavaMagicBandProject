@@ -8,8 +8,8 @@ import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.CrudPageInfo;
 import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
 import main.com.bsuir.autoservice.exception.ExceptionUnwrapper;
-import main.com.bsuir.autoservice.service.crud.IServiceCrud;
-import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
+import main.com.bsuir.autoservice.service.IServiceCrud;
+import main.com.bsuir.autoservice.service.exception.ServiceException;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 
 public class AddBeanCommand implements ICommand<CrudPageInfo, CrudPageInfo>{

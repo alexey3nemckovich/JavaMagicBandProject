@@ -1,10 +1,10 @@
-package main.com.bsuir.autoservice.service.crud.staff;
+package main.com.bsuir.autoservice.service.impl.crud.staff;
 
 import com.google.inject.Inject;
 import main.com.bsuir.autoservice.bean.Staff;
 import main.com.bsuir.autoservice.dao.unitOfWork.IDaoUnitOfWork;
-import main.com.bsuir.autoservice.service.crud.AbstractServiceCrud;
-import main.com.bsuir.autoservice.service.crud.IStaffService;
+import main.com.bsuir.autoservice.service.impl.IStaffService;
+import main.com.bsuir.autoservice.service.impl.crud.AbstractServiceCrud;
 
 public class StaffService extends AbstractServiceCrud<Integer, Staff> implements IStaffService {
     private final IDaoUnitOfWork daoUnitOfWork;

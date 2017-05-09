@@ -1,4 +1,4 @@
-package main.com.bsuir.autoservice.dao.database.map;
+package main.com.bsuir.autoservice.dao.database.map.beanhelper;
 
 import java.util.List;
 import java.util.Objects;
