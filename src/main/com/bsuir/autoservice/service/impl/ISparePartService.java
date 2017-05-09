@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface ISparePartService extends IServiceCrud {
     List<spare_part> getView(int staffId, int sparePartGroup, int elementCount) throws ServiceException;
+    boolean updateSparePart(spare_part sparePart) throws ServiceException;
 }
