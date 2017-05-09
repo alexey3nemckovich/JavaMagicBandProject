@@ -22,9 +22,10 @@ public class SparePartService extends AbstractServiceCrud<Integer, spare_part> i
     public List<Dependency> readDependencies(spare_part bean) throws ServiceException {
         try {
             List<Dependency> dependencies = new ArrayList<>();
+            Integer id = bean != null ? bean.getId() : null;
             dependencies.add(new Dependency(
                     daoUnitOfWork.getSparePartDao().getTableName(),
-                    "spare_part_id", bean.getId()
+                    "spare_part_id", id
             ));
             return dependencies;
         }catch (Exception e){

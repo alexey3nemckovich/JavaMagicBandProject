@@ -22,13 +22,14 @@ public class ServiceShopBeanService extends AbstractServiceCrud<Integer, service
     public List<Dependency> readDependencies(service_shop bean) throws ServiceException {
         try {
             List<Dependency> dependencies = new ArrayList<>();
+            Integer id = bean != null ? bean.getId() : null;
             dependencies.add(new Dependency(
                     daoUnitOfWork.getOrderDao().getTableName(),
-                    "service_shop_id", bean.getId()
+                    "service_shop_id", id
             ));
             dependencies.add(new Dependency(
                     daoUnitOfWork.getStaffDao().getTableName(),
-                    "service_shop_id", bean.getId()
+                    "service_shop_id", id
             ));
             return dependencies;
         }catch (Exception e){

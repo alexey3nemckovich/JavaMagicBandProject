@@ -16,6 +16,8 @@ import main.com.bsuir.autoservice.service.crud.impl.spare_part.ISparePartService
 import main.com.bsuir.autoservice.service.crud.impl.staff.IStaffService;
 import main.com.bsuir.autoservice.service.crud.impl.user.IUserService;
 
+import java.util.List;
+
 public interface IServiceUnitOfWork {
    IService getBaseService();
 
@@ -32,5 +34,6 @@ public interface IServiceUnitOfWork {
    IOrderService getOrderService();
    IStaffService getStaffService();
 
+   List<IServiceCrud> getAllTablesServices();
    IServiceCrud getServiceCrudForBean(String name) throws ServiceException;
 }

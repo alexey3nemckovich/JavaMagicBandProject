@@ -6,7 +6,6 @@ import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class BaseService implements IService{
@@ -18,8 +17,8 @@ public class BaseService implements IService{
 
     public List<String> getListTableNames() throws ServiceException{
         try {
-            List<String> names = db.getListTableNames();
-            return names;
+            List<String> allDbTables = db.getListTableNames();
+            return allDbTables;
         }catch (SQLException e){
             throw new ServiceException(e);
         }

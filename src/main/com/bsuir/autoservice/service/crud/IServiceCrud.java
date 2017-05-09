@@ -11,6 +11,7 @@ public interface IServiceCrud<PrimaryKey, Entity extends Bean>{
     String getTableName();
     int readTotalCount() throws ServiceException;
     //dependency
+    List<Dependency> readDependencies() throws ServiceException;
     List<Dependency> readDependencies(Entity entity) throws ServiceException;
     //crud
     List<Entity> read(Map<String, String> conditions) throws ServiceException;

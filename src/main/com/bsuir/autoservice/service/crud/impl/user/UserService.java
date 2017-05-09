@@ -23,18 +23,19 @@ public class UserService extends AbstractServiceCrud<Integer, user> implements I
     public List<Dependency> readDependencies(user bean) throws ServiceException {
         try {
             List<Dependency> dependencies = new ArrayList<>();
+            Integer id = bean != null ? bean.getId() : null;
             dependencies.add(new Dependency(
                     daoUnitOfWork.getDiscountUserDao().getTableName(),
-                    "user_id", bean.getId()
+                    "user_id", id
             ));
             dependencies.add(new Dependency(
                     daoUnitOfWork.getOrderDao().getTableName(),
-                    "user_id", bean.getId()
+                    "user_id", id
             ));
             dependencies.add(new Dependency(
                     daoUnitOfWork.getStaffDao().getTableName(),
-                    "user_id", bean.getId())
-            );
+                    "user_id", id
+            ));
             return dependencies;
         }catch (Exception e){
                 throw new ServiceException(e);

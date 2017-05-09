@@ -19,22 +19,10 @@ import main.com.bsuir.autoservice.service.crud.impl.staff.IStaffService;
 import main.com.bsuir.autoservice.service.crud.impl.user.IUserService;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DefaultServiceUnitOfWork implements IServiceUnitOfWork {
-    private final IService baseService;
-
-    private final IDiscountService discountService;
-    private final IDiscountUserService discountUserService;
-    private final INotificationService notificationService;
-    private final IOrderService orderService;
-    private final IOrderSparePartService orderSparePartService;
-    private final IServiceBeanService serviceBeanService;
-    private final IServiceShopBeanService serviceShopBeanService;
-    private final IShareService shareService;
-    private final IShareDiscountService shareDiscountService;
-    private final ISparePartService sparePartService;
-    private final IStaffService staffService;
-    private final IUserService userService;
 
     @Inject
     public DefaultServiceUnitOfWork(Injector injector){
@@ -52,6 +40,25 @@ public class DefaultServiceUnitOfWork implements IServiceUnitOfWork {
         sparePartService = injector.getInstance(ISparePartService.class);
         staffService = injector.getInstance(IStaffService.class);
         userService = injector.getInstance(IUserService.class);
+
+        allTablesServices = new ArrayList<>();
+        allTablesServices.add(discountService);
+        allTablesServices.add(discountUserService);
+        allTablesServices.add(notificationService);
+        allTablesServices.add(orderService);
+        allTablesServices.add(orderSparePartService);
+        allTablesServices.add(serviceBeanService);
+        allTablesServices.add(serviceShopBeanService);
+        allTablesServices.add(shareService);
+        allTablesServices.add(shareDiscountService);
+        allTablesServices.add(sparePartService);
+        allTablesServices.add(staffService);
+        allTablesServices.add(userService);
+    }
+
+    @Override
+    public List<IServiceCrud> getAllTablesServices(){
+        return allTablesServices;
     }
 
     @Override
@@ -145,4 +152,21 @@ public class DefaultServiceUnitOfWork implements IServiceUnitOfWork {
     public IUserService getUserService(){
         return userService;
     }
+
+    private final IService baseService;
+
+    private final IDiscountService discountService;
+    private final IDiscountUserService discountUserService;
+    private final INotificationService notificationService;
+    private final IOrderService orderService;
+    private final IOrderSparePartService orderSparePartService;
+    private final IServiceBeanService serviceBeanService;
+    private final IServiceShopBeanService serviceShopBeanService;
+    private final IShareService shareService;
+    private final IShareDiscountService shareDiscountService;
+    private final ISparePartService sparePartService;
+    private final IStaffService staffService;
+    private final IUserService userService;
+
+    private final List<IServiceCrud> allTablesServices;
 }

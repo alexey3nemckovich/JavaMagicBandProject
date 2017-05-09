@@ -30,7 +30,7 @@ public class SparePartDao extends AbstractDaoCrud<Integer, spare_part> implement
         try {
             while (rs.next()) {
                 spare_part bean = new spare_part();
-                bean.setId(rs.getInt("spare_part_id"));
+                bean.setId(rs.getInt("id"));
                 bean.setName(rs.getString("name"));
                 bean.setAmountAvailable(rs.getInt("amount_available"));
                 result.add(bean);

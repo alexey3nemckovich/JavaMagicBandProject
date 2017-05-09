@@ -23,13 +23,14 @@ public class DiscountService extends AbstractServiceCrud<Integer, discount> impl
     public List<Dependency> readDependencies(discount bean) throws ServiceException{
         try {
             List<Dependency> dependencies = new ArrayList<>();
+            Integer id = bean != null ? bean.getId() : null;
             dependencies.add(new Dependency(
                     daoUnitOfWork.getShareDiscountDao().getTableName(),
-                    "discount_id", bean.getId()
+                    "discount_id", id
             ));
             dependencies.add(new Dependency(
                     daoUnitOfWork.getDiscountUserDao().getTableName(),
-                    "discount_id", bean.getId()
+                    "discount_id", id
             ));
             return dependencies;
         }catch (Exception e){

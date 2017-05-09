@@ -22,14 +22,15 @@ public class StaffService extends AbstractServiceCrud<Integer, staff> implements
     public List<Dependency> readDependencies(staff bean) throws ServiceException{
         try {
             List<Dependency> dependencies = new ArrayList<>();
+            Integer id = bean != null ? bean.getId() : null;
             dependencies.add(new Dependency(
                     daoUnitOfWork.getServiceShopDao().getTableName(),
-                    "chief_id", bean.getId())
-            );
+                    "chief_id", id
+            ));
             dependencies.add(new Dependency(
                     daoUnitOfWork.getNotificationDao().getTableName(),
-                    "staff_id", bean.getId())
-            );
+                    "staff_id", id
+            ));
             return dependencies;
         }catch (Exception e){
             throw new ServiceException(e);

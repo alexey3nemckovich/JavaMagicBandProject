@@ -22,9 +22,10 @@ public class ShareService extends AbstractServiceCrud<Integer, share> implements
     public List<Dependency> readDependencies(share bean) throws ServiceException {
         try {
             List<Dependency> dependencies = new ArrayList<>();
+            Integer id = bean != null ? bean.getId() : null;
             dependencies.add(new Dependency(
                     daoUnitOfWork.getShareDiscountDao().getTableName(),
-                    "share_id", bean.getId()
+                    "share_id", id
             ));
             return dependencies;
         }catch (Exception e){

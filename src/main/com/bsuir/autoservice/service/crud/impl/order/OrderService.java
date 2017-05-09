@@ -22,17 +22,18 @@ public class OrderService extends AbstractServiceCrud<Integer,order> implements 
     public List<Dependency> readDependencies(order bean) throws ServiceException {
         try {
             List<Dependency> dependencies = new ArrayList<>();
+            Integer id = bean != null ? bean.getId() : null;
             dependencies.add(new Dependency(
                     daoUnitOfWork.getOrderedServiceDao().getTableName(),
-                    "order_id", bean.getId()
+                    "order_id", id
             ));
             dependencies.add(new Dependency(
                     daoUnitOfWork.getOrderSparePartDao().getTableName(),
-                    "order_id", bean.getId()
+                    "order_id", id
             ));
             dependencies.add(new Dependency(
                     daoUnitOfWork.getNotificationDao().getTableName(),
-                    "order_id", bean.getId()
+                    "order_id", id
             ));
             return dependencies;
         }catch (Exception e){
