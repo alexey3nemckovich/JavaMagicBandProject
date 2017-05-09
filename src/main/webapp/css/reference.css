@@ -1,0 +1,11 @@
+.reference,.reference:visited
+{
+    color: #93291b;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.reference:hover
+{
+    text-decoration: underline;
+}

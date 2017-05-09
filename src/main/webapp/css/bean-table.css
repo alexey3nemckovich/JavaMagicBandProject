@@ -1,0 +1,28 @@
+.bean-table
+{
+    display: table;
+    margin: 0 0 40px 0;
+    table-layout: fixed;
+    word-wrap: break-word;
+    max-width: 100%;
+    box-shadow: 3px 2px 5px 3px rgba(0, 0, 0, 0.2);
+    border: 2px solid #B3594C;
+}
+
+.bean-table-header-row
+{
+    display: table-row;
+}
+
+.bean-table-row
+{
+    display: table-row;
+}
+
+.bean-table-cell
+{
+    display: table-cell;
+    padding: 4px 4px;
+    margin: auto;
+    text-align: center;
+}

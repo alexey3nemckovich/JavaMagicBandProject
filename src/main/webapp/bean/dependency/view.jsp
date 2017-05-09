@@ -14,12 +14,16 @@
 
 <head>
     <title>Bean dependency</title>
+    <link rel="stylesheet" href="../../css/text.css">
+    <link rel="stylesheet" href="../../css/reference.css">
+    <link rel="stylesheet" href="../../css/site_style.css">
+    <link rel="stylesheet" href="../../css/bean-table.css">
 </head>
 
-<body>
+<body class="site-background site-text-container">
 
-    <div>
-        <h1 align = "center">AutoServiceShop - magic project of Nikita, Vova, Alex</h1>
+    <div class="site-header">
+        AutoServiceShop
     </div>
 
     <a href="../../index.jsp">To main page</a>
@@ -43,69 +47,70 @@
 
     <div>
 
+        <h1><%=dependency.getTableName()%></h1>
+
+        <c:if test='<%=!request.getAttribute("action").equals("get")%>'>
+            <h2>${result}</h2>
+        </c:if>
+
         <c:if test="${!empty beans}">
 
             <div>
 
-                <h1>${dependencyTableName}</h1>
+                <c:forEach items="${beans}" var="bean">
+                    <form id="${bean.toString()}">
+                    </form>
+                </c:forEach>
 
-                <c:if test='<%=!request.getAttribute("action").equals("get")%>'>
-                    <h2>${result}</h2>
-                </c:if>
-
-                <table>
+                <div class="bean-table">
 
                         <%-- Header row --%>
-                    <tr>
+                    <div class="bean-table-header-row">
 
                         <c:forEach items="${beans.get(0).getFieldsOrdered()}" var="field">
-                            <th>${field.getName()}</th>
+                            <div class="bean-table-cell">${field.getName()}</div>
                         </c:forEach>
 
-                        <th>
+                        <div class="bean-table-cell">
                             Action
-                        </th>
+                        </div>
 
-                        <th>
+                        <div class="bean-table-cell">
                             Dependencies
-                        </th>
+                        </div>
 
-                    </tr>
+                    </div>
 
                         <%-- Entities rows --%>
                     <c:forEach items="${beans}" var="bean">
+                        <div class="bean-table-row">
 
-                        <%-- Every enrity row is form --%>
-                        <tr>
+                            <%-- Every enrity row is form --%>
+                            <%-- Enity fields --%>
+                            <c:forEach items="${bean.getFieldsOrdered()}" var="field">
+                                <div class="bean-table-cell">
+                                    <input form="${bean.toString()}" type="text" name="${field.getName()}" value="${field.get(bean)}" readonly/>
+                                </div>
+                            </c:forEach>
 
-                            <form>
-                                    <%-- Enity fields --%>
-                                <c:forEach items="${bean.getFieldsOrdered()}" var="field">
-                                    <td>
-                                        <input type="text" name="${field.getName()}" value="${field.get(bean)}" readonly/>
-                                    </td>
-                                </c:forEach>
+                            <%-- Action buttons --%>
+                            <div class="bean-table-cell" style="min-width: 100px;">
 
-                                    <%-- Action buttons --%>
-                                <td>
+                                <button form="${bean.toString()}" class="text-container" formmethod="post" type="submit" formaction="/bean/dependency/edit.ass?tableName=<%=dependency.getTableName()%>&notModifiableFieldsNames=<%=notModifiableFieldsNames%>">
+                                    Edit
+                                </button>
 
-                                    <button formmethod="post" type="submit" formaction="/bean/dependency/edit.ass?tableName=<%=dependency.getTableName()%>&notModifiableFieldsNames=<%=notModifiableFieldsNames%>">
-                                        Edit
-                                    </button>
+                                <button form="${bean.toString()}" class="text-container" formmethod="post" type="submit" formaction="/bean/dependency/view.ass?action=delete&tableName=${tableName}&dependency=<%=dependencyJson%>&page=${page}&countRecords=${countRecords}">
+                                    Delete
+                                </button>
 
-                                    <button formmethod="post" type="submit" formaction="/bean/dependency/view.ass?action=delete&tableName=${tableName}&dependency=<%=dependencyJson%>&page=${page}&countRecords=${countRecords}">
-                                        Delete
-                                    </button>
+                            </div>
 
-                                </td>
-
-                            </form>
-
-                                <%-- Dependencies --%>
-                            <td>
+                            <%-- Dependencies --%>
+                            <div class="bean-table-cell" style="min-width: 180px;">
                                 <c:choose>
                                     <c:when test="${!empty dependencyMap.get(bean)}">
-                                        <form>
+                                        <form style="margin-bottom: 0px">
 
                                             <select name="dependency">
                                                 <c:forEach items="${dependencyMap.get(bean)}" var="dependecy">
@@ -125,13 +130,13 @@
                                         -
                                     </c:otherwise>
                                 </c:choose>
-                            </td>
+                            </div>
 
-                        </tr>
+                        </div>
 
                     </c:forEach>
 
-                </table>
+                </div>
 
                 <c:url var="searchUri" value="/bean/dependency/view.ass?action=get&tableName=${tableName}&dependency=<%=dependencyJson%>&page=##&countRecords=${countRecords}" />
                 <paginator:display

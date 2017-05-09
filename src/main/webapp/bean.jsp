@@ -3,21 +3,25 @@
 <html>
 <head>
     <title>Beans</title>
-    <link rel="stylesheet" href="/css/classes.css">
+    <link rel="stylesheet" href="./css/text.css">
+    <link rel="stylesheet" href="./css/reference.css">
+    <link rel="stylesheet" href="./css/site_style.css">
 </head>
-<body>
+<body class="site-background">
 
-    <div style = "border: 2px solid black;">
-        <h1 align = "center">AutoServiceShop - magic project of Nikita, Vova, Alex</h1>
+    <div class="site-header">
+        AutoServiceShop
     </div>
 
-    <div class="centered_parent">
-        <table class="centered">
+    <div align="center">
+        <table>
 
             <c:forEach items="${dbBeanNames}" var="name">
                 <tr>
                     <td>
-                        <a href="<c:url value="/bean/view.ass?tableName=${name}&page=1&countRecords=3"/>">Table '${name}'</a>
+                        <a class="reference" href="<c:url value="/bean/view.ass?tableName=${name}&page=1&countRecords=3"/>">
+                            Table '${name}'
+                        </a>
                     </td>
                 </tr>
             </c:forEach>

@@ -1,0 +1,33 @@
+.site-header
+{
+    border: 2px solid black;
+    font-family: "Candara",Arial,sans-serif;
+    font-size: 50px;
+    text-align: center;
+    background: linear-gradient(to top, rgb(253, 116, 108), rgb(255, 144, 104));
+}
+
+.site-background
+{
+    background: linear-gradient(to top, rgb(255, 95, 109), rgb(255, 195, 113));
+}
+
+.site-text-container
+{
+    font-family: "Candara",Arial,sans-serif;
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 1.5625;
+}
+
+.own-size-site-text-container
+{
+    font-family: "Candara",Arial,sans-serif;
+    font-weight: 300;
+    line-height: 1.5625;
+}
+
+input
+{
+    width: 100%;
+}

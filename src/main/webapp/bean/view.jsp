@@ -11,12 +11,16 @@
 
 <head>
     <title>Bean</title>
+    <link rel="stylesheet" href="../css/text.css">
+    <link rel="stylesheet" href="../css/reference.css">
+    <link rel="stylesheet" href="../css/site_style.css">
+    <link rel="stylesheet" href="../css/bean-table.css">
 </head>
 
-<body>
+<body class="site-background site-text-container">
 
-    <div>
-        <h1 align = "center">AutoServiceShop - magic project of Nikita, Vova, Alex</h1>
+    <div class="site-header">
+        AutoServiceShop
     </div>
 
     <a href="../../index.jsp">To main page</a>
@@ -27,67 +31,70 @@
 
     <div>
 
+        <h1>${tableName}</h1>
+
+        <c:if test='<%=!request.getAttribute("action").equals("get")%>'>
+            <h2>${result}</h2>
+        </c:if>
+
         <c:if test="${!empty beans}">
 
             <div>
 
-                <h1>${tableName}</h1>
+                <c:forEach items="${beans}" var="bean">
+                    <form id="${bean.toString()}">
+                    </form>
+                </c:forEach>
 
-                <c:if test='<%=!request.getAttribute("action").equals("get")%>'>
-                    <h2>${result}</h2>
-                </c:if>
-
-                <table>
+                <div class="bean-table">
 
                     <%-- Header row --%>
-                    <tr>
+                    <div class="bean-table-header-row">
 
                         <c:forEach items="${beans.get(0).getFieldsOrdered()}" var="field">
-                            <th>${field.getName()}</th>
+                            <div class="bean-table-cell">${field.getName()}</div>
                         </c:forEach>
 
-                        <th>
+                        <div class="bean-table-cell">
                             Action
-                        </th>
+                        </div>
 
-                        <th>
+                        <div class="bean-table-cell">
                             Dependencies
-                        </th>
+                        </div>
 
-                    </tr>
+                    </div>
 
                     <%-- Entities rows --%>
                     <c:forEach items="${beans}" var="bean">
-                        <tr>
+                        <div class="bean-table-row">
 
-                                <%-- Every enrity row is form --%>
-                            <form accept-charset="utf-8">
-                                <%-- Enity fields --%>
-                                <c:forEach items="${bean.getFieldsOrdered()}" var="field">
-                                    <td>
-                                        <input type="text" name="${field.getName()}" value="${field.get(bean)}" readonly/>
-                                    </td>
-                                </c:forEach>
+                            <%-- Every enrity row is form --%>
+                            <%-- Enity fields --%>
+                            <c:forEach items="${bean.getFieldsOrdered()}" var="field">
+                                <div class="bean-table-cell">
+                                    <input form="${bean.toString()}" type="text" name="${field.getName()}" value="${field.get(bean)}" readonly/>
+                                </div>
+                            </c:forEach>
 
-                                <%-- Action buttons --%>
-                                <td>
+                            <%-- Action buttons --%>
+                            <div class="bean-table-cell" style="min-width: 100px;">
 
-                                    <button formmethod="post" type="submit" formaction="/bean/edit.ass?tableName=${tableName}">
-                                        Edit
-                                    </button>
+                                <button form="${bean.toString()}" formmethod="post" type="submit" formaction="/bean/edit.ass?tableName=${tableName}">
+                                    Edit
+                                </button>
 
-                                    <button formmethod="post" type="submit" formaction="/bean/view.ass?action=delete&tableName=${tableName}&page=${page}&countRecords=${countRecords}">
-                                        Delete
-                                    </button>
+                                <button form="${bean.toString()}" formmethod="post" type="submit" formaction="/bean/view.ass?action=delete&tableName=${tableName}&page=${page}&countRecords=${countRecords}">
+                                    Delete
+                                </button>
 
-                                </td>
-                            </form>
+                            </div>
 
-                                    <%-- Dependencies --%>
-                            <td>
+                            <%-- Dependencies --%>
+                            <div class="bean-table-cell" style="min-width: 160px;">
                                 <c:choose>
                                     <c:when test="${!empty dependencyMap.get(bean)}">
-                                        <form>
+                                        <form style="margin-bottom: 0px">
 
                                             <select name="dependency">
                                                 <c:forEach items="${dependencyMap.get(bean)}" var="dependecy">
@@ -107,12 +114,12 @@
                                         -
                                     </c:otherwise>
                                 </c:choose>
-                            </td>
+                            </div>
 
-                        </tr>
+                        </div>
                     </c:forEach>
 
-                </table>
+                </div>
                 <c:url var="searchUri" value="/bean/view.ass?tableName=${tableName}&page=##&countRecords=${countRecords}"/>
                 <paginator:display
                         maxLinks="5"

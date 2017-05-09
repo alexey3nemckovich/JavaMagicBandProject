@@ -7,7 +7,7 @@
 <%@ page pageEncoding="utf-8"%>
 <html>
 <head>
-    <link rel="stylesheet" href="/css/classes.css">
+    <link rel="stylesheet" href="/main/webapp/css/text.css">
     <title>${name}</title>
 </head>
 <body>
