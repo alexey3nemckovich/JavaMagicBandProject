@@ -73,6 +73,8 @@ import main.com.bsuir.autoservice.service.crud.impl.order.IOrderService;
 import main.com.bsuir.autoservice.service.crud.impl.order.OrderService;
 import main.com.bsuir.autoservice.service.crud.impl.order_spare_part.IOrderSparePartService;
 import main.com.bsuir.autoservice.service.crud.impl.order_spare_part.OrderSparePartService;
+import main.com.bsuir.autoservice.service.crud.impl.ordered_service.IOrderedServiceBeanService;
+import main.com.bsuir.autoservice.service.crud.impl.ordered_service.OrderedServiceBeanService;
 import main.com.bsuir.autoservice.service.crud.impl.service.IServiceBeanService;
 import main.com.bsuir.autoservice.service.crud.impl.service.ServiceBeanService;
 import main.com.bsuir.autoservice.service.crud.impl.service_shop.IServiceShopBeanService;
@@ -194,6 +196,7 @@ public class AutoServiceShopModule extends AbstractModule{
         bind(IDiscountUserService.class).to(DiscountUserService.class).in(Singleton.class);
         bind(INotificationService.class).to(NotificationService.class).in(Singleton.class);
         bind(IOrderService.class).to(OrderService.class).in(Singleton.class);
+        bind(IOrderedServiceBeanService.class).to(OrderedServiceBeanService.class).in(Singleton.class);
         bind(IOrderSparePartService.class).to(OrderSparePartService.class).in(Singleton.class);
         bind(IServiceBeanService.class).to(ServiceBeanService.class).in(Singleton.class);
         bind(IServiceShopBeanService.class).to(ServiceShopBeanService.class).in(Singleton.class);

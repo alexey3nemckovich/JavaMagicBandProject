@@ -10,6 +10,7 @@ import main.com.bsuir.autoservice.service.crud.impl.discount_user.IDiscountUserS
 import main.com.bsuir.autoservice.service.crud.impl.notifiaction.INotificationService;
 import main.com.bsuir.autoservice.service.crud.impl.order.IOrderService;
 import main.com.bsuir.autoservice.service.crud.impl.order_spare_part.IOrderSparePartService;
+import main.com.bsuir.autoservice.service.crud.impl.ordered_service.IOrderedServiceBeanService;
 import main.com.bsuir.autoservice.service.crud.impl.service.IServiceBeanService;
 import main.com.bsuir.autoservice.service.crud.impl.service_shop.IServiceShopBeanService;
 import main.com.bsuir.autoservice.service.crud.impl.share.IShareService;
@@ -40,6 +41,7 @@ public class DefaultServiceUnitOfWork implements IServiceUnitOfWork {
         sparePartService = injector.getInstance(ISparePartService.class);
         staffService = injector.getInstance(IStaffService.class);
         userService = injector.getInstance(IUserService.class);
+        orderedServiceBeanService = injector.getInstance(IOrderedServiceBeanService.class);
 
         allTablesServices = new ArrayList<>();
         allTablesServices.add(discountService);
@@ -54,6 +56,7 @@ public class DefaultServiceUnitOfWork implements IServiceUnitOfWork {
         allTablesServices.add(sparePartService);
         allTablesServices.add(staffService);
         allTablesServices.add(userService);
+        allTablesServices.add(orderedServiceBeanService);
     }
 
     @Override
@@ -88,6 +91,11 @@ public class DefaultServiceUnitOfWork implements IServiceUnitOfWork {
         }catch (Exception e){
             throw new ServiceException(e);
         }
+    }
+
+    @Override
+    public IOrderedServiceBeanService getOrderedServiceBeanService(){
+        return orderedServiceBeanService;
     }
 
     @Override
@@ -167,6 +175,7 @@ public class DefaultServiceUnitOfWork implements IServiceUnitOfWork {
     private final ISparePartService sparePartService;
     private final IStaffService staffService;
     private final IUserService userService;
+    private final IOrderedServiceBeanService orderedServiceBeanService;
 
     private final List<IServiceCrud> allTablesServices;
 }

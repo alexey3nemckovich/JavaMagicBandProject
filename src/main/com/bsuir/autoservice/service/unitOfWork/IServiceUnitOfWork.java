@@ -8,6 +8,7 @@ import main.com.bsuir.autoservice.service.crud.impl.discount_user.IDiscountUserS
 import main.com.bsuir.autoservice.service.crud.impl.notifiaction.INotificationService;
 import main.com.bsuir.autoservice.service.crud.impl.order.IOrderService;
 import main.com.bsuir.autoservice.service.crud.impl.order_spare_part.IOrderSparePartService;
+import main.com.bsuir.autoservice.service.crud.impl.ordered_service.IOrderedServiceBeanService;
 import main.com.bsuir.autoservice.service.crud.impl.service.IServiceBeanService;
 import main.com.bsuir.autoservice.service.crud.impl.service_shop.IServiceShopBeanService;
 import main.com.bsuir.autoservice.service.crud.impl.share.IShareService;
@@ -25,6 +26,7 @@ public interface IServiceUnitOfWork {
    IDiscountUserService getDiscountUserService();
    INotificationService getNotificationService();
    IOrderSparePartService getOrderSparePartService();
+   IOrderedServiceBeanService getOrderedServiceBeanService();
    IServiceBeanService getServiceBeanService();
    IServiceShopBeanService getServiceShopBeanService();
    IShareService getShareService();

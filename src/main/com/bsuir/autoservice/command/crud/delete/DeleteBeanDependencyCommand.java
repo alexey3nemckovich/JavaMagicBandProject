@@ -21,10 +21,13 @@ public class DeleteBeanDependencyCommand extends AbstractGetBeanPageCommand impl
     public BeanDependencyViewPageInfo execute(BeanDependencyViewPageInfo dependencyViewPageInfo) throws CommandException{
         try {
             IServiceCrud dependencyTableServiceCrud = serviceUnitOfWork.getServiceCrudForBean(dependencyViewPageInfo.dependency.tableName);
-            Bean bean = Bean.getBeanObject(dependencyViewPageInfo.dependency.tableName, dependencyViewPageInfo.fields);
-            dependencyTableServiceCrud.delete(bean);
+            Bean deleteDependency = Bean.getBeanObject(dependencyViewPageInfo.dependency.tableName, dependencyViewPageInfo.fields);
+            dependencyTableServiceCrud.delete(deleteDependency);
             dependencyViewPageInfo.result = "Operation success";
             readPage(dependencyViewPageInfo, dependencyTableServiceCrud);
+            for(Bean bean : dependencyViewPageInfo.beans){
+                dependencyViewPageInfo.dependencyMap.put(bean, dependencyTableServiceCrud.readDependencies(bean));
+            }
             return dependencyViewPageInfo;
         }catch (Exception e){
             throw new CommandException(e);
