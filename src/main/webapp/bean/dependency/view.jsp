@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="../../css/reference.css">
     <link rel="stylesheet" href="../../css/site_style.css">
     <link rel="stylesheet" href="../../css/bean-table.css">
+    <link rel="stylesheet" href="../../css/paginator.css">
 </head>
 
 <body class="site-background site-text-container">
@@ -138,13 +139,15 @@
 
                 </div>
 
-                <c:url var="searchUri" value="/bean/dependency/view.ass?action=get&tableName=${tableName}&dependency=<%=dependencyJson%>&page=##&countRecords=${countRecords}" />
-                <paginator:display
-                        maxLinks="5"
-                        currPage="${page}"
-                        totalPages="${totalPagesCount}"
-                        uri="${searchUri}"
-                />
+                <div style="text-align: center;">
+                    <c:url var="searchUri" value="/bean/dependency/view.ass?action=get&tableName=${tableName}&dependency=<%=dependencyJson%>&page=##&countRecords=${countRecords}" />
+                    <paginator:display
+                            maxLinks="5"
+                            currPage="${page}"
+                            totalPages="${totalPagesCount}"
+                            uri="${searchUri}"
+                    />
+                </div>
             </div>
 
         </c:if>

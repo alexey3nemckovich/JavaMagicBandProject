@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="../css/reference.css">
     <link rel="stylesheet" href="../css/site_style.css">
     <link rel="stylesheet" href="../css/bean-table.css">
+    <link rel="stylesheet" href="../css/paginator.css">
 </head>
 
 <body class="site-background site-text-container">
@@ -120,13 +121,17 @@
                     </c:forEach>
 
                 </div>
-                <c:url var="searchUri" value="/bean/view.ass?tableName=${tableName}&page=##&countRecords=${countRecords}"/>
-                <paginator:display
-                        maxLinks="5"
-                        currPage="${page}"
-                        totalPages="${totalPagesCount}"
-                        uri="${searchUri}"
-                />
+
+                <div style="text-align: center;">
+                    <c:url var="searchUri" value="/bean/view.ass?tableName=${tableName}&page=##&countRecords=${countRecords}"/>
+                    <paginator:display
+                            maxLinks="5"
+                            currPage="${page}"
+                            totalPages="${totalPagesCount}"
+                            uri="${searchUri}"
+                    />
+                </div>
+
             </div>
 
         </c:if>

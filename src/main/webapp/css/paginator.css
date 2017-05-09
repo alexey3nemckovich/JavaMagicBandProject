@@ -1,0 +1,30 @@
+.paginatorList
+{
+
+}
+
+.paginatorList li
+{
+    display: inline; /* Отображать как строчный элемент */
+    margin-right: 5px; /* Отступ слева */
+    padding: 3px; /* Поля вокруг текста */
+}
+
+.paginatorList li a, .paginatorList li a:visited
+{
+    display: inline; /* Отображать как строчный элемент */
+    margin-right: 5px; /* Отступ слева */
+    padding: 3px; /* Поля вокруг текста */
+    color: #93291b;
+    text-decoration: none;
+}
+
+.paginatorList li a:hover
+{
+    text-decoration: underline;
+}
+
+.paginatorCurr
+{
+    color: red;
+}
