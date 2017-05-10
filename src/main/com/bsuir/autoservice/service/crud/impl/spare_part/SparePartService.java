@@ -24,7 +24,7 @@ public class SparePartService extends AbstractServiceCrud<Integer, spare_part> i
             List<Dependency> dependencies = new ArrayList<>();
             Integer id = bean != null ? bean.getId() : null;
             dependencies.add(new Dependency(
-                    daoUnitOfWork.getSparePartDao().getTableName(),
+                    daoUnitOfWork.getOrderSparePartDao().getTableName(),
                     "spare_part_id", id
             ));
             return dependencies;
