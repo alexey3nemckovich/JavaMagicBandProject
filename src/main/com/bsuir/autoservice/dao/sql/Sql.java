@@ -7,6 +7,11 @@ import java.util.Map;
 public class Sql implements ISql {
 
     @Override
+    public String getSetForeignKeyChecksStatement(int mode){
+        return "SET FOREIGN_KEY_CHECKS=" + String.valueOf(mode);
+    }
+
+    @Override
     public String getSelectAllQuery(String tableName){
         return " SELECT * FROM " + tableName;
     }

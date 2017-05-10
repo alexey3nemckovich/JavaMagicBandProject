@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface ISql {
+    //modes queries
+    String getSetForeignKeyChecksStatement(int mode);
     //select queries
     String getSelectAllQuery(String tableName);
     String getSelectCountQuery(String tableName, String varName);

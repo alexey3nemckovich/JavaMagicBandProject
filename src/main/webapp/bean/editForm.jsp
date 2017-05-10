@@ -12,6 +12,11 @@
     <link rel="stylesheet" href="../css/site_style.css">
     <link rel="stylesheet" href="../css/bean-table.css">
     <link rel="stylesheet" href="../css/action-button.css">
+    <link rel="stylesheet" href="../../css/text.css">
+    <link rel="stylesheet" href="../../css/reference.css">
+    <link rel="stylesheet" href="../../css/site_style.css">
+    <link rel="stylesheet" href="../../css/bean-table.css">
+    <link rel="stylesheet" href="../../css/action-button.css">
     <title>${name}</title>
 </head>
 
