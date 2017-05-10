@@ -50,9 +50,9 @@
     <div style="text-align: center; margin: 10px;">
         <a class="action-button" style="text-decoration: none;" href="../../index.jsp">To main page</a>
         <a class="action-button" style="text-decoration: none;" href="/bean.ass">To list of tables</a>
-        <a class="action-button" style="text-decoration: none;" href="/bean/view.ass?tableName=${tableName}&page=1&countRecords=3">Back to table ${tableName}</a>
+        <a class="action-button" style="text-decoration: none;" href="/bean/view.ass?tableName=${tableName}&page=1&countRecords=3">To table ${tableName}</a>
     </div>
-
+    
     <div>
 
         <h1 style="margin: 0px;">
@@ -84,6 +84,12 @@
 
                             <c:choose>
 
+                                <c:when test="${hiddenFieldsNames.contains(field.getKey())}">
+
+                                    <input form="input-form" type="hidden" name="${field.getKey()}" value="${field.getValue()}"/>
+
+                                </c:when>
+
                                 <c:when test="${notModifiableFieldsNames.contains(field.getKey())}">
 
                                     <input form="input-form" type="text" name="${field.getKey()}" value="${field.getValue()}" readonly/>
@@ -99,6 +105,7 @@
                             </c:choose>
 
                         </div>
+
                     </div>
 
                 </c:forEach>

@@ -27,6 +27,7 @@ public class GetBeanAddPageCommand implements ICommand<BeanAddPageInfo> {
             for(Map.Entry<String, String> entry : beanAddPageInfo.defaultValues.entrySet()){
                 beanAddPageInfo.fields.put(entry.getKey(), entry.getValue());
             }
+
             beanAddPageInfo.action = "add";
             return beanAddPageInfo;
         }catch (Exception e){
