@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="./css/reference.css">
     <link rel="stylesheet" href="./css/site_style.css">
 </head>
-<body class="site-background">
+<body class="site-background site-text-container">
 
     <div class="site-header">
         AutoServiceShop

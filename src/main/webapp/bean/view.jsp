@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="../css/site_style.css">
     <link rel="stylesheet" href="../css/bean-table.css">
     <link rel="stylesheet" href="../css/paginator.css">
+    <link rel="stylesheet" href="../css/action-button.css">
 </head>
 
 <body class="site-background site-text-container">
@@ -24,7 +25,10 @@
         AutoServiceShop
     </div>
 
-    <a href="../../index.jsp">To main page</a>
+    <div style="text-align: center; margin: 10px;">
+        <a class="action-button" style="text-decoration: none;" href="../../index.jsp">To main page</a>
+        <a class="action-button" style="text-decoration: none;" href="/bean.ass">Back to list of tables</a>
+    </div>
 
     <%
         String url = (String) request.getAttribute("javax.servlet.include.query_string");
@@ -138,7 +142,7 @@
 
         <form action="/bean/add.ass?tableName=${tableName}" method="POST">
 
-            <a href="#" onclick="this.parentNode.submit()">Add new '${tableName}'</a>
+            <a class="action-button" style="text-decoration: none;" href="#" onclick="this.parentNode.submit()">New '${tableName}'</a>
 
         </form>
 

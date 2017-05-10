@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="../../css/site_style.css">
     <link rel="stylesheet" href="../../css/bean-table.css">
     <link rel="stylesheet" href="../../css/paginator.css">
+    <link rel="stylesheet" href="../../css/action-button.css">
 </head>
 
 <body class="site-background site-text-container">
@@ -27,7 +28,11 @@
         AutoServiceShop
     </div>
 
-    <a href="../../index.jsp">To main page</a>
+    <div style="text-align: center; margin: 10px;">
+        <a class="action-button" style="text-decoration: none;" href="../../index.jsp">To main page</a>
+        <a class="action-button" style="text-decoration: none;" href="/bean.ass">To list of tables</a>
+        <a class="action-button" style="text-decoration: none;" href="/bean/view.ass?tableName=${tableName}&page=${page}&countRecords=${countRecords}">Back to table ${tableName}</a>
+    </div>
 
     <%
         String url = (String) request.getAttribute("javax.servlet.include.query_string");
@@ -157,7 +162,7 @@
             <input type="hidden" name="notModifiableFieldsNames" value="<%=notModifiableFieldsNames%>" />
             <input type="hidden" name="defaultValues" value="<%=defaultValues%>" />
 
-            <a href="#" onclick="this.parentNode.submit()">Add new dependency</a>
+            <a class="action-button" style="text-decoration: none;" href="#" onclick="this.parentNode.submit()">New '<%=dependency.getTableName()%>' dependency to ${tableName}</a>
 
         </form>
 
