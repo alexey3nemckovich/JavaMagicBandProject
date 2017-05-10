@@ -1,7 +1,24 @@
 <html>
-<body>
-<div style = "border: 2px solid black;">
-    <h1 align = "center">AutoServiceShop - magic project of Nikita, Vova, Alex</h1>
-</div>
+<head>
+    <title>AutoServiceShop</title>
+    <link rel="stylesheet" href="css/text.css">
+    <link rel="stylesheet" href="css/reference.css">
+    <link rel="stylesheet" href="css/site_style.css">
+    <link rel="stylesheet" href="css/action-button.css">
+</head>
+<body class="site-background site-text-container">
+
+    <div >
+
+        <div class="site-header">
+            AutoServiceShop
+        </div>
+
+        <div style="text-align: center; margin: 10px;">
+            <a class="action-button" style="text-decoration: none;" href="/bean.ass">To list of tables</a>
+        </div>
+
+    </div>
+
 </body>
 </html>

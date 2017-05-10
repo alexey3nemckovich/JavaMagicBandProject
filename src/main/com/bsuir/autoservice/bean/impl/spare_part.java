@@ -9,11 +9,11 @@ import java.util.Map;
 public class spare_part extends Bean {
 
     public int getId(){
-        return spare_part_id;
+        return id;
     }
 
     public void setId(int value){
-        this.spare_part_id = value;
+        this.id = value;
     }
 
     public String getName(){
@@ -37,7 +37,7 @@ public class spare_part extends Bean {
         try {
             Class type = this.getClass();
             Field[] fields = {
-                    type.getDeclaredField("spare_part_id"),
+                    type.getDeclaredField("id"),
                     type.getDeclaredField("name"),
                     type.getDeclaredField("amount_available")
             };
@@ -52,13 +52,13 @@ public class spare_part extends Bean {
 
     @Override
     public spare_part setFields(Map<String, String> fieldValues) {
-        spare_part_id = Integer.valueOf(fieldValues.get("spare_part_id"));
+        id = Integer.valueOf(fieldValues.get("id"));
         name = fieldValues.get("name");
         amount_available = Integer.valueOf(fieldValues.get("amount_available"));
         return this;
     }
 
-    private int spare_part_id;
+    private int id;
     private String name;
     private int amount_available;
 }
