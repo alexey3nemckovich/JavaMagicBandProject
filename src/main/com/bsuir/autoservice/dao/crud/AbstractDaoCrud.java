@@ -6,6 +6,7 @@ import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.sql.ISql;
 
 import java.sql.*;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -70,7 +71,7 @@ public abstract class AbstractDaoCrud<PrimaryKey, Entity extends Bean> implement
             Connection connection = db.getConnection();
             setFkChecks(false, connection);
             PreparedStatement ps = connection.prepareStatement(
-                    sql.getUpdateQuery(getFullTableName(), conditionValues, entity.getFieldValues())
+                    sql.getUpdateQuery(getFullTableName(), conditionValues, entity.getFieldValuesStrings())
             );
             boolean result = ps.execute();
             setFkChecks(true, connection);
@@ -85,7 +86,7 @@ public abstract class AbstractDaoCrud<PrimaryKey, Entity extends Bean> implement
         try {
             Connection connection = db.getConnection();
             PreparedStatement ps = connection.prepareStatement(
-                    sql.getDeleteQuery(getFullTableName(), entity.getFieldValues())
+                    sql.getDeleteQuery(getFullTableName(), entity.getFieldValuesStrings())
             );
             return ps.execute();
         }catch (Exception e){
@@ -98,8 +99,19 @@ public abstract class AbstractDaoCrud<PrimaryKey, Entity extends Bean> implement
         try {
             Connection connection = db.getConnection();
             setFkChecks(false, connection);
+
+            Map<String, Object> fields = entity.getFieldValues();
+            Map<String, String> queryFieldValuesStrings = new LinkedHashMap<>();
+            for(Map.Entry<String, Object> entry : fields.entrySet()){
+                if(entry.getValue() == null){
+                    queryFieldValuesStrings.put(entry.getKey(), "NULL");
+                }else{
+                    queryFieldValuesStrings.put(entry.getKey(), entry.getValue().toString());
+                }
+            }
+
             PreparedStatement ps = connection.prepareStatement(
-                    sql.getInsertQuery(getFullTableName(), entity.getFieldValues())
+                    sql.getInsertQuery(getFullTableName(), queryFieldValuesStrings)
             );
             boolean result =  ps.execute();
             setFkChecks(true, connection);

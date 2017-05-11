@@ -30,7 +30,7 @@ public abstract class AbstractPageController implements IController {
             }else {
                 action = actionMap.get(params.get("action")[0]);
             }
-            ICommandParam commandParam = action.getCommandParamClass().newInstance();
+                ICommandParam commandParam = action.getCommandParamClass().newInstance();
             ICommand command = action.getCommand();
             commandParam.parse(params);
             return command.execute(commandParam);

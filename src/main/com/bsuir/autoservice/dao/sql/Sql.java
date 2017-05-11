@@ -1,6 +1,7 @@
 package main.com.bsuir.autoservice.dao.sql;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -115,7 +116,11 @@ public class Sql implements ISql {
         stringBuilder.append(" (");
         for(int i = 0; i < elements.size(); i++){
             if(quotedValues){
-                stringBuilder.append("'" + elements.get(i) + "'");
+                if(reservedWords.contains(elements.get(i))){
+                    stringBuilder.append(elements.get(i));
+                }else{
+                    stringBuilder.append("'" + elements.get(i) + "'");
+                }
             }else{
                 stringBuilder.append(elements.get(i));
             }
@@ -126,4 +131,10 @@ public class Sql implements ISql {
         stringBuilder.append(") ");
         return stringBuilder.toString();
     }
+
+    private final List<String> reservedWords = new ArrayList<>(
+            Arrays.asList(
+                    "NULL"
+            )
+    );
 }

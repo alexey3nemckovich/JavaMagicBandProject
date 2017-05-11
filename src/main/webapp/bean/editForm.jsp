@@ -52,7 +52,7 @@
         <a class="action-button" style="text-decoration: none;" href="/bean.ass">To list of tables</a>
         <a class="action-button" style="text-decoration: none;" href="/bean/view.ass?tableName=${tableName}&page=1&countRecords=3">To table ${tableName}</a>
     </div>
-    
+
     <div>
 
         <h1 style="margin: 0px;">
@@ -83,12 +83,6 @@
                         <div class="bean-table-cell">
 
                             <c:choose>
-
-                                <c:when test="${hiddenFieldsNames.contains(field.getKey())}">
-
-                                    <input form="input-form" type="hidden" name="${field.getKey()}" value="${field.getValue()}"/>
-
-                                </c:when>
 
                                 <c:when test="${notModifiableFieldsNames.contains(field.getKey())}">
 

@@ -13,13 +13,10 @@ public class EditFormPageInfo extends CrudPageInfo{
 
     @RequestParameter
     public List<String> notModifiableFieldsNames;
-    @RequestParameter
-    public List<String> hiddenFieldsNames;
 
     @Inject
     public EditFormPageInfo(){
         notModifiableFieldsNames = new ArrayList<>();
-        hiddenFieldsNames = new ArrayList<>();
     }
 
     @Override
