@@ -1,7 +1,7 @@
 package general.bean;
 
 import general.session.MockSession;
-import main.com.bsuir.autoservice.bean.*;
+import main.com.bsuir.autoservice.bean.impl.*;
 
 import static org.mockito.Mockito.mock;
 
@@ -10,8 +10,8 @@ public class MockBean {
     public static final int MOCK_SERVICE_ID = 2;
     private static final String MOCK_SERVICE_NAME = "test_service_name";
 
-    public static service getMockService() {
-        service service = mock(service.class);
+    public static Service getMockService() {
+        Service service = mock(Service.class);
         service.setId(MOCK_SERVICE_ID);
         service.setName(MOCK_SERVICE_NAME);
         return service;
@@ -21,8 +21,8 @@ public class MockBean {
     public static final int MOCK_SHARE_ID = 3;
     private static final String MOCK_SHARE_DESCRIPTION = "test_share_description";
 
-    public static share getMockShare() {
-        share share = mock(share.class);
+    public static Share getMockShare() {
+        Share share = mock(Share.class);
         share.setId(MOCK_SHARE_ID);
         share.setDescription(MOCK_SHARE_DESCRIPTION);
         return share;
@@ -40,33 +40,33 @@ public class MockBean {
 
     public static final int MOCK_ORDER_ID = 4;
 
-    public static order getMockOrder() {
-        order order = mock(order.class);
+    public static Order getMockOrder() {
+        Order order = mock(Order.class);
         order.setId(MOCK_ORDER_ID);
         return order;
     }
 
     public static final int MOCK_NOTIFICATION_ID = 5;
 
-    public static notification getMockNotification() {
-        notification notification = mock(notification.class);
+    public static Notification getMockNotification() {
+        Notification notification = mock(Notification.class);
         notification.setId(MOCK_NOTIFICATION_ID);
         return notification;
     }
 
     public static final int MOCK_SERVICE_SHOP_ID = 6;
 
-    public static service_shop getMockServiceShop(){
-        service_shop serviceShop = mock(service_shop.class);
+    public static ServiceShop getMockServiceShop(){
+        ServiceShop serviceShop = mock(ServiceShop.class);
         serviceShop.setId(MOCK_SERVICE_SHOP_ID);
         return serviceShop;
     }
 
     public static final int MOCK_SPARE_PART_ID = 7;
 
-    public static spare_part getMockSparePart() {
-        spare_part sparePart = mock(spare_part.class);
-        sparePart.setSparePartId(MOCK_SPARE_PART_ID);
+    public static SparePart getMockSparePart() {
+        SparePart sparePart = mock(SparePart.class);
+        sparePart.setId(MOCK_SPARE_PART_ID);
         return sparePart;
     }
 }

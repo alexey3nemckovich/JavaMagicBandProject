@@ -1,7 +1,9 @@
-package main.com.bsuir.autoservice.dao.impl.share_discount;
+package main.com.bsuir.autoservice.dao.impl.sharediscount;
 
-import main.com.bsuir.autoservice.bean.impl.share_discount;
-import main.com.bsuir.autoservice.dao.impl.IDaoCrud;
+import main.com.bsuir.autoservice.bean.impl.ShareDiscount;
+import main.com.bsuir.autoservice.dao.impl.ICrudDao;
 
-public interface IShareDiscountDao extends IDaoCrud<Integer, share_discount> {
+import javax.lang.model.type.NullType;
+
+public interface IShareDiscountDao extends ICrudDao<NullType, ShareDiscount> {
 }

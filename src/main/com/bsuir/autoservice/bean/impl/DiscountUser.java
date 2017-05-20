@@ -3,12 +3,13 @@ package main.com.bsuir.autoservice.bean.impl;
 import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.bean.exception.BeanException;
 
+import javax.lang.model.type.NullType;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class discount_user extends Bean {
+public class DiscountUser extends Bean<NullType> {
 
     public int getDiscountId(){
         return discount_id;
@@ -49,10 +50,15 @@ public class discount_user extends Bean {
     }
 
     @Override
-    public discount_user setFields(Map<String, String> fieldValues) {
+    public DiscountUser setFields(Map<String, String> fieldValues) {
         discount_id = Integer.valueOf(fieldValues.get("discount_id"));
         user_id = Integer.valueOf(fieldValues.get("user_id"));
         return this;
+    }
+
+    @Override
+    public NullType getId() {
+        return null;
     }
 
     private int discount_id;

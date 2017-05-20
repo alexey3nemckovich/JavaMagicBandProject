@@ -53,7 +53,7 @@ public abstract class FakeUOFProvider<T> implements Provider<T> {
                 }
             }};
         } catch (Exception e){
-            throw new RuntimeException("Error in ignored method name", e);
+            throw new IllegalArgumentException("Error in ignored method name", e);
         }
     }
 

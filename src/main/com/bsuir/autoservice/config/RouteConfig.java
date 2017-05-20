@@ -5,10 +5,7 @@ import main.com.bsuir.autoservice.config.permission.Permission;
 import main.com.bsuir.autoservice.config.permission.PermissionAccessType;
 import main.com.bsuir.autoservice.config.permission.PermissionLevel;
 import main.com.bsuir.autoservice.controller.IController;
-import main.com.bsuir.autoservice.controller.bean.BeanAddController;
-import main.com.bsuir.autoservice.controller.bean.BeanController;
-import main.com.bsuir.autoservice.controller.bean.BeanEditController;
-import main.com.bsuir.autoservice.controller.bean.BeanViewController;
+import main.com.bsuir.autoservice.controller.bean.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +33,9 @@ public class RouteConfig {
         addControllerClassForUrlAction("/bean/add", BeanAddController.class);
         addControllerClassForUrlAction("/bean/view", BeanViewController.class);
         addControllerClassForUrlAction("/bean/edit", BeanEditController.class);
+        addControllerClassForUrlAction("/bean/dependency/add", BeanDependencyAddController.class);
+        addControllerClassForUrlAction("/bean/dependency/view", BeanDependencyViewController.class);
+        addControllerClassForUrlAction("/bean/dependency/edit", BeanDependencyEditController.class);
     }
 
     private void initPostRoute() {

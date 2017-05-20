@@ -1,44 +1,50 @@
-package main.com.bsuir.autoservice.service.crud.impl.order;
+package main.com.bsuir.autoservice.service.impl.order;
 
 import com.google.inject.Inject;
-import main.com.bsuir.autoservice.bean.impl.order;
-import main.com.bsuir.autoservice.binding.annotation.Default;
-import main.com.bsuir.autoservice.dao.unitOfWork.IDaoUnitOfWork;
-import main.com.bsuir.autoservice.service.Dependency;
-import main.com.bsuir.autoservice.service.crud.AbstractServiceCrud;
-import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
+import main.com.bsuir.autoservice.bean.impl.Order;
+import main.com.bsuir.autoservice.bean.impl.Service;
+import main.com.bsuir.autoservice.command.param.MechanicViewOrdersInfo;
+import main.com.bsuir.autoservice.dao.unitofwork.IDaoUnitOfWork;
+import main.com.bsuir.autoservice.service.exception.ServiceException;
 
-import java.util.*;
+import java.util.List;
 
-public class OrderService extends AbstractServiceCrud<Integer,order> implements IOrderService {
+public class OrderService implements IOrderService {
 
     @Inject
-    public OrderService(@Default IDaoUnitOfWork daoUnitOfWork) {
-        super(daoUnitOfWork.getOrderDao());
+    public OrderService(IDaoUnitOfWork daoUnitOfWork) {
         this.daoUnitOfWork = daoUnitOfWork;
     }
 
     @Override
-    public List<Dependency> readDependencies(order bean) throws ServiceException {
-        try {
-            List<Dependency> dependencies = new ArrayList<>();
-            Integer id = bean != null ? bean.getId() : null;
-            dependencies.add(new Dependency(
-                    daoUnitOfWork.getOrderedServiceDao().getTableName(),
-                    "order_id", id
-            ));
-            dependencies.add(new Dependency(
-                    daoUnitOfWork.getOrderSparePartDao().getTableName(),
-                    "order_id", id
-            ));
-            dependencies.add(new Dependency(
-                    daoUnitOfWork.getNotificationDao().getTableName(),
-                    "order_id", id
-            ));
-            return dependencies;
-        }catch (Exception e){
-            throw new ServiceException(e);
-        }
+    public boolean makeOrder(Integer userId, List<Service> orderServices) throws ServiceException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<Order> getUserOrders(int userId, int currentGroup, int elementCount) throws ServiceException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<Order> getOrderServices(Integer userId, int detailOrderId) throws ServiceException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<Order> getServiceShopOrders(int staffServiceShopId, MechanicViewOrdersInfo.SortedType orderSortType,
+                                            int orderPage, int orderCount) throws ServiceException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean changeOrderState(int changedStaffId, int orderId, Order.State newOrderState) throws ServiceException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean addOrderNotification(int staffWriterId, int orderId, String notificationMessage) throws ServiceException {
+        throw new UnsupportedOperationException();
     }
 
     private final IDaoUnitOfWork daoUnitOfWork;

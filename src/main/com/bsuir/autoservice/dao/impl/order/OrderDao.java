@@ -1,10 +1,11 @@
-package main.com.bsuir.autoservice.dao.crud.impl.order;
+package main.com.bsuir.autoservice.dao.impl.order;
 
 import com.google.inject.Inject;
-import main.com.bsuir.autoservice.bean.impl.order;
-import main.com.bsuir.autoservice.dao.crud.AbstractDaoCrud;
+import main.com.bsuir.autoservice.bean.impl.Order;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
+import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
+import main.com.bsuir.autoservice.dao.impl.AbstractCrudDao;
 import main.com.bsuir.autoservice.dao.sql.ISql;
 import main.com.bsuir.autoservice.library.type.date.SimpleDate;
 
@@ -12,31 +13,26 @@ import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.List;
 
-public class OrderDao extends AbstractDaoCrud<Integer, order> implements IOrderDao {
+public class OrderDao extends AbstractCrudDao<Integer, Order> implements IOrderDao {
 
     @Inject
-    public OrderDao(IDatabase db, ISql sql) {
-        super(db, sql);
+    public OrderDao(IDatabase db, ISql sql, IDatabaseMap databaseMap) {
+        super(db, sql, databaseMap);
     }
 
     @Override
-    public String getTableName() {
-        return tableName;
-    }
-
-    @Override
-    public List<order> parseResultSet(ResultSet rs) throws DaoException{
-        LinkedList<order> result = new LinkedList<>();
+    public List<Order> parseResultSet(ResultSet rs) throws DaoException{
+        LinkedList<Order> result = new LinkedList<>();
         try {
             while (rs.next()){
-                order bean = new order();
+                Order bean = new Order();
                 bean.setId(rs.getInt("id"));
                 bean.setUserId(rs.getInt("user_id"));
                 bean.setServiceShopId(rs.getInt("service_shop_id"));
                 bean.setDateOpen(new SimpleDate(rs.getString("date_open")));
                 bean.setDateClose(new SimpleDate(rs.getString("date_close")));
                 bean.setSum(rs.getInt("sum"));
-                bean.setState(order.State.valueOf(rs.getString("state")));
+                bean.setState(Order.State.valueOf(rs.getString("state")));
                 result.add(bean);
             }
         } catch (Exception e) {
@@ -44,6 +40,4 @@ public class OrderDao extends AbstractDaoCrud<Integer, order> implements IOrderD
         }
         return result;
     }
-
-    private static final String tableName = "order";
 }

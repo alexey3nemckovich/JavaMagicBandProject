@@ -1,7 +1,7 @@
-package main.com.bsuir.autoservice.dao.impl.spare_part;
+package main.com.bsuir.autoservice.dao.impl.sparepart;
 
-import main.com.bsuir.autoservice.bean.impl.spare_part;
-import main.com.bsuir.autoservice.dao.impl.IDaoCrud;
+import main.com.bsuir.autoservice.bean.impl.SparePart;
+import main.com.bsuir.autoservice.dao.impl.ICrudDao;
 
-public interface ISparePartDao extends IDaoCrud<Integer, spare_part> {
+public interface ISparePartDao extends ICrudDao<Integer, SparePart> {
 }

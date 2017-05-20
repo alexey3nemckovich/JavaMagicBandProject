@@ -1,7 +1,6 @@
 package main.com.bsuir.autoservice.service.impl.discount;
 
-import main.com.bsuir.autoservice.bean.impl.discount;
-import main.com.bsuir.autoservice.service.crud.IServiceCrud;
+import main.com.bsuir.autoservice.service.IService;
 
-public interface IDiscountService extends IServiceCrud<Integer, discount>{
+public interface IDiscountService extends IService {
 }

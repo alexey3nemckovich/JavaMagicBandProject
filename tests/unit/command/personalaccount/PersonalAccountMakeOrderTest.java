@@ -3,15 +3,15 @@ package unit.command.personalaccount;
 import general.bean.MockBean;
 import general.service.MockService;
 import general.session.MockSession;
-import main.com.bsuir.autoservice.bean.service;
+import main.com.bsuir.autoservice.bean.impl.Service;
 import main.com.bsuir.autoservice.command.account.PersonalAccountMakeOrderCommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.PersonalAccountMakeOrderInfo;
 import main.com.bsuir.autoservice.command.ret.PersonalAccountMakeOrderRet;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
 import main.com.bsuir.autoservice.service.exception.ServiceException;
-import main.com.bsuir.autoservice.service.impl.IOrderService;
-import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import main.com.bsuir.autoservice.service.impl.order.IOrderService;
+import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -66,15 +66,15 @@ public class PersonalAccountMakeOrderTest {
         return new PersonalAccountMakeOrderCommand(serviceUnitOfWork, session);
     }
 
-    private static List<service> getMockMakeOrder(){
-        return new ArrayList<service>(){{
+    private static List<Service> getMockMakeOrder(){
+        return new ArrayList<Service>(){{
             add(MockBean.getMockService());
         }};
     }
 
     @Test
     public void checkAddedOrder() throws CommandException, ServiceException {
-        List<service> mockMakeOrder = getMockMakeOrder();
+        List<Service> mockMakeOrder = getMockMakeOrder();
         PersonalAccountMakeOrderInfo mockInfo = getPersonalAccountMakeOrderInfo();
         when(mockInfo.getOrderServices()).thenReturn(mockMakeOrder);
         final boolean isAddedOrder = true;

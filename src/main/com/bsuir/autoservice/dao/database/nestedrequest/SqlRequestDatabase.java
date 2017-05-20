@@ -1,16 +1,18 @@
-package main.com.bsuir.autoservice.dao.database;
+package main.com.bsuir.autoservice.dao.database.nestedrequest;
 
 import com.google.inject.Inject;
 import com.google.inject.servlet.RequestScoped;
+import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.infrastructure.listener.DatabaseConnectionListener;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 @RequestScoped
-public class SqlRequestDatabase implements IDatabase{
+public class SqlRequestDatabase implements IDatabase {
 
     private final SqlDatabase sqlDatabase;
     private final DatabaseConnectionListener databaseConnectionListener;
@@ -54,5 +56,15 @@ public class SqlRequestDatabase implements IDatabase{
     @Override
     public PreparedStatement getPrepareStatement(String sql) throws SQLException {
         return sqlDatabase.getPrepareStatement(getConnection(), sql);
+    }
+
+    @Override
+    public String getName() {
+        return sqlDatabase.getName();
+    }
+
+    @Override
+    public Statement createStatement() throws SQLException {
+        return sqlDatabase.createStatement(getConnection());
     }
 }

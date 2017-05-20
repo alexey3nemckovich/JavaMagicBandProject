@@ -1,32 +1,29 @@
-package main.com.bsuir.autoservice.service.crud.impl.notifiaction;
+package main.com.bsuir.autoservice.service.impl.notifiaction;
 
 import com.google.inject.Inject;
-import main.com.bsuir.autoservice.bean.impl.notification;
-import main.com.bsuir.autoservice.binding.annotation.Default;
-import main.com.bsuir.autoservice.dao.unitOfWork.IDaoUnitOfWork;
-import main.com.bsuir.autoservice.service.Dependency;
-import main.com.bsuir.autoservice.service.crud.AbstractServiceCrud;
-import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
+import main.com.bsuir.autoservice.bean.impl.Notification;
+import main.com.bsuir.autoservice.dao.unitofwork.IDaoUnitOfWork;
+import main.com.bsuir.autoservice.service.exception.ServiceException;
 
-import java.util.*;
+import java.util.List;
 
-public class NotificationService extends AbstractServiceCrud<Integer, notification> implements INotificationService{
+
+public class NotificationService implements INotificationService {
 
     @Inject
-    public NotificationService(@Default IDaoUnitOfWork daoUnitOfWork){
-        super(daoUnitOfWork.getNotificationDao());
+    public NotificationService(IDaoUnitOfWork daoUnitOfWork){
         this.daoUnitOfWork = daoUnitOfWork;
     }
 
+    private final IDaoUnitOfWork daoUnitOfWork;
+
     @Override
-    public List<Dependency> readDependencies(notification bean) throws ServiceException {
-        try {
-            List<Dependency> dependencies = new ArrayList<>();
-            return dependencies;
-        }catch (Exception e){
-            throw new ServiceException(e);
-        }
+    public boolean haveNewNotification() throws ServiceException {
+        throw new UnsupportedOperationException();
     }
 
-    private IDaoUnitOfWork daoUnitOfWork;
+    @Override
+    public List<Notification> getOrderNotifications(int userId, int orderId, int notificationGroup, int notificationNumber) throws ServiceException {
+        throw new UnsupportedOperationException();
+    }
 }

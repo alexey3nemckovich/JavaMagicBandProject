@@ -1,4 +1,4 @@
-package main.com.bsuir.autoservice.service.impl;
+package main.com.bsuir.autoservice.service.impl.baseservice;
 
 import main.com.bsuir.autoservice.service.IService;
 import main.com.bsuir.autoservice.service.exception.ServiceException;

@@ -3,15 +3,15 @@ package unit.command.mechanic;
 import general.bean.MockBean;
 import general.service.MockService;
 import general.session.MockSession;
-import main.com.bsuir.autoservice.bean.spare_part;
+import main.com.bsuir.autoservice.bean.impl.SparePart;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.mechanic.ChiefMechanicChangeSparePartCommand;
 import main.com.bsuir.autoservice.command.param.ChiefMechanicChangeSparePartInfo;
 import main.com.bsuir.autoservice.command.ret.ChiefMechanicChangeSparePartRet;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
 import main.com.bsuir.autoservice.service.exception.ServiceException;
-import main.com.bsuir.autoservice.service.impl.ISparePartService;
-import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import main.com.bsuir.autoservice.service.impl.sparepart.ISparePartService;
+import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -60,14 +60,14 @@ public class ChiefMechanicChangeSparePartCommandTest {
         return new ChiefMechanicChangeSparePartCommand(serviceUnitOfWork, session);
     }
 
-    private static spare_part getMockSparePart(){
+    private static SparePart getMockSparePart(){
         return MockBean.getMockSparePart();
     }
 
     @Test
     public void getViewSharePart() throws CommandException, ServiceException {
         final boolean verifyUpdateSparePart = true;
-        spare_part mockSparePart = getMockSparePart();
+        SparePart mockSparePart = getMockSparePart();
         when(sparePartService.updateSparePart(mockSparePart)).thenReturn(verifyUpdateSparePart);
         ChiefMechanicChangeSparePartInfo mockInfo = getChiefMechanicChangeSparePartInfo();
         when(mockInfo.getSparePart()).thenReturn(mockSparePart);
@@ -77,7 +77,7 @@ public class ChiefMechanicChangeSparePartCommandTest {
 
     @Test(expected = CommandException.class)
     public void getViewSharePartException() throws ServiceException, CommandException {
-        when(sparePartService.updateSparePart(any(spare_part.class))).thenThrow(ServiceException.class);
+        when(sparePartService.updateSparePart(any(SparePart.class))).thenThrow(ServiceException.class);
         chiefMechanicChangeSparePartCommand.execute(getChiefMechanicChangeSparePartInfo());
         fail();
     }

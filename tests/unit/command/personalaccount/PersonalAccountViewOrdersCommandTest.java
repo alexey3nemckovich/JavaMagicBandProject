@@ -3,15 +3,15 @@ package unit.command.personalaccount;
 import general.bean.MockBean;
 import general.service.MockService;
 import general.session.MockSession;
-import main.com.bsuir.autoservice.bean.order;
+import main.com.bsuir.autoservice.bean.impl.Order;
 import main.com.bsuir.autoservice.command.account.PersonalAccountViewOrdersCommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.PersonalAccountViewOrdersInfo;
 import main.com.bsuir.autoservice.command.ret.PersonalAccountViewOrdersRet;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
 import main.com.bsuir.autoservice.service.exception.ServiceException;
-import main.com.bsuir.autoservice.service.impl.IOrderService;
-import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import main.com.bsuir.autoservice.service.impl.order.IOrderService;
+import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -53,7 +53,7 @@ public class PersonalAccountViewOrdersCommandTest {
         return mock(PersonalAccountViewOrdersInfo.class);
     }
 
-    private static PersonalAccountViewOrdersRet getTestPersonalAccountViewOrdersRet(List<order> orders){
+    private static PersonalAccountViewOrdersRet getTestPersonalAccountViewOrdersRet(List<Order> orders){
         return new PersonalAccountViewOrdersRet(orders);
     }
 
@@ -66,15 +66,15 @@ public class PersonalAccountViewOrdersCommandTest {
         return new PersonalAccountViewOrdersCommand(serviceUnitOfWork, session);
     }
 
-    private static List<order> getMockViewOrders(){
-        return new ArrayList<order>(){{
+    private static List<Order> getMockViewOrders(){
+        return new ArrayList<Order>(){{
             add(MockBean.getMockOrder());
         }};
     }
 
     @Test
     public void checkGetViewOrders() throws CommandException, ServiceException {
-        List<order> mockViewOrders = getMockViewOrders();
+        List<Order> mockViewOrders = getMockViewOrders();
         when(orderService.getUserOrders(eq(MOCK_USER_ID), anyInt(), anyInt())).thenReturn(mockViewOrders);
         assertEquals(personalAccountViewOrdersCommand.execute(getPersonalAccountViewOrdersInfo()),
                 getTestPersonalAccountViewOrdersRet(mockViewOrders));

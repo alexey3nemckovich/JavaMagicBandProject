@@ -2,7 +2,7 @@ package main.com.bsuir.autoservice.command;
 
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
-import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 
 public abstract class AbstractSessionCommand<ArgumentType extends ICommandParam, ReturnType>
         implements ICommand<ArgumentType, ReturnType>{

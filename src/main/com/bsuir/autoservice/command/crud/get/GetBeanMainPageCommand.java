@@ -4,11 +4,7 @@ import com.google.inject.Inject;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.BeanMainPageInfo;
-import main.com.bsuir.autoservice.service.crud.IServiceCrud;
-import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
-
-import java.util.ArrayList;
-import java.util.List;
+import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 
 public class GetBeanMainPageCommand implements ICommand<BeanMainPageInfo, BeanMainPageInfo> {
 
@@ -18,18 +14,11 @@ public class GetBeanMainPageCommand implements ICommand<BeanMainPageInfo, BeanMa
     }
 
     @Override
-    public BeanMainPageInfo execute(BeanMainPageInfo beanMainPageInfo) throws CommandException{
+    public BeanMainPageInfo execute(BeanMainPageInfo beanMainPageInfo) throws CommandException {
         try {
-            List<String> displayingTablesNames = new ArrayList<>();
-            List<IServiceCrud> allTablesServices = serviceUnitOfWork.getAllTablesServices();
-            for(IServiceCrud serviceCrud : allTablesServices){
-                if(serviceCrud.readDependencies().size() != 0){
-                    displayingTablesNames.add(serviceCrud.getTableName());
-                }
-            }
-            beanMainPageInfo.dbBeanNames = displayingTablesNames;
+            beanMainPageInfo.dbBeanNames = serviceUnitOfWork.getBaseService().getListTableNames();
             return beanMainPageInfo;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new CommandException(e);
         }
     }

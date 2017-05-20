@@ -5,7 +5,7 @@ import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.LoginInfo;
 import main.com.bsuir.autoservice.command.ret.LoginRet;
-import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 
 public class LoginCommand implements ICommand<LoginInfo, LoginRet> {
     private final IServiceUnitOfWork serviceUnitOfWork;

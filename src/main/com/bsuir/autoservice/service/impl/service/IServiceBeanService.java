@@ -1,11 +1,11 @@
-package main.com.bsuir.autoservice.service.impl;
+package main.com.bsuir.autoservice.service.impl.service;
 
-import main.com.bsuir.autoservice.bean.impl.service;
-import main.com.bsuir.autoservice.service.IServiceCrud;
+import main.com.bsuir.autoservice.bean.impl.Service;
+import main.com.bsuir.autoservice.service.IService;
 import main.com.bsuir.autoservice.service.exception.ServiceException;
 
 import java.util.List;
 
-public interface IServiceBeanService extends IServiceCrud<Integer, service> {
-    List<service> getAvailableServices() throws ServiceException;
+public interface IServiceBeanService extends IService {
+    List<Service> getAvailableServices() throws ServiceException;
 }

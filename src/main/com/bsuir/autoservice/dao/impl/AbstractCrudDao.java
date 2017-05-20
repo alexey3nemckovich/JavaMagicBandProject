@@ -1,27 +1,35 @@
-package main.com.bsuir.autoservice.dao.crud;
+package main.com.bsuir.autoservice.dao.impl;
 
 import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.bean.exception.BeanException;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
+import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
+import main.com.bsuir.autoservice.dao.database.map.beanhelper.DependencyMap;
+import main.com.bsuir.autoservice.dao.database.map.beanhelper.TableMap;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.sql.ISql;
 import main.com.bsuir.autoservice.library.function.CheckedSupplier;
 
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.HashMap;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractDaoCrud<PrimaryKey, Entity extends Bean> implements IDaoCrud<PrimaryKey, Entity> {
+public abstract class AbstractCrudDao<PrimaryKey, Entity extends Bean> implements ICrudDao<PrimaryKey, Entity> {
+
+    protected final TableMap tableMap;
 
     protected abstract List<Entity> parseResultSet(ResultSet rs) throws DaoException;
 
-    protected AbstractDaoCrud(IDatabase db, ISql sql) {
+    protected AbstractCrudDao(IDatabase db, ISql sql, IDatabaseMap databaseMap) {
         this.db = db;
         this.sql = sql;
+        this.tableMap = databaseMap.getTableMap((Class<? extends ICrudDao>) Arrays.asList(getClass().getInterfaces())
+                .stream().filter(inter -> ICrudDao.class.isAssignableFrom(inter)).findFirst().get());
     }
 
     @Override
@@ -109,6 +117,11 @@ public abstract class AbstractDaoCrud<PrimaryKey, Entity extends Bean> implement
         }
     }
 
+    @Override
+    public final List<DependencyMap> getDependencyMaps() throws DaoException {
+        return tableMap.getDependencyMaps();
+    }
+
     private <T> T completeOperationDisablingFkChecks(CheckedSupplier<T, SQLException> operation) throws SQLException {
         setFkChecks(false);
         try{
@@ -118,9 +131,12 @@ public abstract class AbstractDaoCrud<PrimaryKey, Entity extends Bean> implement
         }
     }
 
-    @Override
-    public String getFullTableName(){
-        return db.getName() + "." + getTableName();
+    private String getFullTableName(){
+        return String.format("`%s`.`%s`",db.getName(), getTableName());
+    }
+
+    protected final String getTableName(){
+        return tableMap.getTableName();
     }
 
     private void setFkChecks(boolean enable) throws SQLException {

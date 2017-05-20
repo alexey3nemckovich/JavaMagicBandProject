@@ -4,7 +4,7 @@ import main.com.bsuir.autoservice.command.AbstractSessionCommand;
 import main.com.bsuir.autoservice.command.param.ChiefMechanicChangeSparePartInfo;
 import main.com.bsuir.autoservice.command.ret.ChiefMechanicChangeSparePartRet;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
-import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 
 public class ChiefMechanicChangeSparePartCommand extends
         AbstractSessionCommand<ChiefMechanicChangeSparePartInfo, ChiefMechanicChangeSparePartRet>{

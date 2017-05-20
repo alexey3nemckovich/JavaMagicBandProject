@@ -3,17 +3,17 @@ package unit.command.personalaccount;
 import general.bean.MockBean;
 import general.service.MockService;
 import general.session.MockSession;
-import main.com.bsuir.autoservice.bean.service;
-import main.com.bsuir.autoservice.bean.share;
+import main.com.bsuir.autoservice.bean.impl.Service;
+import main.com.bsuir.autoservice.bean.impl.Share;
 import main.com.bsuir.autoservice.command.account.PersonalAccountAvailableOrderServicesCommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.PersonalAccountAvailableOrderServicesInfo;
 import main.com.bsuir.autoservice.command.ret.PersonalAccountAvailableOrderServicesRet;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
 import main.com.bsuir.autoservice.service.exception.ServiceException;
-import main.com.bsuir.autoservice.service.impl.IServiceService;
-import main.com.bsuir.autoservice.service.impl.IShareService;
-import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import main.com.bsuir.autoservice.service.impl.service.IServiceBeanService;
+import main.com.bsuir.autoservice.service.impl.share.IShareService;
+import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,22 +28,22 @@ import static org.mockito.Mockito.when;
 
 public class PersonalAccountAvailableOrderServicesCommandTest {
     private IShareService shareService;
-    private IServiceService serviceService;
+    private IServiceBeanService serviceBeanService;
     private PersonalAccountAvailableOrderServicesCommand personalAccountAvailableOrderServicesCommand;
 
     @Before
     public void beforeTest() {
         shareService = getShareService();
-        serviceService = getServiceService();
-        IServiceUnitOfWork mockUOF = getServiceUOF(shareService, serviceService);
+        serviceBeanService = getServiceBeanService();
+        IServiceUnitOfWork mockUOF = getServiceUOF(shareService, serviceBeanService);
         IUserSession session = getSession();
         personalAccountAvailableOrderServicesCommand = getPersonalAccountAvailableOrderServicesCommand(mockUOF, session);
     }
 
-    private static IServiceUnitOfWork getServiceUOF(IShareService shareService, IServiceService serviceService){
+    private static IServiceUnitOfWork getServiceUOF(IShareService shareService, IServiceBeanService serviceBeanService){
         return new MockService.ServiceUOFBuilder()
                 .setShareService(shareService)
-                .setServiceService(serviceService)
+                .setServiceBeanService(serviceBeanService)
                 .build();
     }
 
@@ -51,8 +51,8 @@ public class PersonalAccountAvailableOrderServicesCommandTest {
         return MockService.getShareService();
     }
 
-    private static IServiceService getServiceService(){
-        return MockService.getServiceService();
+    private static IServiceBeanService getServiceBeanService(){
+        return MockService.getServiceBeanService();
     }
 
     private static final int MOCK_USER_ID = MockBean.MOCK_USER_ID;
@@ -62,7 +62,7 @@ public class PersonalAccountAvailableOrderServicesCommandTest {
     }
 
     private static PersonalAccountAvailableOrderServicesRet getTestPersonalAccountAvailableOrderServicesRet(
-            List<service> availableServices, List<share> activeShares){
+            List<Service> availableServices, List<Share> activeShares){
         return new PersonalAccountAvailableOrderServicesRet(availableServices, activeShares);
     }
 
@@ -75,23 +75,23 @@ public class PersonalAccountAvailableOrderServicesCommandTest {
         return new PersonalAccountAvailableOrderServicesCommand(serviceUnitOfWork, session);
     }
 
-    private List<service> getMockAvailableServices() {
-        return new ArrayList<service>(){{
+    private List<Service> getMockAvailableServices() {
+        return new ArrayList<Service>(){{
             add(MockBean.getMockService());
         }};
     }
-    private List<share> getMockActiveShares() {
-        return new ArrayList<share>(){{
+    private List<Share> getMockActiveShares() {
+        return new ArrayList<Share>(){{
             add(MockBean.getMockShare());
         }};
     }
 
     @Test
     public void checkGetAvailableServices() throws CommandException, ServiceException {
-        List<service> mockAvailableService = getMockAvailableServices();
-        List<share> mockActiveShares = getMockActiveShares();
+        List<Service> mockAvailableService = getMockAvailableServices();
+        List<Share> mockActiveShares = getMockActiveShares();
         when(shareService.getActiveAccountShares(MOCK_USER_ID)).thenReturn(mockActiveShares);
-        when(serviceService.getAvailableServices()).thenReturn(mockAvailableService);
+        when(serviceBeanService.getAvailableServices()).thenReturn(mockAvailableService);
         assertEquals(personalAccountAvailableOrderServicesCommand.execute(getPersonalAccountAvailableOrderServicesInfo()),
                 getTestPersonalAccountAvailableOrderServicesRet(mockAvailableService, mockActiveShares));
     }
@@ -99,7 +99,7 @@ public class PersonalAccountAvailableOrderServicesCommandTest {
     @Test(expected = CommandException.class)
     public void checkGetAvailableServicesException() throws ServiceException, CommandException {
         when(shareService.getActiveAccountShares(anyInt())).thenThrow(ServiceException.class);
-        when(serviceService.getAvailableServices()).thenThrow(ServiceException.class);
+        when(serviceBeanService.getAvailableServices()).thenThrow(ServiceException.class);
         personalAccountAvailableOrderServicesCommand.execute(getPersonalAccountAvailableOrderServicesInfo());
         fail();
     }

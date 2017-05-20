@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
 optional:
-1)show_name, service_crud - must declared both or none
-if declared service_crud, it can be in one package with IServiceCrud
+1)show_name
  -->
 <tables>
-    <table database_name="user" bean_class="User" service_crud="IUserService" show_name="User table">
+    <table database_table_name="user"
+           bean_class="main.com.bsuir.autoservice.bean.impl.User"
+           dao_crud="main.com.bsuir.autoservice.dao.impl.user.IUserDao"
+           show_name="Users">
         <column database_field="id" bean_field="id"/>
         <column database_field="mail" bean_field="mail"/>
         <column database_field="login" bean_field="login"/>
@@ -14,13 +16,118 @@ if declared service_crud, it can be in one package with IServiceCrud
         <column database_field="name" bean_field="name"/>
         <column database_field="last_name" bean_field="lastName"/>
         <column database_field="type" bean_field="type"/>
+
+        <dependencies>
+            <column dependency_show_name="User discounts" dependency_field="user_id"/>
+            <column dependency_show_name="Orders" dependency_field="user_id"/>
+            <column dependency_show_name="Staffs" dependency_field="user_id"/>
+        </dependencies>
     </table>
 
-    <table database_name="order" bean_class="Order">
+    <table database_table_name="staff"
+           bean_class="main.com.bsuir.autoservice.bean.impl.Staff"
+           dao_crud="main.com.bsuir.autoservice.dao.impl.staff.IStaffDao"
+           show_name="Staffs">
 
+        <dependencies>
+            <column dependency_show_name="Service shops" dependency_field="chief_id"/>
+            <column dependency_show_name="Notifications" dependency_field="staff_id"/>
+        </dependencies>
     </table>
 
-    <table database_name="staff" bean_class="Staff" show_name="Staff table">
+    <table database_table_name="spare_part"
+           bean_class="main.com.bsuir.autoservice.bean.impl.SparePart"
+           dao_crud="main.com.bsuir.autoservice.dao.impl.sparepart.ISparePartDao"
+           show_name="Spare parts">
 
+        <dependencies>
+            <column dependency_show_name="Spare parts" dependency_field="spare_part_id"/>
+        </dependencies>
     </table>
+
+    <table database_table_name="share_discount"
+           bean_class="main.com.bsuir.autoservice.bean.impl.ShareDiscount"
+           dao_crud="main.com.bsuir.autoservice.dao.impl.sharediscount.IShareDiscountDao"
+           show_name="Share discounts">
+    </table>
+
+    <table database_table_name="share"
+           bean_class="main.com.bsuir.autoservice.bean.impl.Share"
+           dao_crud="main.com.bsuir.autoservice.dao.impl.share.IShareDao"
+           show_name="Shares">
+
+        <dependencies>
+            <column dependency_show_name="Share discounts" dependency_field="share_id"/>
+        </dependencies>
+    </table>
+
+    <table database_table_name="service_shop"
+           bean_class="main.com.bsuir.autoservice.bean.impl.ServiceShop"
+           dao_crud="main.com.bsuir.autoservice.dao.impl.serviceshop.IServiceShopDao"
+           show_name="Service shops">
+
+        <dependencies>
+            <column dependency_show_name="Orders" dependency_field="service_shop_id"/>
+            <column dependency_show_name="Staffs" dependency_field="service_shop_id"/>
+        </dependencies>
+    </table>
+
+    <table database_table_name="service"
+           bean_class="main.com.bsuir.autoservice.bean.impl.Service"
+           dao_crud="main.com.bsuir.autoservice.dao.impl.service.IServiceDao"
+           show_name="Services">
+
+        <dependencies>
+            <column dependency_show_name="Discounts" dependency_field="service_id"/>
+            <column dependency_show_name="Ordered services" dependency_field="service_id"/>
+        </dependencies>
+    </table>
+
+    <table database_table_name="order_spare_part"
+           bean_class="main.com.bsuir.autoservice.bean.impl.OrderSparePart"
+           dao_crud="main.com.bsuir.autoservice.dao.impl.ordersparepart.IOrderSparePartDao"
+           show_name="Order spare parts">
+    </table>
+
+    <table database_table_name="ordered_service"
+           bean_class="main.com.bsuir.autoservice.bean.impl.OrderedService"
+           dao_crud="main.com.bsuir.autoservice.dao.impl.orderedservice.IOrderedServiceDao"
+           show_name="Order spare parts">
+    </table>
+
+    <table database_table_name="order"
+           bean_class="main.com.bsuir.autoservice.bean.impl.Order"
+           dao_crud="main.com.bsuir.autoservice.dao.impl.order.IOrderDao"
+           show_name="Orders">
+
+        <dependencies>
+            <column dependency_show_name="Ordered services" dependency_field="order_id"/>
+            <column dependency_show_name="Order spare parts" dependency_field="order_id"/>
+            <column dependency_show_name="Notifications" dependency_field="order_id"/>
+        </dependencies>
+    </table>
+
+    <table database_table_name="notiification"
+           bean_class="main.com.bsuir.autoservice.bean.impl.Notification"
+           dao_crud="main.com.bsuir.autoservice.dao.impl.notification.INotificationDao"
+           show_name="Notifications">
+    </table>
+
+    <table database_table_name="discount_user"
+           bean_class="main.com.bsuir.autoservice.bean.impl.DiscountUser"
+           dao_crud="main.com.bsuir.autoservice.dao.impl.discountuser.IDiscountUserDao"
+           show_name="User discounts">
+    </table>
+
+    <table database_table_name="discount"
+           bean_class="main.com.bsuir.autoservice.bean.impl.Discount"
+           dao_crud="main.com.bsuir.autoservice.dao.impl.discount.IDiscountDao"
+           show_name="Discounts">
+
+        <dependencies>
+            <column dependency_show_name="Share discounts" dependency_field="discount_id"/>
+            <column dependency_show_name="User discounts" dependency_field="discount_id"/>
+        </dependencies>
+    </table>
+
 </tables>

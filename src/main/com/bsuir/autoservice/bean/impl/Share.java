@@ -4,14 +4,18 @@ import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.bean.exception.BeanException;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
-public class share extends Bean {
+public class Share extends Bean<Integer> {
     public enum State{
         ACTIVE, EXPIRED
     }
 
-    public int getId(){
+    @Override
+    public Integer getId(){
         return id;
     }
 
@@ -87,7 +91,7 @@ public class share extends Bean {
     }
 
     @Override
-    public share setFields(Map<String, String> fieldValues) throws BeanException{
+    public Share setFields(Map<String, String> fieldValues) throws BeanException{
         try {
             id = Integer.valueOf(fieldValues.get("id"));
             date_start = tryParseDate(fieldValues.get("date_start"));

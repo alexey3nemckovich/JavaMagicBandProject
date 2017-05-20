@@ -3,15 +3,15 @@ package unit.command.mechanic;
 import general.bean.MockBean;
 import general.service.MockService;
 import general.session.MockSession;
-import main.com.bsuir.autoservice.bean.spare_part;
+import main.com.bsuir.autoservice.bean.impl.SparePart;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.mechanic.ChiefMechanicViewSparePartCommand;
 import main.com.bsuir.autoservice.command.param.ChiefMechanicViewSparePartInfo;
 import main.com.bsuir.autoservice.command.ret.ChiefMechanicViewSparePartRet;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
 import main.com.bsuir.autoservice.service.exception.ServiceException;
-import main.com.bsuir.autoservice.service.impl.ISparePartService;
-import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import main.com.bsuir.autoservice.service.impl.sparepart.ISparePartService;
+import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -51,7 +51,7 @@ public class ChiefMechanicViewSparePartCommandTest {
         return mock(ChiefMechanicViewSparePartInfo.class);
     }
 
-    private static ChiefMechanicViewSparePartRet getTestChiefMechanicViewSparePartRet(List<spare_part> groupSparePart) {
+    private static ChiefMechanicViewSparePartRet getTestChiefMechanicViewSparePartRet(List<SparePart> groupSparePart) {
         return new ChiefMechanicViewSparePartRet(groupSparePart);
     }
 
@@ -64,8 +64,8 @@ public class ChiefMechanicViewSparePartCommandTest {
         return new ChiefMechanicViewSparePartCommand(serviceUnitOfWork, session);
     }
 
-    private List<spare_part> getMockSpareParts() {
-        return new ArrayList<spare_part>() {{
+    private List<SparePart> getMockSpareParts() {
+        return new ArrayList<SparePart>() {{
             add(MockBean.getMockSparePart());
         }};
     }
@@ -75,7 +75,7 @@ public class ChiefMechanicViewSparePartCommandTest {
 
     @Test
     public void getViewSharePart() throws CommandException, ServiceException {
-        List<spare_part> mockSparePart = getMockSpareParts();
+        List<SparePart> mockSparePart = getMockSpareParts();
         when(sparePartService.getView(eq(MOCK_USER_STAFF_ID), anyInt(), anyInt())).thenReturn(mockSparePart);
         assertEquals(chiefMechanicViewSparePartCommand.execute(getChiefMechanicViewSparePartInfo()),
                 getTestChiefMechanicViewSparePartRet(mockSparePart));

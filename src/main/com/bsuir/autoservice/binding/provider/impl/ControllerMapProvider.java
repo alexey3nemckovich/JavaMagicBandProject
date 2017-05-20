@@ -2,15 +2,13 @@ package main.com.bsuir.autoservice.binding.provider.impl;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import main.com.bsuir.autoservice.config.RouteConfig;
 import main.com.bsuir.autoservice.binding.provider.MapProvider;
+import main.com.bsuir.autoservice.config.RouteConfig;
 import main.com.bsuir.autoservice.controller.IController;
 import main.com.bsuir.autoservice.controller.NoController;
 import main.com.bsuir.autoservice.library.DefaultHashMap;
 
 import java.util.Map;
-import main.com.bsuir.autoservice.controller.bean.*;
-import main.com.bsuir.autoservice.controller.exception.ControllerException;
 
 public class ControllerMapProvider extends MapProvider<String, IController> {
 

@@ -3,15 +3,15 @@ package unit.command.personalaccount;
 import general.bean.MockBean;
 import general.service.MockService;
 import general.session.MockSession;
-import main.com.bsuir.autoservice.bean.notification;
+import main.com.bsuir.autoservice.bean.impl.Notification;
 import main.com.bsuir.autoservice.command.account.PersonalAccountOrderNotificationsCommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.PersonalAccountOrderNotificationsInfo;
 import main.com.bsuir.autoservice.command.ret.PersonalAccountOrderNotificationsRet;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
 import main.com.bsuir.autoservice.service.exception.ServiceException;
-import main.com.bsuir.autoservice.service.impl.INotificationService;
-import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import main.com.bsuir.autoservice.service.impl.notifiaction.INotificationService;
+import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -52,7 +52,7 @@ public class PersonalAccountOrderNotificationsCommandTest {
     }
 
     private static PersonalAccountOrderNotificationsRet getTestPersonalAccountOrderNotificationsRet(
-            List<notification> notifications){
+            List<Notification> notifications){
         return new PersonalAccountOrderNotificationsRet(notifications);
     }
 
@@ -65,8 +65,8 @@ public class PersonalAccountOrderNotificationsCommandTest {
         return new PersonalAccountOrderNotificationsCommand(serviceUnitOfWork, session);
     }
 
-    private static List<notification> getMockOrderNotifications(){
-        return new ArrayList<notification>(){{
+    private static List<Notification> getMockOrderNotifications(){
+        return new ArrayList<Notification>(){{
             add(MockBean.getMockNotification());
         }};
     }
@@ -76,7 +76,7 @@ public class PersonalAccountOrderNotificationsCommandTest {
 
     @Test
     public void checkGetOrderNotificationsGroup() throws CommandException, ServiceException {
-        List<notification> mockOrderNotifications = getMockOrderNotifications();
+        List<Notification> mockOrderNotifications = getMockOrderNotifications();
         when(notificationService.getOrderNotifications(eq(MOCK_USER_ID), eq(MOCK_ORDER_ID), anyInt(), anyInt())).
                 thenReturn(mockOrderNotifications);
         PersonalAccountOrderNotificationsInfo mockInfo = getPersonalAccountOrderNotificationsInfo();

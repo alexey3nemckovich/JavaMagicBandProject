@@ -5,7 +5,7 @@ import main.com.bsuir.autoservice.command.AbstractSessionCommand;
 import main.com.bsuir.autoservice.command.param.PersonalAccountOrderNotificationsInfo;
 import main.com.bsuir.autoservice.command.ret.PersonalAccountOrderNotificationsRet;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
-import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 
 public class PersonalAccountOrderNotificationsCommand
         extends AbstractSessionCommand<PersonalAccountOrderNotificationsInfo, PersonalAccountOrderNotificationsRet> {

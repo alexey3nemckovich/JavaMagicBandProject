@@ -1,14 +1,15 @@
 package main.com.bsuir.autoservice.command;
 
 import main.com.bsuir.autoservice.command.param.BeanViewPageInfo;
-import main.com.bsuir.autoservice.service.crud.IServiceCrud;
-import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
+import main.com.bsuir.autoservice.service.exception.ServiceException;
+import main.com.bsuir.autoservice.service.impl.crud.ICrudService;
 
 public abstract class AbstractGetBeanPageCommand {
 
-    protected void readPage(BeanViewPageInfo beanViewPageInfo, IServiceCrud serviceCrud)
-        throws ServiceException{
-        beanViewPageInfo.totalPagesCount = getTotalPagesCount(beanViewPageInfo.countRecords, serviceCrud.readTotalCount());
+    protected void readPage(BeanViewPageInfo beanViewPageInfo, ICrudService serviceCrud)
+        throws ServiceException {
+        beanViewPageInfo.totalPagesCount = getTotalPagesCount(beanViewPageInfo.countRecords,
+                serviceCrud.readTotalCount(beanViewPageInfo.tableName));
         if (beanViewPageInfo.totalPagesCount < beanViewPageInfo.page){
             if(0 == beanViewPageInfo.totalPagesCount){
                 beanViewPageInfo.page = 1;
@@ -17,7 +18,7 @@ public abstract class AbstractGetBeanPageCommand {
             }
         }
         int index = getFirstBeanIndex(beanViewPageInfo);
-        beanViewPageInfo.beans = serviceCrud.read(index, beanViewPageInfo.countRecords);
+        beanViewPageInfo.beans = serviceCrud.read(beanViewPageInfo.tableName, index, beanViewPageInfo.countRecords);
     }
 
     protected int getTotalPagesCount(int countRecords, int totalBeanCount)

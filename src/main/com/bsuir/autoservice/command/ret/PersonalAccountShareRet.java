@@ -1,18 +1,18 @@
 package main.com.bsuir.autoservice.command.ret;
 
-import main.com.bsuir.autoservice.bean.share;
+import main.com.bsuir.autoservice.bean.impl.Share;
 
 import java.util.List;
 import java.util.Objects;
 
 public class PersonalAccountShareRet {
-    private final List<share> activeAccountShares;
+    private final List<Share> activeAccountShares;
 
-    public PersonalAccountShareRet(List<share> activeAccountShares) {
+    public PersonalAccountShareRet(List<Share> activeAccountShares) {
         this.activeAccountShares = activeAccountShares;
     }
 
-    public List<share> getActiveAccountShares() {
+    public List<Share> getActiveAccountShares() {
         return activeAccountShares;
     }
 

@@ -7,7 +7,7 @@ import main.com.bsuir.autoservice.service.Dependency;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +24,7 @@ public class BeanViewPageInfo extends CrudPageInfo implements ICommandParam{
     public BeanViewPageInfo(){
         super();
         beans = new ArrayList<>();
-        dependencyMap = new LinkedHashMap<>();
+        dependencyMap = new HashMap<>();
     }
 
     @Override
@@ -36,7 +36,7 @@ public class BeanViewPageInfo extends CrudPageInfo implements ICommandParam{
     @Override
     protected Map<String, String[]> parse(Map<String, String[]> params, boolean passRemainderToFieldsMap)
         throws ParseException{
-        LinkedHashMap<String, String[]> mParams = new LinkedHashMap<String, String[]>(
+        Map<String, String[]> mParams = new HashMap<String, String[]>(
                 super.parse(params, false)
         );
 

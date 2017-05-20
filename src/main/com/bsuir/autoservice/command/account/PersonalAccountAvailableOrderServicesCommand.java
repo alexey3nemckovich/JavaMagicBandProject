@@ -5,7 +5,7 @@ import main.com.bsuir.autoservice.command.AbstractSessionCommand;
 import main.com.bsuir.autoservice.command.param.PersonalAccountAvailableOrderServicesInfo;
 import main.com.bsuir.autoservice.command.ret.PersonalAccountAvailableOrderServicesRet;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
-import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 
 public class PersonalAccountAvailableOrderServicesCommand extends AbstractSessionCommand<
         PersonalAccountAvailableOrderServicesInfo, PersonalAccountAvailableOrderServicesRet> {
@@ -19,7 +19,7 @@ public class PersonalAccountAvailableOrderServicesCommand extends AbstractSessio
     protected PersonalAccountAvailableOrderServicesRet executeImpl(PersonalAccountAvailableOrderServicesInfo param)
             throws Exception {
         return new PersonalAccountAvailableOrderServicesRet(
-                serviceUnitOfWork.getServiceService().getAvailableServices(),
+                serviceUnitOfWork.getServiceBeanService().getAvailableServices(),
                 serviceUnitOfWork.getShareService().getActiveAccountShares(session.getUserId()));
     }
 }

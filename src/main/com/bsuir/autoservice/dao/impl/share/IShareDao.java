@@ -1,7 +1,7 @@
-package main.com.bsuir.autoservice.dao.crud.impl.share;
+package main.com.bsuir.autoservice.dao.impl.share;
 
-import main.com.bsuir.autoservice.bean.impl.share;
-import main.com.bsuir.autoservice.dao.crud.IDaoCrud;
+import main.com.bsuir.autoservice.bean.impl.Share;
+import main.com.bsuir.autoservice.dao.impl.ICrudDao;
 
-public interface IShareDao extends IDaoCrud<Integer, share> {
+public interface IShareDao extends ICrudDao<Integer, Share> {
 }

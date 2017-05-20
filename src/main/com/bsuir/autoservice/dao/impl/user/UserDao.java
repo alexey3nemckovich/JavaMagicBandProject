@@ -1,12 +1,11 @@
-package main.com.bsuir.autoservice.dao.crud.impl.user;
+package main.com.bsuir.autoservice.dao.impl.user;
 
 import com.google.inject.Inject;
-import main.com.bsuir.autoservice.bean.impl.user;
-import main.com.bsuir.autoservice.dao.crud.AbstractDaoCrud;
-import main.com.bsuir.autoservice.bean.User;
-import main.com.bsuir.autoservice.dao.crud.AbstractDaoCrud;
+import main.com.bsuir.autoservice.bean.impl.User;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
+import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
+import main.com.bsuir.autoservice.dao.impl.AbstractCrudDao;
 import main.com.bsuir.autoservice.dao.sql.ISql;
 
 import java.sql.ResultSet;
@@ -14,16 +13,11 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class UserDao extends AbstractDaoCrud<Integer, User> implements IUserDao {
+public class UserDao extends AbstractCrudDao<Integer, User> implements IUserDao {
 
     @Inject
-    public UserDao(IDatabase db, ISql sql) {
-        super(db, sql);
-    }
-
-    @Override
-    public String getTableName() {
-        return tableName;
+    public UserDao(IDatabase db, ISql sql, IDatabaseMap databaseMap) {
+        super(db, sql, databaseMap);
     }
 
     @Override
@@ -47,6 +41,4 @@ public class UserDao extends AbstractDaoCrud<Integer, User> implements IUserDao 
         }
         return result;
     }
-
-    private static final String tableName = "User";
 }

@@ -6,8 +6,8 @@ import main.com.bsuir.autoservice.command.main.LoginCommand;
 import main.com.bsuir.autoservice.command.param.LoginInfo;
 import main.com.bsuir.autoservice.command.ret.LoginRet;
 import main.com.bsuir.autoservice.service.exception.ServiceException;
-import main.com.bsuir.autoservice.service.impl.IUserService;
-import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import main.com.bsuir.autoservice.service.impl.user.IUserService;
+import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 import org.junit.Before;
 import org.junit.Test;
 

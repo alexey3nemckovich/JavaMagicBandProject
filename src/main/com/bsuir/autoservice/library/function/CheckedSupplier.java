@@ -1,7 +1,6 @@
 package main.com.bsuir.autoservice.library.function;
 
-/**
- * Created by HanNik on 20.05.2017.
- */
-public class CheckedSupplier {
+@FunctionalInterface
+public interface CheckedSupplier<T, E extends Exception> {
+    T get() throws E;
 }

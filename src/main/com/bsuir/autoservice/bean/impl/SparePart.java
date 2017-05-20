@@ -8,9 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class discount extends Bean {
+public class SparePart extends Bean<Integer> {
 
-    public int getId(){
+    @Override
+    public Integer getId(){
         return id;
     }
 
@@ -18,20 +19,20 @@ public class discount extends Bean {
         this.id = value;
     }
 
-    public int getServiceId(){
-        return this.service_id;
+    public String getName(){
+        return name;
     }
 
-    public void setServiceId(int value){
-        this.service_id = value;
+    public void setName(String value){
+        this.name = value;
     }
 
-    public int getValue(){
-        return value;
+    public int getAmountAvailable(){
+        return amount_available;
     }
 
-    public void setValue(int value){
-        this.value = value;
+    public void setAmountAvailable(int value){
+        this.amount_available = value;
     }
 
     @Override
@@ -40,8 +41,8 @@ public class discount extends Bean {
             Class type = this.getClass();
             Field[] fields = {
                     type.getDeclaredField("id"),
-                    type.getDeclaredField("service_id"),
-                    type.getDeclaredField("value")
+                    type.getDeclaredField("name"),
+                    type.getDeclaredField("amount_available")
             };
             for (Field field: fields) {
                 field.setAccessible(true);
@@ -59,14 +60,14 @@ public class discount extends Bean {
     }
 
     @Override
-    public discount setFields(Map<String, String> fieldValues) {
+    public SparePart setFields(Map<String, String> fieldValues) {
         id = Integer.valueOf(fieldValues.get("id"));
-        service_id = Integer.valueOf(fieldValues.get("service_id"));
-        value = Integer.valueOf(fieldValues.get("value"));
+        name = fieldValues.get("name");
+        amount_available = Integer.valueOf(fieldValues.get("amount_available"));
         return this;
     }
 
     private Integer id;
-    private Integer service_id;
-    private Integer value;
+    private String name;
+    private Integer amount_available;
 }

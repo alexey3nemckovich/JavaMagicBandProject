@@ -1,35 +1,32 @@
-package main.com.bsuir.autoservice.dao.impl.order_spare_part;
+package main.com.bsuir.autoservice.dao.impl.ordersparepart;
 
 import com.google.inject.Inject;
-import main.com.bsuir.autoservice.bean.impl.order_spare_part;
-import main.com.bsuir.autoservice.dao.impl.AbstractDaoCrud;
+import main.com.bsuir.autoservice.bean.impl.OrderSparePart;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
+import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
+import main.com.bsuir.autoservice.dao.impl.AbstractCrudDao;
 import main.com.bsuir.autoservice.dao.sql.ISql;
 
+import javax.lang.model.type.NullType;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class OrderSparePartDao extends AbstractDaoCrud<Integer, order_spare_part> implements IOrderSparePartDao{
+public class OrderSparePartDao extends AbstractCrudDao<NullType, OrderSparePart> implements IOrderSparePartDao{
 
     @Inject
-    public OrderSparePartDao(IDatabase db, ISql sql) {
-        super(db, sql);
+    public OrderSparePartDao(IDatabase db, ISql sql, IDatabaseMap databaseMap) {
+        super(db, sql, databaseMap);
     }
 
     @Override
-    public String getTableName() {
-        return tableName;
-    }
-
-    @Override
-    public List<order_spare_part> parseResultSet(ResultSet rs) throws DaoException {
-        LinkedList<order_spare_part> result = new LinkedList<>();
+    public List<OrderSparePart> parseResultSet(ResultSet rs) throws DaoException {
+        LinkedList<OrderSparePart> result = new LinkedList<>();
         try {
             while (rs.next()) {
-                order_spare_part bean = new order_spare_part();
+                OrderSparePart bean = new OrderSparePart();
                 bean.setSparePartId(rs.getInt("spare_part_id"));
                 bean.setOrderId(rs.getInt("order_id"));
                 bean.setCount(rs.getInt("count"));
@@ -40,6 +37,4 @@ public class OrderSparePartDao extends AbstractDaoCrud<Integer, order_spare_part
         }
         return result;
     }
-
-    private final String tableName = "order_spare_part";
 }

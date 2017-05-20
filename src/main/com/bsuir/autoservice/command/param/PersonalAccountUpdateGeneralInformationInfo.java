@@ -1,6 +1,6 @@
 package main.com.bsuir.autoservice.command.param;
 
-import main.com.bsuir.autoservice.bean.User;
+import main.com.bsuir.autoservice.bean.impl.User;
 import main.com.bsuir.autoservice.command.ICommandParam;
 
 import java.util.Map;

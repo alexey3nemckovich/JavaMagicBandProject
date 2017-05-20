@@ -3,15 +3,15 @@ package unit.command.personalaccount;
 import general.bean.MockBean;
 import general.service.MockService;
 import general.session.MockSession;
-import main.com.bsuir.autoservice.bean.order;
+import main.com.bsuir.autoservice.bean.impl.Order;
 import main.com.bsuir.autoservice.command.account.PersonalAccountOrderDetailsCommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.PersonalAccountOrderDetailsInfo;
 import main.com.bsuir.autoservice.command.ret.PersonalAccountOrderDetailsRet;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
 import main.com.bsuir.autoservice.service.exception.ServiceException;
-import main.com.bsuir.autoservice.service.impl.IOrderService;
-import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import main.com.bsuir.autoservice.service.impl.order.IOrderService;
+import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -50,7 +50,7 @@ public class PersonalAccountOrderDetailsCommandTest {
         return mock(PersonalAccountOrderDetailsInfo.class);
     }
 
-    private static PersonalAccountOrderDetailsRet getTestPersonalAccountOrderDetailsRet(List<order> orders){
+    private static PersonalAccountOrderDetailsRet getTestPersonalAccountOrderDetailsRet(List<Order> orders){
         return new PersonalAccountOrderDetailsRet(orders);
     }
 
@@ -63,8 +63,8 @@ public class PersonalAccountOrderDetailsCommandTest {
         return new PersonalAccountOrderDetailsCommand(serviceUnitOfWork, session);
     }
 
-    private static List<order> getMockOrderServices(){
-        return new ArrayList<order>(){{
+    private static List<Order> getMockOrderServices(){
+        return new ArrayList<Order>(){{
             add(MockBean.getMockOrder());
         }};
     }
@@ -74,7 +74,7 @@ public class PersonalAccountOrderDetailsCommandTest {
     
     @Test
     public void checkGetOrderServicesDetail() throws CommandException, ServiceException {
-        List<order> mockOrderServices = getMockOrderServices();
+        List<Order> mockOrderServices = getMockOrderServices();
         when(orderService.getOrderServices(MOCK_USER_ID, MOCK_ORDER_ID)).thenReturn(mockOrderServices);
         PersonalAccountOrderDetailsInfo mockInfo = getPersonalAccountOrderDetailsInfo();
         when(mockInfo.getDetailOrderId()).thenReturn(MOCK_ORDER_ID);

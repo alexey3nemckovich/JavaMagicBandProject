@@ -1,18 +1,18 @@
 package main.com.bsuir.autoservice.command.ret;
 
-import main.com.bsuir.autoservice.bean.order;
+import main.com.bsuir.autoservice.bean.impl.Order;
 
 import java.util.List;
 import java.util.Objects;
 
 public class MechanicViewOrdersRet {
-    private final List<order> serviceShopOrder;
+    private final List<Order> serviceShopOrder;
 
-    public MechanicViewOrdersRet(List<order> serviceShopOrders) {
+    public MechanicViewOrdersRet(List<Order> serviceShopOrders) {
         this.serviceShopOrder = serviceShopOrders;
     }
 
-    public List<order> getServiceShopOrder() {
+    public List<Order> getServiceShopOrder() {
         return serviceShopOrder;
     }
 

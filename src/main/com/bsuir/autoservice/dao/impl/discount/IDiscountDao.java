@@ -1,7 +1,7 @@
-package main.com.bsuir.autoservice.dao.crud.impl.discount;
+package main.com.bsuir.autoservice.dao.impl.discount;
 
-import main.com.bsuir.autoservice.bean.impl.discount;
-import main.com.bsuir.autoservice.dao.crud.IDaoCrud;
+import main.com.bsuir.autoservice.bean.impl.Discount;
+import main.com.bsuir.autoservice.dao.impl.ICrudDao;
 
-public interface IDiscountDao extends IDaoCrud<Integer, discount> {
+public interface IDiscountDao extends ICrudDao<Integer, Discount> {
 }

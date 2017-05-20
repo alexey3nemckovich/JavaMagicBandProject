@@ -1,11 +1,8 @@
 <%@ page import="main.com.bsuir.autoservice.service.Dependency" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="java.util.LinkedHashMap" %>
-<%@ page import="main.com.bsuir.autoservice.bean.Bean" %>
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="org.json.JSONObject" %>
 <%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.util.LinkedHashMap" %>
+<%@ page import="java.util.Map" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="paginator" uri="/WEB-INF/tlds/Paginator" %>
 <%@ page contentType="text/html;charset=utf-8" language="java" %>
@@ -41,10 +38,10 @@
 
         String dependencyJson = dependency.getUrlEncodedJson();
 
-        String notModifiableFieldsNames = dependency.getName();
+        String notModifiableFieldsNames = dependency.getFieldName();
 
         Map<String, String> defaultValuesMap = new LinkedHashMap<>();
-        defaultValuesMap.put(dependency.name, dependency.value.toString());
+        defaultValuesMap.put(dependency.fieldName, dependency.value.toString());
         JSONObject jsonObject = new JSONObject(defaultValuesMap);
         String defaultValues = jsonObject.toString();
         defaultValues = defaultValues.replace("\"", "\\\"");

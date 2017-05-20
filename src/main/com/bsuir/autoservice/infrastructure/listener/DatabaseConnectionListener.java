@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.servlet.RequestScoped;
 import main.com.bsuir.autoservice.binding.annotation.InjectLogger;
-import main.com.bsuir.autoservice.dao.database.SqlRequestDatabase;
+import main.com.bsuir.autoservice.dao.database.nestedrequest.SqlRequestDatabase;
 import org.apache.log4j.Logger;
 
 @RequestScoped

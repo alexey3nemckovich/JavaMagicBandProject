@@ -3,15 +3,15 @@ package unit.command.personalaccount;
 import general.bean.MockBean;
 import general.service.MockService;
 import general.session.MockSession;
-import main.com.bsuir.autoservice.bean.share;
+import main.com.bsuir.autoservice.bean.impl.Share;
 import main.com.bsuir.autoservice.command.account.PersonalAccountShareCommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.PersonalAccountShareInfo;
 import main.com.bsuir.autoservice.command.ret.PersonalAccountShareRet;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
 import main.com.bsuir.autoservice.service.exception.ServiceException;
-import main.com.bsuir.autoservice.service.impl.IShareService;
-import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import main.com.bsuir.autoservice.service.impl.share.IShareService;
+import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -52,7 +52,7 @@ public class PersonalAccountShareCommandTest {
         return mock(PersonalAccountShareInfo.class);
     }
 
-    private static PersonalAccountShareRet getTestPersonalAccountShareRet(List<share> shares){
+    private static PersonalAccountShareRet getTestPersonalAccountShareRet(List<Share> shares){
         return new PersonalAccountShareRet(shares);
     }
 
@@ -65,15 +65,15 @@ public class PersonalAccountShareCommandTest {
         return new PersonalAccountShareCommand(serviceUnitOfWork, session);
     }
 
-    private static List<share> getMockAccountShares(){
-                return new ArrayList<share>(){{
+    private static List<Share> getMockAccountShares(){
+                return new ArrayList<Share>(){{
                     add(MockBean.getMockShare());
                 }};
     }
 
     @Test
     public void getAccountAvailableShare() throws CommandException, ServiceException {
-        List<share> mockAccountShares = getMockAccountShares();
+        List<Share> mockAccountShares = getMockAccountShares();
         when(shareService.getActiveAccountShares(MOCK_USER_ID)).thenReturn(mockAccountShares);
         assertEquals(personalAccountShareCommand.execute(getPersonalAccountShareInfo()),
                 getTestPersonalAccountShareRet(mockAccountShares));

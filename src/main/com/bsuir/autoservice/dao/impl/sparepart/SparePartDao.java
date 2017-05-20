@@ -1,10 +1,11 @@
-package main.com.bsuir.autoservice.dao.impl.spare_part;
+package main.com.bsuir.autoservice.dao.impl.sparepart;
 
 import com.google.inject.Inject;
-import main.com.bsuir.autoservice.bean.impl.spare_part;
-import main.com.bsuir.autoservice.dao.impl.AbstractDaoCrud;
+import main.com.bsuir.autoservice.bean.impl.SparePart;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
+import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
+import main.com.bsuir.autoservice.dao.impl.AbstractCrudDao;
 import main.com.bsuir.autoservice.dao.sql.ISql;
 
 import java.sql.ResultSet;
@@ -12,24 +13,19 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class SparePartDao extends AbstractDaoCrud<Integer, spare_part> implements ISparePartDao{
+public class SparePartDao extends AbstractCrudDao<Integer, SparePart> implements ISparePartDao {
 
     @Inject
-    public SparePartDao(IDatabase db, ISql sql) {
-        super(db, sql);
+    public SparePartDao(IDatabase db, ISql sql, IDatabaseMap databaseMap) {
+        super(db, sql, databaseMap);
     }
 
     @Override
-    public String getTableName() {
-        return tableName;
-    }
-
-    @Override
-    public List<spare_part> parseResultSet(ResultSet rs) throws DaoException {
-        LinkedList<spare_part> result = new LinkedList<>();
+    public List<SparePart> parseResultSet(ResultSet rs) throws DaoException {
+        LinkedList<SparePart> result = new LinkedList<>();
         try {
             while (rs.next()) {
-                spare_part bean = new spare_part();
+                SparePart bean = new SparePart();
                 bean.setId(rs.getInt("id"));
                 bean.setName(rs.getString("name"));
                 bean.setAmountAvailable(rs.getInt("amount_available"));
@@ -40,6 +36,4 @@ public class SparePartDao extends AbstractDaoCrud<Integer, spare_part> implement
         }
         return result;
     }
-
-    private final String tableName = "sparepart";
 }

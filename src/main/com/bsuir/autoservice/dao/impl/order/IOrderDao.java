@@ -1,7 +1,7 @@
-package main.com.bsuir.autoservice.dao.crud.impl.order;
+package main.com.bsuir.autoservice.dao.impl.order;
 
-import main.com.bsuir.autoservice.bean.impl.order;
-import main.com.bsuir.autoservice.dao.crud.IDaoCrud;
+import main.com.bsuir.autoservice.bean.impl.Order;
+import main.com.bsuir.autoservice.dao.impl.ICrudDao;
 
-public interface IOrderDao extends IDaoCrud<Integer, order> {
+public interface IOrderDao extends ICrudDao<Integer, Order> {
 }

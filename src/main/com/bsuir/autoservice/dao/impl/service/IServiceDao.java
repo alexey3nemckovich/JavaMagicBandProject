@@ -1,7 +1,7 @@
-package main.com.bsuir.autoservice.dao.crud.impl.service;
+package main.com.bsuir.autoservice.dao.impl.service;
 
-import main.com.bsuir.autoservice.bean.impl.service;
-import main.com.bsuir.autoservice.dao.crud.IDaoCrud;
+import main.com.bsuir.autoservice.bean.impl.Service;
+import main.com.bsuir.autoservice.dao.impl.ICrudDao;
 
-public interface IServiceDao extends IDaoCrud<Integer, service> {
+public interface IServiceDao extends ICrudDao<Integer, Service> {
 }

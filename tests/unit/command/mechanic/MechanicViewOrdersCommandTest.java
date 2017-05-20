@@ -3,16 +3,16 @@ package unit.command.mechanic;
 import general.bean.MockBean;
 import general.service.MockService;
 import general.session.MockSession;
-import main.com.bsuir.autoservice.bean.order;
+import main.com.bsuir.autoservice.bean.impl.Order;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.mechanic.MechanicViewOrdersCommand;
 import main.com.bsuir.autoservice.command.param.MechanicViewOrdersInfo;
 import main.com.bsuir.autoservice.command.ret.MechanicViewOrdersRet;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
 import main.com.bsuir.autoservice.service.exception.ServiceException;
-import main.com.bsuir.autoservice.service.impl.IOrderService;
-import main.com.bsuir.autoservice.service.impl.IServiceService;
-import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import main.com.bsuir.autoservice.service.impl.order.IOrderService;
+import main.com.bsuir.autoservice.service.impl.service.IServiceBeanService;
+import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -47,8 +47,8 @@ public class MechanicViewOrdersCommandTest {
         return MockService.getOrderService();
     }
 
-    private static IServiceService getServiceService(){
-        return MockService.getServiceService();
+    private static IServiceBeanService getServiceBeanService(){
+        return MockService.getServiceBeanService();
     }
 
     private static final int MOCK_STAFF_ID = MockBean.MOCK_USER_ID;
@@ -57,7 +57,7 @@ public class MechanicViewOrdersCommandTest {
         return mock(MechanicViewOrdersInfo.class);
     }
 
-    private static MechanicViewOrdersRet getTestMechanicViewOrdersRet(List<order> serviceShopOrders){
+    private static MechanicViewOrdersRet getTestMechanicViewOrdersRet(List<Order> serviceShopOrders){
         return new MechanicViewOrdersRet(serviceShopOrders);
     }
 
@@ -70,15 +70,15 @@ public class MechanicViewOrdersCommandTest {
         return new MechanicViewOrdersCommand(serviceUnitOfWork, session);
     }
 
-    private List<order> getMockServiceShopOrders() {
-        return new ArrayList<order>() {{
+    private List<Order> getMockServiceShopOrders() {
+        return new ArrayList<Order>() {{
             add(MockBean.getMockOrder());
         }};
     }
 
     @Test
     public void checkGetServiceShopOrders() throws CommandException, ServiceException {
-        List<order> mockServiceShopOrders = getMockServiceShopOrders();
+        List<Order> mockServiceShopOrders = getMockServiceShopOrders();
         when(orderService.getServiceShopOrders(eq(MOCK_STAFF_ID),
                 any(MechanicViewOrdersInfo.SortedType.class), anyInt(), anyInt())).thenReturn(mockServiceShopOrders);
         assertEquals(mechanicViewOrdersCommand.execute(getMechanicViewOrdersInfo()),

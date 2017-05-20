@@ -1,20 +1,20 @@
-package main.com.bsuir.autoservice.dao.unitOfWork;
+package main.com.bsuir.autoservice.dao.unitofwork;
 
 import com.google.inject.Inject;
 import main.com.bsuir.autoservice.binding.annotation.FakeUOF;
-import main.com.bsuir.autoservice.dao.crud.impl.discount.IDiscountDao;
-import main.com.bsuir.autoservice.dao.crud.impl.discount_user.IDiscountUserDao;
-import main.com.bsuir.autoservice.dao.crud.impl.notification.INotificationDao;
-import main.com.bsuir.autoservice.dao.crud.impl.order.IOrderDao;
-import main.com.bsuir.autoservice.dao.crud.impl.order_spare_part.IOrderSparePartDao;
-import main.com.bsuir.autoservice.dao.crud.impl.ordered_service.IOrderedServiceDao;
-import main.com.bsuir.autoservice.dao.crud.impl.service.IServiceDao;
-import main.com.bsuir.autoservice.dao.crud.impl.service_shop.IServiceShopDao;
-import main.com.bsuir.autoservice.dao.crud.impl.share.IShareDao;
-import main.com.bsuir.autoservice.dao.crud.impl.share_discount.IShareDiscountDao;
-import main.com.bsuir.autoservice.dao.crud.impl.spare_part.ISparePartDao;
-import main.com.bsuir.autoservice.dao.crud.impl.staff.IStaffDao;
-import main.com.bsuir.autoservice.dao.crud.impl.user.IUserDao;
+import main.com.bsuir.autoservice.dao.impl.discount.IDiscountDao;
+import main.com.bsuir.autoservice.dao.impl.discountuser.IDiscountUserDao;
+import main.com.bsuir.autoservice.dao.impl.notification.INotificationDao;
+import main.com.bsuir.autoservice.dao.impl.order.IOrderDao;
+import main.com.bsuir.autoservice.dao.impl.orderedservice.IOrderedServiceDao;
+import main.com.bsuir.autoservice.dao.impl.ordersparepart.IOrderSparePartDao;
+import main.com.bsuir.autoservice.dao.impl.service.IServiceDao;
+import main.com.bsuir.autoservice.dao.impl.serviceshop.IServiceShopDao;
+import main.com.bsuir.autoservice.dao.impl.share.IShareDao;
+import main.com.bsuir.autoservice.dao.impl.sharediscount.IShareDiscountDao;
+import main.com.bsuir.autoservice.dao.impl.sparepart.ISparePartDao;
+import main.com.bsuir.autoservice.dao.impl.staff.IStaffDao;
+import main.com.bsuir.autoservice.dao.impl.user.IUserDao;
 
 public class DefaultDaoUnitOfWork implements IDaoUnitOfWork {
     private final IDiscountDao discountDao;

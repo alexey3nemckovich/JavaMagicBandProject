@@ -1,18 +1,18 @@
 package main.com.bsuir.autoservice.command.ret;
 
-import main.com.bsuir.autoservice.bean.notification;
+import main.com.bsuir.autoservice.bean.impl.Notification;
 
 import java.util.List;
 import java.util.Objects;
 
 public class PersonalAccountOrderNotificationsRet {
-    private final List<notification> orderNotifications;
+    private final List<Notification> orderNotifications;
 
-    public PersonalAccountOrderNotificationsRet(List<notification> orderNotifications) {
+    public PersonalAccountOrderNotificationsRet(List<Notification> orderNotifications) {
         this.orderNotifications = orderNotifications;
     }
 
-    public List<notification> getOrderNotifications() {
+    public List<Notification> getOrderNotifications() {
         return orderNotifications;
     }
 

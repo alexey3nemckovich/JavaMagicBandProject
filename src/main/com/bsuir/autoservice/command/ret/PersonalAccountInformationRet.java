@@ -1,6 +1,6 @@
 package main.com.bsuir.autoservice.command.ret;
 
-import main.com.bsuir.autoservice.bean.User;
+import main.com.bsuir.autoservice.bean.impl.User;
 
 import java.util.Objects;
 

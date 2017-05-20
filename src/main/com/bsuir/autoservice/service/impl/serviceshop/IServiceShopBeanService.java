@@ -1,7 +1,6 @@
-package main.com.bsuir.autoservice.service.impl.service_shop;
+package main.com.bsuir.autoservice.service.impl.serviceshop;
 
-import main.com.bsuir.autoservice.bean.impl.service_shop;
-import main.com.bsuir.autoservice.service.crud.IServiceCrud;
+import main.com.bsuir.autoservice.service.IService;
 
-public interface IServiceShopBeanService extends IServiceCrud<Integer, service_shop>{
+public interface IServiceShopBeanService extends IService {
 }

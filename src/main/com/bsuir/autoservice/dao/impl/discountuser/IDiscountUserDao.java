@@ -1,7 +1,9 @@
-package main.com.bsuir.autoservice.dao.impl.discount_user;
+package main.com.bsuir.autoservice.dao.impl.discountuser;
 
-import main.com.bsuir.autoservice.bean.impl.discount_user;
-import main.com.bsuir.autoservice.dao.impl.IDaoCrud;
+import main.com.bsuir.autoservice.bean.impl.DiscountUser;
+import main.com.bsuir.autoservice.dao.impl.ICrudDao;
 
-public interface IDiscountUserDao extends IDaoCrud<Integer, discount_user> {
+import javax.lang.model.type.NullType;
+
+public interface IDiscountUserDao extends ICrudDao<NullType, DiscountUser> {
 }

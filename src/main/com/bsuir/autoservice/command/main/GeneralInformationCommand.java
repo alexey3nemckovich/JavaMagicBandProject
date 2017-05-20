@@ -5,7 +5,7 @@ import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.GeneralInformationInfo;
 import main.com.bsuir.autoservice.command.ret.GeneralInformationRet;
-import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 
 public class GeneralInformationCommand implements ICommand<GeneralInformationInfo, GeneralInformationRet> {
     private final IServiceUnitOfWork serviceUnitOfWork;
@@ -20,7 +20,7 @@ public class GeneralInformationCommand implements ICommand<GeneralInformationInf
         try {
             //TODO: get only important information for page
             return new GeneralInformationRet(
-                    serviceUnitOfWork.getServiceService().getAvailableServices(),
+                    serviceUnitOfWork.getServiceBeanService().getAvailableServices(),
                     serviceUnitOfWork.getShareService().getActiveShares());
         }catch (Exception e){
             throw new CommandException(e);

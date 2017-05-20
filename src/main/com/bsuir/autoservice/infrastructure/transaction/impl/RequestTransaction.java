@@ -2,7 +2,7 @@ package main.com.bsuir.autoservice.infrastructure.transaction.impl;
 
 import com.google.inject.Inject;
 import com.google.inject.servlet.RequestScoped;
-import main.com.bsuir.autoservice.dao.database.SqlRequestDatabase;
+import main.com.bsuir.autoservice.dao.database.nestedrequest.SqlRequestDatabase;
 import main.com.bsuir.autoservice.infrastructure.transaction.ITransaction;
 import main.com.bsuir.autoservice.infrastructure.transaction.exception.TransactionException;
 

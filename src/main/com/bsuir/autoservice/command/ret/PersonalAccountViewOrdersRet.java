@@ -1,18 +1,18 @@
 package main.com.bsuir.autoservice.command.ret;
 
-import main.com.bsuir.autoservice.bean.order;
+import main.com.bsuir.autoservice.bean.impl.Order;
 
 import java.util.List;
 import java.util.Objects;
 
 public class PersonalAccountViewOrdersRet {
-    private final List<order> userOrders;
+    private final List<Order> userOrders;
 
-    public PersonalAccountViewOrdersRet(List<order> userOrders) {
+    public PersonalAccountViewOrdersRet(List<Order> userOrders) {
         this.userOrders = userOrders;
     }
 
-    public List<order> getUserOrders() {
+    public List<Order> getUserOrders() {
         return userOrders;
     }
 

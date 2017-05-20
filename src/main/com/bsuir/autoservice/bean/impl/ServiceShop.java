@@ -8,9 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class service_shop extends Bean {
+public class ServiceShop extends Bean<Integer> {
 
-    public int getId(){
+    @Override
+    public Integer getId(){
         return id;
     }
 
@@ -77,7 +78,7 @@ public class service_shop extends Bean {
     }
 
     @Override
-    public service_shop setFields(Map<String, String> fieldValues) {
+    public ServiceShop setFields(Map<String, String> fieldValues) {
         id = Integer.valueOf(fieldValues.get("id"));
         city = fieldValues.get("city");
         street = fieldValues.get("street");

@@ -5,6 +5,7 @@ import main.com.bsuir.autoservice.command.RequestParameter;
 
 import javax.inject.Inject;
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -14,7 +15,7 @@ public class CrudPageInfo implements ICommandParam{
     @RequestParameter
     public String action;
 
-    public LinkedHashMap<String, String> fields;
+    public Map<String, String> fields;
     public String result;
 
     @Inject
@@ -30,7 +31,7 @@ public class CrudPageInfo implements ICommandParam{
 
     protected Map<String, String[]> parse(Map<String, String[]> params, boolean passRemainderToFieldsMap)
         throws ParseException{
-        LinkedHashMap<String, String[]> mParams = new LinkedHashMap<>(params);
+        Map<String, String[]> mParams = new HashMap<>(params);
 
         tableName = mParams.get("tableName")[0];
         mParams.remove("tableName");

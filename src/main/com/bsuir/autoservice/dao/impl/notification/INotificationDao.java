@@ -1,7 +1,7 @@
-package main.com.bsuir.autoservice.dao.crud.impl.notification;
+package main.com.bsuir.autoservice.dao.impl.notification;
 
-import main.com.bsuir.autoservice.bean.impl.notification;
-import main.com.bsuir.autoservice.dao.crud.IDaoCrud;
+import main.com.bsuir.autoservice.bean.impl.Notification;
+import main.com.bsuir.autoservice.dao.impl.ICrudDao;
 
-public interface INotificationDao extends IDaoCrud<Integer, notification> {
+public interface INotificationDao extends ICrudDao<Integer, Notification> {
 }

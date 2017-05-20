@@ -5,14 +5,18 @@ import main.com.bsuir.autoservice.bean.exception.BeanException;
 import main.com.bsuir.autoservice.library.type.date.SimpleDate;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
-public class order extends Bean {
+public class Order extends Bean<Integer> {
     public enum State{
         QUEUED, EXECUTING, DONE, REJECTED
     }
 
-    public int getId() {
+    @Override
+    public Integer getId() {
         return id;
     }
 
@@ -97,7 +101,7 @@ public class order extends Bean {
     }
 
     @Override
-    public order setFields(Map<String, String> fieldValues) throws BeanException{
+    public Order setFields(Map<String, String> fieldValues) throws BeanException{
         try {
             id = Integer.valueOf(fieldValues.get("id"));
             user_id = Integer.valueOf(fieldValues.get("user_id"));

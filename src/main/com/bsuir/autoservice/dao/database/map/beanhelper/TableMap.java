@@ -6,14 +6,14 @@ import java.util.Objects;
 public class TableMap {
     private final Class domainClass;
     private final String tableName;
-    private final String showName;
     private final List<ColumnMap> columnMaps;
+    private final List<DependencyMap> dependencyMaps;
 
-    public TableMap(Class domainClass, String tableName, String showName, List<ColumnMap> columnMaps) {
+    public TableMap(Class domainClass, String tableName, List<ColumnMap> columnMaps, List<DependencyMap> dependencyMaps) {
         this.domainClass = domainClass;
         this.tableName = tableName;
-        this.showName = showName;
         this.columnMaps = columnMaps;
+        this.dependencyMaps = dependencyMaps;
     }
 
     public Class getDomainClass() {
@@ -24,12 +24,12 @@ public class TableMap {
         return tableName;
     }
 
-    public String getShowName() {
-        return showName;
-    }
-
     public List getColumnMaps() {
         return columnMaps;
+    }
+
+    public List<DependencyMap> getDependencyMaps() {
+        return dependencyMaps;
     }
 
     @Override
@@ -39,12 +39,12 @@ public class TableMap {
         TableMap tableMap = (TableMap) o;
         return Objects.equals(domainClass, tableMap.domainClass) &&
                 Objects.equals(tableName, tableMap.tableName) &&
-                Objects.equals(showName, tableMap.showName) &&
-                Objects.equals(columnMaps, tableMap.columnMaps);
+                Objects.equals(columnMaps, tableMap.columnMaps) &&
+                Objects.equals(dependencyMaps, tableMap.dependencyMaps);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(domainClass, tableName, showName, columnMaps);
+        return Objects.hash(domainClass, tableName, columnMaps, dependencyMaps);
     }
 }

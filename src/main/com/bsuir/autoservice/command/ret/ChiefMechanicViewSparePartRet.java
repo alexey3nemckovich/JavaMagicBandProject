@@ -1,18 +1,18 @@
 package main.com.bsuir.autoservice.command.ret;
 
-import main.com.bsuir.autoservice.bean.spare_part;
+import main.com.bsuir.autoservice.bean.impl.SparePart;
 
 import java.util.List;
 import java.util.Objects;
 
 public class ChiefMechanicViewSparePartRet {
-    private final List<spare_part> groupSpareParts;
+    private final List<SparePart> groupSpareParts;
 
-    public ChiefMechanicViewSparePartRet(List<spare_part> groupSpareParts) {
+    public ChiefMechanicViewSparePartRet(List<SparePart> groupSpareParts) {
         this.groupSpareParts = groupSpareParts;
     }
 
-    public List<spare_part> getGroupSpareParts() {
+    public List<SparePart> getGroupSpareParts() {
         return groupSpareParts;
     }
 

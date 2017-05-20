@@ -2,27 +2,26 @@ package main.com.bsuir.autoservice.command.crud.get;
 
 import com.google.inject.Inject;
 import main.com.bsuir.autoservice.bean.Bean;
-import main.com.bsuir.autoservice.binding.annotation.Default;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.BeanAddPageInfo;
-import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
+import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 
 import java.util.Map;
 
-public class GetBeanAddPageCommand implements ICommand<BeanAddPageInfo> {
+public class GetBeanAddPageCommand implements ICommand<BeanAddPageInfo, BeanAddPageInfo> {
 
     @Inject
-    public GetBeanAddPageCommand(@Default IServiceUnitOfWork serviceUnitOfWork){
+    public GetBeanAddPageCommand(IServiceUnitOfWork serviceUnitOfWork, IDatabaseMap databaseMap){
         this.serviceUnitOfWork = serviceUnitOfWork;
+        this.databaseMap = databaseMap;
     }
 
     @Override
-    public BeanAddPageInfo execute(BeanAddPageInfo beanAddPageInfo)
-            throws CommandException {
+    public BeanAddPageInfo execute(BeanAddPageInfo beanAddPageInfo) throws CommandException {
         try {
-            Class<? extends Bean> beanClass = (Class<? extends Bean>)Class.forName(Bean.class.getPackage().getName() + ".impl." + beanAddPageInfo.tableName);
-            Bean bean = beanClass.newInstance();
+            Bean<Object> bean = databaseMap.getBeanInstance(beanAddPageInfo.tableName);
             beanAddPageInfo.fields = bean.getFieldValuesStrings();
             for(Map.Entry<String, String> entry : beanAddPageInfo.defaultValues.entrySet()){
                 beanAddPageInfo.fields.put(entry.getKey(), entry.getValue());
@@ -39,4 +38,5 @@ public class GetBeanAddPageCommand implements ICommand<BeanAddPageInfo> {
     }
 
     private final IServiceUnitOfWork serviceUnitOfWork;
+    private final IDatabaseMap databaseMap;
 }

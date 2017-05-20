@@ -3,15 +3,15 @@ package unit.command.mechanic;
 import general.bean.MockBean;
 import general.service.MockService;
 import general.session.MockSession;
-import main.com.bsuir.autoservice.bean.order;
+import main.com.bsuir.autoservice.bean.impl.Order;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.mechanic.MechanicChangeOrderStateCommand;
 import main.com.bsuir.autoservice.command.param.MechanicChangeOrderStateInfo;
 import main.com.bsuir.autoservice.command.ret.MechanicChangeOrderStateRet;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
 import main.com.bsuir.autoservice.service.exception.ServiceException;
-import main.com.bsuir.autoservice.service.impl.IOrderService;
-import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import main.com.bsuir.autoservice.service.impl.order.IOrderService;
+import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -67,7 +67,7 @@ public class MechanicChangeOrderStateCommandTest {
     @Test
     public void checkChangedOrderState() throws CommandException, ServiceException {
         final boolean verifyIsChangedOrderState = true;
-        when(orderService.changeOrderState(eq(MOCK_USER_STAFF_ID), eq(MOCK_ORDER_ID), any(order.State.class))).
+        when(orderService.changeOrderState(eq(MOCK_USER_STAFF_ID), eq(MOCK_ORDER_ID), any(Order.State.class))).
                 thenReturn(verifyIsChangedOrderState);
         MechanicChangeOrderStateInfo mockInfo = getMechanicChangeOrderStateInfo();
         when(mockInfo.getOrderId()).thenReturn(MOCK_ORDER_ID);
@@ -77,7 +77,7 @@ public class MechanicChangeOrderStateCommandTest {
 
     @Test(expected = CommandException.class)
     public void checkChangedOrderStateException() throws ServiceException, CommandException {
-        when(orderService.changeOrderState(anyInt(), anyInt(), any(order.State.class))).thenThrow(ServiceException.class);
+        when(orderService.changeOrderState(anyInt(), anyInt(), any(Order.State.class))).thenThrow(ServiceException.class);
         mechanicChangeOrderStateCommand.execute(getMechanicChangeOrderStateInfo());
         fail();
     }

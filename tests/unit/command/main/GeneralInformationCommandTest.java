@@ -2,16 +2,16 @@ package unit.command.main;
 
 import general.bean.MockBean;
 import general.service.MockService;
-import main.com.bsuir.autoservice.bean.service;
-import main.com.bsuir.autoservice.bean.share;
+import main.com.bsuir.autoservice.bean.impl.Service;
+import main.com.bsuir.autoservice.bean.impl.Share;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.main.GeneralInformationCommand;
 import main.com.bsuir.autoservice.command.param.GeneralInformationInfo;
 import main.com.bsuir.autoservice.command.ret.GeneralInformationRet;
 import main.com.bsuir.autoservice.service.exception.ServiceException;
-import main.com.bsuir.autoservice.service.impl.IServiceService;
-import main.com.bsuir.autoservice.service.impl.IShareService;
-import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import main.com.bsuir.autoservice.service.impl.service.IServiceBeanService;
+import main.com.bsuir.autoservice.service.impl.share.IShareService;
+import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,14 +25,14 @@ import static org.mockito.Mockito.when;
 
 public class GeneralInformationCommandTest {
     private GeneralInformationCommand generalInformationCommand;
-    private IServiceService serviceService;
+    private IServiceBeanService serviceBeanService;
     private IShareService shareService;
 
     @Before
     public void beforeTest() {
-        serviceService = getServiceService();
+        serviceBeanService = getServiceBeanService();
         shareService = getShareService();
-        IServiceUnitOfWork mockUOF = getServiceUOF(serviceService, shareService);
+        IServiceUnitOfWork mockUOF = getServiceUOF(serviceBeanService, shareService);
         generalInformationCommand = getGeneralInformationCommand(mockUOF);
     }
 
@@ -40,15 +40,15 @@ public class GeneralInformationCommandTest {
         return new GeneralInformationCommand(serviceUnitOfWork);
     }
 
-    private static IServiceUnitOfWork getServiceUOF(IServiceService serviceService, IShareService shareService){
+    private static IServiceUnitOfWork getServiceUOF(IServiceBeanService serviceBeanService, IShareService shareService){
         return new MockService.ServiceUOFBuilder()
-                .setServiceService(serviceService)
+                .setServiceBeanService(serviceBeanService)
                 .setShareService(shareService)
                 .build();
     }
 
-    private static IServiceService getServiceService(){
-        return MockService.getServiceService();
+    private static IServiceBeanService getServiceBeanService(){
+        return MockService.getServiceBeanService();
     }
 
     private static IShareService getShareService() {
@@ -59,28 +59,28 @@ public class GeneralInformationCommandTest {
         return mock(GeneralInformationInfo.class);
     }
 
-    private static List<service> getMockAvailableServices(){
-        return new ArrayList<service>(){{
+    private static List<Service> getMockAvailableServices(){
+        return new ArrayList<Service>(){{
                add(MockBean.getMockService());
             }};
     }
 
-    private static List<share> getMockActiveShares(){
-        return new ArrayList<share>(){{
+    private static List<Share> getMockActiveShares(){
+        return new ArrayList<Share>(){{
             add(MockBean.getMockShare());
         }};
     }
 
-    private static GeneralInformationRet getTestGeneralInformationRet(List<service> availableServices,
-                                                                      List<share> activeShares){
+    private static GeneralInformationRet getTestGeneralInformationRet(List<Service> availableServices,
+                                                                      List<Share> activeShares){
         return new GeneralInformationRet(availableServices, activeShares);
     }
 
     @Test
     public void getGeneralInformationAll() throws CommandException, ServiceException {
-        List<service> mockAvailableServices = getMockAvailableServices();
-        List<share> mockActiveShares = getMockActiveShares();
-        when(serviceService.getAvailableServices()).thenReturn(mockAvailableServices);
+        List<Service> mockAvailableServices = getMockAvailableServices();
+        List<Share> mockActiveShares = getMockActiveShares();
+        when(serviceBeanService.getAvailableServices()).thenReturn(mockAvailableServices);
         when(shareService.getActiveShares()).thenReturn(mockActiveShares);
         assertEquals(generalInformationCommand.execute(getGeneralInformationInfo()),
                 getTestGeneralInformationRet(mockAvailableServices, mockActiveShares));
@@ -88,7 +88,7 @@ public class GeneralInformationCommandTest {
 
     @Test(expected = CommandException.class)
     public void getGeneralInformationException() throws ServiceException, CommandException {
-        when(serviceService.getAvailableServices()).thenThrow(ServiceException.class);
+        when(serviceBeanService.getAvailableServices()).thenThrow(ServiceException.class);
         when(shareService.getActiveShares()).thenThrow(ServiceException.class);
         generalInformationCommand.execute(getGeneralInformationInfo());
         fail();

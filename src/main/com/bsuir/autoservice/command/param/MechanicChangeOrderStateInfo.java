@@ -1,12 +1,12 @@
 package main.com.bsuir.autoservice.command.param;
 
-import main.com.bsuir.autoservice.bean.order;
+import main.com.bsuir.autoservice.bean.impl.Order;
 import main.com.bsuir.autoservice.command.ICommandParam;
 
 import java.util.Map;
 
 public class MechanicChangeOrderStateInfo implements ICommandParam{
-    private order.State orderState;
+    private Order.State orderState;
     private int orderId;
 
     @Override
@@ -14,7 +14,7 @@ public class MechanicChangeOrderStateInfo implements ICommandParam{
         throw new UnsupportedOperationException();
     }
 
-    public order.State getOrderState() {
+    public Order.State getOrderState() {
         return orderState;
     }
 

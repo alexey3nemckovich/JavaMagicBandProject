@@ -6,7 +6,7 @@ import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.PersonalAccountOrderDetailsInfo;
 import main.com.bsuir.autoservice.command.ret.PersonalAccountOrderDetailsRet;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
-import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 
 public class PersonalAccountOrderDetailsCommand implements
         ICommand<PersonalAccountOrderDetailsInfo, PersonalAccountOrderDetailsRet>{

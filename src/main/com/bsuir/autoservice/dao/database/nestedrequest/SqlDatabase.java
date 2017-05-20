@@ -1,7 +1,8 @@
-package main.com.bsuir.autoservice.dao.database;
+package main.com.bsuir.autoservice.dao.database.nestedrequest;
 
 import com.google.inject.Inject;
 import main.com.bsuir.autoservice.config.database.impl.sql.ISqlConfigDatabase;
+import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.library.function.CheckedConsumer;
 import main.com.bsuir.autoservice.library.function.CheckedFunction;
 
@@ -31,20 +32,29 @@ public class SqlDatabase implements IDatabase {
         return "auto_service_shop";
     }
 
-    public Connection getConnection() throws SQLException {
+    Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, login, password);
     }
 
-    public void returnConnection(Connection connection) throws SQLException {
+    void returnConnection(Connection connection) throws SQLException {
         connection.close();
     }
 
     @Override
-    public List<String> getListTableNames() throws SQLException{
-        return doIneriorFunction(this::getListTableNames);
+    public Statement createStatement() throws SQLException {
+        return doInteriorFunction(this::createStatement);
     }
 
-    public List<String> getListTableNames(Connection connection) throws SQLException {
+    Statement createStatement(Connection connection) throws SQLException {
+        return connection.createStatement();
+    }
+
+    @Override
+    public List<String> getListTableNames() throws SQLException{
+        return doInteriorFunction(this::getListTableNames);
+    }
+
+    List<String> getListTableNames(Connection connection) throws SQLException {
         String[] types = {"TABLE"};
         DatabaseMetaData md = connection.getMetaData();
         ResultSet tables = md.getTables(connection.getCatalog(), null, "%", types);
@@ -55,7 +65,7 @@ public class SqlDatabase implements IDatabase {
         return tableNames;
     }
 
-    protected final <T> T doIneriorFunction(CheckedFunction<Connection, T, SQLException> functionWithConnection)
+    protected final <T> T doInteriorFunction(CheckedFunction<Connection, T, SQLException> functionWithConnection)
             throws SQLException {
         Connection connection = getInteriorConnection();
         try {
@@ -65,7 +75,7 @@ public class SqlDatabase implements IDatabase {
         }
     }
 
-    protected final void doInheriorConsumer(CheckedConsumer<Connection, SQLException> consumerWithConnection)
+    protected final void doInteriorConsumer(CheckedConsumer<Connection, SQLException> consumerWithConnection)
             throws SQLException {
         Connection connection = getInteriorConnection();
         try {
@@ -77,10 +87,10 @@ public class SqlDatabase implements IDatabase {
 
     @Override
     public PreparedStatement getPrepareStatement(String sql) throws SQLException {
-        return doIneriorFunction(connection-> getPrepareStatement(connection, sql));
+        return doInteriorFunction(connection-> getPrepareStatement(connection, sql));
     }
 
-    public PreparedStatement getPrepareStatement(Connection connection, String sql) throws SQLException {
+    PreparedStatement getPrepareStatement(Connection connection, String sql) throws SQLException {
         return connection.prepareStatement(sql);
     }
 

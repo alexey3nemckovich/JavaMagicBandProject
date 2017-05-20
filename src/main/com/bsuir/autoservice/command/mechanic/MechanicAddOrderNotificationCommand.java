@@ -4,7 +4,7 @@ import main.com.bsuir.autoservice.command.AbstractSessionCommand;
 import main.com.bsuir.autoservice.command.param.MechanicAddOrderNotificationInfo;
 import main.com.bsuir.autoservice.command.ret.MechanicAddOrderNotificationRet;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
-import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 
 public class MechanicAddOrderNotificationCommand extends
         AbstractSessionCommand<MechanicAddOrderNotificationInfo, MechanicAddOrderNotificationRet>{

@@ -8,9 +8,9 @@ import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.BeanAddPageInfo;
 import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
 import main.com.bsuir.autoservice.exception.ExceptionUnwrapper;
-import main.com.bsuir.autoservice.service.IServiceCrud;
 import main.com.bsuir.autoservice.service.exception.ServiceException;
-import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import main.com.bsuir.autoservice.service.impl.crud.ICrudService;
+import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 
 public class AddBeanCommand implements ICommand<BeanAddPageInfo, BeanAddPageInfo>{
 
@@ -23,10 +23,11 @@ public class AddBeanCommand implements ICommand<BeanAddPageInfo, BeanAddPageInfo
     @Override
     public BeanAddPageInfo execute(BeanAddPageInfo crudPageInfo) throws CommandException{
         try {
-            IServiceCrud serviceCrud = serviceUnitOfWork.getServiceCrudForBean(crudPageInfo.tableName);
+            ICrudService crudService = serviceUnitOfWork.getCrudService();
             Bean bean = databaseMap.getBeanInstance(crudPageInfo.tableName, crudPageInfo.fields);
-            serviceCrud.create(bean);
-            crudPageInfo.result = "Operation success";
+            crudPageInfo.result = crudService.create(crudPageInfo.tableName, bean)
+                    ? "Operation success"
+                    : "Operation failure";
             return crudPageInfo;
         }catch (ServiceException | BeanException e){
             //log

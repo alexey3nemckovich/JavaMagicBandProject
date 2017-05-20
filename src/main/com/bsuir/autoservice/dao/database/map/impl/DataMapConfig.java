@@ -3,14 +3,16 @@ package main.com.bsuir.autoservice.dao.database.map.impl;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import main.com.bsuir.autoservice.bean.Bean;
-import main.com.bsuir.autoservice.bean.BeanException;
+import main.com.bsuir.autoservice.bean.exception.BeanException;
 import main.com.bsuir.autoservice.binding.annotation.Cached;
 import main.com.bsuir.autoservice.config.exception.ConfigException;
 import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
 import main.com.bsuir.autoservice.dao.database.map.beanhelper.ColumnMap;
+import main.com.bsuir.autoservice.dao.database.map.beanhelper.DependencyMap;
 import main.com.bsuir.autoservice.dao.database.map.beanhelper.TableMap;
-import main.com.bsuir.autoservice.service.IServiceCrud;
+import main.com.bsuir.autoservice.dao.impl.ICrudDao;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -27,19 +29,20 @@ public class DataMapConfig implements IDatabaseMap {
     private static final String TAG_TABLE = "table";
 
     //tables subnodes
-    private static final String ATTRIBUTE_DATABASE_NAME = "database_name";
+    private static final String ATTRIBUTE_DATABASE_NAME = "database_table_name";
     private static final String ATTRIBUTE_BEAN_CLASS = "bean_class";
     private static final String ATTRIBUTE_SHOW_NAME = "show_name";
-    private static final String ATTRIBUTE_SERVICE_CRUD_NAME = "service_crud";
+    private static final String ATTRIBUTE_DAO_CRUD_NAME = "dao_crud";
 
     //table subnodes
+    private static final String TAG_COLUMN = "column";
     private static final String ATTRIBUTE_COLUMN_DATABASE_FIELD = "database_field";
     private static final String ATTRIBUTE_COLUMN_BEAN_FIELD = "bean_field";
 
     //column subnodes
-    private static final String TAG_DEPENDENCY = "dependency";
-    private static final String ATTRIBUTE_DEPENDENCY_TABLE_NAME = "dependency_table_name";
-    private static final String ATTRIBUTE_DEPENDENCY_FIELD_NAME = "dependency_field_name";
+    private static final String TAG_DEPENDENCIES = "dependencies";
+    private static final String ATTRIBUTE_DEPENDENCY_SHOW_NAME = "dependency_show_name";
+    private static final String ATTRIBUTE_DEPENDENCY_FIELD = "dependency_field";
 
     private final Document mapDocument;
 
@@ -82,7 +85,7 @@ public class DataMapConfig implements IDatabaseMap {
         if (namedAttribute != null) {
             return namedAttribute.getNodeValue();
         } else {
-            throw new RuntimeException(String.format("Not found attribute name %s in %s",
+            throw new IllegalArgumentException(String.format("Not found attribute name '%s' in '%s'",
                     attributeName, namedNodeMap.toString()));
         }
     }
@@ -92,15 +95,37 @@ public class DataMapConfig implements IDatabaseMap {
         return new TableMap(
                 getLoadBeanClass(getExistAttributeValue(namedNodeMap, ATTRIBUTE_BEAN_CLASS)),
                 getExistAttributeValue(namedNodeMap, ATTRIBUTE_DATABASE_NAME),
-                getExistAttributeValue(namedNodeMap, ATTRIBUTE_SHOW_NAME),
-                getTableColums(tableNode));
+                getTableColumns(tableNode),
+                getDependencies(tableNode));
     }
 
-    private List<ColumnMap> getTableColums(Node tableNode) {
+    private List<DependencyMap> getDependencies(Node tableNode) {
+        assert tableNode.getNodeType() == Node.ELEMENT_NODE : String.format("'%s' isn't element node", tableNode);
+        assert ((Element)tableNode).getElementsByTagName(TAG_DEPENDENCIES).getLength() <= 1 : String.format("'%s' is too big dependencies (>1)", tableNode);
+
+        final List<DependencyMap> dependencyMaps = new ArrayList<>();
+        final List<Node> dependencyTagNodes = asList(((Element)tableNode).getElementsByTagName(TAG_DEPENDENCIES));
+        if (dependencyTagNodes.size() == 1) {
+            final List<Node> dependencyNodes = asList(dependencyTagNodes.get(0).getChildNodes());
+
+            dependencyNodes.forEach(dependencyNode -> {
+                if (dependencyNode.getNodeType() == Node.ELEMENT_NODE && ((Element) dependencyNode).getTagName().equals(TAG_COLUMN)) {
+                    NamedNodeMap namedNodeMap = dependencyNode.getAttributes();
+                    dependencyMaps.add(new DependencyMap(
+                            getExistAttributeValue(namedNodeMap, ATTRIBUTE_DEPENDENCY_SHOW_NAME),
+                            getExistAttributeValue(namedNodeMap, ATTRIBUTE_DEPENDENCY_FIELD)
+                    ));
+                }
+            });
+        }
+        return dependencyMaps;
+    }
+
+    private List<ColumnMap> getTableColumns(Node tableNode) {
         final List<ColumnMap> columnMaps = new ArrayList<>();
         final List<Node> columnNodes = asList(tableNode.getChildNodes());
         columnNodes.forEach(columnNode -> {
-            if (columnNode.getNodeType() == Node.ELEMENT_NODE) {
+            if (columnNode.getNodeType() == Node.ELEMENT_NODE && ((Element)columnNode).getTagName().equals(TAG_COLUMN)) {
                 NamedNodeMap namedNodeMap = columnNode.getAttributes();
                 columnMaps.add(new ColumnMap(
                         getExistAttributeValue(namedNodeMap, ATTRIBUTE_COLUMN_DATABASE_FIELD),
@@ -115,26 +140,16 @@ public class DataMapConfig implements IDatabaseMap {
         return getLoadClass(beanClassName, Bean.class);
     }
 
-    private static Class<? extends IServiceCrud> getLoadServiceCrudClass(String serviceCrudClassName) {
-        return getLoadClass(serviceCrudClassName, IServiceCrud.class, "impl");
+    private static Class<? extends ICrudDao> getLoadDaoCrudClass(String daoCrudClassName) {
+        return getLoadClass(daoCrudClassName, ICrudDao.class);
     }
 
-    private static <T> Class<? extends T> getLoadClass(String className, Class<T> classType) {
-        return getLoadClass(className, classType, "");
-    }
-
-    private static <T> Class<? extends T> getLoadClass(String className, Class<T> classType, String nearestRoot) {
+    private static <T> Class<? extends T> getLoadClass(String classFullName, Class<T> classType) {
         try {
-            return Class.forName(String.format("%s.%s.%s", classType.getPackage().getName(), nearestRoot, className))
-                    .asSubclass(classType);
+            return Class.forName(classFullName).asSubclass(classType);
         } catch (Exception e) {
-            throw new RuntimeException(String.format("Not found class '%s' as type '%s'", className, classType), e);
+            throw new RuntimeException(String.format("Not found class '%s' as type '%s'", classFullName, classType), e);
         }
-    }
-
-    @Override
-    public TableMap getTableMap(String showTableName) {
-        return getTableMap(getShowTableNode(showTableName));
     }
 
     private Node getShowTableNode(String showTableName) {
@@ -143,16 +158,16 @@ public class DataMapConfig implements IDatabaseMap {
 
     //call 2 times, not need to cached
     @Override
-    public Map<String, Class<? extends IServiceCrud>> getShowTableNameServiceCrud() {
-        final Map<String, Class<? extends IServiceCrud>> showTableServiceCrudMap = new HashMap<>();
+    public Map<String, Class<? extends ICrudDao>> getShowTableNameDaoCrud() {
+        final Map<String, Class<? extends ICrudDao>> showTableDaoCrudMap = new HashMap<>();
         getTableNodes().forEach(node -> {
             Node tableName = node.getAttributes().getNamedItem(ATTRIBUTE_SHOW_NAME);
-            Node serviceName = node.getAttributes().getNamedItem(ATTRIBUTE_SERVICE_CRUD_NAME);
-            if (tableName != null && serviceName != null) {
-                showTableServiceCrudMap.put(tableName.getNodeValue(), getLoadServiceCrudClass(serviceName.getNodeValue()));
+            Node daoName = node.getAttributes().getNamedItem(ATTRIBUTE_DAO_CRUD_NAME);
+            if (tableName != null && daoName != null) {
+                showTableDaoCrudMap.put(tableName.getNodeValue(), getLoadDaoCrudClass(daoName.getNodeValue()));
             }
         });
-        return showTableServiceCrudMap;
+        return showTableDaoCrudMap;
     }
 
     @Cached
@@ -165,19 +180,45 @@ public class DataMapConfig implements IDatabaseMap {
         return showTableNamesBean;
     }
 
-    @Override
-    public Class<? extends Bean> getBeanClass(String showTableName) {
+    private Class<? extends Bean> getBeanClass(String showTableName) {
         return getShowTableNameBean().get(showTableName);
     }
 
     @Override
-    public Bean getBeanInstance(String showTableName, HashMap<String, String> fields) throws BeanException {
+    public <P> Bean<P> getBeanInstance(String showTableName, Map<String, String> fields) throws BeanException {
         return Bean.getBeanObject(getBeanClass(showTableName), fields);
+    }
+
+    @Override
+    public <P> Bean<P> getBeanInstance(String showTableName) throws BeanException {
+        return Bean.getBeanObject(getBeanClass(showTableName));
+    }
+
+    private Node getDaoClassNode(Class<? extends ICrudDao> daoClass) {
+        assert getCrudClassNodes().containsKey(daoClass) : String.format("'%s' didn't contains in databaseMap", daoClass);
+        return getCrudClassNodes().get(daoClass);
+    }
+
+    @Cached
+    protected Map<Class<? extends ICrudDao>, Node> getCrudClassNodes(){
+        Map<Class<? extends ICrudDao>, Node> crudClassMap = new HashMap<>();
+        getTableNodes().forEach(tableNode -> {
+            Node daoCrudName = tableNode.getAttributes().getNamedItem(ATTRIBUTE_DAO_CRUD_NAME);
+            if (daoCrudName != null) {
+                crudClassMap.put(getLoadDaoCrudClass(daoCrudName.getNodeValue()), tableNode);
+            }
+        });
+        return crudClassMap;
     }
 
     @Cached
     @Override
     public List<String> getShowTableNames() {
-        return new ArrayList<>(getShowTableNameServiceCrud().keySet());
+        return new ArrayList<>(getShowTableNameDaoCrud().keySet());
+    }
+
+    @Override
+    public TableMap getTableMap(Class<? extends ICrudDao> crudDaoClass) {
+        return getTableMap(getDaoClassNode(crudDaoClass));
     }
 }

@@ -1,35 +1,32 @@
-package main.com.bsuir.autoservice.dao.impl.ordered_service;
+package main.com.bsuir.autoservice.dao.impl.orderedservice;
 
 import com.google.inject.Inject;
-import main.com.bsuir.autoservice.bean.impl.ordered_service;
-import main.com.bsuir.autoservice.dao.impl.AbstractDaoCrud;
+import main.com.bsuir.autoservice.bean.impl.OrderedService;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
+import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
+import main.com.bsuir.autoservice.dao.impl.AbstractCrudDao;
 import main.com.bsuir.autoservice.dao.sql.ISql;
 
+import javax.lang.model.type.NullType;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class OrderedServiceDao extends AbstractDaoCrud<Integer, ordered_service> implements IOrderedServiceDao {
+public class OrderedServiceDao extends AbstractCrudDao<NullType, OrderedService> implements IOrderedServiceDao {
 
     @Inject
-    public OrderedServiceDao(IDatabase db, ISql sql) {
-        super(db, sql);
+    public OrderedServiceDao(IDatabase db, ISql sql, IDatabaseMap databaseMap) {
+        super(db, sql, databaseMap);
     }
 
     @Override
-    public String getTableName() {
-        return tableName;
-    }
-
-    @Override
-    public List<ordered_service> parseResultSet(ResultSet rs) throws DaoException {
-        LinkedList<ordered_service> result = new LinkedList<>();
+    public List<OrderedService> parseResultSet(ResultSet rs) throws DaoException {
+        LinkedList<OrderedService> result = new LinkedList<>();
         try {
             while (rs.next()) {
-                ordered_service bean = new ordered_service();
+                OrderedService bean = new OrderedService();
                 bean.setServiceId(rs.getInt("service_id"));
                 bean.setOrderId(rs.getInt("order_id"));
                 bean.setDate(rs.getDate("date"));
@@ -40,6 +37,4 @@ public class OrderedServiceDao extends AbstractDaoCrud<Integer, ordered_service>
         }
         return result;
     }
-
-    private final String tableName = "ordered_service";
 }

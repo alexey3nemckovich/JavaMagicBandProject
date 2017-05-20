@@ -1,7 +1,6 @@
-package main.com.bsuir.autoservice.service.impl;
+package main.com.bsuir.autoservice.service.impl.staff;
 
-import main.com.bsuir.autoservice.bean.impl.Staff;
-import main.com.bsuir.autoservice.service.IServiceCrud;
+import main.com.bsuir.autoservice.service.IService;
 
-public interface IStaffService extends IServiceCrud<Integer, Staff> {
+public interface IStaffService extends IService {
 }

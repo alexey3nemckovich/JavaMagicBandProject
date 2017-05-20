@@ -5,7 +5,7 @@ import main.com.bsuir.autoservice.command.AbstractSessionCommand;
 import main.com.bsuir.autoservice.command.param.PersonalAccountInformationInfo;
 import main.com.bsuir.autoservice.command.ret.PersonalAccountInformationRet;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
-import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 
 public class PersonalAccountInformationCommand extends AbstractSessionCommand<PersonalAccountInformationInfo,
         PersonalAccountInformationRet>{

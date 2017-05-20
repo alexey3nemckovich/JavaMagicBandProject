@@ -1,28 +1,26 @@
-package main.com.bsuir.autoservice.service;
+package main.com.bsuir.autoservice.service.impl.baseservice;
 
 import com.google.inject.Inject;
-import com.google.inject.Injector;
-import main.com.bsuir.autoservice.dao.database.IDatabase;
-import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
+import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
+import main.com.bsuir.autoservice.service.exception.ServiceException;
 
-import java.sql.SQLException;
 import java.util.List;
 
-public class BaseService implements IService{
+public class BaseService implements IBaseService {
 
     @Inject
-    public BaseService(Injector injector){
-        db = injector.getInstance(IDatabase.class);
+    public BaseService(IDatabaseMap databaseMap){
+        this.databaseMap = databaseMap;
     }
 
+    @Override
     public List<String> getListTableNames() throws ServiceException{
         try {
-            List<String> allDbTables = db.getListTableNames();
-            return allDbTables;
-        }catch (SQLException e){
+            return databaseMap.getShowTableNames();
+        }catch (Exception e){
             throw new ServiceException(e);
         }
     }
 
-    private final IDatabase db;
+    private final IDatabaseMap databaseMap;
 }
