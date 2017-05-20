@@ -8,17 +8,17 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Dependency {
+public class Dependency<V> {
 
-    public Dependency(String tableName, String name, Object value){
+    public Dependency(String tableName, String fieldName, V value){
         this.tableName = tableName;
-        this.name = name;
+        this.fieldName = fieldName;
         this.value = value;
     }
 
     public Map<String, String> getCondition(){
         Map<String, String> condition = new HashMap<>();
-        condition.put(name, value.toString());
+        condition.put(fieldName, value.toString());
         return condition;
     }
 
@@ -26,11 +26,11 @@ public class Dependency {
         return tableName;
     }
 
-    public String getName(){
-        return name;
+    public String getFieldName(){
+        return fieldName;
     }
 
-    public Object getValue(){
+    public V getValue(){
         return value;
     }
 
@@ -38,7 +38,7 @@ public class Dependency {
             throws UnsupportedEncodingException{
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("tableName", tableName);
-        jsonObject.put("name", name);
+        jsonObject.put("fieldName", fieldName);
         jsonObject.put("value", value);
         return URLEncoder.encode(jsonObject.toString(), "UTF-8");
     }
@@ -48,12 +48,12 @@ public class Dependency {
         JSONObject jsonObject = JsonParser.parseUrlEncodedJsonString(jsonString);
         return new Dependency(
                 jsonObject.getString("tableName"),
-                jsonObject.getString("name"),
+                jsonObject.getString("fieldName"),
                 jsonObject.get("value")
         );
     }
 
     public String tableName;
-    public String name;
-    public Object value;
+    public String fieldName;
+    public V value;
 }

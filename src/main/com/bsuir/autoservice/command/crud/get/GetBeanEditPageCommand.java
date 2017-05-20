@@ -1,16 +1,15 @@
 package main.com.bsuir.autoservice.command.crud.get;
 
 import com.google.inject.Inject;
-import main.com.bsuir.autoservice.binding.annotation.Default;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.BeanEditPageInfo;
-import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
+import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 
-public class GetBeanEditPageCommand implements ICommand<BeanEditPageInfo> {
+public class GetBeanEditPageCommand implements ICommand<BeanEditPageInfo, BeanEditPageInfo> {
 
     @Inject
-    public GetBeanEditPageCommand(@Default IServiceUnitOfWork serviceUnitOfWork){
+    public GetBeanEditPageCommand(IServiceUnitOfWork serviceUnitOfWork){
         this.serviceUnitOfWork = serviceUnitOfWork;
     }
 

@@ -5,7 +5,7 @@ import main.com.bsuir.autoservice.command.RequestParameter;
 import main.com.bsuir.autoservice.service.Dependency;
 
 import java.text.ParseException;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 
 public class BeanDependencyViewPageInfo extends BeanViewPageInfo implements ICommandParam{
@@ -17,7 +17,7 @@ public class BeanDependencyViewPageInfo extends BeanViewPageInfo implements ICom
     public Map<String, String[]> parse(Map<String, String[]> params)
         throws ParseException{
         try {
-            LinkedHashMap<String, String[]> mParams = new LinkedHashMap<String, String[]>(
+            Map<String, String[]> mParams = new HashMap<>(
                     super.parse(params, false)
             );
 

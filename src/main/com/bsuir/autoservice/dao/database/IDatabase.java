@@ -1,11 +1,13 @@
 package main.com.bsuir.autoservice.dao.database;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 public interface IDatabase {
-    Connection getConnection() throws SQLException;
-    void returnConnection(Connection connection) throws SQLException;
     List<String> getListTableNames() throws SQLException;
+    PreparedStatement getPrepareStatement(String sql) throws SQLException;
     String getName();
+    Statement createStatement() throws SQLException;
 }

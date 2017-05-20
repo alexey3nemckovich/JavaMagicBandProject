@@ -6,13 +6,14 @@ import main.com.bsuir.autoservice.command.RequestParameter;
 import main.com.bsuir.autoservice.library.json.JsonParser;
 
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class BeanAddPageInfo extends EditFormPageInfo implements ICommandParam{
 
     @RequestParameter
-    public LinkedHashMap<String, String> defaultValues;
+    public Map<String, String> defaultValues;
 
     @Inject
     public BeanAddPageInfo(){
@@ -29,7 +30,7 @@ public class BeanAddPageInfo extends EditFormPageInfo implements ICommandParam{
     protected Map<String, String[]> parse(Map<String, String[]> params, boolean passRemainderToFieldsMap)
         throws ParseException{
         try {
-            LinkedHashMap<String, String[]> mParams = new LinkedHashMap<>(
+            Map<String, String[]> mParams = new HashMap<>(
                     super.parse(params, false)
             );
 

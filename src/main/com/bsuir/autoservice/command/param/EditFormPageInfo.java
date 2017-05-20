@@ -5,7 +5,7 @@ import main.com.bsuir.autoservice.command.RequestParameter;
 import javax.inject.Inject;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +28,7 @@ public class EditFormPageInfo extends CrudPageInfo{
     @Override
     protected Map<String, String[]> parse(Map<String, String[]> params, boolean passRemainderToFieldsMap)
         throws ParseException{
-        LinkedHashMap<String, String[]> mParams = new LinkedHashMap<>(
+        Map<String, String[]> mParams = new HashMap<>(
                 super.parse(params, false)
         );
 

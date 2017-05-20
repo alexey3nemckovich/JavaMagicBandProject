@@ -6,18 +6,18 @@ import main.com.bsuir.autoservice.library.json.JsonParser;
 
 import javax.inject.Inject;
 import java.text.ParseException;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 
 public class BeanEditPageInfo extends EditFormPageInfo implements ICommandParam{
 
     @RequestParameter
-    public LinkedHashMap<String, String> oldFields;
+    public Map<String, String> oldFields;
 
     @Inject
     public BeanEditPageInfo(){
         super();
-        oldFields = new LinkedHashMap<>();
+        oldFields = new HashMap<>();
     }
 
     @Override
@@ -30,12 +30,12 @@ public class BeanEditPageInfo extends EditFormPageInfo implements ICommandParam{
     protected Map<String, String[]> parse(Map<String, String[]> params, boolean passRemainderToFieldsMap)
         throws ParseException{
         try {
-            LinkedHashMap<String, String[]> mParams = new LinkedHashMap<>(
+            Map<String, String[]> mParams = new HashMap<>(
                     super.parse(params, false)
             );
 
             if(!action.equals("get")){
-                oldFields = new LinkedHashMap<>(
+                oldFields = new HashMap<>(
                         JsonParser.parseJsonMap(mParams.get("oldValues")[0].toString())
                 );
                 mParams.remove("oldValues");
