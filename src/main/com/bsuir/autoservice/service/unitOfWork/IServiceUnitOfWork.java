@@ -18,10 +18,12 @@ import main.com.bsuir.autoservice.service.crud.impl.staff.IStaffService;
 import main.com.bsuir.autoservice.service.crud.impl.user.IUserService;
 
 import java.util.List;
+import main.com.bsuir.autoservice.service.IServiceCrud;
+import main.com.bsuir.autoservice.service.exception.ServiceException;
+import main.com.bsuir.autoservice.service.impl.*;
 
 public interface IServiceUnitOfWork {
-   IService getBaseService();
-
+   IBaseService getBaseService();
    IDiscountService getDiscountService();
    IDiscountUserService getDiscountUserService();
    INotificationService getNotificationService();

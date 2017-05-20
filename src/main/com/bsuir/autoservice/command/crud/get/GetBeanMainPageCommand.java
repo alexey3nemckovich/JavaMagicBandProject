@@ -1,7 +1,6 @@
 package main.com.bsuir.autoservice.command.crud.get;
 
 import com.google.inject.Inject;
-import main.com.bsuir.autoservice.binding.annotation.Default;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.BeanMainPageInfo;
@@ -11,10 +10,10 @@ import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetBeanMainPageCommand implements ICommand<BeanMainPageInfo> {
+public class GetBeanMainPageCommand implements ICommand<BeanMainPageInfo, BeanMainPageInfo> {
 
     @Inject
-    public GetBeanMainPageCommand(@Default IServiceUnitOfWork serviceUnitOfWork){
+    public GetBeanMainPageCommand(IServiceUnitOfWork serviceUnitOfWork){
         this.serviceUnitOfWork = serviceUnitOfWork;
     }
 

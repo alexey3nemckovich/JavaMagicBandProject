@@ -5,26 +5,31 @@ import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.bean.exception.BeanException;
 import main.com.bsuir.autoservice.binding.annotation.Default;
 import main.com.bsuir.autoservice.command.AbstractGetBeanPageCommand;
+import main.com.bsuir.autoservice.bean.BeanException;
 import main.com.bsuir.autoservice.command.ICommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.BeanViewPageInfo;
+import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
 import main.com.bsuir.autoservice.exception.ExceptionUnwrapper;
-import main.com.bsuir.autoservice.service.crud.IServiceCrud;
-import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
+import main.com.bsuir.autoservice.service.IServiceCrud;
+import main.com.bsuir.autoservice.service.exception.ServiceException;
 import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 
-public class DeleteBeanCommand extends AbstractGetBeanPageCommand implements ICommand<BeanViewPageInfo> {
+public class DeleteBeanCommand extends AbstractGetBeanPageCommand implements ICommand<BeanViewPageInfo, BeanViewPageInfo> {
+
+    private final IDatabaseMap databaseMap;
 
     @Inject
-    public DeleteBeanCommand(@Default IServiceUnitOfWork serviceUnitOfWork){
+    public DeleteBeanCommand(IServiceUnitOfWork serviceUnitOfWork, IDatabaseMap databaseMap){
         this.serviceUnitOfWork = serviceUnitOfWork;
+        this.databaseMap = databaseMap;
     }
 
     @Override
     public BeanViewPageInfo execute(BeanViewPageInfo beanViewPageInfo) throws CommandException {
         try {
             IServiceCrud serviceCrud = serviceUnitOfWork.getServiceCrudForBean(beanViewPageInfo.tableName);
-            Bean deleteBean = Bean.getBeanObject(beanViewPageInfo.tableName, beanViewPageInfo.fields);
+            Bean deleteBean = databaseMap.getBeanInstance(beanViewPageInfo.tableName, beanViewPageInfo.fields);
             serviceCrud.delete(deleteBean);
             beanViewPageInfo.result = "Operation success";
             readPage(beanViewPageInfo, serviceCrud);

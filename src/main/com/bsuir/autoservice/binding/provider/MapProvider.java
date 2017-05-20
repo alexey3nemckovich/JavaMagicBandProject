@@ -11,16 +11,20 @@ public abstract class MapProvider<A, B> implements Provider<Map<A, B>> {
 
     protected abstract void initMap(Injector injector);
 
+    protected Map<A,B> createBasicMap(Injector injector){
+        return new HashMap<>();
+    }
+
     @Inject
     protected MapProvider(Injector injector){
-        map = new HashMap<A, B>();
+        map = createBasicMap(injector);
         initMap(injector);
     }
 
     @Override
-    public Map<A, B> get(){
+    public final Map<A, B> get(){
         return map;
     }
 
-    protected final Map<A, B> map;
+    protected Map<A, B> map;
 }

@@ -14,6 +14,16 @@ public abstract class Bean {
     public abstract Field[] getFieldsOrdered() throws BeanException;
     public abstract Bean setFields(Map<String, String> fieldValues) throws BeanException;
 
+    public static Bean getBeanObject(Class<? extends Bean> beanClass, Map<String, String> fields) throws BeanException{
+        try {
+            Bean bean = beanClass.newInstance();
+            bean.setFields(fields);
+            return bean;
+        }catch (Exception e){
+            throw new BeanException(e);
+        }
+    }
+
     @Override
     public String toString(){
         try {
@@ -35,24 +45,9 @@ public abstract class Bean {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public static Bean getBeanObject(String beanName, Map<String, String> fields) throws BeanException{
+    public AbstractMap<String, String> getFieldValues() throws BeanException{
         try {
-            Class<? extends Bean> beanClass =
-                    (Class<? extends Bean>)Class.forName(
-                            Bean.class.getPackage().getName() + ".impl." + beanName
-                    );
-            Bean bean = beanClass.newInstance();
-            bean.setFields(fields);
-            return bean;
-        }catch (Exception e){
-            throw new BeanException(e);
-        }
-    }
-
-    public LinkedHashMap<String, String> getFieldValuesStrings() throws BeanException{
-        try {
-            LinkedHashMap<String, String> fieldValues = new LinkedHashMap<>();
+            AbstractMap<String, String> fieldValues = new HashMap<>();
             Field[] fields = getFieldsOrdered();
             Object fieldValue;
             for (Field field: fields) {
@@ -69,9 +64,9 @@ public abstract class Bean {
         }
     }
 
-    public LinkedHashMap<String, Object> getFieldValues() throws BeanException{
+    public AbstractMap<String, Object> getFieldValues() throws BeanException{
         try {
-            LinkedHashMap<String, Object> fieldValues = new LinkedHashMap<>();
+            AbstractMap<String, Object> fieldValues = new HashMap<>();
             Field[] fields = getFieldsOrdered();
             Object fieldValue;
             for (Field field: fields) {

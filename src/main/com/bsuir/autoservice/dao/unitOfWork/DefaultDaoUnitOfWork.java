@@ -1,7 +1,7 @@
 package main.com.bsuir.autoservice.dao.unitOfWork;
 
 import com.google.inject.Inject;
-import com.google.inject.Injector;
+import main.com.bsuir.autoservice.binding.annotation.FakeUOF;
 import main.com.bsuir.autoservice.dao.crud.impl.discount.IDiscountDao;
 import main.com.bsuir.autoservice.dao.crud.impl.discount_user.IDiscountUserDao;
 import main.com.bsuir.autoservice.dao.crud.impl.notification.INotificationDao;
@@ -32,20 +32,20 @@ public class DefaultDaoUnitOfWork implements IDaoUnitOfWork {
     private final IUserDao userDao;
 
     @Inject
-    public DefaultDaoUnitOfWork(Injector injector) {
-        discountDao = injector.getInstance(IDiscountDao.class);
-        discountUserDao = injector.getInstance(IDiscountUserDao.class);
-        notificationDao = injector.getInstance(INotificationDao.class);
-        orderDao = injector.getInstance(IOrderDao.class);
-        orderSparePartDao = injector.getInstance(IOrderSparePartDao.class);
-        orderedServiceDao = injector.getInstance(IOrderedServiceDao.class);
-        serviceDao = injector.getInstance(IServiceDao.class);
-        serviceShopDao = injector.getInstance(IServiceShopDao.class);
-        shareDao = injector.getInstance(IShareDao.class);
-        shareDiscountDao = injector.getInstance(IShareDiscountDao.class);
-        sparePartDao = injector.getInstance(ISparePartDao.class);
-        staffDao = injector.getInstance(IStaffDao.class);
-        userDao = injector.getInstance(IUserDao.class);
+    public DefaultDaoUnitOfWork(@FakeUOF IDaoUnitOfWork fakeDaoUOF) {
+        userDao = fakeDaoUOF.getUserDao();
+        orderDao = fakeDaoUOF.getOrderDao();
+        staffDao = fakeDaoUOF.getStaffDao();
+        discountDao = fakeDaoUOF.getDiscountDao();
+        discountUserDao = fakeDaoUOF.getDiscountUserDao();
+        notificationDao = fakeDaoUOF.getNotificationDao();
+        orderSparePartDao = fakeDaoUOF.getOrderSparePartDao();
+        orderedServiceDao = fakeDaoUOF.getOrderedServiceDao();
+        serviceDao = fakeDaoUOF.getServiceDao();
+        serviceShopDao = fakeDaoUOF.getServiceShopDao();
+        shareDao = fakeDaoUOF.getShareDao();
+        shareDiscountDao = fakeDaoUOF.getShareDiscountDao();
+        sparePartDao = fakeDaoUOF.getSparePartDao();
     }
 
     @Override
