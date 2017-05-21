@@ -12,12 +12,12 @@ import java.lang.reflect.Field;
 import java.util.Map;
 
 @SuppressWarnings("WeakerAccess")
-public abstract class AbstractPageController implements IController {
+public abstract class AbstractActionPageController implements IController {
 
     protected abstract String getJspName();
 
     @Inject
-    protected AbstractPageController(Map<String, Action> actionMap){
+    protected AbstractActionPageController(Map<String, Action> actionMap){
         this.actionMap = actionMap;
     }
 

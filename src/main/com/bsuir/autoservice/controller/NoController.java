@@ -7,7 +7,7 @@ import main.com.bsuir.autoservice.controller.action.Action;
 
 import java.util.Map;
 
-public class NoController extends AbstractPageController {
+public class NoController extends AbstractActionPageController {
     private final String errorJspPage;
 
     @Inject

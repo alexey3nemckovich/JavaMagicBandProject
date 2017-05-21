@@ -1,8 +1,3 @@
-<%@ page import="main.com.bsuir.autoservice.service.Dependency" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="java.util.LinkedHashMap" %>
-<%@ page import="main.com.bsuir.autoservice.bean.Bean" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="paginator" uri="/WEB-INF/tlds/Paginator" %>
 <%@ page contentType="text/html;charset=utf-8" language="java" %>

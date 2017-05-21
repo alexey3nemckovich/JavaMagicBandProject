@@ -2,12 +2,12 @@ package main.com.bsuir.autoservice.controller.bean;
 
 import com.google.inject.Inject;
 import main.com.bsuir.autoservice.binding.annotation.action.map.BeanDependencyViewActionMap;
-import main.com.bsuir.autoservice.controller.AbstractPageController;
+import main.com.bsuir.autoservice.controller.AbstractActionPageController;
 import main.com.bsuir.autoservice.controller.action.Action;
 
 import java.util.Map;
 
-public class BeanDependencyViewController extends AbstractPageController{
+public class BeanDependencyViewController extends AbstractActionPageController {
 
     @Inject
     private BeanDependencyViewController(@BeanDependencyViewActionMap Map<String, Action> actionMap){
