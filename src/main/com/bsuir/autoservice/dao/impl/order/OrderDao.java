@@ -6,7 +6,7 @@ import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.impl.AbstractCrudDao;
-import main.com.bsuir.autoservice.dao.sql.ISql;
+import main.com.bsuir.autoservice.dao.sql.IGeneralSql;
 import main.com.bsuir.autoservice.library.type.date.SimpleDate;
 
 import java.sql.ResultSet;
@@ -16,7 +16,7 @@ import java.util.List;
 public class OrderDao extends AbstractCrudDao<Integer, Order> implements IOrderDao {
 
     @Inject
-    public OrderDao(IDatabase db, ISql sql, IDatabaseMap databaseMap) {
+    public OrderDao(IDatabase db, IGeneralSql sql, IDatabaseMap databaseMap) {
         super(db, sql, databaseMap);
     }
 

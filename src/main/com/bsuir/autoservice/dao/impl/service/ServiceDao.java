@@ -6,7 +6,7 @@ import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.impl.AbstractCrudDao;
-import main.com.bsuir.autoservice.dao.sql.ISql;
+import main.com.bsuir.autoservice.dao.sql.IGeneralSql;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,7 +16,7 @@ import java.util.List;
 public class ServiceDao extends AbstractCrudDao<Integer, Service> implements IServiceDao {
 
     @Inject
-    public ServiceDao(IDatabase db, ISql sql, IDatabaseMap databaseMap) {
+    public ServiceDao(IDatabase db, IGeneralSql sql, IDatabaseMap databaseMap) {
         super(db, sql, databaseMap);
     }
 

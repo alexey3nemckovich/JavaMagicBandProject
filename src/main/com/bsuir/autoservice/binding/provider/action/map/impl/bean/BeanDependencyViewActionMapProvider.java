@@ -1,4 +1,4 @@
-package main.com.bsuir.autoservice.binding.provider.action.map.impl;
+package main.com.bsuir.autoservice.binding.provider.action.map.impl.bean;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;

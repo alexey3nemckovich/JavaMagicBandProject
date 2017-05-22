@@ -1,4 +1,4 @@
-package main.com.bsuir.autoservice.command;
+package main.com.bsuir.autoservice.command.crud;
 
 import main.com.bsuir.autoservice.command.param.BeanViewPageInfo;
 import main.com.bsuir.autoservice.service.exception.ServiceException;

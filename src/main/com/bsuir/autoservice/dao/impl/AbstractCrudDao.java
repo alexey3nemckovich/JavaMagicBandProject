@@ -7,7 +7,7 @@ import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
 import main.com.bsuir.autoservice.dao.database.map.beanhelper.DependencyMap;
 import main.com.bsuir.autoservice.dao.database.map.beanhelper.TableMap;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
-import main.com.bsuir.autoservice.dao.sql.ISql;
+import main.com.bsuir.autoservice.dao.sql.IGeneralSql;
 import main.com.bsuir.autoservice.library.function.CheckedSupplier;
 
 import java.sql.PreparedStatement;
@@ -19,13 +19,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractCrudDao<PrimaryKey, Entity extends Bean> implements ICrudDao<PrimaryKey, Entity> {
+public abstract class AbstractCrudDao<PrimaryKey, Entity extends Bean<PrimaryKey>> implements ICrudDao<PrimaryKey, Entity> {
 
     protected final TableMap tableMap;
 
     protected abstract List<Entity> parseResultSet(ResultSet rs) throws DaoException;
 
-    protected AbstractCrudDao(IDatabase db, ISql sql, IDatabaseMap databaseMap) {
+    protected AbstractCrudDao(IDatabase db, IGeneralSql sql, IDatabaseMap databaseMap) {
         this.db = db;
         this.sql = sql;
         this.tableMap = databaseMap.getTableMap((Class<? extends ICrudDao>) Arrays.asList(getClass().getInterfaces())
@@ -36,7 +36,7 @@ public abstract class AbstractCrudDao<PrimaryKey, Entity extends Bean> implement
     public int getCountRecords() throws DaoException {
         final String varName = "rowcount";
         try (PreparedStatement ps = db.getPrepareStatement(
-                sql.getSelectCountQuery(getFullTableName(), varName)
+                sql.getSelectCountQuery(getTableName(), varName)
         )) {
             try (ResultSet rs = ps.executeQuery()) {
                 rs.next();
@@ -50,7 +50,7 @@ public abstract class AbstractCrudDao<PrimaryKey, Entity extends Bean> implement
     @Override
     public List<Entity> read(Map<String, String> conditions) throws DaoException{
         try (PreparedStatement ps = db.getPrepareStatement(
-                    sql.getSelectWhereStatement(getFullTableName(), conditions)
+                    sql.getSelectWhereStatement(getTableName(), conditions)
             )){
             try (ResultSet rs = ps.executeQuery()) {
                 return parseResultSet(rs);
@@ -63,7 +63,7 @@ public abstract class AbstractCrudDao<PrimaryKey, Entity extends Bean> implement
     @Override
     public List<Entity> read(int startIndex, int count) throws DaoException {
         try (PreparedStatement ps = db.getPrepareStatement(
-                    sql.getSelectRangeQuery(getFullTableName(), startIndex, count))){
+                    sql.getSelectRangeQuery(getTableName(), startIndex, count))){
             try (ResultSet rs = ps.executeQuery()) {
                 return parseResultSet(rs);
             }
@@ -75,7 +75,7 @@ public abstract class AbstractCrudDao<PrimaryKey, Entity extends Bean> implement
     @Override
     public boolean update(Entity entity, Map<String, String> conditionValues) throws DaoException {
         try (PreparedStatement ps = db.getPrepareStatement(
-                sql.getUpdateQuery(getFullTableName(), conditionValues, entity.getFieldValuesStrings()))){
+                sql.getUpdateQuery(getTableName(), conditionValues, entity.getFieldValuesStrings()))){
             return completeOperationDisablingFkChecks(ps::execute);
         }catch (Exception e){
             throw new DaoException(e);
@@ -85,7 +85,7 @@ public abstract class AbstractCrudDao<PrimaryKey, Entity extends Bean> implement
     @Override
     public boolean delete(Entity entity) throws DaoException {
         try (PreparedStatement ps = db.getPrepareStatement(
-                sql.getDeleteQuery(getFullTableName(), entity.getFieldValuesStrings())
+                sql.getDeleteQuery(getTableName(), entity.getFieldValuesStrings())
         )) {
             return ps.execute();
         } catch (Exception e) {
@@ -109,7 +109,7 @@ public abstract class AbstractCrudDao<PrimaryKey, Entity extends Bean> implement
     @Override
     public boolean insert(Entity entity) throws DaoException {
         try (PreparedStatement ps = db.getPrepareStatement(
-                sql.getInsertQuery(getFullTableName(), getFillQueryValues(entity)))) {
+                sql.getInsertQuery(getTableName(), getFillQueryValues(entity)))) {
 
             return completeOperationDisablingFkChecks(ps::execute);
         } catch (Exception e) {
@@ -131,10 +131,6 @@ public abstract class AbstractCrudDao<PrimaryKey, Entity extends Bean> implement
         }
     }
 
-    private String getFullTableName(){
-        return String.format("`%s`.`%s`",db.getName(), getTableName());
-    }
-
     protected final String getTableName(){
         return tableMap.getTableName();
     }
@@ -146,6 +142,6 @@ public abstract class AbstractCrudDao<PrimaryKey, Entity extends Bean> implement
         }
     }
 
-    private final IDatabase db;
-    private final ISql sql;
+    protected final IDatabase db;
+    protected final IGeneralSql sql;
 }

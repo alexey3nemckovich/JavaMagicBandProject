@@ -14,4 +14,5 @@ public interface IDatabaseMap {
     Map<String, Class<? extends ICrudDao>> getShowTableNameDaoCrud();
     <P> Bean<P> getBeanInstance(String showTableName, Map<String, String> fields) throws BeanException;
     <P> Bean<P> getBeanInstance(String showTableName) throws BeanException;
+    String getDatabaseName();
 }

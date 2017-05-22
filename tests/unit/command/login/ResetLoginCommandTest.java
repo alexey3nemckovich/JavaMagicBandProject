@@ -1,8 +1,8 @@
-package unit.command.main;
+package unit.command.login;
 
 import general.service.MockService;
 import main.com.bsuir.autoservice.command.exception.CommandException;
-import main.com.bsuir.autoservice.command.main.ResetLoginCommand;
+import main.com.bsuir.autoservice.command.login.ResetLoginCommand;
 import main.com.bsuir.autoservice.command.param.ResetLoginInfo;
 import main.com.bsuir.autoservice.command.ret.ResetLoginRet;
 import main.com.bsuir.autoservice.service.exception.ServiceException;

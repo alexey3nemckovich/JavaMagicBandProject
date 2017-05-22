@@ -2,6 +2,7 @@ package main.com.bsuir.autoservice.infrastructure.session.impl;
 
 import com.google.inject.Inject;
 import com.google.inject.servlet.SessionScoped;
+import main.com.bsuir.autoservice.bean.impl.Staff;
 import main.com.bsuir.autoservice.config.permission.PermissionLevel;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
 import main.com.bsuir.autoservice.infrastructure.session.exception.SessionException;
@@ -94,11 +95,11 @@ public class CustomHttpSession implements IUserSession {
     }
 
     @Override
-    public synchronized void update(Integer userId, String userName, PermissionLevel userLevel) throws SessionException {
+    public synchronized void update(Integer userId, String userName, Staff.Specialization staffSpecialization) throws SessionException {
         try {
             setUserIdImpl(userId);
             setUserNameImpl(userName);
-            setUserLevelImpl(userLevel);
+            setUserLevelImpl(PermissionLevel.convertStaffPermission(staffSpecialization));
         } catch (Exception e) {
             throw new SessionException(e);
         }
@@ -120,6 +121,11 @@ public class CustomHttpSession implements IUserSession {
         }catch (Exception e){
             throw new SessionException(e);
         }
+    }
+
+    @Override
+    public boolean isAuthorized() throws SessionException {
+        return getUserName() != null;
     }
 
     private void setUserNameImpl(String userName) {

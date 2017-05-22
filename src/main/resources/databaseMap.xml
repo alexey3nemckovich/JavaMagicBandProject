@@ -3,7 +3,7 @@
 optional:
 1)show_name
  -->
-<tables>
+<tables database_name="auto_service_shop">
     <table database_table_name="user"
            bean_class="main.com.bsuir.autoservice.bean.impl.User"
            dao_crud="main.com.bsuir.autoservice.dao.impl.user.IUserDao"

@@ -59,11 +59,6 @@ public class SqlRequestDatabase implements IDatabase {
     }
 
     @Override
-    public String getName() {
-        return sqlDatabase.getName();
-    }
-
-    @Override
     public Statement createStatement() throws SQLException {
         return sqlDatabase.createStatement(getConnection());
     }

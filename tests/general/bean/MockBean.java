@@ -30,10 +30,12 @@ public class MockBean {
 
 
     public static final int MOCK_USER_ID = MockSession.MOCK_SESSION_ID;
+    public static final String MOCK_USER_NAME = "user_name";
 
     public static User getMockUser() {
         User user = mock(User.class);
         user.setId(MOCK_USER_ID);
+        user.setName(MOCK_USER_NAME);
         return user;
     }
 

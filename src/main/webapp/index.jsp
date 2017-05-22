@@ -17,8 +17,9 @@
         </div>
 
         <div style="text-align: center; margin: 10px;">
-            <a class="action-button" style="text-decoration: none;" href="<c:url value="bean.jsp"/>">To list of
-                tables</a>
+            <a class="action-button" style="text-decoration: none;" href="/bean.ass">
+                To list of tables
+            </a>
         </div>
     </jsp:body>
 </t:genericpage>

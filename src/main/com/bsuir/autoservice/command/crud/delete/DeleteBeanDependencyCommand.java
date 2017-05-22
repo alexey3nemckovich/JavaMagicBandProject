@@ -2,8 +2,8 @@ package main.com.bsuir.autoservice.command.crud.delete;
 
 import com.google.inject.Inject;
 import main.com.bsuir.autoservice.bean.Bean;
-import main.com.bsuir.autoservice.command.AbstractGetBeanPageCommand;
 import main.com.bsuir.autoservice.command.ICommand;
+import main.com.bsuir.autoservice.command.crud.AbstractGetBeanPageCommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.BeanDependencyViewPageInfo;
 import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;

@@ -8,6 +8,5 @@ import java.util.List;
 public interface IDatabase {
     List<String> getListTableNames() throws SQLException;
     PreparedStatement getPrepareStatement(String sql) throws SQLException;
-    String getName();
     Statement createStatement() throws SQLException;
 }

@@ -6,7 +6,7 @@ import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.impl.AbstractCrudDao;
-import main.com.bsuir.autoservice.dao.sql.ISql;
+import main.com.bsuir.autoservice.dao.sql.IGeneralSql;
 
 import javax.lang.model.type.NullType;
 import java.sql.ResultSet;
@@ -17,7 +17,7 @@ import java.util.List;
 public class DiscountUserDao extends AbstractCrudDao<NullType, DiscountUser> implements IDiscountUserDao {
 
     @Inject
-    public DiscountUserDao(IDatabase db, ISql sql, IDatabaseMap databaseMap) {
+    public DiscountUserDao(IDatabase db, IGeneralSql sql, IDatabaseMap databaseMap) {
         super(db, sql, databaseMap);
     }
 

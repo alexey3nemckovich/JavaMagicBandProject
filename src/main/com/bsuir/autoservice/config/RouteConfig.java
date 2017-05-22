@@ -6,6 +6,8 @@ import main.com.bsuir.autoservice.config.permission.PermissionAccessType;
 import main.com.bsuir.autoservice.config.permission.PermissionLevel;
 import main.com.bsuir.autoservice.controller.IController;
 import main.com.bsuir.autoservice.controller.bean.*;
+import main.com.bsuir.autoservice.controller.login.LoginController;
+import main.com.bsuir.autoservice.controller.login.LoginLoadController;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +30,17 @@ public class RouteConfig {
     }
 
     private void initGetRoute() {
+        initCrudPages();
+        intLoginPages();
+
+    }
+
+    private void intLoginPages() {
+        addControllerClassForUrlAction("/login/loadLogin", LoginLoadController.class);
+        addControllerClassForUrlAction("/login/checkLogin", LoginController.class);
+    }
+
+    private void initCrudPages() {
         // example add permissions
         addControllerClassForUrlAction("/bean", BeanController.class, PermissionLevel.GUEST);
         addControllerClassForUrlAction("/bean/add", BeanAddController.class);

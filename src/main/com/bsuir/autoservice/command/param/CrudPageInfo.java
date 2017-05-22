@@ -3,7 +3,6 @@ package main.com.bsuir.autoservice.command.param;
 import main.com.bsuir.autoservice.command.ICommandParam;
 import main.com.bsuir.autoservice.command.RequestParameter;
 
-import javax.inject.Inject;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -18,7 +17,6 @@ public class CrudPageInfo implements ICommandParam{
     public Map<String, String> fields;
     public String result;
 
-    @Inject
     public CrudPageInfo(){
         fields = new LinkedHashMap<>();
     }

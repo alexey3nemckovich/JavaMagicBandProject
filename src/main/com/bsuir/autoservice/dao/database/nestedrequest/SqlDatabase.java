@@ -27,11 +27,6 @@ public class SqlDatabase implements IDatabase {
         }
     }
 
-    @Override
-    public String getName(){
-        return "auto_service_shop";
-    }
-
     Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, login, password);
     }
