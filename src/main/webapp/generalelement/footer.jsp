@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <footer class="footer">
-    Footer
+    <p class="text-center">
+        &copy; 2017 by JavaMagicBand - Alex, Nik, Vova
+    </p>
 </footer>

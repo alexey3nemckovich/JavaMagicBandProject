@@ -1,3 +1,7 @@
 $(document).ready(function () {
-    $('#nav-bar-login').load("/login/loadLogin.ass");
+    loadLogin();
 });
+
+function loadLogin(){
+    $('#nav-bar-login').load("/login/loadLogin.ass");
+}

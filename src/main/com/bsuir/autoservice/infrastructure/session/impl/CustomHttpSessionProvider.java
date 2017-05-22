@@ -57,6 +57,11 @@ public class CustomHttpSessionProvider implements IUserSession {
     }
 
     @Override
+    public boolean clear() throws SessionException {
+        return getSession().clear();
+    }
+
+    @Override
     public String getUserName() throws SessionException {
         return getSession().getUserName();
     }

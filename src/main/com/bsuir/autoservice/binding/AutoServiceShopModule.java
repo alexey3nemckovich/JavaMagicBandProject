@@ -12,6 +12,7 @@ import main.com.bsuir.autoservice.binding.log4j.Log4JTypeListener;
 import main.com.bsuir.autoservice.binding.provider.CrudDaoFactoryProvider;
 import main.com.bsuir.autoservice.binding.provider.DatabaseNameProvider;
 import main.com.bsuir.autoservice.binding.provider.PermissionProvider;
+import main.com.bsuir.autoservice.binding.provider.action.map.impl.LogoutActionMapProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.NoActionMapProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.bean.*;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.login.LoginActionMapProvider;
@@ -213,7 +214,8 @@ public abstract class AutoServiceShopModule extends ServletModule {
                 bind(getActionMapType()).annotatedWith(BeanDependencyAddActionMap.class).toProvider(BeanDependencyAddActionMapProvider.class),
                 bind(getActionMapType()).annotatedWith(LoginLoadActionMap.class).toProvider(LoginLoadActionMapProvider.class),
                 bind(getActionMapType()).annotatedWith(LoginActionMap.class).toProvider(LoginActionMapProvider.class),
-                bind(getActionMapType()).annotatedWith(NoActionMap.class).toProvider(NoActionMapProvider.class)
+                bind(getActionMapType()).annotatedWith(NoActionMap.class).toProvider(NoActionMapProvider.class),
+                bind(getActionMapType()).annotatedWith(LogoutActionMap.class).toProvider(LogoutActionMapProvider.class)
         );
     }
 

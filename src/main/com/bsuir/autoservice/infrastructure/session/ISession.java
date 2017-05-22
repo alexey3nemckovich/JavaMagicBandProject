@@ -12,6 +12,7 @@ public interface ISession<UserIdType, StaffLevel>{
     StaffLevel getStaffLevel() throws SessionException;
     void setStaffLevel(StaffLevel staffLevel) throws SessionException;
     void update(UserIdType userId, String userName, Staff.Specialization staffSpecialization) throws SessionException;
+    boolean clear() throws SessionException;
     String getUserName() throws SessionException;
     void setUserName(String userName) throws SessionException;
     boolean isAuthorized() throws SessionException;

@@ -8,6 +8,7 @@ import main.com.bsuir.autoservice.controller.IController;
 import main.com.bsuir.autoservice.controller.bean.*;
 import main.com.bsuir.autoservice.controller.login.LoginController;
 import main.com.bsuir.autoservice.controller.login.LoginLoadController;
+import main.com.bsuir.autoservice.controller.login.LogoutController;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +39,7 @@ public class RouteConfig {
     private void intLoginPages() {
         addControllerClassForUrlAction("/login/loadLogin", LoginLoadController.class);
         addControllerClassForUrlAction("/login/checkLogin", LoginController.class);
+        addControllerClassForUrlAction("/login/logout", LogoutController.class);
     }
 
     private void initCrudPages() {

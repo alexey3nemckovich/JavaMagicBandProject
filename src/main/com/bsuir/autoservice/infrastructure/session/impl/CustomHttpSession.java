@@ -9,7 +9,6 @@ import main.com.bsuir.autoservice.infrastructure.session.exception.SessionExcept
 
 import javax.servlet.http.HttpSession;
 
-// TODO: make user_level and staff_level at once
 @SessionScoped
 public class CustomHttpSession implements IUserSession {
     private final HttpSession httpSession;
@@ -100,6 +99,16 @@ public class CustomHttpSession implements IUserSession {
             setUserIdImpl(userId);
             setUserNameImpl(userName);
             setUserLevelImpl(PermissionLevel.convertStaffPermission(staffSpecialization));
+        } catch (Exception e) {
+            throw new SessionException(e);
+        }
+    }
+
+    @Override
+    public boolean clear() throws SessionException {
+        try {
+            httpSession.invalidate();
+            return true;
         } catch (Exception e) {
             throw new SessionException(e);
         }

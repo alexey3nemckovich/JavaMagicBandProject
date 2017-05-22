@@ -5,19 +5,32 @@
     <c:when test="${isAuthorized}">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <div>
-                    <c:out value="${userName}"/>
-                </div>
+                <button style="padding: 12px" class="btn btn-block align-middle" type="button"> User : <c:out value="${userName}"/></button>
             </li>
             <li>
-                <a href="#">
+                <button type="button" class="btn" id = "nav-logout">
                     <span class="glyphicon glyphicon-log-out"></span> Logout
-                </a>
+                </button>
+
+                <script>
+                    $(document).ready(function () {
+                        $("#nav-logout").click(function () {
+                            $.get("/login/logout.ass", {},
+                                function (data) {
+                                    if (data.isLogout) {
+                                        location.reload();
+                                    } else {
+                                        alert("Problem with logout");
+                                    }
+                                }, "json");
+                        });
+                    });
+                </script>
             </li>
         </ul>
     </c:when>
     <c:otherwise>
-        <form class="navbar-form navbar-right" action="/login/checkLogin.ass">
+        <form class="navbar-form navbar-right" id="nav-login-form">
             <div class="form-group">
                 <input type="text" class="form-control" name="login" placeholder="Login"/>
                 <input type="text" class="form-control" name="password" placeholder="Password"/>
@@ -25,5 +38,22 @@
             <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-log-in"></span> Login
             </button>
         </form>
+
+        <script>
+            $(document).ready(function () {
+                $("#nav-login-form").submit(function () {
+                    $.get("/login/checkLogin.ass",
+                        $("#nav-login-form").serialize(),
+                        function (data) {
+                            if (data.isAuthorized) {
+                                loadLogin();
+                            } else {
+                                alert('Not login');
+                            }
+                        }, "json");
+                });
+            });
+            action = "/login/checkLogin.ass"
+        </script>
     </c:otherwise>
 </c:choose>
