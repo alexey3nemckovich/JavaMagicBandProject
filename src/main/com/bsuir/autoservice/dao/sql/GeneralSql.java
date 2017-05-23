@@ -28,7 +28,7 @@ public class GeneralSql implements IGeneralSql {
 
     @Override
     public String getSelectAllQuery(String tableName){
-        return " SELECT * FROM " + getFullTableName(tableName);
+        return String.format("SELECT * FROM %s", getFullTableName(tableName));
     }
 
     @Override
@@ -41,8 +41,8 @@ public class GeneralSql implements IGeneralSql {
         return getSelectNamedQuery(tableName, namedResults) + getWhereStatement(conditions);
     }
 
-    private String getSelectNamedQuery(String tableName, Map<String, String> namedResults){
-
+    @Override
+    public String getSelectNamedQuery(String tableName, Map<String, String> namedResults){
         return String.format("SELECT %s FROM %s", getNamedStatement(namedResults), getFullTableName(tableName));
     }
 

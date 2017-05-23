@@ -8,6 +8,7 @@ public interface IGeneralSql {
     String getSetForeignKeyChecksStatement(int mode);
     //select queries
     String getSelectAllQuery(String tableName);
+    String getSelectNamedQuery(String tableName, Map<String, String> namedResult);
     String getSelectCountQuery(String tableName, String varName);
     String getSelectRangeQuery(String tableName, int startIndex, int count);
     String getSelectWhereStatement(String tableName, Map<String, String> conditions);

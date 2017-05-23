@@ -2,7 +2,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<t:genericpage titleName="AutoServiceShop">
+<t:genericpage titleName="Personal account">
     <jsp:attribute name="headExtra">
     <link rel="stylesheet" href="<c:url value="/css/text.css"/>">
     <link rel="stylesheet" href="<c:url value="/css/reference.css"/>">
@@ -12,16 +12,18 @@
 
     <jsp:body>
         <div class="site-header">
-            AutoServiceShop
+            AutoServiceShop Profile
         </div>
 
-        <div class="user-container" id="general-information">
-
+        <div id="user-container">
+            <div id="general_information">
+                General information
+            </div>
         </div>
 
         <script>
             $(document).ready(function () {
-               $("#general-information").load("/indexLoad.ass");
+                $("#user-container").load("/account/generalInformation.ass");
             });
         </script>
     </jsp:body>

@@ -18,11 +18,10 @@ public class GeneralInformationCommand implements ICommand<GeneralInformationInf
     @Override
     public GeneralInformationRet execute(GeneralInformationInfo param) throws CommandException {
         try {
-            //TODO: get only important information for page
             return new GeneralInformationRet(
                     serviceUnitOfWork.getServiceBeanService().getAvailableServices(),
                     serviceUnitOfWork.getShareService().getActiveShares());
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new CommandException(e);
         }
     }

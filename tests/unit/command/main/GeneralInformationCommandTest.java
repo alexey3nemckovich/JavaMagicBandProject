@@ -1,13 +1,13 @@
 package unit.command.main;
 
-import general.bean.MockBean;
+import general.dto.MockDTO;
 import general.service.MockService;
-import main.com.bsuir.autoservice.bean.impl.Service;
-import main.com.bsuir.autoservice.bean.impl.Share;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.main.GeneralInformationCommand;
 import main.com.bsuir.autoservice.command.param.GeneralInformationInfo;
 import main.com.bsuir.autoservice.command.ret.GeneralInformationRet;
+import main.com.bsuir.autoservice.dto.ServiceAvailableDTO;
+import main.com.bsuir.autoservice.dto.ShareActiveDTO;
 import main.com.bsuir.autoservice.service.exception.ServiceException;
 import main.com.bsuir.autoservice.service.impl.service.IServiceBeanService;
 import main.com.bsuir.autoservice.service.impl.share.IShareService;
@@ -59,27 +59,27 @@ public class GeneralInformationCommandTest {
         return mock(GeneralInformationInfo.class);
     }
 
-    private static List<Service> getMockAvailableServices(){
-        return new ArrayList<Service>(){{
-               add(MockBean.getMockService());
+    private static List<ServiceAvailableDTO> getMockAvailableServices(){
+        return new ArrayList<ServiceAvailableDTO>(){{
+               add(MockDTO.getMockServiceAvailableDTO());
             }};
     }
 
-    private static List<Share> getMockActiveShares(){
-        return new ArrayList<Share>(){{
-            add(MockBean.getMockShare());
+    private static List<ShareActiveDTO> getMockActiveShares(){
+        return new ArrayList<ShareActiveDTO>(){{
+            add(MockDTO.getMockActiveSharesDTO());
         }};
     }
 
-    private static GeneralInformationRet getTestGeneralInformationRet(List<Service> availableServices,
-                                                                      List<Share> activeShares){
+    private static GeneralInformationRet getTestGeneralInformationRet(List<ServiceAvailableDTO> availableServices,
+                                                                      List<ShareActiveDTO> activeShares){
         return new GeneralInformationRet(availableServices, activeShares);
     }
 
     @Test
     public void getGeneralInformationAll() throws CommandException, ServiceException {
-        List<Service> mockAvailableServices = getMockAvailableServices();
-        List<Share> mockActiveShares = getMockActiveShares();
+        List<ServiceAvailableDTO> mockAvailableServices = getMockAvailableServices();
+        List<ShareActiveDTO> mockActiveShares = getMockActiveShares();
         when(serviceBeanService.getAvailableServices()).thenReturn(mockAvailableServices);
         when(shareService.getActiveShares()).thenReturn(mockActiveShares);
         assertEquals(generalInformationCommand.execute(getGeneralInformationInfo()),

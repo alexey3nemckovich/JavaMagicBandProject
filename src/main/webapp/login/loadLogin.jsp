@@ -1,11 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@page contentType="text/html" pageEncoding="UTF-8" language="java" %>
 
 <c:choose>
     <c:when test="${isAuthorized}">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <button style="padding: 12px" class="btn btn-block align-middle" type="button"> User : <c:out value="${userName}"/></button>
+                <button style="padding: 12px" class="btn btn-block align-middle" type="button" id="nav-user-enter"> User : ${userName}</button>
             </li>
             <li>
                 <button type="button" class="btn" id = "nav-logout">
@@ -15,14 +15,18 @@
                 <script>
                     $(document).ready(function () {
                         $("#nav-logout").click(function () {
-                            $.get("/login/logout.ass", {},
+                            $.post("/login/logout.ass", {},
                                 function (data) {
-                                    if (data.isLogout) {
+                                    if (data.isLogout[0]) {
                                         location.reload();
                                     } else {
                                         alert("Problem with logout");
                                     }
                                 }, "json");
+                        });
+
+                        $("#nav-user-enter").click(function () {
+                            $('body').load("/account/user.ass");
                         });
                     });
                 </script>
@@ -32,8 +36,8 @@
     <c:otherwise>
         <form class="navbar-form navbar-right" id="nav-login-form">
             <div class="form-group">
-                <input type="text" class="form-control" name="login" placeholder="Login"/>
-                <input type="text" class="form-control" name="password" placeholder="Password"/>
+                <input type="text" class="form-control nav-login" name="login" placeholder="Login"/>
+                <input type="password" class="form-control nav-login" name="password" placeholder="Password"/>
             </div>
             <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-log-in"></span> Login
             </button>
@@ -41,19 +45,31 @@
 
         <script>
             $(document).ready(function () {
-                $("#nav-login-form").submit(function () {
-                    $.get("/login/checkLogin.ass",
-                        $("#nav-login-form").serialize(),
+
+                var $nav_login_form = $("#nav-login-form");
+
+                $('.nav-login').keypress(function (e) {
+                    if (e.which == 13) {
+                        $nav_login_form.submit();
+                        return false;
+                    }
+                });
+
+
+                $nav_login_form.submit(function (event) {
+                    event.preventDefault();
+
+                    $.post("/login/checkLogin.ass",
+                        $nav_login_form.serialize(),
                         function (data) {
-                            if (data.isAuthorized) {
+                            if (data.isAuthorized[0]) {
                                 loadLogin();
                             } else {
-                                alert('Not login');
+                                $('body').load("/login/loginPage.ass");
                             }
                         }, "json");
                 });
             });
-            action = "/login/checkLogin.ass"
         </script>
     </c:otherwise>
 </c:choose>

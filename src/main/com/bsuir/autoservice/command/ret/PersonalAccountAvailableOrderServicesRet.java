@@ -1,21 +1,21 @@
 package main.com.bsuir.autoservice.command.ret;
 
-import main.com.bsuir.autoservice.bean.impl.Service;
 import main.com.bsuir.autoservice.bean.impl.Share;
+import main.com.bsuir.autoservice.dto.ServiceAvailableDTO;
 
 import java.util.List;
 import java.util.Objects;
 
 public class PersonalAccountAvailableOrderServicesRet {
-    private final List<Service> availableServices;
+    private final List<ServiceAvailableDTO> availableServices;
     private final List<Share> activeAccountShares;
 
-    public PersonalAccountAvailableOrderServicesRet(List<Service> availableServices, List<Share> activeAccountShares) {
+    public PersonalAccountAvailableOrderServicesRet(List<ServiceAvailableDTO> availableServices, List<Share> activeAccountShares) {
         this.availableServices = availableServices;
         this.activeAccountShares = activeAccountShares;
     }
 
-    public List<Service> getAvailableServices() {
+    public List<ServiceAvailableDTO> getAvailableServices() {
         return availableServices;
     }
 

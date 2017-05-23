@@ -7,13 +7,18 @@ import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.impl.AbstractCrudDao;
 import main.com.bsuir.autoservice.dao.sql.IGeneralSql;
+import main.com.bsuir.autoservice.dto.ServiceAvailableDTO;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class ServiceDao extends AbstractCrudDao<Integer, Service> implements IServiceDao {
+
+    private static final String SERVICE_ID = "id";
+    private static final String SERVICE_NAME = "name";
+    private static final String SERVICE_COST = "cost";
 
     @Inject
     public ServiceDao(IDatabase db, IGeneralSql sql, IDatabaseMap databaseMap) {
@@ -22,18 +27,38 @@ public class ServiceDao extends AbstractCrudDao<Integer, Service> implements ISe
 
     @Override
     public List<Service> parseResultSet(ResultSet rs) throws DaoException {
-        LinkedList<Service> result = new LinkedList<>();
+        List<Service> result = new LinkedList<>();
         try {
             while (rs.next()) {
                 Service bean = new Service();
-                bean.setId(rs.getInt("id"));
-                bean.setName(rs.getString("name"));
-                bean.setCost(rs.getInt("cost"));
+                bean.setId(rs.getInt(SERVICE_ID));
+                bean.setName(rs.getString(SERVICE_NAME));
+                bean.setCost(rs.getInt(SERVICE_COST));
                 result.add(bean);
             }
+            return result;
         } catch (SQLException e) {
             throw new DaoException(e);
         }
-        return result;
+    }
+
+    @Override
+    public List<ServiceAvailableDTO> getAvailable() throws DaoException {
+        final Map<String, String> namedResult = new HashMap<String, String>(){{
+            put(SERVICE_NAME, SERVICE_NAME);
+            put(SERVICE_COST, SERVICE_COST);
+        }};
+
+        try (PreparedStatement ps = db.getPrepareStatement(sql.getSelectNamedQuery(getTableName(), namedResult))) {
+            try (ResultSet rs = ps.executeQuery()) {
+                return new ArrayList<ServiceAvailableDTO>(){{
+                    while (rs.next()) {
+                        add(new ServiceAvailableDTO(rs.getString(SERVICE_NAME), rs.getInt(SERVICE_COST)));
+                    }
+                }};
+            }
+        } catch (Exception e) {
+            throw new DaoException(e);
+        }
     }
 }

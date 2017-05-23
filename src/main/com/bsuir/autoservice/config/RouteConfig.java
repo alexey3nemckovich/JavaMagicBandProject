@@ -5,10 +5,14 @@ import main.com.bsuir.autoservice.config.permission.Permission;
 import main.com.bsuir.autoservice.config.permission.PermissionAccessType;
 import main.com.bsuir.autoservice.config.permission.PermissionLevel;
 import main.com.bsuir.autoservice.controller.IController;
+import main.com.bsuir.autoservice.controller.account.AccountUserLoadController;
 import main.com.bsuir.autoservice.controller.bean.*;
 import main.com.bsuir.autoservice.controller.login.LoginController;
 import main.com.bsuir.autoservice.controller.login.LoginLoadController;
+import main.com.bsuir.autoservice.controller.login.LoginPageController;
 import main.com.bsuir.autoservice.controller.login.LogoutController;
+import main.com.bsuir.autoservice.controller.main.GeneralInformationController;
+import main.com.bsuir.autoservice.controller.main.MainLoadController;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,15 +35,30 @@ public class RouteConfig {
     }
 
     private void initGetRoute() {
+        initMainPages();
         initCrudPages();
-        intLoginPages();
-
+        initLoginPages();
+        initAccountPages();
     }
 
-    private void intLoginPages() {
+    private void initMainPages() {
+        addControllerClassForUrlAction("/index", MainLoadController.class);
+        addControllerClassForUrlAction("/indexLoad", GeneralInformationController.class);
+    }
+
+    private void initAccountPages() {
+        initUserPages();
+    }
+
+    private void initUserPages() {
+        addControllerClassForUrlAction("/account/user", AccountUserLoadController.class, PermissionLevel.USER);
+    }
+
+    private void initLoginPages() {
         addControllerClassForUrlAction("/login/loadLogin", LoginLoadController.class);
         addControllerClassForUrlAction("/login/checkLogin", LoginController.class);
         addControllerClassForUrlAction("/login/logout", LogoutController.class);
+        addControllerClassForUrlAction("/login/loginPage", LoginPageController.class);
     }
 
     private void initCrudPages() {

@@ -12,11 +12,11 @@ import main.com.bsuir.autoservice.binding.log4j.Log4JTypeListener;
 import main.com.bsuir.autoservice.binding.provider.CrudDaoFactoryProvider;
 import main.com.bsuir.autoservice.binding.provider.DatabaseNameProvider;
 import main.com.bsuir.autoservice.binding.provider.PermissionProvider;
-import main.com.bsuir.autoservice.binding.provider.action.map.impl.LogoutActionMapProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.NoActionMapProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.bean.*;
-import main.com.bsuir.autoservice.binding.provider.action.map.impl.login.LoginActionMapProvider;
-import main.com.bsuir.autoservice.binding.provider.action.map.impl.login.LoginLoadActionMapProvider;
+import main.com.bsuir.autoservice.binding.provider.action.map.impl.login.*;
+import main.com.bsuir.autoservice.binding.provider.action.map.impl.main.GeneralInformationActionMapProvider;
+import main.com.bsuir.autoservice.binding.provider.action.map.impl.main.MainLoadActionMapProvider;
 import main.com.bsuir.autoservice.binding.provider.fakeUOF.FakeDaoUOFProvider;
 import main.com.bsuir.autoservice.binding.provider.fakeUOF.FakeServiceUOFProvider;
 import main.com.bsuir.autoservice.binding.provider.impl.ControllerMapProvider;
@@ -28,15 +28,22 @@ import main.com.bsuir.autoservice.command.crud.edit.EditBeanCommand;
 import main.com.bsuir.autoservice.command.crud.get.*;
 import main.com.bsuir.autoservice.command.login.LoginCommand;
 import main.com.bsuir.autoservice.command.login.LoginLoadCommand;
+import main.com.bsuir.autoservice.command.login.LogoutCommand;
+import main.com.bsuir.autoservice.command.main.GeneralInformationCommand;
 import main.com.bsuir.autoservice.config.RouteConfig;
 import main.com.bsuir.autoservice.config.database.impl.sql.ISqlConfigDatabase;
 import main.com.bsuir.autoservice.config.database.impl.sql.impl.SqlConfigDatabase;
 import main.com.bsuir.autoservice.config.permission.Permission;
 import main.com.bsuir.autoservice.controller.IController;
 import main.com.bsuir.autoservice.controller.NoController;
+import main.com.bsuir.autoservice.controller.account.AccountUserLoadController;
 import main.com.bsuir.autoservice.controller.action.Action;
 import main.com.bsuir.autoservice.controller.bean.*;
 import main.com.bsuir.autoservice.controller.login.LoginLoadController;
+import main.com.bsuir.autoservice.controller.login.LoginPageController;
+import main.com.bsuir.autoservice.controller.login.LogoutController;
+import main.com.bsuir.autoservice.controller.main.GeneralInformationController;
+import main.com.bsuir.autoservice.controller.main.MainLoadController;
 import main.com.bsuir.autoservice.controller.provider.ControllerProvider;
 import main.com.bsuir.autoservice.controller.provider.IControllerProvider;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
@@ -215,7 +222,11 @@ public abstract class AutoServiceShopModule extends ServletModule {
                 bind(getActionMapType()).annotatedWith(LoginLoadActionMap.class).toProvider(LoginLoadActionMapProvider.class),
                 bind(getActionMapType()).annotatedWith(LoginActionMap.class).toProvider(LoginActionMapProvider.class),
                 bind(getActionMapType()).annotatedWith(NoActionMap.class).toProvider(NoActionMapProvider.class),
-                bind(getActionMapType()).annotatedWith(LogoutActionMap.class).toProvider(LogoutActionMapProvider.class)
+                bind(getActionMapType()).annotatedWith(LogoutActionMap.class).toProvider(LogoutActionMapProvider.class),
+                bind(getActionMapType()).annotatedWith(AccountUserLoadActionMap.class).toProvider(AccountUserLoadActionMapProvider.class),
+                bind(getActionMapType()).annotatedWith(LoginPageActionMap.class).toProvider(LoginPageActionMapProvider.class),
+                bind(getActionMapType()).annotatedWith(GeneralInformationActionMap.class).toProvider(GeneralInformationActionMapProvider.class),
+                bind(getActionMapType()).annotatedWith(MainLoadActionMap.class).toProvider(MainLoadActionMapProvider.class)
         );
     }
 
@@ -229,12 +240,20 @@ public abstract class AutoServiceShopModule extends ServletModule {
                 bind(BeanDependencyEditController.class),
                 bind(BeanDependencyAddController.class),
                 bind(LoginLoadController.class),
-                bind(NoController.class)
+                bind(LogoutController.class),
+                bind(NoController.class),
+                bind(AccountUserLoadController.class),
+                bind(LoginPageController.class),
+                bind(GeneralInformationController.class)
         );
     }
 
     private void bindCommand() {
         bindSingletons(
+                //main
+                bind(GeneralInformationCommand.class),
+                bind(MainLoadController.class),
+
                 //get
                 bind(GetBeanAddPageCommand.class),
                 bind(GetBeanViewPageCommand.class),
@@ -252,6 +271,7 @@ public abstract class AutoServiceShopModule extends ServletModule {
                 //login
                 bind(LoginLoadCommand.class),
                 bind(LoginCommand.class),
+                bind(LogoutCommand.class),
 
                 bind(NoCommand.class)
         );
