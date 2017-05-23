@@ -14,6 +14,8 @@ import main.com.bsuir.autoservice.binding.provider.DatabaseNameProvider;
 import main.com.bsuir.autoservice.binding.provider.PermissionProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.NoActionMapProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.account.PersonalAccountInformationActionMapProvider;
+import main.com.bsuir.autoservice.binding.provider.action.map.impl.account.PersonalAccountRestorePassActionMapProvider;
+import main.com.bsuir.autoservice.binding.provider.action.map.impl.account.PersonalAccountRestorePassLoadActionMapProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.account.PersonalAccountUpdateGeneralInformationProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.bean.*;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.login.*;
@@ -23,6 +25,7 @@ import main.com.bsuir.autoservice.binding.provider.fakeUOF.FakeDaoUOFProvider;
 import main.com.bsuir.autoservice.binding.provider.fakeUOF.FakeServiceUOFProvider;
 import main.com.bsuir.autoservice.binding.provider.impl.ControllerMapProvider;
 import main.com.bsuir.autoservice.command.NoCommand;
+import main.com.bsuir.autoservice.command.account.PersonalAccountRestorePassCommand;
 import main.com.bsuir.autoservice.command.crud.add.AddBeanCommand;
 import main.com.bsuir.autoservice.command.crud.delete.DeleteBeanCommand;
 import main.com.bsuir.autoservice.command.crud.delete.DeleteBeanDependencyCommand;
@@ -91,6 +94,8 @@ import main.com.bsuir.autoservice.infrastructure.cache.impl.MethodCache;
 import main.com.bsuir.autoservice.infrastructure.interceptor.CacheInterceptor;
 import main.com.bsuir.autoservice.infrastructure.interceptor.TransactionInterceptor;
 import main.com.bsuir.autoservice.infrastructure.listener.DatabaseConnectionListener;
+import main.com.bsuir.autoservice.infrastructure.security.password.IPassword;
+import main.com.bsuir.autoservice.infrastructure.security.password.NoPassword;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
 import main.com.bsuir.autoservice.infrastructure.session.impl.CustomHttpSession;
 import main.com.bsuir.autoservice.infrastructure.session.impl.CustomHttpSessionProvider;
@@ -151,7 +156,12 @@ public abstract class AutoServiceShopModule extends ServletModule {
         bindSession();
         bindListener();
         bindTransaction();
+        bindSecurity();
         bindCache();
+    }
+
+    private void bindSecurity() {
+        bind(IPassword.class).to(NoPassword.class).in(Singleton.class);
     }
 
     private void bindCache() {
@@ -238,7 +248,9 @@ public abstract class AutoServiceShopModule extends ServletModule {
                 createActionMapBuilder(GeneralInformationActionMap.class,GeneralInformationActionMapProvider.class),
                 createActionMapBuilder(MainLoadActionMap.class,MainLoadActionMapProvider.class),
                 createActionMapBuilder(PersonalAccountInformationActionMap.class, PersonalAccountInformationActionMapProvider.class),
-                createActionMapBuilder(PersonalAccountUpdateGeneralInformationActionMap.class, PersonalAccountUpdateGeneralInformationProvider.class)
+                createActionMapBuilder(PersonalAccountUpdateGeneralInformationActionMap.class, PersonalAccountUpdateGeneralInformationProvider.class),
+                createActionMapBuilder(PersonalAccountRestorePassLoadActionMap.class, PersonalAccountRestorePassLoadActionMapProvider.class),
+                createActionMapBuilder(PersonalAccountRestorePassActionMap.class, PersonalAccountRestorePassActionMapProvider.class)
         );
     }
 
@@ -285,7 +297,9 @@ public abstract class AutoServiceShopModule extends ServletModule {
                 bind(LoginCommand.class),
                 bind(LogoutCommand.class),
 
-                bind(NoCommand.class)
+                bind(NoCommand.class),
+
+                bind(PersonalAccountRestorePassCommand.class)
         );
     }
 

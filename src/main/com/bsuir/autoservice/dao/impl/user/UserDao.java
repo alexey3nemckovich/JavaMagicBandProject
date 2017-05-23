@@ -9,6 +9,7 @@ import main.com.bsuir.autoservice.dao.impl.AbstractCrudDao;
 import main.com.bsuir.autoservice.dao.sql.IGeneralSql;
 import main.com.bsuir.autoservice.dto.UserGeneralInformationDTO;
 import main.com.bsuir.autoservice.dto.UserUpdateInformationDTO;
+import main.com.bsuir.autoservice.infrastructure.security.password.IPassword;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,9 +28,12 @@ public class UserDao extends AbstractCrudDao<Integer, User> implements IUserDao 
     private static final String USER_LAST_NAME = "last_name";
     private static final String USER_TYPE = "type";
 
+    private final IPassword passwordHash;
+
     @Inject
-    public UserDao(IDatabase db, IGeneralSql sql, IDatabaseMap databaseMap) {
+    public UserDao(IDatabase db, IGeneralSql sql, IDatabaseMap databaseMap, IPassword passwordHash) {
         super(db, sql, databaseMap);
+        this.passwordHash = passwordHash;
     }
 
     @Override
@@ -58,7 +62,7 @@ public class UserDao extends AbstractCrudDao<Integer, User> implements IUserDao 
 
         final Map<String, String> whereConditions = new HashMap<String, String>() {{
             put(USER_LOGIN, login);
-            put(USER_PASSWORD, password);
+            put(USER_PASSWORD, passwordHash.getHash(password));
         }};
 
         return executeQuery(rs -> !rs.next() ? null : rs.getInt(USER_ID),
@@ -112,6 +116,19 @@ public class UserDao extends AbstractCrudDao<Integer, User> implements IUserDao 
             put(USER_NAME, newUser.getName());
             put(USER_LAST_NAME, newUser.getLastName());
             put(USER_PHONE, newUser.getPhone());
+        }};
+
+        final Map<String, String> whereConditions = new HashMap<String, String>() {{
+            put(USER_ID, String.valueOf(userId));
+        }};
+
+        return update(newValues, whereConditions);
+    }
+
+    @Override
+    public boolean updatePassword(int userId, String newPassword) throws DaoException {
+        final Map<String, String> newValues = new HashMap<String, String>() {{
+            put(USER_PASSWORD, passwordHash.getHash(newPassword));
         }};
 
         final Map<String, String> whereConditions = new HashMap<String, String>() {{

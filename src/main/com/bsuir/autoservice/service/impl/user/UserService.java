@@ -57,5 +57,14 @@ public class UserService implements IUserService {
         }
     }
 
+    @Override
+    public boolean updateUserPassword(int userId, String newPassword) throws ServiceException {
+        try {
+            return daoUnitOfWork.getUserDao().updatePassword(userId, newPassword);
+        }catch (DaoException e){
+            throw new ServiceException(e);
+        }
+    }
+
     private final IDaoUnitOfWork daoUnitOfWork;
 }

@@ -12,4 +12,5 @@ public interface IUserService extends IService {
     UserGeneralInformationDTO getGeneralInformation(int userId) throws ServiceException;
     boolean updateUserInformation(int userId, UserUpdateInformationDTO newUser) throws ServiceException;
     UserStaffDTO getUserStaffInformation(int idLogin) throws ServiceException;
+    boolean updateUserPassword(int userId, String newPassword) throws ServiceException;
 }

@@ -11,4 +11,5 @@ public interface IUserDao extends ICrudDao<Integer, User> {
     String getUserName(int idLogin) throws DaoException;
     UserGeneralInformationDTO getUserGeneralInformation(int userId) throws DaoException;
     boolean updateGeneralInformation(int userId, UserUpdateInformationDTO newUser) throws DaoException;
+    boolean updatePassword(int userId, String newPassword) throws DaoException;
 }

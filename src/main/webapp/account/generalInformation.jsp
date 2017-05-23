@@ -90,7 +90,15 @@
                         alert("Error updating");
                     }
                 });
-            })
+            });
+
+            $("#change-password").click(function () {
+                const $restorePass = "/account/restorePass.ass";
+
+                $('body').load($restorePass);
+                updateHistory($restorePass);
+                return false;
+            });
         });
     </script>
 </div>
