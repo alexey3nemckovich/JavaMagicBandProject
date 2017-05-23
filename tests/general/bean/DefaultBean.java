@@ -10,8 +10,8 @@ import java.util.Map;
 
 public class DefaultBean {
 
-    public static Bean getBean() throws BeanException {
-        Bean bean = new User();
+    public static User getUser() throws BeanException {
+        User user = new User();
         Map<String, String> beanFields = new HashMap<String, String>(){
             {
                 put("id", "1");
@@ -24,9 +24,9 @@ public class DefaultBean {
                 put("type", "USER");
             }
         };
-        bean.setFields(beanFields);
+        user.setFields(beanFields);
 
-        return bean;
+        return user;
     }
 
     public static Dependency getDependency() {

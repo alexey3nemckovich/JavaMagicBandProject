@@ -56,7 +56,7 @@ public class GetBeanDependencyViewPageCommandTest {
 
     private static List<Bean> getDependencyBeans() throws BeanException {
         return new ArrayList<Bean>(){
-            {add(DefaultBean.getBean());}
+            {add(DefaultBean.getUser());}
         };
     }
 
@@ -78,7 +78,7 @@ public class GetBeanDependencyViewPageCommandTest {
 
     @Test
     public void checkGetBeanDependencyViewPage() throws CommandException, ServiceException, BeanException {
-        Bean bean = DefaultBean.getBean();
+        Bean bean = DefaultBean.getUser();
 
         List<Bean> dependencyBeans = getDependencyBeans();
         when(crudService.read(anyString(), anyMap())).thenReturn(dependencyBeans);

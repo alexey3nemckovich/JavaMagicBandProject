@@ -58,7 +58,7 @@ public class GetBeanViewPageCommandTest {
 
     private static List<Bean> getBeans() throws BeanException {
         return new ArrayList<Bean>(){
-            {add(DefaultBean.getBean());}
+            {add(DefaultBean.getUser());}
         };
     }
 
@@ -79,7 +79,7 @@ public class GetBeanViewPageCommandTest {
 
     @Test
     public void checkGetBeanViewPage() throws CommandException, ServiceException, BeanException {
-        Bean bean = DefaultBean.getBean();
+        Bean bean = DefaultBean.getUser();
 
         when(crudService.readTotalCount(anyString())).thenReturn(1);
         List<Bean> beans = getBeans();
