@@ -17,3 +17,14 @@ function loadRoot(){
     loadLogin();
     updateHistory($root);
 }
+
+function disableSendForm(event) {
+    event.preventDefault();
+}
+
+$(document).ajaxError(function(event, request, settings) {
+    console.log(settings.url);
+    let $response = request.responseText;
+    const logger = $("#log");
+    logger.html($response);
+});

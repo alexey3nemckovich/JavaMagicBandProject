@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import main.com.bsuir.autoservice.command.AbstractSessionCommand;
 import main.com.bsuir.autoservice.command.param.PersonalAccountUpdateGeneralInformationInfo;
 import main.com.bsuir.autoservice.command.ret.PersonalAccountUpdateGeneralInformationRet;
+import main.com.bsuir.autoservice.dto.UserUpdateInformationDTO;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
 import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 
@@ -19,6 +20,7 @@ public class PersonalAccountUpdateGeneralInformationCommand
     @Override
     protected PersonalAccountUpdateGeneralInformationRet executeImpl(PersonalAccountUpdateGeneralInformationInfo param) throws Exception {
         return new PersonalAccountUpdateGeneralInformationRet(serviceUnitOfWork.getUserService().
-                updateUserInformation(session.getUserId(), param.getNewUser()));
+                updateUserInformation(session.getUserId(),
+                        new UserUpdateInformationDTO(param.getName(), param.getLastName(), param.getPhone())));
     }
 }

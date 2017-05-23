@@ -13,5 +13,6 @@
         <jsp:doBody/>
     </div>
     <jsp:include page="/generalelement/footer.jsp"/>
+<div id="log"></div>
 </body>
 </html>

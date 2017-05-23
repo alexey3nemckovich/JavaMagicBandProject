@@ -1,13 +1,14 @@
 package unit.command.personalaccount;
 
 import general.bean.MockBean;
+import general.dto.MockDTO;
 import general.service.MockService;
 import general.session.MockSession;
-import main.com.bsuir.autoservice.bean.impl.User;
 import main.com.bsuir.autoservice.command.account.PersonalAccountUpdateGeneralInformationCommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.PersonalAccountUpdateGeneralInformationInfo;
 import main.com.bsuir.autoservice.command.ret.PersonalAccountUpdateGeneralInformationRet;
+import main.com.bsuir.autoservice.dto.UserUpdateInformationDTO;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
 import main.com.bsuir.autoservice.service.exception.ServiceException;
 import main.com.bsuir.autoservice.service.impl.notifiaction.INotificationService;
@@ -69,17 +70,25 @@ public class PersonalAccountUpdateGeneralInformationCommandTest {
         return new PersonalAccountUpdateGeneralInformationCommand(serviceUnitOfWork, session);
     }
 
-    private static User getMockUser() {
-        return MockBean.getMockUser();
+    private static UserUpdateInformationDTO getMockUserUpdateInformation() {
+        return MockDTO.getMockUserUpdateInformationDTO();
     }
+
+    private static final String MOCK_USER_NAME = MockDTO.MOCK_USER_NAME;
+    private static final String MOCK_USER_LAST_NAME = MockDTO.MOCK_USER_LAST_NAME;
+    private static final String MOCK_USER_PHONE = MockDTO.MOCK_USER_PHONE;
+
 
     @Test
     public void checkUpdateUserInformation() throws CommandException, ServiceException {
-        User mockUser = getMockUser();
+        UserUpdateInformationDTO mockUser = getMockUserUpdateInformation();
         final boolean verifyUpdateUser = true;
         when(userService.updateUserInformation(MOCK_USER_ID, mockUser)).thenReturn(verifyUpdateUser);
         PersonalAccountUpdateGeneralInformationInfo mockInfo = getPersonalAccountUpdateGeneralInformationInfo();
-        when(mockInfo.getNewUser()).thenReturn(mockUser);
+        when(mockInfo.getName()).thenReturn(MOCK_USER_NAME);
+        when(mockInfo.getLastName()).thenReturn(MOCK_USER_LAST_NAME);
+        when(mockInfo.getPhone()).thenReturn(MOCK_USER_PHONE);
+
         assertEquals(personalAccountUpdateGeneralInformationCommand.execute(mockInfo),
                 getTestPersonalAccountUpdateGeneralInformationRet(verifyUpdateUser));
     }

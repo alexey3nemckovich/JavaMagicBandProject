@@ -1,7 +1,6 @@
 package main.com.bsuir.autoservice.command.param;
 
 import main.com.bsuir.autoservice.bean.Bean;
-import main.com.bsuir.autoservice.command.ICommandParam;
 import main.com.bsuir.autoservice.command.RequestParameter;
 import main.com.bsuir.autoservice.service.Dependency;
 
@@ -11,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BeanViewPageInfo extends CrudPageInfo implements ICommandParam{
+public class BeanViewPageInfo extends CrudPageInfo {
     @RequestParameter
     public int page;
     @RequestParameter

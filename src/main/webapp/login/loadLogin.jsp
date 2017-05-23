@@ -68,7 +68,7 @@
                     $.post("/login/checkLogin.ass",
                         $nav_login_form.serialize(),
                         function (data) {
-                            if (data.isAuthorized[0]) {
+                            if (data.isAuthorized[0] === true) {
                                 loadRoot();
                             } else {
                                 const $loginPage = "/login/loginPage.ass";

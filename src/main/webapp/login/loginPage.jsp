@@ -33,7 +33,7 @@
         <script>
             $(document).ready(function () {
 
-                var $login_form = $("#login-form");
+                const $login_form = $("#login-form");
 
                 $('.login').keypress(function (e) {
                     if (e.which == 13) {
@@ -44,12 +44,12 @@
 
 
                 $login_form.submit(function (event) {
-                    event.preventDefault();
+                    disableSendForm(event);
 
                     $.post("/login/checkLogin.ass",
                         $login_form.serialize(),
                         function (data) {
-                            if (data.isAuthorized[0]) {
+                            if (data.isAuthorized[0] === true) {
                                 loadRoot();
                             } else {
                                 alert('Not login');

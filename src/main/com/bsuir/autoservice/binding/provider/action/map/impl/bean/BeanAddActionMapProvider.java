@@ -6,12 +6,21 @@ import main.com.bsuir.autoservice.binding.provider.action.map.ActionMapProvider;
 import main.com.bsuir.autoservice.command.crud.add.AddBeanCommand;
 import main.com.bsuir.autoservice.command.crud.get.GetBeanAddPageCommand;
 import main.com.bsuir.autoservice.command.param.BeanAddPageInfo;
+import main.com.bsuir.autoservice.controller.action.Action;
+import main.com.bsuir.autoservice.library.DefaultHashMap;
+
+import java.util.Map;
 
 public class BeanAddActionMapProvider extends ActionMapProvider {
 
     @Inject
-    private BeanAddActionMapProvider(Injector injector){
+    protected BeanAddActionMapProvider(Injector injector){
         super(injector);
+    }
+
+    @Override
+    protected Map<String, Action> createBasicMap(Injector injector) {
+        return new DefaultHashMap<>(createAction(BeanAddPageInfo.class, injector.getInstance(GetBeanAddPageCommand.class)));
     }
 
     @Override

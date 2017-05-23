@@ -8,6 +8,7 @@ import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.impl.AbstractCrudDao;
 import main.com.bsuir.autoservice.dao.sql.IGeneralSql;
 import main.com.bsuir.autoservice.dto.UserGeneralInformationDTO;
+import main.com.bsuir.autoservice.dto.UserUpdateInformationDTO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -94,12 +95,29 @@ public class UserDao extends AbstractCrudDao<Integer, User> implements IUserDao 
             put(USER_ID, String.valueOf(userId));
         }};
 
-        return executeQuery(rs ->
-                        new UserGeneralInformationDTO(
-                                rs.getString(USER_MAIL),
-                                rs.getString(USER_PHONE),
-                                rs.getString(USER_NAME),
-                                rs.getString(USER_LAST_NAME)),
+        return executeQuery(rs -> {
+                    rs.next();
+                    return new UserGeneralInformationDTO(
+                            rs.getString(USER_MAIL),
+                            rs.getString(USER_PHONE),
+                            rs.getString(USER_NAME),
+                            rs.getString(USER_LAST_NAME));
+                },
                 sql.getSelectWhereStatement(getTableName(), namedResult, whereConditions));
+    }
+
+    @Override
+    public boolean updateGeneralInformation(int userId, UserUpdateInformationDTO newUser) throws DaoException {
+        final Map<String, String> newValues = new HashMap<String, String>() {{
+            put(USER_NAME, newUser.getName());
+            put(USER_LAST_NAME, newUser.getLastName());
+            put(USER_PHONE, newUser.getPhone());
+        }};
+
+        final Map<String, String> whereConditions = new HashMap<String, String>() {{
+            put(USER_ID, String.valueOf(userId));
+        }};
+
+        return update(newValues, whereConditions);
     }
 }

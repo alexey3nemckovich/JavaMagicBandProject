@@ -4,13 +4,16 @@ import com.google.inject.Inject;
 import main.com.bsuir.autoservice.bean.impl.Notification;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
+import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.impl.AbstractCrudDao;
 import main.com.bsuir.autoservice.dao.sql.IGeneralSql;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class NotificationDao extends AbstractCrudDao<Integer, Notification> implements INotificationDao {
 
@@ -40,5 +43,20 @@ public class NotificationDao extends AbstractCrudDao<Integer, Notification> impl
                 add(bean);
             }
         }};
+    }
+
+    @Override
+    public boolean haveNewNotification() throws DaoException {
+        final Map<String, String> whereConditions = new HashMap<String, String>() {{
+            put(NOTIFICATION_STATE, String.valueOf(Notification.State.UNCONFIRMED));
+        }};
+
+        final String namedExists = "haveNotification";
+
+        return executeQuery(rs -> {
+                    rs.next();
+                    return rs.getInt(namedExists) != 0;
+                },
+                sql.getExistsStatement(getTableName(), whereConditions, namedExists));
     }
 }

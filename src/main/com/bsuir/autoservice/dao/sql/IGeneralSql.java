@@ -23,4 +23,7 @@ public interface IGeneralSql {
     String getSetStatement(Map<String, String> values);
     String getWhereStatement(Map<String, String> values);
     String getScopedStatement(List<String> elements, boolean quotedValues);
+
+    //exist
+    String getExistsStatement(String tableName, Map<String, String> conditions, String namedExist);
 }

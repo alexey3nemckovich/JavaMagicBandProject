@@ -1,6 +1,5 @@
 package main.com.bsuir.autoservice.command.param;
 
-import main.com.bsuir.autoservice.command.ICommandParam;
 import main.com.bsuir.autoservice.command.RequestParameter;
 import main.com.bsuir.autoservice.library.json.JsonParser;
 
@@ -8,7 +7,7 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BeanEditPageInfo extends EditFormPageInfo implements ICommandParam{
+public class BeanEditPageInfo extends EditFormPageInfo {
 
     @RequestParameter
     public Map<String, String> oldFields;

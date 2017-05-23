@@ -64,6 +64,17 @@ public abstract class AbstractCrudDao<PrimaryKey, Entity extends Bean<PrimaryKey
         }
     }
 
+
+    protected final boolean update(Map<String, String> newValues, Map<String,String> whereStatement) throws DaoException {
+        try (PreparedStatement ps = db.getPrepareStatement(
+                sql.getUpdateQuery(getTableName(), whereStatement, newValues))){
+                ps.execute();
+                return true;
+        }catch (Exception e){
+            throw new DaoException(e);
+        }
+    }
+
     @Override
     public boolean delete(Entity entity) throws DaoException {
         try (PreparedStatement ps = db.getPrepareStatement(

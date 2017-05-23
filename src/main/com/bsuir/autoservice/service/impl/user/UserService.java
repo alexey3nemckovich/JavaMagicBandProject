@@ -1,11 +1,11 @@
 package main.com.bsuir.autoservice.service.impl.user;
 
 import com.google.inject.Inject;
-import main.com.bsuir.autoservice.bean.impl.User;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.unitofwork.IDaoUnitOfWork;
 import main.com.bsuir.autoservice.dto.UserGeneralInformationDTO;
 import main.com.bsuir.autoservice.dto.UserStaffDTO;
+import main.com.bsuir.autoservice.dto.UserUpdateInformationDTO;
 import main.com.bsuir.autoservice.service.exception.ServiceException;
 
 public class UserService implements IUserService {
@@ -39,8 +39,12 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public boolean updateUserInformation(int userId, User newUser) throws ServiceException {
-        throw new UnsupportedOperationException();
+    public boolean updateUserInformation(int userId, UserUpdateInformationDTO newUser) throws ServiceException {
+        try{
+            return daoUnitOfWork.getUserDao().updateGeneralInformation(userId, newUser);
+        }catch (Exception e){
+            throw new ServiceException(e);
+        }
     }
 
     @Override

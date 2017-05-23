@@ -7,6 +7,7 @@ import main.com.bsuir.autoservice.config.permission.PermissionLevel;
 import main.com.bsuir.autoservice.controller.IController;
 import main.com.bsuir.autoservice.controller.account.AccountUserLoadController;
 import main.com.bsuir.autoservice.controller.account.PersonalAccountInformationController;
+import main.com.bsuir.autoservice.controller.account.PersonalAccountUpdateGeneralInformationController;
 import main.com.bsuir.autoservice.controller.bean.*;
 import main.com.bsuir.autoservice.controller.login.LoginController;
 import main.com.bsuir.autoservice.controller.login.LoginLoadController;
@@ -57,6 +58,7 @@ public class RouteConfig {
         addControllerClassForUrlAction("/account/user", AccountUserLoadController.class, defaultPermission);
         addControllerClassForUrlAction("/account/user", AccountUserLoadController.class, defaultPermission);
         addControllerClassForUrlAction("/account/generalInformation", PersonalAccountInformationController.class, defaultPermission);
+        addControllerClassForUrlAction("/account/updateUser", PersonalAccountUpdateGeneralInformationController.class, defaultPermission);
     }
 
     private void initLoginPages() {

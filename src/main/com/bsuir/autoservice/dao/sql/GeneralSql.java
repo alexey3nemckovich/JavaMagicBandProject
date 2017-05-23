@@ -33,7 +33,7 @@ public class GeneralSql implements IGeneralSql {
 
     @Override
     public String getSelectWhereStatement(String tableName, Map<String, String> conditions){
-        return getSelectAllQuery(getFullTableName(tableName)) + getWhereStatement(conditions);
+        return getSelectAllQuery(tableName) + getWhereStatement(conditions);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class GeneralSql implements IGeneralSql {
 
     @Override
     public String getSelectRangeQuery(String tableName, int startIndex, int count){
-        return getSelectAllQuery(getFullTableName(tableName)) +
+        return getSelectAllQuery(tableName) +
                 " LIMIT " +
                 startIndex + ", " + count;
     }
@@ -167,6 +167,11 @@ public class GeneralSql implements IGeneralSql {
         }
         stringBuilder.append(") ");
         return stringBuilder.toString();
+    }
+
+    @Override
+    public String getExistsStatement(String tableName, Map<String, String> conditions, String namedExists) {
+        return String.format("SELECT EXISTS ( %s ) as `%s`", getSelectWhereStatement(tableName, conditions), namedExists);
     }
 
     private static final List<String> reservedWords = new ArrayList<>(

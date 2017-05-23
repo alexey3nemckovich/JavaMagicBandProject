@@ -14,6 +14,7 @@ import main.com.bsuir.autoservice.binding.provider.DatabaseNameProvider;
 import main.com.bsuir.autoservice.binding.provider.PermissionProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.NoActionMapProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.account.PersonalAccountInformationActionMapProvider;
+import main.com.bsuir.autoservice.binding.provider.action.map.impl.account.PersonalAccountUpdateGeneralInformationProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.bean.*;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.login.*;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.main.GeneralInformationActionMapProvider;
@@ -236,7 +237,8 @@ public abstract class AutoServiceShopModule extends ServletModule {
                 createActionMapBuilder(LoginPageActionMap.class,LoginPageActionMapProvider.class),
                 createActionMapBuilder(GeneralInformationActionMap.class,GeneralInformationActionMapProvider.class),
                 createActionMapBuilder(MainLoadActionMap.class,MainLoadActionMapProvider.class),
-                createActionMapBuilder(PersonalAccountInformationActionMap.class, PersonalAccountInformationActionMapProvider.class)
+                createActionMapBuilder(PersonalAccountInformationActionMap.class, PersonalAccountInformationActionMapProvider.class),
+                createActionMapBuilder(PersonalAccountUpdateGeneralInformationActionMap.class, PersonalAccountUpdateGeneralInformationProvider.class)
         );
     }
 
