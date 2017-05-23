@@ -1,8 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" language="java" %>
+<jsp:useBean id="isAuthorized" scope="request" type="java.lang.Boolean"/>
 
 <c:choose>
     <c:when test="${isAuthorized}">
+        <jsp:useBean id="userName" scope="request" type="java.lang.String"/>
+
         <ul class="nav navbar-nav navbar-right">
             <li>
                 <button style="padding: 12px" class="btn btn-block align-middle" type="button" id="nav-user-enter"> User : ${userName}</button>
@@ -26,7 +29,10 @@
                         });
 
                         $("#nav-user-enter").click(function () {
-                            $('body').load("/account/user.ass");
+                            const $accountUser = "/account/user.ass";
+
+                            $('body').load($accountUser);
+                            updateHistory($accountUser);
                         });
                     });
                 </script>
@@ -63,9 +69,12 @@
                         $nav_login_form.serialize(),
                         function (data) {
                             if (data.isAuthorized[0]) {
-                                loadLogin();
+                                loadRoot();
                             } else {
-                                $('body').load("/login/loginPage.ass");
+                                const $loginPage = "/login/loginPage.ass";
+
+                                $('body').load($loginPage);
+                                updateHistory($loginPage);
                             }
                         }, "json");
                 });

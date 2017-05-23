@@ -13,6 +13,7 @@ import main.com.bsuir.autoservice.binding.provider.CrudDaoFactoryProvider;
 import main.com.bsuir.autoservice.binding.provider.DatabaseNameProvider;
 import main.com.bsuir.autoservice.binding.provider.PermissionProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.NoActionMapProvider;
+import main.com.bsuir.autoservice.binding.provider.action.map.impl.account.PersonalAccountInformationActionMapProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.bean.*;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.login.*;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.main.GeneralInformationActionMapProvider;
@@ -120,6 +121,8 @@ import main.com.bsuir.autoservice.service.impl.user.UserService;
 import main.com.bsuir.autoservice.service.unitofwork.DefaultServiceUnitOfWork;
 import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 
+import javax.inject.Provider;
+import java.lang.annotation.Annotation;
 import java.util.Map;
 
 public abstract class AutoServiceShopModule extends ServletModule {
@@ -210,23 +213,30 @@ public abstract class AutoServiceShopModule extends ServletModule {
         }
     }
 
+    private ScopedBindingBuilder createActionMapBuilder(Class<? extends Annotation> actionMapAnnotationClass, 
+                                                        Class<? extends Provider<? extends Map<String, Action>>> actionMapProviderClass){
+        return bind(getActionMapType()).annotatedWith(actionMapAnnotationClass).toProvider(actionMapProviderClass);
+    }
+    
     private void bindControllerActionMaps() {
         bindSingletons(
-                bind(getActionMapType()).annotatedWith(BeanActionMap.class).toProvider(BeanActionMapProvider.class),
-                bind(getActionMapType()).annotatedWith(BeanAddActionMap.class).toProvider(BeanAddActionMapProvider.class),
-                bind(getActionMapType()).annotatedWith(BeanViewActionMap.class).toProvider(BeanViewActionMapProvider.class),
-                bind(getActionMapType()).annotatedWith(BeanEditActionMap.class).toProvider(BeanEditActionMapProvider.class),
-                bind(getActionMapType()).annotatedWith(BeanDependencyViewActionMap.class).toProvider(BeanDependencyViewActionMapProvider.class),
-                bind(getActionMapType()).annotatedWith(BeanDependencyEditActionMap.class).toProvider(BeanDependencyEditActionMapProvider.class),
-                bind(getActionMapType()).annotatedWith(BeanDependencyAddActionMap.class).toProvider(BeanDependencyAddActionMapProvider.class),
-                bind(getActionMapType()).annotatedWith(LoginLoadActionMap.class).toProvider(LoginLoadActionMapProvider.class),
-                bind(getActionMapType()).annotatedWith(LoginActionMap.class).toProvider(LoginActionMapProvider.class),
-                bind(getActionMapType()).annotatedWith(NoActionMap.class).toProvider(NoActionMapProvider.class),
-                bind(getActionMapType()).annotatedWith(LogoutActionMap.class).toProvider(LogoutActionMapProvider.class),
-                bind(getActionMapType()).annotatedWith(AccountUserLoadActionMap.class).toProvider(AccountUserLoadActionMapProvider.class),
-                bind(getActionMapType()).annotatedWith(LoginPageActionMap.class).toProvider(LoginPageActionMapProvider.class),
-                bind(getActionMapType()).annotatedWith(GeneralInformationActionMap.class).toProvider(GeneralInformationActionMapProvider.class),
-                bind(getActionMapType()).annotatedWith(MainLoadActionMap.class).toProvider(MainLoadActionMapProvider.class)
+                createActionMapBuilder(BeanActionMap.class,BeanActionMapProvider.class),
+                createActionMapBuilder(BeanAddActionMap.class,BeanAddActionMapProvider.class),
+                createActionMapBuilder(BeanViewActionMap.class,BeanViewActionMapProvider.class),
+                createActionMapBuilder(BeanEditActionMap.class,BeanEditActionMapProvider.class),
+                createActionMapBuilder(BeanDependencyViewActionMap.class,BeanDependencyViewActionMapProvider.class),
+                createActionMapBuilder(BeanDependencyEditActionMap.class,BeanDependencyEditActionMapProvider.class),
+                createActionMapBuilder(BeanDependencyAddActionMap.class,BeanDependencyAddActionMapProvider.class),
+
+                createActionMapBuilder(LoginLoadActionMap.class,LoginLoadActionMapProvider.class),
+                createActionMapBuilder(LoginActionMap.class,LoginActionMapProvider.class),
+                createActionMapBuilder(NoActionMap.class,NoActionMapProvider.class),
+                createActionMapBuilder(LogoutActionMap.class,LogoutActionMapProvider.class),
+                createActionMapBuilder(AccountUserLoadActionMap.class,AccountUserLoadActionMapProvider.class),
+                createActionMapBuilder(LoginPageActionMap.class,LoginPageActionMapProvider.class),
+                createActionMapBuilder(GeneralInformationActionMap.class,GeneralInformationActionMapProvider.class),
+                createActionMapBuilder(MainLoadActionMap.class,MainLoadActionMapProvider.class),
+                createActionMapBuilder(PersonalAccountInformationActionMap.class, PersonalAccountInformationActionMapProvider.class)
         );
     }
 

@@ -8,6 +8,7 @@ import main.com.bsuir.autoservice.dao.database.map.beanhelper.DependencyMap;
 import main.com.bsuir.autoservice.dao.database.map.beanhelper.TableMap;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.sql.IGeneralSql;
+import main.com.bsuir.autoservice.library.function.CheckedFunction;
 import main.com.bsuir.autoservice.library.function.CheckedSupplier;
 
 import java.sql.PreparedStatement;
@@ -23,11 +24,13 @@ public abstract class AbstractCrudDao<PrimaryKey, Entity extends Bean<PrimaryKey
 
     protected final TableMap tableMap;
 
-    protected abstract List<Entity> parseResultSet(ResultSet rs) throws DaoException;
+    protected abstract List<Entity> parseResultSet(ResultSet rs) throws SQLException;
 
     protected AbstractCrudDao(IDatabase db, IGeneralSql sql, IDatabaseMap databaseMap) {
         this.db = db;
         this.sql = sql;
+
+        //search interface at runtime for tableMap
         this.tableMap = databaseMap.getTableMap((Class<? extends ICrudDao>) Arrays.asList(getClass().getInterfaces())
                 .stream().filter(inter -> ICrudDao.class.isAssignableFrom(inter)).findFirst().get());
     }
@@ -35,41 +38,20 @@ public abstract class AbstractCrudDao<PrimaryKey, Entity extends Bean<PrimaryKey
     @Override
     public int getCountRecords() throws DaoException {
         final String varName = "rowcount";
-        try (PreparedStatement ps = db.getPrepareStatement(
-                sql.getSelectCountQuery(getTableName(), varName)
-        )) {
-            try (ResultSet rs = ps.executeQuery()) {
-                rs.next();
-                return rs.getInt(varName);
-            }
-        } catch (Exception e) {
-            throw new DaoException(e);
-        }
+        return executeQuery(rs->{
+            rs.next();
+            return rs.getInt(varName);
+        }, sql.getSelectCountQuery(getTableName(), varName));
     }
 
     @Override
     public List<Entity> read(Map<String, String> conditions) throws DaoException{
-        try (PreparedStatement ps = db.getPrepareStatement(
-                    sql.getSelectWhereStatement(getTableName(), conditions)
-            )){
-            try (ResultSet rs = ps.executeQuery()) {
-                return parseResultSet(rs);
-            }
-        }catch (Exception e){
-            throw new DaoException(e);
-        }
+        return executeQuery(this::parseResultSet, sql.getSelectWhereStatement(getTableName(), conditions));
     }
 
     @Override
     public List<Entity> read(int startIndex, int count) throws DaoException {
-        try (PreparedStatement ps = db.getPrepareStatement(
-                    sql.getSelectRangeQuery(getTableName(), startIndex, count))){
-            try (ResultSet rs = ps.executeQuery()) {
-                return parseResultSet(rs);
-            }
-        }catch (Exception e){
-            throw new DaoException(e);
-        }
+        return executeQuery(this::parseResultSet, sql.getSelectRangeQuery(getTableName(), startIndex, count));
     }
 
     @Override
@@ -139,6 +121,19 @@ public abstract class AbstractCrudDao<PrimaryKey, Entity extends Bean<PrimaryKey
         try (Statement statement = db.createStatement()) {
             int mode = enable ? 1 : 0;
             statement.execute(sql.getSetForeignKeyChecksStatement(mode));
+        }
+    }
+
+
+
+    protected final <R> R executeQuery(CheckedFunction<ResultSet, R, SQLException> checkedFunction, String statement)
+            throws DaoException {
+        try (PreparedStatement ps = db.getPrepareStatement(statement)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                return checkedFunction.apply(rs);
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
         }
     }
 

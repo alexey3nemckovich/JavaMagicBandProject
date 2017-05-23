@@ -1,22 +1,21 @@
 package main.com.bsuir.autoservice.command.ret;
 
-import main.com.bsuir.autoservice.bean.impl.User;
+import main.com.bsuir.autoservice.dto.UserGeneralInformationDTO;
 
 import java.util.Objects;
 
 public class PersonalAccountInformationRet {
-    //TODO: get only important information for User
-    private final User generalUserInformation;
+    private final UserGeneralInformationDTO generalUserInformation;
     private final boolean haveNewNotification;
 
 
-    public PersonalAccountInformationRet(User generalUserInformation,
-                                          boolean haveNewNotification){
+    public PersonalAccountInformationRet(UserGeneralInformationDTO generalUserInformation,
+                                         boolean haveNewNotification){
         this.generalUserInformation = generalUserInformation;
         this.haveNewNotification = haveNewNotification;
     }
 
-    public User getGeneralUserInformation() {
+    public UserGeneralInformationDTO getGeneralUserInformation() {
         return generalUserInformation;
     }
 

@@ -3,7 +3,7 @@
 <nav class="navbar navbar-fixed-top bg-primary">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">ASS</a>
+            <a class="navbar-brand" href="/">ASS</a>
 
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav-bar-login">
                 <span class="icon-bar"></span>

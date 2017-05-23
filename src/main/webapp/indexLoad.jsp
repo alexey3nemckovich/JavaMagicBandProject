@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" language="java" %>
-
+<jsp:useBean id="availableServices" scope="request" type="java.util.List<main.com.bsuir.autoservice.dto.ServiceAvailableDTO>"/>
 
 <div class="main-service">
     <div class="row" id="main-service-head">

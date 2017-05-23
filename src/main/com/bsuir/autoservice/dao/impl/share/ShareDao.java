@@ -12,7 +12,6 @@ import main.com.bsuir.autoservice.dto.ShareActiveDTO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class ShareDao extends AbstractCrudDao<Integer, Share> implements IShareDao {
@@ -30,9 +29,8 @@ public class ShareDao extends AbstractCrudDao<Integer, Share> implements IShareD
     }
 
     @Override
-    public List<Share> parseResultSet(ResultSet rs) throws DaoException {
-        List<Share> result = new LinkedList<>();
-        try {
+    public List<Share> parseResultSet(ResultSet rs) throws SQLException {
+        return new ArrayList<Share>() {{
             while (rs.next()) {
                 Share bean = new Share();
                 bean.setId(rs.getInt(SHARE_ID));
@@ -41,12 +39,9 @@ public class ShareDao extends AbstractCrudDao<Integer, Share> implements IShareD
                 bean.setValue(rs.getInt(SHARE_VALUE));
                 bean.setDescription(rs.getString(SHARE_DESCRIPTION));
                 bean.setState(Share.State.valueOf(rs.getString(SHARE_STATE)));
-                result.add(bean);
+                add(bean);
             }
-            return result;
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        }
+        }};
     }
 
     @Override

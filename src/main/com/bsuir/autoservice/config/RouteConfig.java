@@ -6,6 +6,7 @@ import main.com.bsuir.autoservice.config.permission.PermissionAccessType;
 import main.com.bsuir.autoservice.config.permission.PermissionLevel;
 import main.com.bsuir.autoservice.controller.IController;
 import main.com.bsuir.autoservice.controller.account.AccountUserLoadController;
+import main.com.bsuir.autoservice.controller.account.PersonalAccountInformationController;
 import main.com.bsuir.autoservice.controller.bean.*;
 import main.com.bsuir.autoservice.controller.login.LoginController;
 import main.com.bsuir.autoservice.controller.login.LoginLoadController;
@@ -22,7 +23,7 @@ public class RouteConfig {
     private final Map<String, Class<? extends IController>> controllerMap;
     private final Map<String, Permission> permissionMap;
 
-    public RouteConfig(){
+    public RouteConfig() {
         controllerMap = new HashMap<>();
         permissionMap = new HashMap<>();
         init();
@@ -51,7 +52,11 @@ public class RouteConfig {
     }
 
     private void initUserPages() {
-        addControllerClassForUrlAction("/account/user", AccountUserLoadController.class, PermissionLevel.USER);
+        PermissionLevel defaultPermission = PermissionLevel.USER;
+
+        addControllerClassForUrlAction("/account/user", AccountUserLoadController.class, defaultPermission);
+        addControllerClassForUrlAction("/account/user", AccountUserLoadController.class, defaultPermission);
+        addControllerClassForUrlAction("/account/generalInformation", PersonalAccountInformationController.class, defaultPermission);
     }
 
     private void initLoginPages() {
@@ -83,22 +88,22 @@ public class RouteConfig {
     }
 
     private void addControllerClassForUrlAction(String url,
-                                           Class<? extends IController> controllerClass,
-                                           PermissionLevel permissionLevel
+                                                Class<? extends IController> controllerClass,
+                                                PermissionLevel permissionLevel
     ) {
         addControllerClassForUrlAction(url, controllerClass, new Permission.Builder().setNestedPermissionLevel(permissionLevel));
     }
 
     private void addControllerClassForUrlAction(String url,
-                                           Class<? extends IController> controllerClass,
-                                           PermissionAccessType permissionAccessType
+                                                Class<? extends IController> controllerClass,
+                                                PermissionAccessType permissionAccessType
     ) {
         addControllerClassForUrlAction(url, controllerClass, new Permission.Builder().setNestedAccess(permissionAccessType));
     }
 
     private void addControllerClassForUrlAction(String url,
-                                           Class<? extends IController> controllerClass,
-                                           Permission.Builder permissionBuilder
+                                                Class<? extends IController> controllerClass,
+                                                Permission.Builder permissionBuilder
     ) {
         addControllerClassForUrlAction(url, controllerClass);
         permissionMap.put(url, permissionBuilder.build());

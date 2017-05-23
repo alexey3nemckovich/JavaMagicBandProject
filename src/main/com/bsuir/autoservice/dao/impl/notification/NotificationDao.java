@@ -4,16 +4,22 @@ import com.google.inject.Inject;
 import main.com.bsuir.autoservice.bean.impl.Notification;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
-import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.impl.AbstractCrudDao;
 import main.com.bsuir.autoservice.dao.sql.IGeneralSql;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class NotificationDao extends AbstractCrudDao<Integer, Notification> implements INotificationDao {
+
+    private static final String NOTIFICATION_ID = "id";
+    private static final String NOTIFICATION_ORDER_ID = "order_id";
+    private static final String NOTIFICATION_STAFF_ID = "staff_id";
+    private static final String NOTIFICATION_DATE = "date";
+    private static final String NOTIFICATION_CONTENT = "content";
+    private static final String NOTIFICATION_STATE = "state";
 
     @Inject
     public NotificationDao(IDatabase db, IGeneralSql sql, IDatabaseMap databaseMap) {
@@ -21,22 +27,18 @@ public class NotificationDao extends AbstractCrudDao<Integer, Notification> impl
     }
 
     @Override
-    public List<Notification> parseResultSet(ResultSet rs) throws DaoException {
-        LinkedList<Notification> result = new LinkedList<>();
-        try {
+    public List<Notification> parseResultSet(ResultSet rs) throws SQLException {
+        return new ArrayList<Notification>() {{
             while (rs.next()) {
                 Notification bean = new Notification();
-                bean.setId(rs.getInt("id"));
-                bean.setOrderId(rs.getInt("order_id"));
-                bean.setStaffId(rs.getInt("staff_id"));
-                bean.setDate(rs.getDate("date"));
-                bean.setContent(rs.getString("content"));
-                bean.setState(Notification.State.valueOf(rs.getString("state")));
-                result.add(bean);
+                bean.setId(rs.getInt(NOTIFICATION_ID));
+                bean.setOrderId(rs.getInt(NOTIFICATION_ORDER_ID));
+                bean.setStaffId(rs.getInt(NOTIFICATION_STAFF_ID));
+                bean.setDate(rs.getDate(NOTIFICATION_DATE));
+                bean.setContent(rs.getString(NOTIFICATION_CONTENT));
+                bean.setState(Notification.State.valueOf(rs.getString(NOTIFICATION_STATE)));
+                add(bean);
             }
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        }
-        return result;
+        }};
     }
 }

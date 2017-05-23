@@ -2,7 +2,9 @@ package main.com.bsuir.autoservice.service.impl.user;
 
 import com.google.inject.Inject;
 import main.com.bsuir.autoservice.bean.impl.User;
+import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.unitofwork.IDaoUnitOfWork;
+import main.com.bsuir.autoservice.dto.UserGeneralInformationDTO;
 import main.com.bsuir.autoservice.dto.UserStaffDTO;
 import main.com.bsuir.autoservice.service.exception.ServiceException;
 
@@ -28,8 +30,12 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User getGeneralInformation(int userId) throws ServiceException {
-        throw new UnsupportedOperationException();
+    public UserGeneralInformationDTO getGeneralInformation(int userId) throws ServiceException {
+        try {
+            return daoUnitOfWork.getUserDao().getUserGeneralInformation(userId);
+        }catch (DaoException e){
+            throw new ServiceException(e);
+        }
     }
 
     @Override

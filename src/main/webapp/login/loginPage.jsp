@@ -24,7 +24,7 @@
 
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="email" class="form-control login" id="password" name="password" placeholder="Enter password">
+                    <input type="password" class="form-control login" id="password" name="password" placeholder="Enter password">
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
@@ -50,8 +50,7 @@
                         $login_form.serialize(),
                         function (data) {
                             if (data.isAuthorized[0]) {
-                                $('body').load("#");
-                                loadLogin();
+                                loadRoot();
                             } else {
                                 alert('Not login');
                             }
