@@ -134,7 +134,7 @@
             });
 
             $("#btn-order-see").click(function () {
-                const $orderAddPage = "/account/orderSeeLoad.ass";
+                const $orderAddPage = "/account/orderSee.ass";
 
                 loadPage($orderAddPage);
                 return false;

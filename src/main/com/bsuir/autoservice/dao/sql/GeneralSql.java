@@ -61,10 +61,8 @@ public class GeneralSql implements IGeneralSql {
     }
 
     @Override
-    public String getSelectCountQuery(String tableName, String varName){
-        return " SELECT COUNT(*) AS " +
-                varName +
-                " FROM " + getFullTableName(tableName);
+    public String getSelectCountQuery(String tableName, String varName) {
+        return String.format(" SELECT COUNT(*) AS `%s` FROM %s", varName, getFullTableName(tableName));
     }
 
     @Override
@@ -72,6 +70,11 @@ public class GeneralSql implements IGeneralSql {
         return getSelectAllQuery(tableName) +
                 " LIMIT " +
                 startIndex + ", " + count;
+    }
+
+    @Override
+    public String getSelectWhereRangeQuery(String tableName, Map<String, String> conditions, int startIndex, int count) {
+        return String.format("%s LIMIT %d, %d", getSelectWhereStatement(tableName, conditions), startIndex, count);
     }
 
     @Override

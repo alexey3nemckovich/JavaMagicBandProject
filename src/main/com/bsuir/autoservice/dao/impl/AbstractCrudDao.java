@@ -45,6 +45,11 @@ public abstract class AbstractCrudDao<PrimaryKey, Entity extends Bean<PrimaryKey
     }
 
     @Override
+    public List<Entity> getAll() throws DaoException {
+        return executeQuery(this::parseResultSet, sql.getSelectAllQuery(getTableName()));
+    }
+
+    @Override
     public List<Entity> read(Map<String, String> conditions) throws DaoException {
         return executeQuery(this::parseResultSet, sql.getSelectWhereStatement(getTableName(), conditions));
     }

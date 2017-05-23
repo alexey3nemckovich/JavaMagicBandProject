@@ -18,7 +18,11 @@ public class OrderService implements IOrderService {
 
     @Override
     public List<Order> getUserOrders(int userId, int currentGroup, int elementCount) throws ServiceException {
-        throw new UnsupportedOperationException();
+        try {
+            return daoUnitOfWork.getOrderDao().getUserPartOrders(userId, currentGroup, elementCount);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
@@ -48,6 +52,15 @@ public class OrderService implements IOrderService {
             return daoUnitOfWork.getOrderedServiceDao().insertAll(
                     daoUnitOfWork.getOrderDao().makeOrder(userId, serviceShopId), orderServices);
         }catch (DaoException e){
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public int getAllNumber() throws ServiceException {
+        try {
+            return daoUnitOfWork.getOrderDao().getCountRecords();
+        } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }

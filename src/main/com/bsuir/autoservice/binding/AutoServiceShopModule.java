@@ -24,6 +24,8 @@ import main.com.bsuir.autoservice.binding.provider.impl.ControllerMapProvider;
 import main.com.bsuir.autoservice.command.NoCommand;
 import main.com.bsuir.autoservice.command.account.PersonalAccountMakeOrderCommand;
 import main.com.bsuir.autoservice.command.account.PersonalAccountRestorePassCommand;
+import main.com.bsuir.autoservice.command.account.PersonalAccountViewOrderNumberCommand;
+import main.com.bsuir.autoservice.command.account.PersonalAccountViewOrdersCommand;
 import main.com.bsuir.autoservice.command.crud.add.AddBeanCommand;
 import main.com.bsuir.autoservice.command.crud.delete.DeleteBeanCommand;
 import main.com.bsuir.autoservice.command.crud.delete.DeleteBeanDependencyCommand;
@@ -250,7 +252,10 @@ public abstract class AutoServiceShopModule extends ServletModule {
                 createActionMapBuilder(PersonalAccountRestorePassLoadActionMap.class, PersonalAccountRestorePassLoadActionMapProvider.class),
                 createActionMapBuilder(PersonalAccountRestorePassActionMap.class, PersonalAccountRestorePassActionMapProvider.class),
                 createActionMapBuilder(PersonalAccountAddOrderLoadActionMap.class, PersonalAccountAddOrderLoadActionMapProvider.class),
-                createActionMapBuilder(PersonalAccountMakeOrderActionMap.class, PersonalAccountMakeOrderActionMapProvider.class)
+                createActionMapBuilder(PersonalAccountMakeOrderActionMap.class, PersonalAccountMakeOrderActionMapProvider.class),
+                createActionMapBuilder(PersonalAccountViewOrderLoadActionMap.class, PersonalAccountViewOrderLoadActionMapProvider.class),
+                createActionMapBuilder(PersonalAccountViewOrderNumberActionMap.class, PersonalAccountViewOrderNumberActionMapProvider.class),
+                createActionMapBuilder(PersonalAccountViewOrdersActionMap.class, PersonalAccountViewOrdersActionMapProvider.class)
         );
     }
 
@@ -300,7 +305,9 @@ public abstract class AutoServiceShopModule extends ServletModule {
                 bind(NoCommand.class),
 
                 bind(PersonalAccountRestorePassCommand.class),
-                bind(PersonalAccountMakeOrderCommand.class)
+                bind(PersonalAccountMakeOrderCommand.class),
+                bind(PersonalAccountViewOrderNumberCommand.class),
+                bind(PersonalAccountViewOrdersCommand.class)
         );
     }
 

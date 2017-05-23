@@ -13,7 +13,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class OrderDao extends AbstractCrudDao<Integer, Order> implements IOrderDao {
 
@@ -63,5 +65,15 @@ public class OrderDao extends AbstractCrudDao<Integer, Order> implements IOrderD
             insert(order);
 
             return getLastPrimaryKey();
+    }
+
+    @Override
+    public List<Order> getUserPartOrders(int userId, int currentGroup, int elementCount) throws DaoException {
+        final Map<String, String> whereConditions = new HashMap<String, String>() {{
+            put(ORDER_USER_ID, String.valueOf(userId));
+        }};
+
+        return executeQuery( this::parseResultSet,
+                sql.getSelectWhereRangeQuery(getTableName(), whereConditions, currentGroup, elementCount));
     }
 }

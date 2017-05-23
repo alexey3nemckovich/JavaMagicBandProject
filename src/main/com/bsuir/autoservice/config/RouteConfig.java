@@ -62,6 +62,9 @@ public class RouteConfig {
 
         addControllerClassForUrlAction("/account/orderAdd", PersonalAccountAddOrderLoadController.class,defaultPermission);
         addControllerClassForUrlAction("/account/orderAddData", PersonalAccountMakeOrderController.class, defaultPermission);
+        addControllerClassForUrlAction("/account/orderSee", PersonalAccountViewOrderLoadController.class, defaultPermission);
+        addControllerClassForUrlAction("/account/orderNumber", PersonalAccountViewOrderNumberController.class, defaultPermission);
+        addControllerClassForUrlAction("/account/orderView", PersonalAccountViewOrdersController.class, defaultPermission);
     }
 
     private void initLoginPages() {

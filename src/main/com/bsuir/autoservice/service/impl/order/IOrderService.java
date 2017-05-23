@@ -16,4 +16,5 @@ public interface IOrderService extends IService {
     boolean changeOrderState(int changedStaffId, int orderId, Order.State newOrderState) throws ServiceException;
     boolean addOrderNotification(int staffWriterId, int orderId, String notificationMessage) throws ServiceException;
     boolean makeOrder(int userId, List<Integer> orderServices, int serviceShopId) throws ServiceException;
+    int getAllNumber() throws ServiceException;
 }

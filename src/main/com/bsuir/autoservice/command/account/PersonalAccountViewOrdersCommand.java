@@ -18,6 +18,6 @@ public class PersonalAccountViewOrdersCommand extends
     @Override
     protected PersonalAccountViewOrdersRet executeImpl(PersonalAccountViewOrdersInfo param) throws Exception {
         return new PersonalAccountViewOrdersRet(serviceUnitOfWork.getOrderService().getUserOrders(
-                session.getUserId(), param.getCurrentPage(), param.getPageElementCount()));
+                session.getUserId(), param.getCurrentPage(), param.getItemsOnPage()));
     }
 }

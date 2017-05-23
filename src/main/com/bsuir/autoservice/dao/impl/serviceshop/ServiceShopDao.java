@@ -43,6 +43,6 @@ public class ServiceShopDao extends AbstractCrudDao<Integer, ServiceShop> implem
 
     @Override
     public List<ServiceShop> getFullWorking() throws DaoException {
-        return executeQuery(this::parseResultSet,sql.getSelectAllQuery(getTableName()));
+        return getAll();
     }
 }

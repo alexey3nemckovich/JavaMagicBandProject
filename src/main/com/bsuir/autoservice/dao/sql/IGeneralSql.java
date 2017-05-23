@@ -11,6 +11,7 @@ public interface IGeneralSql {
     String getSelectNamedQuery(String tableName, Map<String, String> namedResult);
     String getSelectCountQuery(String tableName, String varName);
     String getSelectRangeQuery(String tableName, int startIndex, int count);
+    String getSelectWhereRangeQuery(String tableName, Map<String, String> conditions, int startIndex, int count);
     String getSelectWhereStatement(String tableName, Map<String, String> conditions);
     String getSelectWhereStatement(String tableName, Map<String, String> namedResults, Map<String, String> conditions);
     //crud
