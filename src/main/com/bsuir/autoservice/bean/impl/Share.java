@@ -4,10 +4,7 @@ import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.bean.exception.BeanException;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Share extends Bean<Integer> {
     public enum State{
@@ -103,6 +100,24 @@ public class Share extends Bean<Integer> {
         }catch (Exception e){
             throw new BeanException(e);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Share share = (Share) o;
+        return Objects.equals(id, share.id) &&
+                Objects.equals(date_start, share.date_start) &&
+                Objects.equals(date_end, share.date_end) &&
+                Objects.equals(value, share.value) &&
+                Objects.equals(description, share.description) &&
+                state == share.state;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, date_start, date_end, value, description, state);
     }
 
     private Integer id;

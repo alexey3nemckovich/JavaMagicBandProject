@@ -7,6 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Dependency<V> {
 
@@ -51,6 +52,21 @@ public class Dependency<V> {
                 jsonObject.getString("fieldName"),
                 jsonObject.get("value")
         );
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Dependency<?> that = (Dependency<?>) o;
+        return Objects.equals(tableName, that.tableName) &&
+                Objects.equals(fieldName, that.fieldName) &&
+                Objects.equals(value, that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tableName, fieldName, value);
     }
 
     public String tableName;

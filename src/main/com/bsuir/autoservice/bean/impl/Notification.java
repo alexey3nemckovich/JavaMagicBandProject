@@ -4,10 +4,7 @@ import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.bean.exception.BeanException;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Notification extends Bean<Integer> {
     public enum State{
@@ -103,6 +100,24 @@ public class Notification extends Bean<Integer> {
         }catch (Exception e){
             throw new BeanException(e);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Notification that = (Notification) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(order_id, that.order_id) &&
+                Objects.equals(staff_id, that.staff_id) &&
+                Objects.equals(date, that.date) &&
+                Objects.equals(content, that.content) &&
+                state == that.state;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, order_id, staff_id, date, content, state);
     }
 
     private Integer id;

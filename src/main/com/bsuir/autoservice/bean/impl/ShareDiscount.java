@@ -8,6 +8,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class ShareDiscount extends Bean<NullType> {
 
@@ -59,6 +60,20 @@ public class ShareDiscount extends Bean<NullType> {
     @Override
     public NullType getId() {
         return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ShareDiscount that = (ShareDiscount) o;
+        return Objects.equals(share_id, that.share_id) &&
+                Objects.equals(discount_id, that.discount_id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(share_id, discount_id);
     }
 
     private Integer share_id;

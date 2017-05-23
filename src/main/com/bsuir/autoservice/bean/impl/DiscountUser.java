@@ -8,6 +8,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class DiscountUser extends Bean<NullType> {
 
@@ -59,6 +60,20 @@ public class DiscountUser extends Bean<NullType> {
     @Override
     public NullType getId() {
         return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DiscountUser that = (DiscountUser) o;
+        return discount_id == that.discount_id &&
+                user_id == that.user_id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(discount_id, user_id);
     }
 
     private int discount_id;
