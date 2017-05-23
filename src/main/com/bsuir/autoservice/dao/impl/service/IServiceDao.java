@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface IServiceDao extends ICrudDao<Integer, Service> {
     List<ServiceAvailableDTO> getAvailable() throws DaoException;
+    List<Service> getFullAvailable() throws DaoException;
 }

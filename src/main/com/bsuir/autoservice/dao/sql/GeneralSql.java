@@ -174,6 +174,11 @@ public class GeneralSql implements IGeneralSql {
         return String.format("SELECT EXISTS ( %s ) as `%s`", getSelectWhereStatement(tableName, conditions), namedExists);
     }
 
+    @Override
+    public String getLastPrimaryKeyStatement(String namedKey) {
+        return String.format("SELECT LAST_INSERT_ID() as `%s`", namedKey);
+    }
+
     private static final List<String> reservedWords = new ArrayList<>(
             Arrays.asList(
                     "NULL"

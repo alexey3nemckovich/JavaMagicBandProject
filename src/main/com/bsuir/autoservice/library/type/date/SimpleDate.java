@@ -12,6 +12,10 @@ public class SimpleDate extends Date {
         date = dateFormat.parse(dateStr);
     }
 
+    public SimpleDate(){
+        date = new Date();
+    }
+
     @Override
     public String toString(){
         return dateFormat.format(date);

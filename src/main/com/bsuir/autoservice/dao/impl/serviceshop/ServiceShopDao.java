@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import main.com.bsuir.autoservice.bean.impl.ServiceShop;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
+import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.impl.AbstractCrudDao;
 import main.com.bsuir.autoservice.dao.sql.IGeneralSql;
 
@@ -38,5 +39,10 @@ public class ServiceShopDao extends AbstractCrudDao<Integer, ServiceShop> implem
                 add(bean);
             }
         }};
+    }
+
+    @Override
+    public List<ServiceShop> getFullWorking() throws DaoException {
+        return executeQuery(this::parseResultSet,sql.getSelectAllQuery(getTableName()));
     }
 }

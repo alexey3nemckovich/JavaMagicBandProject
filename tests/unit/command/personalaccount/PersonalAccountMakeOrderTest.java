@@ -3,7 +3,6 @@ package unit.command.personalaccount;
 import general.bean.MockBean;
 import general.service.MockService;
 import general.session.MockSession;
-import main.com.bsuir.autoservice.bean.impl.Service;
 import main.com.bsuir.autoservice.command.account.PersonalAccountMakeOrderCommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.PersonalAccountMakeOrderInfo;
@@ -66,26 +65,30 @@ public class PersonalAccountMakeOrderTest {
         return new PersonalAccountMakeOrderCommand(serviceUnitOfWork, session);
     }
 
-    private static List<Service> getMockMakeOrder(){
-        return new ArrayList<Service>(){{
-            add(MockBean.getMockService());
+    private static final int MOCK_ORDER_ID = MockBean.MOCK_ORDER_ID;
+    private static final int MOCK_SERVICE_SHOP_ID = MockBean.MOCK_SERVICE_SHOP_ID;
+
+    private static List<Integer> getMockMakeOrder(){
+        return new ArrayList<Integer>(){{
+            add(MOCK_ORDER_ID);
         }};
     }
 
     @Test
     public void checkAddedOrder() throws CommandException, ServiceException {
-        List<Service> mockMakeOrder = getMockMakeOrder();
+        List<Integer> mockMakeOrder = getMockMakeOrder();
         PersonalAccountMakeOrderInfo mockInfo = getPersonalAccountMakeOrderInfo();
         when(mockInfo.getOrderServices()).thenReturn(mockMakeOrder);
+        when(mockInfo.getServiceShopId()).thenReturn(MOCK_SERVICE_SHOP_ID);
         final boolean isAddedOrder = true;
-        when(orderService.makeOrder(MOCK_USER_ID, mockMakeOrder)).thenReturn(isAddedOrder);
+        when(orderService.makeOrder(MOCK_USER_ID, mockMakeOrder, MOCK_SERVICE_SHOP_ID)).thenReturn(isAddedOrder);
         assertEquals(personalAccountMakeOrderCommand.execute(mockInfo),
                 getTestPersonalAccountMakeOrderRet(isAddedOrder));
     }
 
     @Test(expected = CommandException.class)
     public void checkAddedOrderException() throws ServiceException, CommandException {
-        when(orderService.makeOrder(anyInt(), anyList())).thenThrow(ServiceException.class);
+        when(orderService.makeOrder(anyInt(), anyList(), anyInt())).thenThrow(ServiceException.class);
         personalAccountMakeOrderCommand.execute(getPersonalAccountMakeOrderInfo());
         fail();
     }

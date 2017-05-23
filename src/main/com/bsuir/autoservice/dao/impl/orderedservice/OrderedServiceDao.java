@@ -4,8 +4,10 @@ import com.google.inject.Inject;
 import main.com.bsuir.autoservice.bean.impl.OrderedService;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
+import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.impl.AbstractCrudDao;
 import main.com.bsuir.autoservice.dao.sql.IGeneralSql;
+import main.com.bsuir.autoservice.library.type.date.SimpleDate;
 
 import javax.lang.model.type.NullType;
 import java.sql.ResultSet;
@@ -35,5 +37,18 @@ public class OrderedServiceDao extends AbstractCrudDao<NullType, OrderedService>
                 add(bean);
             }
         }};
+    }
+
+    @Override
+    public boolean insertAll(int orderId, List<Integer> orderServices) throws DaoException {
+        OrderedService temp = new OrderedService();
+        temp.setOrderId(orderId);
+        temp.setDate(new SimpleDate());
+
+        for (int orderService : orderServices){
+            temp.setServiceId(orderService);
+            insert(temp);
+        }
+        return true;
     }
 }

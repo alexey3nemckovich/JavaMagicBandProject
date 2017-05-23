@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" language="java" %>
 
 <jsp:useBean id="generalUserInformation" scope="request"
@@ -35,7 +36,8 @@
 
         <div class="form-group">
             <label for="form-last-name">Last Name: </label>
-            <input type="text" class="form-control" id="form-last-name" placeholder="Enter last name" name="lastName" disabled="disabled"
+            <input type="text" class="form-control" id="form-last-name" placeholder="Enter last name" name="lastName"
+                   disabled="disabled"
                    value="${generalUserInformation.userLastName}"/>
         </div>
 
@@ -78,25 +80,63 @@
                 return false;
             });
 
-            var $general_form = $("#general-information-form");
+            const $general_form = $("#general-information-form");
 
             $general_form.submit(function (event) {
                 disableSendForm(event);
                 $.post("/account/updateUser.ass", $general_form.serialize(), function (data) {
-                    if (data.isUpdateUser[0] === true){
+                    if (data.isUpdateUser[0] === true) {
                         switchMode();
                         $("#info").html("Update compete");
-                    }else {
+                    } else {
                         alert("Error updating");
                     }
-                });
+                },"json");
             });
 
             $("#change-password").click(function () {
                 const $restorePass = "/account/restorePass.ass";
 
-                $('body').load($restorePass);
-                updateHistory($restorePass);
+                loadPage($restorePass);
+                return false;
+            });
+        });
+    </script>
+</div>
+<div id="user-button">
+    <div class="row">
+        <div class="col-md-offset-1 col-md-3">
+            <p class="form-control-static">Actions</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-offset-2 col-md-2">
+            <button type="submit" class="btn btn-block" id="btn-order-add">Add order</button>
+        </div>
+
+        <div class="col-md-offset-1 col-md-2">
+            <button type="submit" class="btn btn-block
+                <c:if test="${haveNewNotification}">
+                    btn-warning
+                </c:if>
+                " id="btn-order-see">See orders
+            </button>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#btn-order-add").click(function () {
+                const $orderAddPage = "/account/orderAdd.ass";
+
+                loadPage($orderAddPage);
+                return false;
+            });
+
+            $("#btn-order-see").click(function () {
+                const $orderAddPage = "/account/orderSeeLoad.ass";
+
+                loadPage($orderAddPage);
                 return false;
             });
         });

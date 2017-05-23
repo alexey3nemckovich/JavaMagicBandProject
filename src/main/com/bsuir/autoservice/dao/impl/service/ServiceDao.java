@@ -54,4 +54,9 @@ public class ServiceDao extends AbstractCrudDao<Integer, Service> implements ISe
                     }
                 }}, sql.getSelectNamedQuery(getTableName(), namedResult));
     }
+
+    @Override
+    public List<Service> getFullAvailable() throws DaoException {
+        return executeQuery(this::parseResultSet, sql.getSelectAllQuery(getTableName()));
+    }
 }

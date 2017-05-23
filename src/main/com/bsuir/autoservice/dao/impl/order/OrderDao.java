@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import main.com.bsuir.autoservice.bean.impl.Order;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
+import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.impl.AbstractCrudDao;
 import main.com.bsuir.autoservice.dao.sql.IGeneralSql;
 import main.com.bsuir.autoservice.library.type.date.SimpleDate;
@@ -48,5 +49,19 @@ public class OrderDao extends AbstractCrudDao<Integer, Order> implements IOrderD
         } catch (ParseException e) {
             throw new SQLException(e);
         }
+    }
+
+    @Override
+    public int makeOrder(int userId, int serviceShopId) throws DaoException {
+            Order order = new Order();
+            order.setServiceShopId(serviceShopId);
+            order.setDateOpen(new SimpleDate());
+            order.setUserId(userId);
+            order.setState(Order.State.QUEUED);
+            order.setSum(0);
+
+            insert(order);
+
+            return getLastPrimaryKey();
     }
 }

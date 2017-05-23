@@ -26,4 +26,6 @@ public interface IGeneralSql {
 
     //exist
     String getExistsStatement(String tableName, Map<String, String> conditions, String namedExist);
+
+    String getLastPrimaryKeyStatement(String namedKey);
 }

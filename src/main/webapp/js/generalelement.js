@@ -13,9 +13,13 @@ function updateHistory($url, $data="") {
 function loadRoot(){
     const $root = "/";
 
-    $('body').load($root);
+    loadPage($root);
     loadLogin();
-    updateHistory($root);
+}
+
+function loadPage($page){
+    $('body').load($page);
+    updateHistory($page);
 }
 
 function disableSendForm(event) {
@@ -28,3 +32,8 @@ $(document).ajaxError(function(event, request, settings) {
     const logger = $("#log");
     logger.html($response);
 });
+
+function backPage() {
+    history.back();
+    location.reload();
+}

@@ -13,10 +13,7 @@ import main.com.bsuir.autoservice.binding.provider.CrudDaoFactoryProvider;
 import main.com.bsuir.autoservice.binding.provider.DatabaseNameProvider;
 import main.com.bsuir.autoservice.binding.provider.PermissionProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.NoActionMapProvider;
-import main.com.bsuir.autoservice.binding.provider.action.map.impl.account.PersonalAccountInformationActionMapProvider;
-import main.com.bsuir.autoservice.binding.provider.action.map.impl.account.PersonalAccountRestorePassActionMapProvider;
-import main.com.bsuir.autoservice.binding.provider.action.map.impl.account.PersonalAccountRestorePassLoadActionMapProvider;
-import main.com.bsuir.autoservice.binding.provider.action.map.impl.account.PersonalAccountUpdateGeneralInformationProvider;
+import main.com.bsuir.autoservice.binding.provider.action.map.impl.account.*;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.bean.*;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.login.*;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.main.GeneralInformationActionMapProvider;
@@ -25,6 +22,7 @@ import main.com.bsuir.autoservice.binding.provider.fakeUOF.FakeDaoUOFProvider;
 import main.com.bsuir.autoservice.binding.provider.fakeUOF.FakeServiceUOFProvider;
 import main.com.bsuir.autoservice.binding.provider.impl.ControllerMapProvider;
 import main.com.bsuir.autoservice.command.NoCommand;
+import main.com.bsuir.autoservice.command.account.PersonalAccountMakeOrderCommand;
 import main.com.bsuir.autoservice.command.account.PersonalAccountRestorePassCommand;
 import main.com.bsuir.autoservice.command.crud.add.AddBeanCommand;
 import main.com.bsuir.autoservice.command.crud.delete.DeleteBeanCommand;
@@ -250,7 +248,9 @@ public abstract class AutoServiceShopModule extends ServletModule {
                 createActionMapBuilder(PersonalAccountInformationActionMap.class, PersonalAccountInformationActionMapProvider.class),
                 createActionMapBuilder(PersonalAccountUpdateGeneralInformationActionMap.class, PersonalAccountUpdateGeneralInformationProvider.class),
                 createActionMapBuilder(PersonalAccountRestorePassLoadActionMap.class, PersonalAccountRestorePassLoadActionMapProvider.class),
-                createActionMapBuilder(PersonalAccountRestorePassActionMap.class, PersonalAccountRestorePassActionMapProvider.class)
+                createActionMapBuilder(PersonalAccountRestorePassActionMap.class, PersonalAccountRestorePassActionMapProvider.class),
+                createActionMapBuilder(PersonalAccountAddOrderLoadActionMap.class, PersonalAccountAddOrderLoadActionMapProvider.class),
+                createActionMapBuilder(PersonalAccountMakeOrderActionMap.class, PersonalAccountMakeOrderActionMapProvider.class)
         );
     }
 
@@ -299,7 +299,8 @@ public abstract class AutoServiceShopModule extends ServletModule {
 
                 bind(NoCommand.class),
 
-                bind(PersonalAccountRestorePassCommand.class)
+                bind(PersonalAccountRestorePassCommand.class),
+                bind(PersonalAccountMakeOrderCommand.class)
         );
     }
 

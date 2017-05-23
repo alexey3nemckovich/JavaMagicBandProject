@@ -50,12 +50,11 @@
                         $.post("/account/restorePassData.ass", $restorePassForm.serialize(), function (data) {
                             if (data.isRestoredPass[0] === true) {
                                 $("#info").html("Ok. Backed");
-                                history.back();
-                                location.reload();
+                                backPage();
                             } else {
                                 $("#info").html("Error update password");
                             }
-                        })
+                        }, "json");
                     }
                 });
             });

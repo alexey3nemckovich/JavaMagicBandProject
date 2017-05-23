@@ -59,6 +59,9 @@ public class RouteConfig {
         addControllerClassForUrlAction("/account/updateUser", PersonalAccountUpdateGeneralInformationController.class, defaultPermission);
         addControllerClassForUrlAction("/account/restorePass", PersonalAccountRestorePassLoadController.class, defaultPermission);
         addControllerClassForUrlAction("/account/restorePassData", PersonalAccountRestorePassController.class, defaultPermission);
+
+        addControllerClassForUrlAction("/account/orderAdd", PersonalAccountAddOrderLoadController.class,defaultPermission);
+        addControllerClassForUrlAction("/account/orderAddData", PersonalAccountMakeOrderController.class, defaultPermission);
     }
 
     private void initLoginPages() {

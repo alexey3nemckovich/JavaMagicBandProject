@@ -31,8 +31,7 @@
                         $("#nav-user-enter").click(function () {
                             const $accountUser = "/account/user.ass";
 
-                            $('body').load($accountUser);
-                            updateHistory($accountUser);
+                            loadPage($accountUser);
                         });
                     });
                 </script>
@@ -73,8 +72,7 @@
                             } else {
                                 const $loginPage = "/login/loginPage.ass";
 
-                                $('body').load($loginPage);
-                                updateHistory($loginPage);
+                                loadPage($loginPage);
                             }
                         }, "json");
                 });
