@@ -1,8 +1,8 @@
 package main.com.bsuir.autoservice.dao.database.nestedrequest;
 
 import com.google.inject.Inject;
-import main.com.bsuir.autoservice.config.database.impl.sql.ISqlConfigDatabase;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
+import main.com.bsuir.autoservice.dao.database.nestedrequest.connection.ISqlConnection;
 import main.com.bsuir.autoservice.library.function.CheckedConsumer;
 import main.com.bsuir.autoservice.library.function.CheckedFunction;
 
@@ -11,28 +11,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SqlDatabase implements IDatabase {
-    private final String url;
-    private final String login;
-    private final String password;
+    private final ISqlConnection sqlConnections;
 
     @Inject
-    public SqlDatabase(ISqlConfigDatabase sqlConfigDatabase){
-        try {
-            Class.forName(sqlConfigDatabase.getDriverProvider());
-            url = sqlConfigDatabase.getUrl();
-            login = sqlConfigDatabase.getLogin();
-            password = sqlConfigDatabase.getPassword();
-        }catch (Exception e){
-            throw new RuntimeException();
-        }
+    public SqlDatabase(ISqlConnection sqlConnections){
+        this.sqlConnections = sqlConnections;
     }
 
     Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(url, login, password);
+        return sqlConnections.getConnection();
     }
 
     void returnConnection(Connection connection) throws SQLException {
-        connection.close();
+        sqlConnections.returnConnection(connection);
     }
 
     @Override

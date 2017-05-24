@@ -6,6 +6,7 @@ import com.google.inject.binder.ScopedBindingBuilder;
 import com.google.inject.matcher.Matchers;
 import com.google.inject.name.Names;
 import com.google.inject.servlet.ServletModule;
+import com.google.inject.spring.SpringIntegration;
 import main.com.bsuir.autoservice.binding.annotation.*;
 import main.com.bsuir.autoservice.binding.annotation.action.map.*;
 import main.com.bsuir.autoservice.binding.log4j.Log4JTypeListener;
@@ -29,7 +30,6 @@ import main.com.bsuir.autoservice.command.crud.delete.DeleteBeanCommand;
 import main.com.bsuir.autoservice.command.crud.delete.DeleteBeanDependencyCommand;
 import main.com.bsuir.autoservice.command.crud.edit.EditBeanCommand;
 import main.com.bsuir.autoservice.command.crud.get.*;
-import main.com.bsuir.autoservice.command.document.*;
 import main.com.bsuir.autoservice.command.login.LoginCommand;
 import main.com.bsuir.autoservice.command.login.LoginLoadCommand;
 import main.com.bsuir.autoservice.command.login.LogoutCommand;
@@ -43,7 +43,6 @@ import main.com.bsuir.autoservice.controller.NoController;
 import main.com.bsuir.autoservice.controller.account.AccountUserLoadController;
 import main.com.bsuir.autoservice.controller.action.Action;
 import main.com.bsuir.autoservice.controller.bean.*;
-import main.com.bsuir.autoservice.controller.document.DocumentController;
 import main.com.bsuir.autoservice.controller.login.LoginLoadController;
 import main.com.bsuir.autoservice.controller.login.LoginPageController;
 import main.com.bsuir.autoservice.controller.login.LogoutController;
@@ -57,6 +56,9 @@ import main.com.bsuir.autoservice.dao.database.map.impl.DataMapConfig;
 import main.com.bsuir.autoservice.dao.database.nestedrequest.SqlDatabase;
 import main.com.bsuir.autoservice.dao.database.nestedrequest.SqlRequestDatabase;
 import main.com.bsuir.autoservice.dao.database.nestedrequest.SqlRequestDatabaseProvider;
+import main.com.bsuir.autoservice.dao.database.nestedrequest.connection.ISqlConnection;
+import main.com.bsuir.autoservice.dao.database.nestedrequest.connection.SpringConnection;
+import main.com.bsuir.autoservice.dao.database.nestedrequest.connection.SqlConfigConnection;
 import main.com.bsuir.autoservice.dao.impl.crudfactory.ICrudDaoFactory;
 import main.com.bsuir.autoservice.dao.impl.crudfactory.impl.CrudDaoFactory;
 import main.com.bsuir.autoservice.dao.impl.discount.DiscountDao;
@@ -126,8 +128,12 @@ import main.com.bsuir.autoservice.service.impl.user.IUserService;
 import main.com.bsuir.autoservice.service.impl.user.UserService;
 import main.com.bsuir.autoservice.service.unitofwork.DefaultServiceUnitOfWork;
 import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.inject.Provider;
+import javax.sql.DataSource;
 import java.lang.annotation.Annotation;
 import java.util.Map;
 
@@ -150,6 +156,15 @@ public abstract class AutoServiceShopModule extends ServletModule {
 
         bindPermission();
         bindLibraries();
+
+        bindSpring();
+    }
+
+    private void bindSpring() {
+        ApplicationContext appContext = new ClassPathXmlApplicationContext( "applicationContext.xml" );
+        bind( BeanFactory.class ).toInstance( appContext );
+        bind(DataSource.class).toProvider(SpringIntegration.fromSpring(DataSource.class, "dataSource"));
+        SpringIntegration.bindAll(binder(), appContext);
     }
 
     private void bindInfrastructure() {
@@ -265,8 +280,6 @@ public abstract class AutoServiceShopModule extends ServletModule {
 
     private void bindConcreteControllers() {
         bindSingletons(
-                bind(DocumentController.class),
-
                 bind(BeanController.class),
                 bind(BeanAddController.class),
                 bind(BeanViewController.class),
@@ -315,14 +328,7 @@ public abstract class AutoServiceShopModule extends ServletModule {
                 bind(PersonalAccountViewOrderNumberCommand.class),
                 bind(PersonalAccountViewOrdersCommand.class),
                 bind(PersonalAccountOrderDetailsCommand.class),
-                bind(PersonalAccountModesCommand.class),
-
-                //documentation
-                bind(GenerateServiceListDocumentCommand.class),
-                bind(GenerateServiceShopStaffListDocumentCommand.class),
-                bind(GenerateShareListDocumentCommand.class),
-                bind(GenerateSparePartListDocumentCommand.class),
-                bind(GenerateUserListDocumentCommand.class)
+                bind(PersonalAccountModesCommand.class)
         );
     }
 
@@ -352,9 +358,6 @@ public abstract class AutoServiceShopModule extends ServletModule {
         bind(ICrudDaoFactory.class).toProvider(CrudDaoFactoryProvider.class).in(Singleton.class);
         bind(ICrudDaoFactory.class).annotatedWith(Names.named("crudDaoFactory")).to(CrudDaoFactory.class).in(Singleton.class);
 
-        bind(IDatabase.class).to(SqlRequestDatabaseProvider.class);
-        bind(SqlRequestDatabase.class);
-        bind(SqlDatabase.class).asEagerSingleton();
         bind(IGeneralSql.class).to(GeneralSql.class).in(Singleton.class);
 
         bindSingletons(
@@ -388,9 +391,24 @@ public abstract class AutoServiceShopModule extends ServletModule {
         bindListener(Matchers.any(), new Log4JTypeListener());
     }
 
-    private void bindDatabase() {
+    private void bindSqlConfigDatabase(){
         bind(String.class).annotatedWith(Names.named("sqlConfig")).toInstance(RESOURCE_DATABASE);
         bind(ISqlConfigDatabase.class).to(SqlConfigDatabase.class).in(Singleton.class);
+        bind(ISqlConnection.class).to(SqlConfigConnection.class).in(Singleton.class);
+    }
+
+    private void bindSpringDatabase(){
+        bind(ISqlConnection.class).to(SpringConnection.class).in(Singleton.class);
+    }
+
+    private void bindDatabase() {
+        //bindSqlConfigDatabase();
+        bindSpringDatabase();
+
+        bind(IDatabase.class).to(SqlRequestDatabaseProvider.class);
+        bind(SqlRequestDatabase.class);
+        bind(SqlDatabase.class).asEagerSingleton();
+
 
         bind(String.class).annotatedWith(Names.named("dataMapConfig")).toInstance(RESOURCE_DATABASE_MAP);
         bind(IDatabaseMap.class).to(DataMapConfig.class).asEagerSingleton();
@@ -399,5 +417,6 @@ public abstract class AutoServiceShopModule extends ServletModule {
     }
 
     private void bindLibraries() {
+
     }
 }

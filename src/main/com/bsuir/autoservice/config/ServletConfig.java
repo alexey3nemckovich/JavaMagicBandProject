@@ -15,9 +15,9 @@ public class ServletConfig extends GuiceServletContextListener {
 
             @Override
             protected void configureServlets() {
+                configBindings();
                 bindServlets();
                 bindFilters();
-                configBindings();
             }
 
             private void bindServlets() {
