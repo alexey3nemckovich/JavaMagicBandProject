@@ -7,9 +7,9 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Discount extends Bean<Integer> {
-
     @Override
     public Integer getId(){
         return id;
@@ -65,6 +65,21 @@ public class Discount extends Bean<Integer> {
         service_id = Integer.valueOf(fieldValues.get("service_id"));
         value = Integer.valueOf(fieldValues.get("value"));
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Discount discount = (Discount) o;
+        return Objects.equals(id, discount.id) &&
+                Objects.equals(service_id, discount.service_id) &&
+                Objects.equals(value, discount.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, service_id, value);
     }
 
     private Integer id;

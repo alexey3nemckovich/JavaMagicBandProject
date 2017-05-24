@@ -5,10 +5,7 @@ import main.com.bsuir.autoservice.bean.exception.BeanException;
 import main.com.bsuir.autoservice.library.type.date.SimpleDate;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Order extends Bean<Integer> {
     public enum State{
@@ -114,6 +111,25 @@ public class Order extends Bean<Integer> {
         }catch (Exception e){
             throw new BeanException(e);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return Objects.equals(id, order.id) &&
+                Objects.equals(user_id, order.user_id) &&
+                Objects.equals(service_shop_id, order.service_shop_id) &&
+                Objects.equals(date_open, order.date_open) &&
+                Objects.equals(date_close, order.date_close) &&
+                Objects.equals(sum, order.sum) &&
+                state == order.state;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, user_id, service_shop_id, date_open, date_close, sum, state);
     }
 
     private Integer id;

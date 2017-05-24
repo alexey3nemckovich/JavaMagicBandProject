@@ -7,6 +7,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Staff extends Bean<Integer> {
     public enum Specialization{
@@ -78,6 +79,22 @@ public class Staff extends Bean<Integer> {
         user_id = Integer.valueOf(fieldValues.get("user_id"));
         specialization = Specialization.valueOf(fieldValues.get("specialization"));
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Staff staff = (Staff) o;
+        return Objects.equals(id, staff.id) &&
+                Objects.equals(service_shop_id, staff.service_shop_id) &&
+                Objects.equals(user_id, staff.user_id) &&
+                specialization == staff.specialization;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, service_shop_id, user_id, specialization);
     }
 
     private Integer id;

@@ -8,6 +8,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class OrderSparePart extends Bean<NullType> {
 
@@ -69,6 +70,21 @@ public class OrderSparePart extends Bean<NullType> {
     @Override
     public NullType getId() {
         return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderSparePart that = (OrderSparePart) o;
+        return Objects.equals(spare_part_id, that.spare_part_id) &&
+                Objects.equals(order_id, that.order_id) &&
+                Objects.equals(count, that.count);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(spare_part_id, order_id, count);
     }
 
     private Integer spare_part_id;

@@ -150,4 +150,8 @@ public class MockService{
     public static ISparePartService getSparePartService() {
         return mock(ISparePartService.class);
     }
+
+    public static ICrudService getCrudService() {
+        return mock(ICrudService.class);
+    }
 }

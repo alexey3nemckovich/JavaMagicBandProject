@@ -5,10 +5,7 @@ import main.com.bsuir.autoservice.bean.exception.BeanException;
 
 import javax.lang.model.type.NullType;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class OrderedService extends Bean<NullType> {
 
@@ -74,6 +71,21 @@ public class OrderedService extends Bean<NullType> {
     @Override
     public NullType getId() {
         return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderedService that = (OrderedService) o;
+        return Objects.equals(service_id, that.service_id) &&
+                Objects.equals(order_id, that.order_id) &&
+                Objects.equals(date, that.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(service_id, order_id, date);
     }
 
     private Integer service_id;

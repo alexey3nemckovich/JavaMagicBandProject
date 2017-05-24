@@ -7,6 +7,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class SparePart extends Bean<Integer> {
 
@@ -65,6 +66,21 @@ public class SparePart extends Bean<Integer> {
         name = fieldValues.get("name");
         amount_available = Integer.valueOf(fieldValues.get("amount_available"));
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SparePart sparePart = (SparePart) o;
+        return Objects.equals(id, sparePart.id) &&
+                Objects.equals(name, sparePart.name) &&
+                Objects.equals(amount_available, sparePart.amount_available);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, amount_available);
     }
 
     private Integer id;

@@ -7,6 +7,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class ServiceShop extends Bean<Integer> {
 
@@ -85,6 +86,23 @@ public class ServiceShop extends Bean<Integer> {
         house = fieldValues.get("house");
         chief_id = Integer.valueOf(fieldValues.get("chief_id"));
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ServiceShop that = (ServiceShop) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(city, that.city) &&
+                Objects.equals(street, that.street) &&
+                Objects.equals(house, that.house) &&
+                Objects.equals(chief_id, that.chief_id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, city, street, house, chief_id);
     }
 
     private Integer id;
