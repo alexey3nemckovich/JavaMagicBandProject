@@ -3,7 +3,7 @@ package main.com.bsuir.autoservice.command.ret;
 import java.util.Objects;
 
 public class PersonalAccountUpdateGeneralInformationRet {
-    private final boolean isUpdateUser;
+    public  final boolean isUpdateUser;
 
     public PersonalAccountUpdateGeneralInformationRet(boolean isUpdateUser) {
         this.isUpdateUser = isUpdateUser;

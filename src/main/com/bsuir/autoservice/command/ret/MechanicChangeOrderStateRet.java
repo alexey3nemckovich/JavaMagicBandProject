@@ -3,7 +3,7 @@ package main.com.bsuir.autoservice.command.ret;
 import java.util.Objects;
 
 public class MechanicChangeOrderStateRet {
-    private final boolean isChangedOrderState;
+    public  final boolean isChangedOrderState;
 
     public MechanicChangeOrderStateRet(boolean isChangedOrderState) {
         this.isChangedOrderState = isChangedOrderState;

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class PersonalAccountOrderDetailsRet {
-    private final List<Service> orderServices;
+    public  final List<Service> orderServices;
 
     public PersonalAccountOrderDetailsRet(List<Service> orderServices) {
         this.orderServices = orderServices;

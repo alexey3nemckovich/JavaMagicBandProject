@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class PersonalAccountAddOrderLoadRet {
-    private final List<Service> fullAvailableServices;
-    private final List<ServiceShop> fullWorkingShop;
+    public  final List<Service> fullAvailableServices;
+    public  final List<ServiceShop> fullWorkingShop;
 
     public PersonalAccountAddOrderLoadRet(List<Service> fullAvailableServices, List<ServiceShop> fullWorkingShop) {
         this.fullAvailableServices = fullAvailableServices;

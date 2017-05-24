@@ -3,7 +3,7 @@ package main.com.bsuir.autoservice.command.ret;
 import java.util.Objects;
 
 public class ChiefMechanicChangeSparePartRet {
-    private final boolean isUpdateSparePart;
+    public final boolean isUpdateSparePart;
 
     public ChiefMechanicChangeSparePartRet(boolean isUpdateSparePart) {
         this.isUpdateSparePart = isUpdateSparePart;

@@ -3,7 +3,7 @@ package main.com.bsuir.autoservice.command.ret;
 import java.util.Objects;
 
 public class ResetLoginRet {
-    private final boolean isResetLogin;
+    public  final boolean isResetLogin;
 
     public ResetLoginRet(boolean isResetLogin) {
         this.isResetLogin = isResetLogin;

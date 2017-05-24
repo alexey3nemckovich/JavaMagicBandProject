@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class MechanicViewOrdersRet {
-    private final List<Order> serviceShopOrder;
+    public  final List<Order> serviceShopOrder;
 
     public MechanicViewOrdersRet(List<Order> serviceShopOrders) {
         this.serviceShopOrder = serviceShopOrders;

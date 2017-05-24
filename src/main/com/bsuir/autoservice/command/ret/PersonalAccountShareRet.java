@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class PersonalAccountShareRet {
-    private final List<Share> activeAccountShares;
+    public  final List<Share> activeAccountShares;
 
     public PersonalAccountShareRet(List<Share> activeAccountShares) {
         this.activeAccountShares = activeAccountShares;

@@ -3,7 +3,7 @@ package main.com.bsuir.autoservice.command.ret;
 import java.util.Objects;
 
 public class PersonalAccountViewOrderNumberRet {
-    private final int numberOrder;
+    public  final int numberOrder;
 
     public PersonalAccountViewOrderNumberRet(int numberOrder) {
         this.numberOrder = numberOrder;

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class PersonalAccountOrderNotificationsRet {
-    private final List<Notification> orderNotifications;
+    public  final List<Notification> orderNotifications;
 
     public PersonalAccountOrderNotificationsRet(List<Notification> orderNotifications) {
         this.orderNotifications = orderNotifications;

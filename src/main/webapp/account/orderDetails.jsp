@@ -9,7 +9,7 @@
     </div>
     <c:forEach items="${orderServices}" var="service">
 
-        <div class="row">
+        <div class="row well">
             <div class="col-md-8">
                 <label for="service-name">Service name: </label>
                 <p class="form-control-static" id="service-name">${service.name}</p>

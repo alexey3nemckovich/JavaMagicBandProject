@@ -3,7 +3,7 @@ package main.com.bsuir.autoservice.command.ret;
 import java.util.Objects;
 
 public class LoginRet {
-    private final boolean isAuthorized;
+    public  final boolean isAuthorized;
 
     public LoginRet(boolean isAuthorized) {
         this.isAuthorized = isAuthorized;

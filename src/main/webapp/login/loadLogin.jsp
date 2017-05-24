@@ -8,10 +8,10 @@
 
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <button style="padding: 12px" class="btn btn-block align-middle" type="button" id="nav-user-enter"> User : ${userName}</button>
+                <button style="padding: 12px" class="btn btn-block align-middle btn-danger" type="button" id="nav-user-enter"> User : ${userName}</button>
             </li>
             <li>
-                <button type="button" class="btn" id = "nav-logout">
+                <button style="padding: 12px" class="btn btn-block btn-primary" type="button" id = "nav-logout">
                     <span class="glyphicon glyphicon-log-out"></span> Logout
                 </button>
 

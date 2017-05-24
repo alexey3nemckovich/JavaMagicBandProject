@@ -23,7 +23,7 @@ public abstract class AbstractActionPageController<R> extends AbstractActionCont
     }
 
     protected void setResultAttributes(HttpServletRequest request, R resultData) throws Exception {
-        for (Field field : resultData.getClass().getDeclaredFields()) {
+        for (Field field : resultData.getClass().getFields()) {
             field.setAccessible(true);
             request.setAttribute(field.getName(), field.get(resultData));
         }

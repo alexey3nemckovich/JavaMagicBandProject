@@ -3,7 +3,7 @@ package main.com.bsuir.autoservice.command.ret;
 import java.util.Objects;
 
 public class LogoutRet {
-    private final boolean isLogout;
+    public  final boolean isLogout;
 
     public LogoutRet(boolean isLogout) {
         this.isLogout = isLogout;

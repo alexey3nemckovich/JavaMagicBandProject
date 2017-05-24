@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class PersonalAccountViewOrdersRet {
-    private final List<Order> userOrders;
+    public  final List<Order> userOrders;
 
     public PersonalAccountViewOrdersRet(List<Order> userOrders) {
         this.userOrders = userOrders;

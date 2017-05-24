@@ -5,8 +5,8 @@ import main.com.bsuir.autoservice.dto.UserGeneralInformationDTO;
 import java.util.Objects;
 
 public class PersonalAccountInformationRet {
-    private final UserGeneralInformationDTO generalUserInformation;
-    private final boolean haveNewNotification;
+    public  final UserGeneralInformationDTO generalUserInformation;
+    public  final boolean haveNewNotification;
 
 
     public PersonalAccountInformationRet(UserGeneralInformationDTO generalUserInformation,

@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class PersonalAccountAvailableOrderServicesRet {
-    private final List<ServiceAvailableDTO> availableServices;
-    private final List<Share> activeAccountShares;
+    public  final List<ServiceAvailableDTO> availableServices;
+    public  final List<Share> activeAccountShares;
 
     public PersonalAccountAvailableOrderServicesRet(List<ServiceAvailableDTO> availableServices, List<Share> activeAccountShares) {
         this.availableServices = availableServices;

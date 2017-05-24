@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class ChiefMechanicViewSparePartRet {
-    private final List<SparePart> groupSpareParts;
+    public  final List<SparePart> groupSpareParts;
 
     public ChiefMechanicViewSparePartRet(List<SparePart> groupSpareParts) {
         this.groupSpareParts = groupSpareParts;

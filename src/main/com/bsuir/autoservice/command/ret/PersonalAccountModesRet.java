@@ -6,7 +6,7 @@ import main.com.bsuir.autoservice.config.permission.PermissionLevel;
 import java.util.Objects;
 
 public class PersonalAccountModesRet {
-    private final PermissionLevel userLevel;
+    public  final PermissionLevel userLevel;
 
     public PersonalAccountModesRet(PermissionLevel userLevel) {
         this.userLevel = userLevel;

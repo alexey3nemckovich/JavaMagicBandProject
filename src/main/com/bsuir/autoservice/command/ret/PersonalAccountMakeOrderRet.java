@@ -3,7 +3,7 @@ package main.com.bsuir.autoservice.command.ret;
 import java.util.Objects;
 
 public class PersonalAccountMakeOrderRet {
-    private final boolean isAddedOrder;
+    public  final boolean isAddedOrder;
 
     public PersonalAccountMakeOrderRet(boolean isAddedOrder) {
         this.isAddedOrder = isAddedOrder;

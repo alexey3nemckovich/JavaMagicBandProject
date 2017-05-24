@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class GeneralInformationRet {
-    private final List<ServiceAvailableDTO> availableServices;
+    public  final List<ServiceAvailableDTO> availableServices;
 
-    private final List<ShareActiveDTO> activeShares;
+    public  final List<ShareActiveDTO> activeShares;
 
     public GeneralInformationRet(List<ServiceAvailableDTO> availableServices, List<ShareActiveDTO> activeShares) {
         this.availableServices = availableServices;

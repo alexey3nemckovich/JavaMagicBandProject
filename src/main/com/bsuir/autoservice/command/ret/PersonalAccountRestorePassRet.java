@@ -3,7 +3,7 @@ package main.com.bsuir.autoservice.command.ret;
 import java.util.Objects;
 
 public class PersonalAccountRestorePassRet {
-    private final boolean isRestoredPass;
+    public  final boolean isRestoredPass;
 
     public PersonalAccountRestorePassRet(boolean isRestoredPass) {
         this.isRestoredPass = isRestoredPass;

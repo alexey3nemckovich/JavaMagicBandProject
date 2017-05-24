@@ -3,7 +3,7 @@ package main.com.bsuir.autoservice.command.ret;
 import java.util.Objects;
 
 public class MechanicAddOrderNotificationRet {
-    private final boolean isAddedOrderNotification;
+    public  final boolean isAddedOrderNotification;
 
     public MechanicAddOrderNotificationRet(boolean isAddedOrderNotification) {
         this.isAddedOrderNotification = isAddedOrderNotification;
