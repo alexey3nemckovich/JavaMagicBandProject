@@ -48,6 +48,19 @@ public abstract class AbstractCrudDao<PrimaryKey, Entity extends Bean<PrimaryKey
     }
 
     @Override
+    public List<Entity> readAll() throws DaoException{
+        try (PreparedStatement ps = db.getPrepareStatement(
+                sql.getSelectAllQuery(getTableName())
+        )){
+            try (ResultSet rs = ps.executeQuery()) {
+                return parseResultSet(rs);
+            }
+        }catch (Exception e){
+            throw new DaoException(e);
+        }
+    }
+
+    @Override
     public List<Entity> read(Map<String, String> conditions) throws DaoException{
         try (PreparedStatement ps = db.getPrepareStatement(
                     sql.getSelectWhereStatement(getTableName(), conditions)

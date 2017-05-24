@@ -7,6 +7,7 @@ import main.com.bsuir.autoservice.dao.database.map.IDatabaseMap;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.impl.AbstractCrudDao;
 import main.com.bsuir.autoservice.dao.sql.IGeneralSql;
+import main.com.bsuir.autoservice.library.type.date.SimpleDate;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,21 +23,25 @@ public class ShareDao extends AbstractCrudDao<Integer, Share> implements IShareD
 
     @Override
     public List<Share> parseResultSet(ResultSet rs) throws DaoException {
-        LinkedList<Share> result = new LinkedList<>();
         try {
-            while (rs.next()) {
-                Share bean = new Share();
-                bean.setId(rs.getInt("id"));
-                bean.setDateStart(rs.getDate("date_start"));
-                bean.setDateEnd(rs.getDate("date_end"));
-                bean.setValue(rs.getInt("value"));
-                bean.setDescription(rs.getString("description"));
-                bean.setState(Share.State.valueOf(rs.getString("state")));
-                result.add(bean);
+            LinkedList<Share> result = new LinkedList<>();
+            try {
+                while (rs.next()) {
+                    Share bean = new Share();
+                    bean.setId(rs.getInt("id"));
+                    bean.setDateStart(new SimpleDate(rs.getString("date_start")));
+                    bean.setDateEnd(new SimpleDate(rs.getString("date_end")));
+                    bean.setValue(rs.getInt("value"));
+                    bean.setDescription(rs.getString("description"));
+                    bean.setState(Share.State.valueOf(rs.getString("state")));
+                    result.add(bean);
+                }
+            } catch (SQLException e) {
+                throw new DaoException(e);
             }
-        } catch (SQLException e) {
+            return result;
+        }catch (Exception e){
             throw new DaoException(e);
         }
-        return result;
     }
 }

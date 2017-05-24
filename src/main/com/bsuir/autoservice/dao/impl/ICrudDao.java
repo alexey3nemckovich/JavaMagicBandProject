@@ -10,6 +10,7 @@ import java.util.Map;
 public interface ICrudDao<PrimaryKey, Entity> extends IDao{
     List<Entity> read(Map<String, String> conditions) throws DaoException;
     List<Entity> read(int startRange, int count) throws DaoException;
+    List<Entity> readAll() throws DaoException;
     boolean update(Entity entity, Map<String, String> conditionValues) throws DaoException;
     boolean delete(Entity entity) throws DaoException;
     boolean insert(Entity entity) throws DaoException;

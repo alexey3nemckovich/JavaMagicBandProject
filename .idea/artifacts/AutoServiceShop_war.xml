@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
   <artifact type="war" name="AutoServiceShop:war">
-    <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="AutoServiceShop.war">
+    <output-path>$PROJECT_DIR$/out/artifacts/AutoServiceShop_war</output-path>
+    <root id="archive" name="AutoServiceShop_war.war">
       <element id="artifact" artifact-name="AutoServiceShop:war exploded" />
     </root>
   </artifact>

@@ -33,7 +33,7 @@ public class GeneralSql implements IGeneralSql {
 
     @Override
     public String getSelectWhereStatement(String tableName, Map<String, String> conditions){
-        return getSelectAllQuery(getFullTableName(tableName)) + getWhereStatement(conditions);
+        return getSelectAllQuery(tableName) + getWhereStatement(conditions);
     }
 
     @Override

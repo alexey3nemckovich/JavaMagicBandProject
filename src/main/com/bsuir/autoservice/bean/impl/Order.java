@@ -5,10 +5,7 @@ import main.com.bsuir.autoservice.bean.exception.BeanException;
 import main.com.bsuir.autoservice.library.type.date.SimpleDate;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Order extends Bean<Integer> {
     public enum State{
@@ -114,6 +111,15 @@ public class Order extends Bean<Integer> {
         }catch (Exception e){
             throw new BeanException(e);
         }
+    }
+
+    @Override
+    public Field[] getRenderFields() throws BeanException{
+        List<Field> fields = new ArrayList<>(Arrays.asList(getFieldsOrdered()));
+        fields.remove(0);
+        Field[] renderFieldsArray = new Field[fields.size()];
+        fields.toArray(renderFieldsArray);
+        return renderFieldsArray;
     }
 
     private Integer id;

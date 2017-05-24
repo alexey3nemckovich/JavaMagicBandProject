@@ -117,7 +117,12 @@ public class CustomHttpSession implements IUserSession {
     @Override
     public String getUserName() throws SessionException {
         try {
-            return (String) httpSession.getAttribute(KEY_USER_NAME);
+            String name = (String) httpSession.getAttribute(KEY_USER_NAME);
+            if(name == null){
+                return "Guest";
+            }else{
+                return name;
+            }
         } catch (Exception e) {
             throw new SessionException(e);
         }

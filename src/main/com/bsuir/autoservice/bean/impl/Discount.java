@@ -5,6 +5,7 @@ import main.com.bsuir.autoservice.bean.exception.BeanException;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -65,6 +66,15 @@ public class Discount extends Bean<Integer> {
         service_id = Integer.valueOf(fieldValues.get("service_id"));
         value = Integer.valueOf(fieldValues.get("value"));
         return this;
+    }
+
+    @Override
+    public Field[] getRenderFields() throws BeanException{
+        List<Field> fields = new ArrayList<>(Arrays.asList(getFieldsOrdered()));
+        fields.remove(0);
+        Field[] renderFieldsArray = new Field[fields.size()];
+        fields.toArray(renderFieldsArray);
+        return renderFieldsArray;
     }
 
     private Integer id;

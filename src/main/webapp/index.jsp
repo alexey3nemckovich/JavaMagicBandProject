@@ -20,6 +20,19 @@
             <a class="action-button" style="text-decoration: none;" href="/bean.ass">
                 To list of tables
             </a>
+
+            <a class="action-button" style="text-decoration: none;" href="/document.ass?action=generateUserListDoc&format=pdf">
+                Generate user list pdf
+            </a>
+
+            <a class="action-button" style="text-decoration: none;" href="/document.ass?action=generateUserListDoc&format=xml">
+                Generate user list xml
+            </a>
+
+            <a class="action-button" style="text-decoration: none;" href="/document.ass?action=generateUserListDoc&format=xls">
+                Generate user list xls
+            </a>
+
         </div>
     </jsp:body>
 </t:genericpage>

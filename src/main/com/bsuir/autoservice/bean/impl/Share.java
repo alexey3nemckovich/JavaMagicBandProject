@@ -2,10 +2,11 @@ package main.com.bsuir.autoservice.bean.impl;
 
 import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.bean.exception.BeanException;
+import main.com.bsuir.autoservice.library.type.date.SimpleDate;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -23,19 +24,19 @@ public class Share extends Bean<Integer> {
         this.id = value;
     }
 
-    public Date getDateStart(){
+    public SimpleDate getDateStart(){
         return date_start;
     }
 
-    public void setDateStart(Date value){
+    public void setDateStart(SimpleDate value){
         this.date_start = value;
     }
 
-    public Date getDateEnd(){
+    public SimpleDate getDateEnd(){
         return date_end;
     }
 
-    public void setDateEnd(Date value){
+    public void setDateEnd(SimpleDate value){
         this.date_end = value;
     }
 
@@ -94,8 +95,8 @@ public class Share extends Bean<Integer> {
     public Share setFields(Map<String, String> fieldValues) throws BeanException{
         try {
             id = Integer.valueOf(fieldValues.get("id"));
-            date_start = tryParseDate(fieldValues.get("date_start"));
-            date_end = tryParseDate(fieldValues.get("date_end"));
+            date_start = new SimpleDate(fieldValues.get("date_start"));
+            date_end = new SimpleDate(fieldValues.get("date_end"));
             value = Integer.valueOf(fieldValues.get("value"));
             description = fieldValues.get("description");
             state = State.valueOf(fieldValues.get("state"));
@@ -105,9 +106,18 @@ public class Share extends Bean<Integer> {
         }
     }
 
+    @Override
+    public Field[] getRenderFields() throws BeanException{
+        List<Field> fields = new ArrayList<>(Arrays.asList(getFieldsOrdered()));
+        fields.remove(0);
+        Field[] renderFieldsArray = new Field[fields.size()];
+        fields.toArray(renderFieldsArray);
+        return renderFieldsArray;
+    }
+
     private Integer id;
-    private Date date_start;
-    private Date date_end;
+    private SimpleDate date_start;
+    private SimpleDate date_end;
     private Integer value;
     private String description;
     private State state;

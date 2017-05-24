@@ -8,6 +8,10 @@ import java.util.Locale;
 
 public class SimpleDate extends Date {
 
+    public SimpleDate(){
+        date = new Date();
+    }
+
     public SimpleDate(String dateStr) throws ParseException{
         date = dateFormat.parse(dateStr);
     }

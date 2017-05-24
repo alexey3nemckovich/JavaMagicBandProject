@@ -7,6 +7,7 @@ import main.com.bsuir.autoservice.service.exception.ServiceException;
 import java.util.List;
 
 public interface ISparePartService extends IService {
+    List<SparePart> getAvailableSparePartList() throws ServiceException;
     List<SparePart> getView(int staffId, int sparePartGroup, int elementCount) throws ServiceException;
     boolean updateSparePart(SparePart sparePart) throws ServiceException;
 }

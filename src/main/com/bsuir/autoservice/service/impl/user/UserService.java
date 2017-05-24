@@ -2,15 +2,27 @@ package main.com.bsuir.autoservice.service.impl.user;
 
 import com.google.inject.Inject;
 import main.com.bsuir.autoservice.bean.impl.User;
+import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.unitofwork.IDaoUnitOfWork;
 import main.com.bsuir.autoservice.dto.UserStaffDTO;
 import main.com.bsuir.autoservice.service.exception.ServiceException;
+
+import java.util.List;
 
 public class UserService implements IUserService {
 
     @Inject
     public UserService(IDaoUnitOfWork daoUnitOfWork) {
         this.daoUnitOfWork = daoUnitOfWork;
+    }
+
+    @Override
+    public List<User> getAllUsers() throws ServiceException{
+        try {
+            return daoUnitOfWork.getUserDao().readAll();
+        }catch (DaoException e){
+            throw new ServiceException(e);
+        }
     }
 
     @Override

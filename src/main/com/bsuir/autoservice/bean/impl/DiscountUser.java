@@ -57,6 +57,11 @@ public class DiscountUser extends Bean<NullType> {
     }
 
     @Override
+    public Field[] getRenderFields() throws BeanException{
+        return getFieldsOrdered();
+    }
+
+    @Override
     public NullType getId() {
         return null;
     }

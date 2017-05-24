@@ -71,6 +71,11 @@ public class OrderSparePart extends Bean<NullType> {
         return null;
     }
 
+    @Override
+    public Field[] getRenderFields() throws BeanException{
+        return getFieldsOrdered();
+    }
+
     private Integer spare_part_id;
     private Integer order_id;
     private Integer count;

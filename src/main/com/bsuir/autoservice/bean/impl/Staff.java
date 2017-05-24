@@ -5,6 +5,7 @@ import main.com.bsuir.autoservice.bean.exception.BeanException;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -78,6 +79,15 @@ public class Staff extends Bean<Integer> {
         user_id = Integer.valueOf(fieldValues.get("user_id"));
         specialization = Specialization.valueOf(fieldValues.get("specialization"));
         return this;
+    }
+
+    @Override
+    public Field[] getRenderFields() throws BeanException{
+        List<Field> fields = new ArrayList<>(Arrays.asList(getFieldsOrdered()));
+        fields.remove(0);
+        Field[] renderFieldsArray = new Field[fields.size()];
+        fields.toArray(renderFieldsArray);
+        return renderFieldsArray;
     }
 
     private Integer id;
