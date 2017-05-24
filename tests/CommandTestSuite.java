@@ -1,8 +1,8 @@
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import unit.command.main.GeneralInformationCommandTest;
-import unit.command.main.LoginCommandTest;
-import unit.command.main.ResetLoginCommandTest;
+import unit.command.login.LoginCommandTest;
+import unit.command.login.ResetLoginCommandTest;
 import unit.command.mechanic.*;
 import unit.command.personalaccount.*;
 
