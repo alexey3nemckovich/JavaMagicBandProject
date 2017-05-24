@@ -2,11 +2,13 @@ package main.com.bsuir.autoservice.service.impl.order;
 
 import com.google.inject.Inject;
 import main.com.bsuir.autoservice.bean.impl.Order;
+import main.com.bsuir.autoservice.bean.impl.Service;
 import main.com.bsuir.autoservice.command.param.MechanicViewOrdersInfo;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.unitofwork.IDaoUnitOfWork;
 import main.com.bsuir.autoservice.service.exception.ServiceException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderService implements IOrderService {
@@ -26,8 +28,15 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public List<Order> getOrderServices(Integer userId, int detailOrderId) throws ServiceException {
-        throw new UnsupportedOperationException();
+    public List<Service> getOrderServices(int userId, int detailOrderId) throws ServiceException {
+        try {
+            List<Integer> serviceIds = daoUnitOfWork.getOrderedServiceDao().getAllUsers(detailOrderId);
+            return serviceIds.size() >0
+                    ? daoUnitOfWork.getServiceDao().getConcreteServices(serviceIds)
+                    : new ArrayList<>();
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override

@@ -3,7 +3,7 @@ package unit.command.personalaccount;
 import general.bean.MockBean;
 import general.service.MockService;
 import general.session.MockSession;
-import main.com.bsuir.autoservice.bean.impl.Order;
+import main.com.bsuir.autoservice.bean.impl.Service;
 import main.com.bsuir.autoservice.command.account.PersonalAccountOrderDetailsCommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.PersonalAccountOrderDetailsInfo;
@@ -50,8 +50,8 @@ public class PersonalAccountOrderDetailsCommandTest {
         return mock(PersonalAccountOrderDetailsInfo.class);
     }
 
-    private static PersonalAccountOrderDetailsRet getTestPersonalAccountOrderDetailsRet(List<Order> orders){
-        return new PersonalAccountOrderDetailsRet(orders);
+    private static PersonalAccountOrderDetailsRet getTestPersonalAccountOrderDetailsRet(List<Service> services){
+        return new PersonalAccountOrderDetailsRet(services);
     }
 
     private static IUserSession getSession() {
@@ -63,9 +63,9 @@ public class PersonalAccountOrderDetailsCommandTest {
         return new PersonalAccountOrderDetailsCommand(serviceUnitOfWork, session);
     }
 
-    private static List<Order> getMockOrderServices(){
-        return new ArrayList<Order>(){{
-            add(MockBean.getMockOrder());
+    private static List<Service> getMockOrderServices(){
+        return new ArrayList<Service>(){{
+            add(MockBean.getMockService());
         }};
     }
 
@@ -74,7 +74,7 @@ public class PersonalAccountOrderDetailsCommandTest {
     
     @Test
     public void checkGetOrderServicesDetail() throws CommandException, ServiceException {
-        List<Order> mockOrderServices = getMockOrderServices();
+        List<Service> mockOrderServices = getMockOrderServices();
         when(orderService.getOrderServices(MOCK_USER_ID, MOCK_ORDER_ID)).thenReturn(mockOrderServices);
         PersonalAccountOrderDetailsInfo mockInfo = getPersonalAccountOrderDetailsInfo();
         when(mockInfo.getDetailOrderId()).thenReturn(MOCK_ORDER_ID);

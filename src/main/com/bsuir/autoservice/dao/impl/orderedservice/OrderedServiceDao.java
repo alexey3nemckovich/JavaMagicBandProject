@@ -13,7 +13,9 @@ import javax.lang.model.type.NullType;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class OrderedServiceDao extends AbstractCrudDao<NullType, OrderedService> implements IOrderedServiceDao {
 
@@ -45,10 +47,23 @@ public class OrderedServiceDao extends AbstractCrudDao<NullType, OrderedService>
         temp.setOrderId(orderId);
         temp.setDate(new SimpleDate());
 
-        for (int orderService : orderServices){
+        for (int orderService : orderServices) {
             temp.setServiceId(orderService);
             insert(temp);
         }
         return true;
+    }
+
+    @Override
+    public List<Integer> getAllUsers(int detailOrderId) throws DaoException {
+        final Map<String, String> whereConditions = new HashMap<String, String>() {{
+            put(ORDER_ID, String.valueOf(detailOrderId));
+        }};
+
+        return executeQuery(rs -> new ArrayList<Integer>() {{
+            while (rs.next()) {
+                add(rs.getInt(SERVICE_ID));
+            }
+        }}, sql.getSelectWhereStatement(getTableName(), whereConditions));
     }
 }

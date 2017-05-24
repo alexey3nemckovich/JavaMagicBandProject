@@ -22,10 +22,7 @@ import main.com.bsuir.autoservice.binding.provider.fakeUOF.FakeDaoUOFProvider;
 import main.com.bsuir.autoservice.binding.provider.fakeUOF.FakeServiceUOFProvider;
 import main.com.bsuir.autoservice.binding.provider.impl.ControllerMapProvider;
 import main.com.bsuir.autoservice.command.NoCommand;
-import main.com.bsuir.autoservice.command.account.PersonalAccountMakeOrderCommand;
-import main.com.bsuir.autoservice.command.account.PersonalAccountRestorePassCommand;
-import main.com.bsuir.autoservice.command.account.PersonalAccountViewOrderNumberCommand;
-import main.com.bsuir.autoservice.command.account.PersonalAccountViewOrdersCommand;
+import main.com.bsuir.autoservice.command.account.*;
 import main.com.bsuir.autoservice.command.crud.add.AddBeanCommand;
 import main.com.bsuir.autoservice.command.crud.delete.DeleteBeanCommand;
 import main.com.bsuir.autoservice.command.crud.delete.DeleteBeanDependencyCommand;
@@ -255,7 +252,8 @@ public abstract class AutoServiceShopModule extends ServletModule {
                 createActionMapBuilder(PersonalAccountMakeOrderActionMap.class, PersonalAccountMakeOrderActionMapProvider.class),
                 createActionMapBuilder(PersonalAccountViewOrderLoadActionMap.class, PersonalAccountViewOrderLoadActionMapProvider.class),
                 createActionMapBuilder(PersonalAccountViewOrderNumberActionMap.class, PersonalAccountViewOrderNumberActionMapProvider.class),
-                createActionMapBuilder(PersonalAccountViewOrdersActionMap.class, PersonalAccountViewOrdersActionMapProvider.class)
+                createActionMapBuilder(PersonalAccountViewOrdersActionMap.class, PersonalAccountViewOrdersActionMapProvider.class),
+                createActionMapBuilder(PersonalAccountOrderDetailsActionMap.class, PersonalAccountOrderDetailsActionMapProvider.class)
         );
     }
 
@@ -307,7 +305,8 @@ public abstract class AutoServiceShopModule extends ServletModule {
                 bind(PersonalAccountRestorePassCommand.class),
                 bind(PersonalAccountMakeOrderCommand.class),
                 bind(PersonalAccountViewOrderNumberCommand.class),
-                bind(PersonalAccountViewOrdersCommand.class)
+                bind(PersonalAccountViewOrdersCommand.class),
+                bind(PersonalAccountOrderDetailsCommand.class)
         );
     }
 

@@ -182,6 +182,25 @@ public class GeneralSql implements IGeneralSql {
         return String.format("SELECT LAST_INSERT_ID() as `%s`", namedKey);
     }
 
+    @Override
+    public String getSelectWhereInStatement(String tableName, String inVariable, List<String> conditions) {
+        return String.format("SELECT * FROM %s %s", getFullTableName(tableName), getWhereInStatement(inVariable, conditions));
+    }
+
+    private static final String START_WHERE_IN_STATEMENT = "'%s'";
+    private static final String OTHER_WHERE_IN_STATEMENT = String.format(", %s", START_WHERE_IN_STATEMENT);
+
+    private String getWhereInStatement(String inVariable, List<String> conditions) {
+        StringBuilder stringBuilder = new StringBuilder(String.format("WHERE `%s` IN (", inVariable));
+        String currentStatement = START_WHERE_IN_STATEMENT;
+        for (String condition : conditions) {
+            stringBuilder.append(String.format(currentStatement, condition));
+            currentStatement = OTHER_WHERE_IN_STATEMENT;
+        }
+        stringBuilder.append(")");
+        return stringBuilder.toString();
+    }
+
     private static final List<String> reservedWords = new ArrayList<>(
             Arrays.asList(
                     "NULL"

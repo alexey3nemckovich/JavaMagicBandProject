@@ -29,4 +29,5 @@ public interface IGeneralSql {
     String getExistsStatement(String tableName, Map<String, String> conditions, String namedExist);
 
     String getLastPrimaryKeyStatement(String namedKey);
+    String getSelectWhereInStatement(String tableName, String inVariable, List<String> conditions);
 }

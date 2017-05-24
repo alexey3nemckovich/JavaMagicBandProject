@@ -9,7 +9,8 @@ public class PersonalAccountOrderDetailsInfo implements ICommandParam{
 
     @Override
     public Map<String, String[]> parse(Map<String, String[]> params) {
-        throw new UnsupportedOperationException();
+        detailOrderId = Integer.valueOf(params.get("orderId")[0]);
+        return null;
     }
 
     public int getDetailOrderId() {

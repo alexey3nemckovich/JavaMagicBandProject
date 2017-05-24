@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ServiceDao extends AbstractCrudDao<Integer, Service> implements IServiceDao {
 
@@ -58,5 +59,12 @@ public class ServiceDao extends AbstractCrudDao<Integer, Service> implements ISe
     @Override
     public List<Service> getFullAvailable() throws DaoException {
         return getAll();
+    }
+
+    @Override
+    public List<Service> getConcreteServices(List<Integer> allUsers) throws DaoException {
+        return executeQuery(this::parseResultSet, sql.getSelectWhereInStatement(getTableName(), SERVICE_ID,
+                //convert List<Integer> to List<String>
+                allUsers.stream().map(Object::toString).collect(Collectors.toList())));
     }
 }
