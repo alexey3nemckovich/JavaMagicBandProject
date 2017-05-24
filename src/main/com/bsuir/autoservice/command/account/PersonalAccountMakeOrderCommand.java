@@ -18,6 +18,6 @@ public class PersonalAccountMakeOrderCommand extends
     @Override
     protected PersonalAccountMakeOrderRet executeImpl(PersonalAccountMakeOrderInfo param) throws Exception {
         return new PersonalAccountMakeOrderRet(serviceUnitOfWork.getOrderService().makeOrder(
-                session.getUserId(), param.getOrderServices()));
+                session.getUserId(), param.getOrderServices(), param.getServiceShopId()));
     }
 }

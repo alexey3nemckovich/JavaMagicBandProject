@@ -59,7 +59,7 @@ public class PersonalAccountShareCommandTest {
     private static IUserSession getSession() {
         return MockSession.getSession();
     }
-    
+
     private static PersonalAccountShareCommand getPersonalAccountShareCommand(
             IServiceUnitOfWork serviceUnitOfWork, IUserSession session){
         return new PersonalAccountShareCommand(serviceUnitOfWork, session);

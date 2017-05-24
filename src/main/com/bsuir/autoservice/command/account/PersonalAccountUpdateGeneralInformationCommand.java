@@ -1,32 +1,26 @@
 package main.com.bsuir.autoservice.command.account;
 
 import com.google.inject.Inject;
-import main.com.bsuir.autoservice.command.ICommand;
-import main.com.bsuir.autoservice.command.exception.CommandException;
+import main.com.bsuir.autoservice.command.AbstractSessionCommand;
 import main.com.bsuir.autoservice.command.param.PersonalAccountUpdateGeneralInformationInfo;
 import main.com.bsuir.autoservice.command.ret.PersonalAccountUpdateGeneralInformationRet;
+import main.com.bsuir.autoservice.dto.UserUpdateInformationDTO;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
 import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 
+
 public class PersonalAccountUpdateGeneralInformationCommand
-        implements ICommand<PersonalAccountUpdateGeneralInformationInfo, PersonalAccountUpdateGeneralInformationRet>{
-    private final IServiceUnitOfWork serviceUnitOfWork;
-    private final IUserSession session;
+        extends AbstractSessionCommand<PersonalAccountUpdateGeneralInformationInfo, PersonalAccountUpdateGeneralInformationRet>{
 
     @Inject
     public PersonalAccountUpdateGeneralInformationCommand(IServiceUnitOfWork serviceUnitOfWork, IUserSession session) {
-        this.serviceUnitOfWork = serviceUnitOfWork;
-        this.session = session;
+        super(serviceUnitOfWork, session);
     }
 
     @Override
-    public PersonalAccountUpdateGeneralInformationRet execute(PersonalAccountUpdateGeneralInformationInfo param)
-            throws CommandException {
-        try{
-            return new PersonalAccountUpdateGeneralInformationRet(serviceUnitOfWork.getUserService().
-                    updateUserInformation(session.getUserId(), param.getNewUser()));
-        }catch (Exception e){
-            throw new CommandException(e);
-        }
+    protected PersonalAccountUpdateGeneralInformationRet executeImpl(PersonalAccountUpdateGeneralInformationInfo param) throws Exception {
+        return new PersonalAccountUpdateGeneralInformationRet(serviceUnitOfWork.getUserService().
+                updateUserInformation(session.getUserId(),
+                        new UserUpdateInformationDTO(param.getName(), param.getLastName(), param.getPhone())));
     }
 }

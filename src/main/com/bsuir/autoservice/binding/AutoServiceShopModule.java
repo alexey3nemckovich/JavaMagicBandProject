@@ -2,6 +2,7 @@ package main.com.bsuir.autoservice.binding;
 
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
+import com.google.inject.binder.ScopedBindingBuilder;
 import com.google.inject.matcher.Matchers;
 import com.google.inject.name.Names;
 import com.google.inject.servlet.ServletModule;
@@ -9,28 +10,42 @@ import main.com.bsuir.autoservice.binding.annotation.*;
 import main.com.bsuir.autoservice.binding.annotation.action.map.*;
 import main.com.bsuir.autoservice.binding.log4j.Log4JTypeListener;
 import main.com.bsuir.autoservice.binding.provider.CrudDaoFactoryProvider;
+import main.com.bsuir.autoservice.binding.provider.DatabaseNameProvider;
 import main.com.bsuir.autoservice.binding.provider.PermissionProvider;
-import main.com.bsuir.autoservice.binding.provider.action.map.impl.*;
+import main.com.bsuir.autoservice.binding.provider.action.map.impl.NoActionMapProvider;
+import main.com.bsuir.autoservice.binding.provider.action.map.impl.account.*;
+import main.com.bsuir.autoservice.binding.provider.action.map.impl.bean.*;
+import main.com.bsuir.autoservice.binding.provider.action.map.impl.login.*;
+import main.com.bsuir.autoservice.binding.provider.action.map.impl.main.GeneralInformationActionMapProvider;
+import main.com.bsuir.autoservice.binding.provider.action.map.impl.main.MainLoadActionMapProvider;
 import main.com.bsuir.autoservice.binding.provider.fakeUOF.FakeDaoUOFProvider;
 import main.com.bsuir.autoservice.binding.provider.fakeUOF.FakeServiceUOFProvider;
 import main.com.bsuir.autoservice.binding.provider.impl.ControllerMapProvider;
+import main.com.bsuir.autoservice.command.NoCommand;
+import main.com.bsuir.autoservice.command.account.*;
 import main.com.bsuir.autoservice.command.crud.add.AddBeanCommand;
 import main.com.bsuir.autoservice.command.crud.delete.DeleteBeanCommand;
 import main.com.bsuir.autoservice.command.crud.delete.DeleteBeanDependencyCommand;
 import main.com.bsuir.autoservice.command.crud.edit.EditBeanCommand;
 import main.com.bsuir.autoservice.command.crud.get.*;
-import main.com.bsuir.autoservice.command.param.BeanDependencyViewPageInfo;
-import main.com.bsuir.autoservice.command.param.BeanEditPageInfo;
-import main.com.bsuir.autoservice.command.param.BeanViewPageInfo;
-import main.com.bsuir.autoservice.command.param.CrudPageInfo;
+import main.com.bsuir.autoservice.command.login.LoginCommand;
+import main.com.bsuir.autoservice.command.login.LoginLoadCommand;
+import main.com.bsuir.autoservice.command.login.LogoutCommand;
+import main.com.bsuir.autoservice.command.main.GeneralInformationCommand;
 import main.com.bsuir.autoservice.config.RouteConfig;
 import main.com.bsuir.autoservice.config.database.impl.sql.ISqlConfigDatabase;
 import main.com.bsuir.autoservice.config.database.impl.sql.impl.SqlConfigDatabase;
 import main.com.bsuir.autoservice.config.permission.Permission;
 import main.com.bsuir.autoservice.controller.IController;
 import main.com.bsuir.autoservice.controller.NoController;
+import main.com.bsuir.autoservice.controller.account.AccountUserLoadController;
 import main.com.bsuir.autoservice.controller.action.Action;
 import main.com.bsuir.autoservice.controller.bean.*;
+import main.com.bsuir.autoservice.controller.login.LoginLoadController;
+import main.com.bsuir.autoservice.controller.login.LoginPageController;
+import main.com.bsuir.autoservice.controller.login.LogoutController;
+import main.com.bsuir.autoservice.controller.main.GeneralInformationController;
+import main.com.bsuir.autoservice.controller.main.MainLoadController;
 import main.com.bsuir.autoservice.controller.provider.ControllerProvider;
 import main.com.bsuir.autoservice.controller.provider.IControllerProvider;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
@@ -67,8 +82,8 @@ import main.com.bsuir.autoservice.dao.impl.staff.IStaffDao;
 import main.com.bsuir.autoservice.dao.impl.staff.StaffDao;
 import main.com.bsuir.autoservice.dao.impl.user.IUserDao;
 import main.com.bsuir.autoservice.dao.impl.user.UserDao;
-import main.com.bsuir.autoservice.dao.sql.ISql;
-import main.com.bsuir.autoservice.dao.sql.Sql;
+import main.com.bsuir.autoservice.dao.sql.GeneralSql;
+import main.com.bsuir.autoservice.dao.sql.IGeneralSql;
 import main.com.bsuir.autoservice.dao.unitofwork.DefaultDaoUnitOfWork;
 import main.com.bsuir.autoservice.dao.unitofwork.IDaoUnitOfWork;
 import main.com.bsuir.autoservice.infrastructure.cache.IMethodCache;
@@ -76,6 +91,8 @@ import main.com.bsuir.autoservice.infrastructure.cache.impl.MethodCache;
 import main.com.bsuir.autoservice.infrastructure.interceptor.CacheInterceptor;
 import main.com.bsuir.autoservice.infrastructure.interceptor.TransactionInterceptor;
 import main.com.bsuir.autoservice.infrastructure.listener.DatabaseConnectionListener;
+import main.com.bsuir.autoservice.infrastructure.security.password.IPassword;
+import main.com.bsuir.autoservice.infrastructure.security.password.NoPassword;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
 import main.com.bsuir.autoservice.infrastructure.session.impl.CustomHttpSession;
 import main.com.bsuir.autoservice.infrastructure.session.impl.CustomHttpSessionProvider;
@@ -107,12 +124,14 @@ import main.com.bsuir.autoservice.service.impl.user.UserService;
 import main.com.bsuir.autoservice.service.unitofwork.DefaultServiceUnitOfWork;
 import main.com.bsuir.autoservice.service.unitofwork.IServiceUnitOfWork;
 
+import javax.inject.Provider;
+import java.lang.annotation.Annotation;
 import java.util.Map;
 
 public abstract class AutoServiceShopModule extends ServletModule {
 
     private static final String RESOURCE_DATABASE = "database";
-    private static final String ERROR_JSP_PAGE = "./error.jsp";
+    private static final String ERROR_JSP_PAGE = "/error.jsp";
     private static final String RESOURCE_DATABASE_MAP = "databaseMap.xml";
 
     protected void configBindings() {
@@ -123,7 +142,6 @@ public abstract class AutoServiceShopModule extends ServletModule {
         bindPages();
         bindController();
         bindCommand();
-        bindCommandParams();
         bindService();
         bindDao();
 
@@ -135,7 +153,12 @@ public abstract class AutoServiceShopModule extends ServletModule {
         bindSession();
         bindListener();
         bindTransaction();
+        bindSecurity();
         bindCache();
+    }
+
+    private void bindSecurity() {
+        bind(IPassword.class).to(NoPassword.class).in(Singleton.class);
     }
 
     private void bindCache() {
@@ -160,21 +183,22 @@ public abstract class AutoServiceShopModule extends ServletModule {
     }
 
     private void bindPermission() {
-        bind(new TypeLiteral<Map<String, Permission>>(){}).annotatedWith(PermissionUrl.class).
+        bind(new TypeLiteral<Map<String, Permission>>() {
+        }).annotatedWith(PermissionUrl.class).
                 toProvider(PermissionProvider.class).in(Singleton.class);
     }
 
-    private void bindDefault(){
+    private void bindDefault() {
         bind(IController.class).annotatedWith(Default.class).to(NoController.class).in(Singleton.class);
     }
 
-    private void bindSupported(){
+    private void bindSupported() {
         bind(RequestType[].class).
                 annotatedWith(Supported.class).
                 toInstance(new RequestType[]{RequestType.GET, RequestType.POST});
     }
 
-    private void bindPages(){
+    private void bindPages() {
         bind(String.class).annotatedWith(ErrorJspPage.class).toInstance(ERROR_JSP_PAGE);
     }
 
@@ -182,85 +206,129 @@ public abstract class AutoServiceShopModule extends ServletModule {
         bindConcreteControllers();
         bindControllerActionMaps();
         bind(IControllerProvider.class).to(ControllerProvider.class).in(Singleton.class);
-        bind(new TypeLiteral<Map<String, IController>>(){}).
-                annotatedWith(ControllerProviderArgument.class).
-                toProvider(ControllerMapProvider.class).
-                in(Singleton.class);
+        bind(new TypeLiteral<Map<String, IController>>() {}).annotatedWith(ControllerProviderArgument.class)
+                .toProvider(ControllerMapProvider.class).in(Singleton.class);
     }
 
-    private void bindControllerActionMaps(){
-        bind(new TypeLiteral<Map<String, Action>>(){}).
-                annotatedWith(BeanActionMap.class).
-                toProvider(BeanActionMapProvider.class).in(Singleton.class);
-        bind(new TypeLiteral<Map<String, Action>>(){}).
-                annotatedWith(BeanAddActionMap.class).
-                toProvider(BeanAddActionMapProvider.class).in(Singleton.class);
-        bind(new TypeLiteral<Map<String, Action>>(){}).
-                annotatedWith(BeanViewActionMap.class).
-                toProvider(BeanViewActionMapProvider.class).in(Singleton.class);
-        bind(new TypeLiteral<Map<String, Action>>(){}).
-                annotatedWith(BeanEditActionMap.class).
-                toProvider(BeanEditActionMapProvider.class).in(Singleton.class);
-        bind(new TypeLiteral<Map<String, Action>>(){}).
-                annotatedWith(BeanDependencyViewActionMap.class).
-                toProvider(BeanDependencyViewActionMapProvider.class).in(Singleton.class);
-        bind(new TypeLiteral<Map<String, Action>>(){}).
-                annotatedWith(BeanDependencyEditActionMap.class).
-                toProvider(BeanDependencyEditActionMapProvider.class).in(Singleton.class);
-        bind(new TypeLiteral<Map<String, Action>>(){}).
-                annotatedWith(BeanDependencyAddActionMap.class).
-                toProvider(BeanDependencyAddActionMapProvider.class).in(Singleton.class);
+    private TypeLiteral<Map<String, Action>> getActionMapType() {
+        return new TypeLiteral<Map<String, Action>>() {
+        };
+    }
+
+    private void bindSingletons(ScopedBindingBuilder... scopedBindingBuilders) {
+        for (ScopedBindingBuilder scopedBindingBuilder : scopedBindingBuilders) {
+            scopedBindingBuilder.in(Singleton.class);
+        }
+    }
+
+    private ScopedBindingBuilder createActionMapBuilder(Class<? extends Annotation> actionMapAnnotationClass, 
+                                                        Class<? extends Provider<? extends Map<String, Action>>> actionMapProviderClass){
+        return bind(getActionMapType()).annotatedWith(actionMapAnnotationClass).toProvider(actionMapProviderClass);
+    }
+    
+    private void bindControllerActionMaps() {
+        bindSingletons(
+                createActionMapBuilder(BeanActionMap.class,BeanActionMapProvider.class),
+                createActionMapBuilder(BeanAddActionMap.class,BeanAddActionMapProvider.class),
+                createActionMapBuilder(BeanViewActionMap.class,BeanViewActionMapProvider.class),
+                createActionMapBuilder(BeanEditActionMap.class,BeanEditActionMapProvider.class),
+                createActionMapBuilder(BeanDependencyViewActionMap.class,BeanDependencyViewActionMapProvider.class),
+                createActionMapBuilder(BeanDependencyEditActionMap.class,BeanDependencyEditActionMapProvider.class),
+                createActionMapBuilder(BeanDependencyAddActionMap.class,BeanDependencyAddActionMapProvider.class),
+
+                createActionMapBuilder(LoginLoadActionMap.class,LoginLoadActionMapProvider.class),
+                createActionMapBuilder(LoginActionMap.class,LoginActionMapProvider.class),
+                createActionMapBuilder(NoActionMap.class,NoActionMapProvider.class),
+                createActionMapBuilder(LogoutActionMap.class,LogoutActionMapProvider.class),
+                createActionMapBuilder(AccountUserLoadActionMap.class,AccountUserLoadActionMapProvider.class),
+                createActionMapBuilder(LoginPageActionMap.class,LoginPageActionMapProvider.class),
+                createActionMapBuilder(GeneralInformationActionMap.class,GeneralInformationActionMapProvider.class),
+                createActionMapBuilder(MainLoadActionMap.class,MainLoadActionMapProvider.class),
+                createActionMapBuilder(PersonalAccountInformationActionMap.class, PersonalAccountInformationActionMapProvider.class),
+                createActionMapBuilder(PersonalAccountUpdateGeneralInformationActionMap.class, PersonalAccountUpdateGeneralInformationProvider.class),
+                createActionMapBuilder(PersonalAccountRestorePassLoadActionMap.class, PersonalAccountRestorePassLoadActionMapProvider.class),
+                createActionMapBuilder(PersonalAccountRestorePassActionMap.class, PersonalAccountRestorePassActionMapProvider.class),
+                createActionMapBuilder(PersonalAccountAddOrderLoadActionMap.class, PersonalAccountAddOrderLoadActionMapProvider.class),
+                createActionMapBuilder(PersonalAccountMakeOrderActionMap.class, PersonalAccountMakeOrderActionMapProvider.class),
+                createActionMapBuilder(PersonalAccountViewOrderLoadActionMap.class, PersonalAccountViewOrderLoadActionMapProvider.class),
+                createActionMapBuilder(PersonalAccountViewOrderNumberActionMap.class, PersonalAccountViewOrderNumberActionMapProvider.class),
+                createActionMapBuilder(PersonalAccountViewOrdersActionMap.class, PersonalAccountViewOrdersActionMapProvider.class),
+                createActionMapBuilder(PersonalAccountOrderDetailsActionMap.class, PersonalAccountOrderDetailsActionMapProvider.class),
+                createActionMapBuilder(PersonalAccountModesActionMap.class, PersonalAccountModesActionMapProvider.class)
+        );
     }
 
     private void bindConcreteControllers() {
-        bind(BeanController.class).in(Singleton.class);
-        bind(BeanAddController.class).in(Singleton.class);
-        bind(BeanViewController.class).in(Singleton.class);
-        bind(BeanEditController.class).in(Singleton.class);
-        bind(BeanDependencyViewController.class).in(Singleton.class);
-        bind(BeanDependencyEditController.class).in(Singleton.class);
-        bind(BeanDependencyAddController.class).in(Singleton.class);
+        bindSingletons(
+                bind(BeanController.class),
+                bind(BeanAddController.class),
+                bind(BeanViewController.class),
+                bind(BeanEditController.class),
+                bind(BeanDependencyViewController.class),
+                bind(BeanDependencyEditController.class),
+                bind(BeanDependencyAddController.class),
+                bind(LoginLoadController.class),
+                bind(LogoutController.class),
+                bind(NoController.class),
+                bind(AccountUserLoadController.class),
+                bind(LoginPageController.class),
+                bind(GeneralInformationController.class)
+        );
     }
 
-    private void bindCommand(){
-        //get
-        bind(GetBeanAddPageCommand.class).in(Singleton.class);
-        bind(GetBeanViewPageCommand.class).in(Singleton.class);
-        bind(GetBeanMainPageCommand.class).in(Singleton.class);
-        bind(GetBeanEditPageCommand.class).in(Singleton.class);
-        bind(GetBeanDependencyViewPageCommand.class).in(Singleton.class);
-        //delete
-        bind(DeleteBeanDependencyCommand.class).in(Singleton.class);
-        bind(DeleteBeanCommand.class).in(Singleton.class);
-        //add
-        bind(AddBeanCommand.class).in(Singleton.class);
-        //edit
-        bind(EditBeanCommand.class).in(Singleton.class);
-    }
+    private void bindCommand() {
+        bindSingletons(
+                //main
+                bind(GeneralInformationCommand.class),
+                bind(MainLoadController.class),
 
-    private void bindCommandParams(){
-        bind(CrudPageInfo.class);
-        bind(BeanEditPageInfo.class);
-        bind(BeanViewPageInfo.class);
-        bind(BeanDependencyViewPageInfo.class);
+                //get
+                bind(GetBeanAddPageCommand.class),
+                bind(GetBeanViewPageCommand.class),
+                bind(GetBeanMainPageCommand.class),
+                bind(GetBeanEditPageCommand.class),
+                bind(GetBeanDependencyViewPageCommand.class),
+                //delete
+                bind(DeleteBeanDependencyCommand.class),
+                bind(DeleteBeanCommand.class),
+                //add
+                bind(AddBeanCommand.class),
+                //edit
+                bind(EditBeanCommand.class),
+
+                //login
+                bind(LoginLoadCommand.class),
+                bind(LoginCommand.class),
+                bind(LogoutCommand.class),
+
+                bind(NoCommand.class),
+
+                bind(PersonalAccountRestorePassCommand.class),
+                bind(PersonalAccountMakeOrderCommand.class),
+                bind(PersonalAccountViewOrderNumberCommand.class),
+                bind(PersonalAccountViewOrdersCommand.class),
+                bind(PersonalAccountOrderDetailsCommand.class),
+                bind(PersonalAccountModesCommand.class)
+        );
     }
 
     private void bindService() {
-        bind(IServiceUnitOfWork.class).to(DefaultServiceUnitOfWork.class).in(Singleton.class);
-        bind(IServiceUnitOfWork.class).annotatedWith(FakeUOF.class).toProvider(FakeServiceUOFProvider.class).
-                in(Singleton.class);
+        bindSingletons(
+                bind(IServiceUnitOfWork.class).to(DefaultServiceUnitOfWork.class),
+                bind(IServiceUnitOfWork.class).annotatedWith(FakeUOF.class).toProvider(FakeServiceUOFProvider.class),
 
-        bind(ICrudService.class).to(CrudService.class).in(Singleton.class);
-        bind(IBaseService.class).to(BaseService.class).in(Singleton.class);
-        bind(IUserService.class).to(UserService.class).in(Singleton.class);
-        bind(IDiscountService.class).to(DiscountService.class).in(Singleton.class);
-        bind(INotificationService.class).to(NotificationService.class).in(Singleton.class);
-        bind(IOrderService.class).to(OrderService.class).in(Singleton.class);
-        bind(IServiceBeanService.class).to(ServiceBeanService.class).in(Singleton.class);
-        bind(IServiceShopBeanService.class).to(ServiceShopBeanService.class).in(Singleton.class);
-        bind(IShareService.class).to(ShareService.class).in(Singleton.class);
-        bind(ISparePartService.class).to(SparePartService.class).in(Singleton.class);
-        bind(IStaffService.class).to(StaffService.class).in(Singleton.class);
+                bind(ICrudService.class).to(CrudService.class),
+                bind(IBaseService.class).to(BaseService.class),
+                bind(IUserService.class).to(UserService.class),
+                bind(IDiscountService.class).to(DiscountService.class),
+                bind(INotificationService.class).to(NotificationService.class),
+                bind(IOrderService.class).to(OrderService.class),
+                bind(IServiceBeanService.class).to(ServiceBeanService.class),
+                bind(IServiceShopBeanService.class).to(ServiceShopBeanService.class),
+                bind(IShareService.class).to(ShareService.class),
+                bind(ISparePartService.class).to(SparePartService.class),
+                bind(IStaffService.class).to(StaffService.class)
+        );
     }
 
     private void bindDao() {
@@ -273,21 +341,23 @@ public abstract class AutoServiceShopModule extends ServletModule {
         bind(IDatabase.class).to(SqlRequestDatabaseProvider.class);
         bind(SqlRequestDatabase.class);
         bind(SqlDatabase.class).asEagerSingleton();
-        bind(ISql.class).to(Sql.class).in(Singleton.class);
+        bind(IGeneralSql.class).to(GeneralSql.class).in(Singleton.class);
 
-        bind(IDiscountDao.class).to(DiscountDao.class).in(Singleton.class);
-        bind(IDiscountUserDao.class).to(DiscountUserDao.class).in(Singleton.class);
-        bind(INotificationDao.class).to(NotificationDao.class).in(Singleton.class);
-        bind(IOrderDao.class).to(OrderDao.class).in(Singleton.class);
-        bind(IOrderSparePartDao.class).to(OrderSparePartDao.class).in(Singleton.class);
-        bind(IOrderedServiceDao.class).to(OrderedServiceDao.class).in(Singleton.class);
-        bind(IServiceDao.class).to(ServiceDao.class).in(Singleton.class);
-        bind(IServiceShopDao.class).to(ServiceShopDao.class).in(Singleton.class);
-        bind(IShareDao.class).to(ShareDao.class).in(Singleton.class);
-        bind(IShareDiscountDao.class).to(ShareDiscountDao.class).in(Singleton.class);
-        bind(ISparePartDao.class).to(SparePartDao.class).in(Singleton.class);
-        bind(IStaffDao.class).to(StaffDao.class).in(Singleton.class);
-        bind(IUserDao.class).to(UserDao.class).in(Singleton.class);
+        bindSingletons(
+                bind(IDiscountDao.class).to(DiscountDao.class),
+                bind(IDiscountUserDao.class).to(DiscountUserDao.class),
+                bind(INotificationDao.class).to(NotificationDao.class),
+                bind(IOrderDao.class).to(OrderDao.class),
+                bind(IOrderSparePartDao.class).to(OrderSparePartDao.class),
+                bind(IOrderedServiceDao.class).to(OrderedServiceDao.class),
+                bind(IServiceDao.class).to(ServiceDao.class),
+                bind(IServiceShopDao.class).to(ServiceShopDao.class),
+                bind(IShareDao.class).to(ShareDao.class),
+                bind(IShareDiscountDao.class).to(ShareDiscountDao.class),
+                bind(ISparePartDao.class).to(SparePartDao.class),
+                bind(IStaffDao.class).to(StaffDao.class),
+                bind(IUserDao.class).to(UserDao.class)
+        );
     }
 
     private void bindConfig() {
@@ -310,6 +380,8 @@ public abstract class AutoServiceShopModule extends ServletModule {
 
         bind(String.class).annotatedWith(Names.named("dataMapConfig")).toInstance(RESOURCE_DATABASE_MAP);
         bind(IDatabaseMap.class).to(DataMapConfig.class).asEagerSingleton();
+
+        bind(String.class).annotatedWith(DatabaseName.class).toProvider(DatabaseNameProvider.class).in(Singleton.class);
     }
 
     private void bindLibraries() {

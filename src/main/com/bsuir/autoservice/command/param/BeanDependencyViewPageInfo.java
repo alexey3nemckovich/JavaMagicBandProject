@@ -1,6 +1,5 @@
 package main.com.bsuir.autoservice.command.param;
 
-import main.com.bsuir.autoservice.command.ICommandParam;
 import main.com.bsuir.autoservice.command.RequestParameter;
 import main.com.bsuir.autoservice.service.Dependency;
 
@@ -8,7 +7,7 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BeanDependencyViewPageInfo extends BeanViewPageInfo implements ICommandParam{
+public class BeanDependencyViewPageInfo extends BeanViewPageInfo {
 
     @RequestParameter
     public Dependency dependency;

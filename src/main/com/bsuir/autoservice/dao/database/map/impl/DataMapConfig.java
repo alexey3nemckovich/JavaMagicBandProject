@@ -26,10 +26,14 @@ import java.util.Map;
 import static main.com.bsuir.autoservice.library.XmlUtil.asList;
 
 public class DataMapConfig implements IDatabaseMap {
-    private static final String TAG_TABLE = "table";
+
+    //root
+    private static final String ATTRIBUTE_DATABASE_NAME = "database_name";
+    private static final String TAG_ROOT_TABLE = "tables";
 
     //tables subnodes
-    private static final String ATTRIBUTE_DATABASE_NAME = "database_table_name";
+    private static final String TAG_TABLE = "table";
+    private static final String ATTRIBUTE_DATABASE_TABLE_NAME = "database_table_name";
     private static final String ATTRIBUTE_BEAN_CLASS = "bean_class";
     private static final String ATTRIBUTE_SHOW_NAME = "show_name";
     private static final String ATTRIBUTE_DAO_CRUD_NAME = "dao_crud";
@@ -94,17 +98,17 @@ public class DataMapConfig implements IDatabaseMap {
         final NamedNodeMap namedNodeMap = tableNode.getAttributes();
         return new TableMap(
                 getLoadBeanClass(getExistAttributeValue(namedNodeMap, ATTRIBUTE_BEAN_CLASS)),
-                getExistAttributeValue(namedNodeMap, ATTRIBUTE_DATABASE_NAME),
+                getExistAttributeValue(namedNodeMap, ATTRIBUTE_DATABASE_TABLE_NAME),
                 getTableColumns(tableNode),
                 getDependencies(tableNode));
     }
 
     private List<DependencyMap> getDependencies(Node tableNode) {
         assert tableNode.getNodeType() == Node.ELEMENT_NODE : String.format("'%s' isn't element node", tableNode);
-        assert ((Element)tableNode).getElementsByTagName(TAG_DEPENDENCIES).getLength() <= 1 : String.format("'%s' is too big dependencies (>1)", tableNode);
+        assert ((Element) tableNode).getElementsByTagName(TAG_DEPENDENCIES).getLength() <= 1 : String.format("'%s' is too big dependencies (>1)", tableNode);
 
         final List<DependencyMap> dependencyMaps = new ArrayList<>();
-        final List<Node> dependencyTagNodes = asList(((Element)tableNode).getElementsByTagName(TAG_DEPENDENCIES));
+        final List<Node> dependencyTagNodes = asList(((Element) tableNode).getElementsByTagName(TAG_DEPENDENCIES));
         if (dependencyTagNodes.size() == 1) {
             final List<Node> dependencyNodes = asList(dependencyTagNodes.get(0).getChildNodes());
 
@@ -125,7 +129,7 @@ public class DataMapConfig implements IDatabaseMap {
         final List<ColumnMap> columnMaps = new ArrayList<>();
         final List<Node> columnNodes = asList(tableNode.getChildNodes());
         columnNodes.forEach(columnNode -> {
-            if (columnNode.getNodeType() == Node.ELEMENT_NODE && ((Element)columnNode).getTagName().equals(TAG_COLUMN)) {
+            if (columnNode.getNodeType() == Node.ELEMENT_NODE && ((Element) columnNode).getTagName().equals(TAG_COLUMN)) {
                 NamedNodeMap namedNodeMap = columnNode.getAttributes();
                 columnMaps.add(new ColumnMap(
                         getExistAttributeValue(namedNodeMap, ATTRIBUTE_COLUMN_DATABASE_FIELD),
@@ -194,13 +198,22 @@ public class DataMapConfig implements IDatabaseMap {
         return Bean.getBeanObject(getBeanClass(showTableName));
     }
 
+    @Override
+    public String getDatabaseName() {
+        assert mapDocument.getElementsByTagName(TAG_ROOT_TABLE).getLength() == 1 : String.format("Number of tag '%s' != 1", TAG_ROOT_TABLE);
+        Node databaseNameNode = mapDocument.getElementsByTagName(TAG_ROOT_TABLE).item(0)
+                .getAttributes().getNamedItem(ATTRIBUTE_DATABASE_NAME);
+        assert databaseNameNode != null : "Database name isn't set";
+        return databaseNameNode.getNodeValue();
+    }
+
     private Node getDaoClassNode(Class<? extends ICrudDao> daoClass) {
         assert getCrudClassNodes().containsKey(daoClass) : String.format("'%s' didn't contains in databaseMap", daoClass);
         return getCrudClassNodes().get(daoClass);
     }
 
     @Cached
-    protected Map<Class<? extends ICrudDao>, Node> getCrudClassNodes(){
+    protected Map<Class<? extends ICrudDao>, Node> getCrudClassNodes() {
         Map<Class<? extends ICrudDao>, Node> crudClassMap = new HashMap<>();
         getTableNodes().forEach(tableNode -> {
             Node daoCrudName = tableNode.getAttributes().getNamedItem(ATTRIBUTE_DAO_CRUD_NAME);

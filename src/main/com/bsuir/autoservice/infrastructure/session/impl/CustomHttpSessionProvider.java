@@ -3,6 +3,7 @@ package main.com.bsuir.autoservice.infrastructure.session.impl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import main.com.bsuir.autoservice.bean.impl.Staff;
 import main.com.bsuir.autoservice.config.permission.PermissionLevel;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
 import main.com.bsuir.autoservice.infrastructure.session.exception.SessionException;
@@ -51,8 +52,13 @@ public class CustomHttpSessionProvider implements IUserSession {
     }
 
     @Override
-    public void update(Integer userId, String userName, PermissionLevel userLevel) throws SessionException {
-        getSession().update(userId, userName, userLevel);
+    public void update(Integer userId, String userName, Staff.Specialization staffSpecialization) throws SessionException {
+        getSession().update(userId, userName, staffSpecialization);
+    }
+
+    @Override
+    public boolean clear() throws SessionException {
+        return getSession().clear();
     }
 
     @Override
@@ -63,5 +69,10 @@ public class CustomHttpSessionProvider implements IUserSession {
     @Override
     public void setUserName(String userName) throws SessionException {
         getSession().setUserName(userName);
+    }
+
+    @Override
+    public boolean isAuthorized() throws SessionException {
+        return getSession().isAuthorized();
     }
 }

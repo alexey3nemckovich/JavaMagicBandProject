@@ -1,13 +1,14 @@
 package unit.command.personalaccount;
 
 import general.bean.MockBean;
+import general.dto.MockDTO;
 import general.service.MockService;
 import general.session.MockSession;
-import main.com.bsuir.autoservice.bean.impl.User;
 import main.com.bsuir.autoservice.command.account.PersonalAccountInformationCommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.PersonalAccountInformationInfo;
 import main.com.bsuir.autoservice.command.ret.PersonalAccountInformationRet;
+import main.com.bsuir.autoservice.dto.UserGeneralInformationDTO;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
 import main.com.bsuir.autoservice.service.exception.ServiceException;
 import main.com.bsuir.autoservice.service.impl.notifiaction.INotificationService;
@@ -29,7 +30,7 @@ public class PersonalAccountInformationCommandTest {
 
     @Before
     public void beforeTest() {
-        userService = getUserSevice();
+        userService = getUserService();
         notificationService = getNotificationService();
         IServiceUnitOfWork mockUOF = getServiceUOF(userService, notificationService);
         IUserSession session = getSession();
@@ -47,7 +48,7 @@ public class PersonalAccountInformationCommandTest {
                 .build();
     }
 
-    private static IUserService getUserSevice(){
+    private static IUserService getUserService(){
         return MockService.getUserService();
     }
 
@@ -61,7 +62,7 @@ public class PersonalAccountInformationCommandTest {
         return mock(PersonalAccountInformationInfo.class);
     }
 
-    private static PersonalAccountInformationRet getAuthorizedPersonalAccountInformationRet(User user,
+    private static PersonalAccountInformationRet getAuthorizedPersonalAccountInformationRet(UserGeneralInformationDTO user,
                                                                                             boolean haveNotification){
         return new PersonalAccountInformationRet(user, haveNotification);
     }
@@ -71,13 +72,13 @@ public class PersonalAccountInformationCommandTest {
         return new PersonalAccountInformationCommand(serviceUnitOfWork, session);
     }
 
-    private static User getMockUser() {
-        return MockBean.getMockUser();
+    private static UserGeneralInformationDTO getMockUserGeneralInformationDTO() {
+        return MockDTO.getMockGeneralInformationDTO();
     }
 
     @Test
     public void checkEnterAuthorizedClient() throws CommandException, ServiceException {
-        User mockUser = getMockUser();
+        UserGeneralInformationDTO mockUser = getMockUserGeneralInformationDTO();
         when(userService.getGeneralInformation(MOCK_USER_ID)).thenReturn(mockUser);
         final boolean haveNewNotification = true;
         when(notificationService.haveNewNotification()).thenReturn(haveNewNotification);

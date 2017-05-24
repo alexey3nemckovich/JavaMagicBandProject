@@ -1,19 +1,19 @@
 package main.com.bsuir.autoservice.command.param;
 
-import main.com.bsuir.autoservice.bean.impl.User;
-import main.com.bsuir.autoservice.command.ICommandParam;
+public class PersonalAccountUpdateGeneralInformationInfo extends BaseParseCommandParam{
+    private String phone;
+    private String name;
+    private String lastName;
 
-import java.util.Map;
-
-public class PersonalAccountUpdateGeneralInformationInfo implements ICommandParam{
-    private User newUser;
-
-    @Override
-    public Map<String, String[]> parse(Map<String, String[]> params) {
-        throw new UnsupportedOperationException();
+    public String getPhone() {
+        return phone;
     }
 
-    public User getNewUser() {
-        return newUser;
+    public String getName() {
+        return name;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 }

@@ -10,11 +10,12 @@ import java.util.List;
 
 
 public interface IOrderService extends IService {
-    boolean makeOrder(Integer userId, List<Service> orderServices) throws ServiceException;
     List<Order> getUserOrders(int userId, int currentGroup, int elementCount) throws ServiceException;
-    List<Order> getOrderServices(Integer userId, int detailOrderId) throws ServiceException;
+    List<Service> getOrderServices(int userId, int detailOrderId) throws ServiceException;
     List<Order> getServiceShopOrders(int staffId, MechanicViewOrdersInfo.SortedType orderSortType,
                                      int orderPage, int orderCount) throws ServiceException;
     boolean changeOrderState(int changedStaffId, int orderId, Order.State newOrderState) throws ServiceException;
     boolean addOrderNotification(int staffWriterId, int orderId, String notificationMessage) throws ServiceException;
+    boolean makeOrder(int userId, List<Integer> orderServices, int serviceShopId) throws ServiceException;
+    int getAllNumber() throws ServiceException;
 }

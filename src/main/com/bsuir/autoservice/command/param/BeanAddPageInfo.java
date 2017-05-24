@@ -1,7 +1,5 @@
 package main.com.bsuir.autoservice.command.param;
 
-import com.google.inject.Inject;
-import main.com.bsuir.autoservice.command.ICommandParam;
 import main.com.bsuir.autoservice.command.RequestParameter;
 import main.com.bsuir.autoservice.library.json.JsonParser;
 
@@ -10,12 +8,11 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class BeanAddPageInfo extends EditFormPageInfo implements ICommandParam{
+public class BeanAddPageInfo extends EditFormPageInfo {
 
     @RequestParameter
     public Map<String, String> defaultValues;
 
-    @Inject
     public BeanAddPageInfo(){
         defaultValues = new LinkedHashMap<>();
     }

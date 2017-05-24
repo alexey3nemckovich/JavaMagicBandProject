@@ -2,6 +2,7 @@ package main.com.bsuir.autoservice.service.impl.notifiaction;
 
 import com.google.inject.Inject;
 import main.com.bsuir.autoservice.bean.impl.Notification;
+import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.unitofwork.IDaoUnitOfWork;
 import main.com.bsuir.autoservice.service.exception.ServiceException;
 
@@ -19,7 +20,11 @@ public class NotificationService implements INotificationService {
 
     @Override
     public boolean haveNewNotification() throws ServiceException {
-        throw new UnsupportedOperationException();
+        try {
+            return daoUnitOfWork.getNotificationDao().haveNewNotification();
+        }catch (DaoException e){
+            throw new ServiceException(e);
+        }
     }
 
     @Override

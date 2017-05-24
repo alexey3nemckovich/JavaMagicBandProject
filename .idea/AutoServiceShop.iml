@@ -39,5 +39,7 @@
     <orderEntry type="library" name="Maven: com.google.inject.extensions:guice-servlet:4.0" level="project" />
     <orderEntry type="library" name="Maven: org.mockito:mockito-all:1.9.5" level="project" />
     <orderEntry type="library" name="Maven: org.json:json:20160810" level="project" />
+    <orderEntry type="library" name="Maven: de.rtner:PBKDF2:1.1.2" level="project" />
+    <orderEntry type="library" name="Maven: org.picketbox:picketbox:4.0.21.Final" level="project" />
   </component>
 </module>

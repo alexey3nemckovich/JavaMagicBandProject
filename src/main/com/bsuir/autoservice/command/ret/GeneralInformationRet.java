@@ -1,27 +1,27 @@
 package main.com.bsuir.autoservice.command.ret;
 
 
-import main.com.bsuir.autoservice.bean.impl.Service;
-import main.com.bsuir.autoservice.bean.impl.Share;
+import main.com.bsuir.autoservice.dto.ServiceAvailableDTO;
+import main.com.bsuir.autoservice.dto.ShareActiveDTO;
 
 import java.util.List;
 import java.util.Objects;
 
 public class GeneralInformationRet {
-    private final List<Service> availableServices;
+    private final List<ServiceAvailableDTO> availableServices;
 
-    private final List<Share> activeShares;
+    private final List<ShareActiveDTO> activeShares;
 
-    public GeneralInformationRet(List<Service> availableServices, List<Share> activeShares) {
+    public GeneralInformationRet(List<ServiceAvailableDTO> availableServices, List<ShareActiveDTO> activeShares) {
         this.availableServices = availableServices;
         this.activeShares = activeShares;
     }
 
-    public List<Service> getAvailableServices() {
+    public List<ServiceAvailableDTO> getAvailableServices() {
         return availableServices;
     }
 
-    public List<Share> getActiveShares() {
+    public List<ShareActiveDTO> getActiveShares() {
         return activeShares;
     }
 

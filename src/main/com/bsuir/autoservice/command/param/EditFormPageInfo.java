@@ -2,7 +2,6 @@ package main.com.bsuir.autoservice.command.param;
 
 import main.com.bsuir.autoservice.command.RequestParameter;
 
-import javax.inject.Inject;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +13,6 @@ public class EditFormPageInfo extends CrudPageInfo{
     @RequestParameter
     public List<String> notModifiableFieldsNames;
 
-    @Inject
     public EditFormPageInfo(){
         notModifiableFieldsNames = new ArrayList<>();
     }

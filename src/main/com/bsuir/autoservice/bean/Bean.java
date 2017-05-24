@@ -54,7 +54,7 @@ public abstract class Bean<PrimaryKey> {
         }
     }
 
-    public Map<String, String> getFieldValuesStrings() throws BeanException{
+    public Map<String, String>  getFieldValuesStrings() throws BeanException{
         try {
             Map<String, String> fieldValues = new HashMap<>();
             Field[] fields = getFieldsOrdered();

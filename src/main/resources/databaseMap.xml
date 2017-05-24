@@ -3,7 +3,7 @@
 optional:
 1)show_name
  -->
-<tables>
+<tables database_name="auto_service_shop">
     <table database_table_name="user"
            bean_class="main.com.bsuir.autoservice.bean.impl.User"
            dao_crud="main.com.bsuir.autoservice.dao.impl.user.IUserDao"
@@ -92,7 +92,7 @@ optional:
     <table database_table_name="ordered_service"
            bean_class="main.com.bsuir.autoservice.bean.impl.OrderedService"
            dao_crud="main.com.bsuir.autoservice.dao.impl.orderedservice.IOrderedServiceDao"
-           show_name="Order spare parts">
+           show_name="Ordered services">
     </table>
 
     <table database_table_name="order"
@@ -107,7 +107,7 @@ optional:
         </dependencies>
     </table>
 
-    <table database_table_name="notiification"
+    <table database_table_name="notification"
            bean_class="main.com.bsuir.autoservice.bean.impl.Notification"
            dao_crud="main.com.bsuir.autoservice.dao.impl.notification.INotificationDao"
            show_name="Notifications">

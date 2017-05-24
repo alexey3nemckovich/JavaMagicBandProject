@@ -34,11 +34,6 @@ public class SqlRequestDatabaseProvider implements IDatabase {
     }
 
     @Override
-    public String getName() {
-        return getDatabase().getName();
-    }
-
-    @Override
     public Statement createStatement() throws SQLException {
         return getDatabase().createStatement();
     }

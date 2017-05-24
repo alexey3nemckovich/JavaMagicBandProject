@@ -1,14 +1,15 @@
 package unit.command.personalaccount;
 
 import general.bean.MockBean;
+import general.dto.MockDTO;
 import general.service.MockService;
 import general.session.MockSession;
-import main.com.bsuir.autoservice.bean.impl.Service;
 import main.com.bsuir.autoservice.bean.impl.Share;
 import main.com.bsuir.autoservice.command.account.PersonalAccountAvailableOrderServicesCommand;
 import main.com.bsuir.autoservice.command.exception.CommandException;
 import main.com.bsuir.autoservice.command.param.PersonalAccountAvailableOrderServicesInfo;
 import main.com.bsuir.autoservice.command.ret.PersonalAccountAvailableOrderServicesRet;
+import main.com.bsuir.autoservice.dto.ServiceAvailableDTO;
 import main.com.bsuir.autoservice.infrastructure.session.IUserSession;
 import main.com.bsuir.autoservice.service.exception.ServiceException;
 import main.com.bsuir.autoservice.service.impl.service.IServiceBeanService;
@@ -62,7 +63,7 @@ public class PersonalAccountAvailableOrderServicesCommandTest {
     }
 
     private static PersonalAccountAvailableOrderServicesRet getTestPersonalAccountAvailableOrderServicesRet(
-            List<Service> availableServices, List<Share> activeShares){
+            List<ServiceAvailableDTO> availableServices, List<Share> activeShares){
         return new PersonalAccountAvailableOrderServicesRet(availableServices, activeShares);
     }
 
@@ -75,9 +76,9 @@ public class PersonalAccountAvailableOrderServicesCommandTest {
         return new PersonalAccountAvailableOrderServicesCommand(serviceUnitOfWork, session);
     }
 
-    private List<Service> getMockAvailableServices() {
-        return new ArrayList<Service>(){{
-            add(MockBean.getMockService());
+    private List<ServiceAvailableDTO> getMockAvailableServices() {
+        return new ArrayList<ServiceAvailableDTO>(){{
+            add(MockDTO.getMockServiceAvailableDTO());
         }};
     }
     private List<Share> getMockActiveShares() {
@@ -88,7 +89,7 @@ public class PersonalAccountAvailableOrderServicesCommandTest {
 
     @Test
     public void checkGetAvailableServices() throws CommandException, ServiceException {
-        List<Service> mockAvailableService = getMockAvailableServices();
+        List<ServiceAvailableDTO> mockAvailableService = getMockAvailableServices();
         List<Share> mockActiveShares = getMockActiveShares();
         when(shareService.getActiveAccountShares(MOCK_USER_ID)).thenReturn(mockActiveShares);
         when(serviceBeanService.getAvailableServices()).thenReturn(mockAvailableService);

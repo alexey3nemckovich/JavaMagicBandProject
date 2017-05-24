@@ -8,15 +8,21 @@ import java.util.Locale;
 
 public class SimpleDate extends Date {
 
-    public SimpleDate(String dateStr) throws ParseException{
-        date = dateFormat.parse(dateStr);
+    public SimpleDate(String dateStr) throws ParseException {
+        if (dateStr != null) {
+            date = dateFormat.parse(dateStr);
+        }
+    }
+
+    public SimpleDate() {
+        date = new Date();
     }
 
     @Override
-    public String toString(){
-        return dateFormat.format(date);
+    public String toString() {
+        return date == null ? "---" : dateFormat.format(date);
     }
 
     private Date date;
-    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 }
