@@ -15,6 +15,10 @@
             AutoServiceShop Profile
         </div>
 
+        <div id="account-modes">
+
+        </div>
+
         <div id="user-container">
             <div id="general_information">
                 General information
@@ -24,6 +28,7 @@
         <script>
             $(document).ready(function () {
                 $("#user-container").load("/account/generalInformation.ass");
+                $("#account-modes").load("/account/accountModes.ass");
             });
         </script>
     </jsp:body>

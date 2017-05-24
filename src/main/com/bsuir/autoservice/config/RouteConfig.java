@@ -60,6 +60,7 @@ public class RouteConfig {
         addControllerClassForUrlAction("/account/restorePass", PersonalAccountRestorePassLoadController.class, defaultPermission);
         addControllerClassForUrlAction("/account/restorePassData", PersonalAccountRestorePassController.class, defaultPermission);
 
+        addControllerClassForUrlAction("/account/accountModes", PersonalAccountModesController.class, defaultPermission);
         addControllerClassForUrlAction("/account/orderAdd", PersonalAccountAddOrderLoadController.class,defaultPermission);
         addControllerClassForUrlAction("/account/orderAddData", PersonalAccountMakeOrderController.class, defaultPermission);
         addControllerClassForUrlAction("/account/orderSee", PersonalAccountViewOrderLoadController.class, defaultPermission);

@@ -253,7 +253,8 @@ public abstract class AutoServiceShopModule extends ServletModule {
                 createActionMapBuilder(PersonalAccountViewOrderLoadActionMap.class, PersonalAccountViewOrderLoadActionMapProvider.class),
                 createActionMapBuilder(PersonalAccountViewOrderNumberActionMap.class, PersonalAccountViewOrderNumberActionMapProvider.class),
                 createActionMapBuilder(PersonalAccountViewOrdersActionMap.class, PersonalAccountViewOrdersActionMapProvider.class),
-                createActionMapBuilder(PersonalAccountOrderDetailsActionMap.class, PersonalAccountOrderDetailsActionMapProvider.class)
+                createActionMapBuilder(PersonalAccountOrderDetailsActionMap.class, PersonalAccountOrderDetailsActionMapProvider.class),
+                createActionMapBuilder(PersonalAccountModesActionMap.class, PersonalAccountModesActionMapProvider.class)
         );
     }
 
@@ -306,7 +307,8 @@ public abstract class AutoServiceShopModule extends ServletModule {
                 bind(PersonalAccountMakeOrderCommand.class),
                 bind(PersonalAccountViewOrderNumberCommand.class),
                 bind(PersonalAccountViewOrdersCommand.class),
-                bind(PersonalAccountOrderDetailsCommand.class)
+                bind(PersonalAccountOrderDetailsCommand.class),
+                bind(PersonalAccountModesCommand.class)
         );
     }
 
