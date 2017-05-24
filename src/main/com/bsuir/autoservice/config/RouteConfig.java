@@ -7,6 +7,7 @@ import main.com.bsuir.autoservice.config.permission.PermissionLevel;
 import main.com.bsuir.autoservice.controller.IController;
 import main.com.bsuir.autoservice.controller.account.*;
 import main.com.bsuir.autoservice.controller.bean.*;
+import main.com.bsuir.autoservice.controller.document.DocumentController;
 import main.com.bsuir.autoservice.controller.login.LoginController;
 import main.com.bsuir.autoservice.controller.login.LoginLoadController;
 import main.com.bsuir.autoservice.controller.login.LoginPageController;
@@ -39,6 +40,11 @@ public class RouteConfig {
         initCrudPages();
         initLoginPages();
         initAccountPages();
+        initDocumentPages();
+    }
+
+    private void initDocumentPages(){
+        addControllerClassForUrlAction("/document", DocumentController.class);
     }
 
     private void initMainPages() {

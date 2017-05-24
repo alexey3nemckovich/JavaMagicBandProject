@@ -4,10 +4,7 @@ import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.bean.exception.BeanException;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class Service extends Bean<Integer> {
 
@@ -76,6 +73,15 @@ public class Service extends Bean<Integer> {
         return Objects.equals(id, service.id) &&
                 Objects.equals(name, service.name) &&
                 Objects.equals(cost, service.cost);
+    }
+
+    @Override
+    public Field[] getRenderFields() throws BeanException{
+        List<Field> fields = new ArrayList<>(Arrays.asList(getFieldsOrdered()));
+        fields.remove(0);
+        Field[] renderFieldsArray = new Field[fields.size()];
+        fields.toArray(renderFieldsArray);
+        return renderFieldsArray;
     }
 
     @Override

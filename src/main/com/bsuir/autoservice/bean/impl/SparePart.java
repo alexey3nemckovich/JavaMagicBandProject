@@ -4,10 +4,7 @@ import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.bean.exception.BeanException;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class SparePart extends Bean<Integer> {
 
@@ -76,6 +73,15 @@ public class SparePart extends Bean<Integer> {
         return Objects.equals(id, sparePart.id) &&
                 Objects.equals(name, sparePart.name) &&
                 Objects.equals(amount_available, sparePart.amount_available);
+    }
+
+    @Override
+    public Field[] getRenderFields() throws BeanException{
+        List<Field> fields = new ArrayList<>(Arrays.asList(getFieldsOrdered()));
+        fields.remove(0);
+        Field[] renderFieldsArray = new Field[fields.size()];
+        fields.toArray(renderFieldsArray);
+        return renderFieldsArray;
     }
 
     @Override

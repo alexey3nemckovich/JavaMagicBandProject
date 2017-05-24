@@ -20,7 +20,7 @@ public class GeneralInformationCommand implements ICommand<GeneralInformationInf
         try {
             return new GeneralInformationRet(
                     serviceUnitOfWork.getServiceBeanService().getAvailableServices(),
-                    serviceUnitOfWork.getShareService().getActiveShares());
+                    serviceUnitOfWork.getShareService().getActiveSharesDTO());
         } catch (Exception e) {
             throw new CommandException(e);
         }

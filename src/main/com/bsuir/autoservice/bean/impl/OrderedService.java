@@ -84,6 +84,11 @@ public class OrderedService extends Bean<NullType> {
     }
 
     @Override
+    public Field[] getRenderFields() throws BeanException{
+        return getFieldsOrdered();
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(service_id, order_id, date);
     }

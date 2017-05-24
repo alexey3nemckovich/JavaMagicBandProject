@@ -15,6 +15,7 @@ import main.com.bsuir.autoservice.binding.provider.PermissionProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.NoActionMapProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.account.*;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.bean.*;
+import main.com.bsuir.autoservice.binding.provider.action.map.impl.document.DocumentActionMapProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.login.*;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.main.GeneralInformationActionMapProvider;
 import main.com.bsuir.autoservice.binding.provider.action.map.impl.main.MainLoadActionMapProvider;
@@ -28,6 +29,7 @@ import main.com.bsuir.autoservice.command.crud.delete.DeleteBeanCommand;
 import main.com.bsuir.autoservice.command.crud.delete.DeleteBeanDependencyCommand;
 import main.com.bsuir.autoservice.command.crud.edit.EditBeanCommand;
 import main.com.bsuir.autoservice.command.crud.get.*;
+import main.com.bsuir.autoservice.command.document.*;
 import main.com.bsuir.autoservice.command.login.LoginCommand;
 import main.com.bsuir.autoservice.command.login.LoginLoadCommand;
 import main.com.bsuir.autoservice.command.login.LogoutCommand;
@@ -41,6 +43,7 @@ import main.com.bsuir.autoservice.controller.NoController;
 import main.com.bsuir.autoservice.controller.account.AccountUserLoadController;
 import main.com.bsuir.autoservice.controller.action.Action;
 import main.com.bsuir.autoservice.controller.bean.*;
+import main.com.bsuir.autoservice.controller.document.DocumentController;
 import main.com.bsuir.autoservice.controller.login.LoginLoadController;
 import main.com.bsuir.autoservice.controller.login.LoginPageController;
 import main.com.bsuir.autoservice.controller.login.LogoutController;
@@ -228,6 +231,8 @@ public abstract class AutoServiceShopModule extends ServletModule {
     
     private void bindControllerActionMaps() {
         bindSingletons(
+                createActionMapBuilder(DocumentActionMap.class, DocumentActionMapProvider.class),
+
                 createActionMapBuilder(BeanActionMap.class,BeanActionMapProvider.class),
                 createActionMapBuilder(BeanAddActionMap.class,BeanAddActionMapProvider.class),
                 createActionMapBuilder(BeanViewActionMap.class,BeanViewActionMapProvider.class),
@@ -260,6 +265,8 @@ public abstract class AutoServiceShopModule extends ServletModule {
 
     private void bindConcreteControllers() {
         bindSingletons(
+                bind(DocumentController.class),
+
                 bind(BeanController.class),
                 bind(BeanAddController.class),
                 bind(BeanViewController.class),
@@ -308,7 +315,14 @@ public abstract class AutoServiceShopModule extends ServletModule {
                 bind(PersonalAccountViewOrderNumberCommand.class),
                 bind(PersonalAccountViewOrdersCommand.class),
                 bind(PersonalAccountOrderDetailsCommand.class),
-                bind(PersonalAccountModesCommand.class)
+                bind(PersonalAccountModesCommand.class),
+
+                //documentation
+                bind(GenerateServiceListDocumentCommand.class),
+                bind(GenerateServiceShopStaffListDocumentCommand.class),
+                bind(GenerateShareListDocumentCommand.class),
+                bind(GenerateSparePartListDocumentCommand.class),
+                bind(GenerateUserListDocumentCommand.class)
         );
     }
 

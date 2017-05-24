@@ -81,7 +81,7 @@ public class GeneralInformationCommandTest {
         List<ServiceAvailableDTO> mockAvailableServices = getMockAvailableServices();
         List<ShareActiveDTO> mockActiveShares = getMockActiveShares();
         when(serviceBeanService.getAvailableServices()).thenReturn(mockAvailableServices);
-        when(shareService.getActiveShares()).thenReturn(mockActiveShares);
+        when(shareService.getActiveSharesDTO()).thenReturn(mockActiveShares);
         assertEquals(generalInformationCommand.execute(getGeneralInformationInfo()),
                 getTestGeneralInformationRet(mockAvailableServices, mockActiveShares));
     }
@@ -89,7 +89,7 @@ public class GeneralInformationCommandTest {
     @Test(expected = CommandException.class)
     public void getGeneralInformationException() throws ServiceException, CommandException {
         when(serviceBeanService.getAvailableServices()).thenThrow(ServiceException.class);
-        when(shareService.getActiveShares()).thenThrow(ServiceException.class);
+        when(shareService.getActiveSharesDTO()).thenThrow(ServiceException.class);
         generalInformationCommand.execute(getGeneralInformationInfo());
         fail();
     }

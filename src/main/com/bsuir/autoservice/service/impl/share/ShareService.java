@@ -7,6 +7,8 @@ import main.com.bsuir.autoservice.dao.unitofwork.IDaoUnitOfWork;
 import main.com.bsuir.autoservice.dto.ShareActiveDTO;
 import main.com.bsuir.autoservice.service.exception.ServiceException;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ShareService implements IShareService {
@@ -19,10 +21,27 @@ public class ShareService implements IShareService {
     }
 
     @Override
-    public List<ShareActiveDTO> getActiveShares() throws ServiceException {
+    public List<ShareActiveDTO> getActiveSharesDTO() throws ServiceException {
         try {
             return daoUnitOfWork.getShareDao().getActive();
         } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public List<Share> getActiveShares() throws ServiceException {
+        try {
+            Date now = new Date();
+            List<Share> shareList = daoUnitOfWork.getShareDao().getAll();
+            List<Share> activeShares = new ArrayList<>();
+            for(Share share : shareList){
+                if(share.getDateEnd().getTime() < now.getTime()){
+                    activeShares.add(share);
+                }
+            }
+            return activeShares;
+        }catch (DaoException e){
             throw new ServiceException(e);
         }
     }

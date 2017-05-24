@@ -5,10 +5,7 @@ import main.com.bsuir.autoservice.bean.exception.BeanException;
 
 import javax.lang.model.type.NullType;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class OrderSparePart extends Bean<NullType> {
 
@@ -80,6 +77,11 @@ public class OrderSparePart extends Bean<NullType> {
         return Objects.equals(spare_part_id, that.spare_part_id) &&
                 Objects.equals(order_id, that.order_id) &&
                 Objects.equals(count, that.count);
+    }
+
+    @Override
+    public Field[] getRenderFields() throws BeanException{
+        return getFieldsOrdered();
     }
 
     @Override

@@ -4,10 +4,7 @@ import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.bean.exception.BeanException;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class Staff extends Bean<Integer> {
     public enum Specialization{
@@ -90,6 +87,15 @@ public class Staff extends Bean<Integer> {
                 Objects.equals(service_shop_id, staff.service_shop_id) &&
                 Objects.equals(user_id, staff.user_id) &&
                 specialization == staff.specialization;
+    }
+
+    @Override
+    public Field[] getRenderFields() throws BeanException{
+        List<Field> fields = new ArrayList<>(Arrays.asList(getFieldsOrdered()));
+        fields.remove(0);
+        Field[] renderFieldsArray = new Field[fields.size()];
+        fields.toArray(renderFieldsArray);
+        return renderFieldsArray;
     }
 
     @Override

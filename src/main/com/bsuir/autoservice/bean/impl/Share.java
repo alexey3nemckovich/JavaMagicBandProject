@@ -116,6 +116,15 @@ public class Share extends Bean<Integer> {
     }
 
     @Override
+    public Field[] getRenderFields() throws BeanException{
+        List<Field> fields = new ArrayList<>(Arrays.asList(getFieldsOrdered()));
+        fields.remove(0);
+        Field[] renderFieldsArray = new Field[fields.size()];
+        fields.toArray(renderFieldsArray);
+        return renderFieldsArray;
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(id, date_start, date_end, value, description, state);
     }

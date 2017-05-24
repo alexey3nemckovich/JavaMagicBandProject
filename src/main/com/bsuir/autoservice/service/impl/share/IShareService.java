@@ -8,6 +8,7 @@ import main.com.bsuir.autoservice.service.exception.ServiceException;
 import java.util.List;
 
 public interface IShareService extends IService{
-    List<ShareActiveDTO> getActiveShares() throws ServiceException;
+    List<ShareActiveDTO> getActiveSharesDTO() throws ServiceException;
+    List<Share> getActiveShares() throws ServiceException;
     List<Share> getActiveAccountShares(Integer userId) throws ServiceException;
 }
