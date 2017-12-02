@@ -35,27 +35,27 @@ public class address extends Bean{
         this.street = street;
     }
 
-    public Integer getPostcode() {
+    public String getPostcode() {
         return postcode;
     }
 
-    public void setPostcode(Integer postcode) {
+    public void setPostcode(String postcode) {
         this.postcode = postcode;
     }
 
-    public Integer getHouse() {
+    public String getHouse() {
         return house;
     }
 
-    public void setHouse(Integer house) {
+    public void setHouse(String house) {
         this.house = house;
     }
 
-    public Integer getApartment() {
+    public String getApartment() {
         return apartment;
     }
 
-    public void setApartment(Integer apartment) {
+    public void setApartment(String apartment) {
         this.apartment = apartment;
     }
 
@@ -91,16 +91,16 @@ public class address extends Bean{
         id = Integer.valueOf(fieldValues.get("id"));
         id_city = Integer.valueOf(fieldValues.get("id_city"));
         street = fieldValues.get("street");
-        postcode = Integer.valueOf(fieldValues.get("postcode"));
-        house = Integer.valueOf(fieldValues.get("house"));
-        apartment = Integer.valueOf(fieldValues.get("apartment"));
+        postcode = fieldValues.get("postcode");
+        house = fieldValues.get("house");
+        apartment = fieldValues.get("apartment");
         return this;
     }
 
     private Integer id;
     private Integer id_city;
     private String street;
-    private Integer postcode;
-    private Integer house;
-    private Integer apartment;
+    private String postcode;
+    private String house;
+    private String apartment;
 }

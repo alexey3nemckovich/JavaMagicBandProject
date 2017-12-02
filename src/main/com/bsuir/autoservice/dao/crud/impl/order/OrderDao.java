@@ -1,18 +1,22 @@
 package main.com.bsuir.autoservice.dao.crud.impl.order;
 
 import com.google.inject.Inject;
-import main.com.bsuir.autoservice.bean.impl.backup.order;
+import main.com.bsuir.autoservice.bean.impl.car_status;
+import main.com.bsuir.autoservice.bean.impl.city;
+import main.com.bsuir.autoservice.bean.impl.order;
 import main.com.bsuir.autoservice.dao.crud.AbstractDaoCrud;
+import main.com.bsuir.autoservice.dao.crud.IDaoCrud;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.sql.ISql;
 import main.com.bsuir.autoservice.library.type.date.SimpleDate;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class OrderDao extends AbstractDaoCrud<Integer, order> implements IOrderDao {
+public class OrderDao extends AbstractDaoCrud<Integer, order> implements IOrderDao{
 
     @Inject
     public OrderDao(IDatabase db, ISql sql) {
@@ -25,18 +29,20 @@ public class OrderDao extends AbstractDaoCrud<Integer, order> implements IOrderD
     }
 
     @Override
-    public List<order> parseResultSet(ResultSet rs) throws DaoException{
+    public List<order> parseResultSet(ResultSet rs) throws DaoException {
         LinkedList<order> result = new LinkedList<>();
         try {
-            while (rs.next()){
+            while (rs.next()) {
                 order bean = new order();
+
                 bean.setId(rs.getInt("id"));
-                bean.setUserId(rs.getInt("user_id"));
-                bean.setServiceShopId(rs.getInt("service_shop_id"));
-                bean.setDateOpen(new SimpleDate(rs.getString("date_open")));
-                bean.setDateClose(new SimpleDate(rs.getString("date_close")));
-                bean.setSum(rs.getInt("sum"));
-                bean.setState(order.State.valueOf(rs.getString("state")));
+                bean.setId_customer(rs.getInt("id_customer"));
+                bean.setId_driver(rs.getInt("id_driver"));
+                bean.setId_address(rs.getInt("id_address"));
+                bean.setId_order_status(rs.getInt("id_order_status"));
+                bean.setTotal_sum(rs.getInt("total_sum"));
+                bean.setDate(new SimpleDate(rs.getString("date")));
+
                 result.add(bean);
             }
         } catch (Exception e) {
@@ -45,5 +51,5 @@ public class OrderDao extends AbstractDaoCrud<Integer, order> implements IOrderD
         return result;
     }
 
-    private static final String tableName = "order";
+    private final String tableName = "order";
 }

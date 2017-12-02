@@ -1,7 +1,9 @@
 package main.com.bsuir.autoservice.dao.crud.impl.user;
 
 import com.google.inject.Inject;
-import main.com.bsuir.autoservice.bean.impl.backup.user;
+import main.com.bsuir.autoservice.bean.impl.car_status;
+import main.com.bsuir.autoservice.bean.impl.city;
+import main.com.bsuir.autoservice.bean.impl.user;
 import main.com.bsuir.autoservice.dao.crud.AbstractDaoCrud;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
@@ -12,7 +14,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class UserDao extends AbstractDaoCrud<Integer, user> implements IUserDao {
+public class UserDao extends AbstractDaoCrud<Integer, user> implements IUserDao{
 
     @Inject
     public UserDao(IDatabase db, ISql sql) {
@@ -25,20 +27,21 @@ public class UserDao extends AbstractDaoCrud<Integer, user> implements IUserDao 
     }
 
     @Override
-    public List<user> parseResultSet(ResultSet rs) throws DaoException{
+    public List<user> parseResultSet(ResultSet rs) throws DaoException {
         LinkedList<user> result = new LinkedList<>();
         try {
             while (rs.next()) {
-                user user = new user();
-                user.setId(rs.getInt("id"));
-                user.setMail(rs.getString("mail"));
-                user.setLogin(rs.getString("login"));
-                user.setPassword(rs.getString("password"));
-                user.setPhone(rs.getString("phone"));
-                user.setName(rs.getString("name"));
-                user.setLastName(rs.getString("last_name"));
-                user.setType(main.com.bsuir.autoservice.bean.impl.backup.user.Type.valueOf(rs.getString("type")));
-                result.add(user);
+                user bean = new user();
+
+                bean.setId(rs.getInt("id"));
+                bean.setId_registration(rs.getInt("id_registration"));
+                bean.setId_type(rs.getInt("id_type"));
+                bean.setId_phone(rs.getInt("id_phone"));
+                bean.setName(rs.getString("name"));
+                bean.setLast_name(rs.getString("last_name"));
+                bean.setFull_name(rs.getString("full_name"));
+
+                result.add(bean);
             }
         } catch (SQLException e) {
             throw new DaoException(e);
