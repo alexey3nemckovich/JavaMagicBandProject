@@ -1,7 +1,7 @@
 package main.com.bsuir.autoservice.service.crud.impl.order;
 
 import com.google.inject.Inject;
-import main.com.bsuir.autoservice.bean.impl.order;
+import main.com.bsuir.autoservice.bean.impl.backup.order;
 import main.com.bsuir.autoservice.binding.annotation.Default;
 import main.com.bsuir.autoservice.dao.unitOfWork.IDaoUnitOfWork;
 import main.com.bsuir.autoservice.service.Dependency;

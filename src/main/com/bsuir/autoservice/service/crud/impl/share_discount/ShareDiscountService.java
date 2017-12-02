@@ -1,7 +1,7 @@
 package main.com.bsuir.autoservice.service.crud.impl.share_discount;
 
 import com.google.inject.Inject;
-import main.com.bsuir.autoservice.bean.impl.share_discount;
+import main.com.bsuir.autoservice.bean.impl.backup.share_discount;
 import main.com.bsuir.autoservice.binding.annotation.Default;
 import main.com.bsuir.autoservice.dao.unitOfWork.IDaoUnitOfWork;
 import main.com.bsuir.autoservice.service.Dependency;

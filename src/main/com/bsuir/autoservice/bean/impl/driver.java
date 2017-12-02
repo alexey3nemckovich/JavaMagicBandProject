@@ -2,36 +2,37 @@ package main.com.bsuir.autoservice.bean.impl;
 
 import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.bean.exception.BeanException;
+import main.com.bsuir.autoservice.bean.impl.backup.discount;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class spare_part extends Bean {
+public class driver extends Bean{
 
-    public int getId(){
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int value){
-        this.id = value;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getName(){
-        return name;
+    public Integer getId_driver_status() {
+        return id_driver_status;
     }
 
-    public void setName(String value){
-        this.name = value;
+    public void setId_driver_status(Integer id_driver_status) {
+        this.id_driver_status = id_driver_status;
     }
 
-    public int getAmountAvailable(){
-        return amount_available;
+    public Integer getId_staff() {
+        return id_staff;
     }
 
-    public void setAmountAvailable(int value){
-        this.amount_available = value;
+    public void setId_staff(Integer id_staff) {
+        this.id_staff = id_staff;
     }
 
     @Override
@@ -40,8 +41,8 @@ public class spare_part extends Bean {
             Class type = this.getClass();
             Field[] fields = {
                     type.getDeclaredField("id"),
-                    type.getDeclaredField("name"),
-                    type.getDeclaredField("amount_available")
+                    type.getDeclaredField("id_driver_status"),
+                    type.getDeclaredField("id_staff")
             };
             for (Field field: fields) {
                 field.setAccessible(true);
@@ -59,14 +60,14 @@ public class spare_part extends Bean {
     }
 
     @Override
-    public spare_part setFields(Map<String, String> fieldValues) {
+    public driver setFields(Map<String, String> fieldValues) {
         id = Integer.valueOf(fieldValues.get("id"));
-        name = fieldValues.get("name");
-        amount_available = Integer.valueOf(fieldValues.get("amount_available"));
+        id_driver_status = Integer.valueOf(fieldValues.get("id_driver_status"));
+        id_staff = Integer.valueOf(fieldValues.get("id_staff"));
         return this;
     }
 
     private Integer id;
-    private String name;
-    private Integer amount_available;
+    private Integer id_driver_status;
+    private Integer id_staff;
 }

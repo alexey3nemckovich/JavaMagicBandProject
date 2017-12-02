@@ -1,7 +1,7 @@
 package main.com.bsuir.autoservice.dao.crud.impl.share_discount;
 
 import com.google.inject.Inject;
-import main.com.bsuir.autoservice.bean.impl.share_discount;
+import main.com.bsuir.autoservice.bean.impl.backup.share_discount;
 import main.com.bsuir.autoservice.dao.crud.AbstractDaoCrud;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.dao.exception.DaoException;

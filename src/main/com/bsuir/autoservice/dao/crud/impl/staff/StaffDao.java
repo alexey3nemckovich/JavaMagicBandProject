@@ -1,7 +1,7 @@
 package main.com.bsuir.autoservice.dao.crud.impl.staff;
 
 import com.google.inject.Inject;
-import main.com.bsuir.autoservice.bean.impl.staff;
+import main.com.bsuir.autoservice.bean.impl.backup.staff;
 import main.com.bsuir.autoservice.dao.crud.AbstractDaoCrud;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
@@ -31,7 +31,7 @@ public class StaffDao extends AbstractDaoCrud<Integer, staff> implements IStaffD
                 staff.setId(rs.getInt("id"));
                 staff.setServiceShopId(rs.getInt("service_shop_id"));
                 staff.setUserId(rs.getInt("user_id"));
-                staff.setSpecialization(main.com.bsuir.autoservice.bean.impl.staff.Specialization.valueOf(rs.getString("specialization")));
+                staff.setSpecialization(main.com.bsuir.autoservice.bean.impl.backup.staff.Specialization.valueOf(rs.getString("specialization")));
                 result.add(staff);
             }
         } catch (SQLException e) {

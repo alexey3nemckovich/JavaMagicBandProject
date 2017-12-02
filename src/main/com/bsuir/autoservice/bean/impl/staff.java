@@ -2,47 +2,54 @@ package main.com.bsuir.autoservice.bean.impl;
 
 import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.bean.exception.BeanException;
+import main.com.bsuir.autoservice.bean.impl.backup.discount;
+import main.com.bsuir.autoservice.library.type.date.SimpleDate;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class staff extends Bean {
-    public enum Specialization{
-        MECHANIC, CHIEF_MECHANIC, ADMIN, DIRECTOR
-    }
+public class staff extends Bean{
 
-    public int getId(){
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int value){
-        this.id = value;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public int getServiceShopId(){
-        return service_shop_id;
+    public Integer getId_user() {
+        return id_user;
     }
 
-    public void setServiceShopId(int value){
-        this.service_shop_id = value;
+    public void setId_user(Integer id_user) {
+        this.id_user = id_user;
     }
 
-    public int getUserId(){
-        return user_id;
+    public Integer getId_shop() {
+        return id_shop;
     }
 
-    public void setUserId(int value){
-        this.user_id = value;
+    public void setId_shop(Integer id_shop) {
+        this.id_shop = id_shop;
     }
 
-    public Specialization getSpecialization(){
-        return specialization;
+    public Integer getId_position() {
+        return id_position;
     }
 
-    public void setSpecialization(Specialization specialization){
-        this.specialization = specialization;
+    public void setId_position(Integer id_position) {
+        this.id_position = id_position;
+    }
+
+    public SimpleDate getEmployment_time() {
+        return employment_time;
+    }
+
+    public void setEmployment_time(SimpleDate employment_time) {
+        this.employment_time = employment_time;
     }
 
     @Override
@@ -51,9 +58,10 @@ public class staff extends Bean {
             Class type = this.getClass();
             Field[] fields = {
                     type.getDeclaredField("id"),
-                    type.getDeclaredField("service_shop_id"),
-                    type.getDeclaredField("user_id"),
-                    type.getDeclaredField("specialization")
+                    type.getDeclaredField("id_user"),
+                    type.getDeclaredField("id_shop"),
+                    type.getDeclaredField("id_position"),
+                    type.getDeclaredField("employment_time"),
             };
             for (Field field: fields) {
                 field.setAccessible(true);
@@ -71,16 +79,22 @@ public class staff extends Bean {
     }
 
     @Override
-    public staff setFields(Map<String, String> fieldValues) {
-        id = Integer.valueOf(fieldValues.get("id"));
-        service_shop_id = Integer.valueOf(fieldValues.get("service_shop_id"));
-        user_id = Integer.valueOf(fieldValues.get("user_id"));
-        specialization = Specialization.valueOf(fieldValues.get("specialization"));
-        return this;
+    public staff setFields(Map<String, String> fieldValues) throws BeanException{
+        try {
+            id = Integer.valueOf(fieldValues.get("id"));
+            id_user = Integer.valueOf(fieldValues.get("id_user"));
+            id_shop = Integer.valueOf(fieldValues.get("id_shop"));
+            id_position = Integer.valueOf(fieldValues.get("id_position"));
+            employment_time = new SimpleDate(fieldValues.get("employment_time"));
+            return this;
+        }catch (Exception e){
+            throw new BeanException(e);
+        }
     }
 
     private Integer id;
-    private Integer service_shop_id;
-    private Integer user_id;
-    private Specialization specialization;
+    private Integer id_user;
+    private Integer id_shop;
+    private Integer id_position;
+    private SimpleDate employment_time;
 }

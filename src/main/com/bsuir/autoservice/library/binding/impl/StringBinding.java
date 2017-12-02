@@ -1,20 +1,20 @@
 package main.com.bsuir.autoservice.library.binding.impl;
 
 import main.com.bsuir.autoservice.library.binding.AbstractBinding;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.lang.UnsupportedOperationException;
 import java.lang.reflect.Field;
 
 public class StringBinding extends AbstractBinding {
 
     @Override
     protected String getBindingMethodName() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     protected Class[] getBindingMethodParameters() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override

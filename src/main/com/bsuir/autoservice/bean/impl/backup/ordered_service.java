@@ -1,21 +1,19 @@
-package main.com.bsuir.autoservice.bean.impl;
+package main.com.bsuir.autoservice.bean.impl.backup;
 
 import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.bean.exception.BeanException;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class order_spare_part extends Bean {
+public class ordered_service extends Bean {
 
-    public int getSparePartId(){
-        return spare_part_id;
+    public int getServiceId(){
+        return service_id;
     }
 
-    public void setSparePartId(int value){
-        this.spare_part_id = value;
+    public void setServiceId(int value){
+        this.service_id = value;
     }
 
     public int getOrderId(){
@@ -26,12 +24,12 @@ public class order_spare_part extends Bean {
         this.order_id = value;
     }
 
-    public int getCount() {
-        return count;
+    public Date getDate(){
+        return date;
     }
 
-    public void setCount(int value){
-        this.count = value;
+    public void setDate(Date value){
+        this.date = value;
     }
 
     @Override
@@ -39,9 +37,9 @@ public class order_spare_part extends Bean {
         try {
             Class type = this.getClass();
             Field[] fields = {
-                    type.getDeclaredField("spare_part_id"),
+                    type.getDeclaredField("service_id"),
                     type.getDeclaredField("order_id"),
-                    type.getDeclaredField("count")
+                    type.getDeclaredField("date")
             };
             for (Field field: fields) {
                 field.setAccessible(true);
@@ -58,14 +56,18 @@ public class order_spare_part extends Bean {
     }
 
     @Override
-    public order_spare_part setFields(Map<String, String> fieldValues) {
-        spare_part_id = Integer.valueOf(fieldValues.get("spare_part_id"));
-        order_id = Integer.valueOf(fieldValues.get("order_id"));
-        count = Integer.valueOf(fieldValues.get("count"));
-        return this;
+    public ordered_service setFields(Map<String, String> fieldValues) throws BeanException{
+        try {
+            service_id = Integer.valueOf(fieldValues.get("service_id"));
+            order_id = Integer.valueOf(fieldValues.get("order_id"));
+            date = tryParseDate(fieldValues.get("date"));
+            return this;
+        }catch (Exception e){
+            throw new BeanException(e);
+        }
     }
 
-    private Integer spare_part_id;
+    private Integer service_id;
     private Integer order_id;
-    private Integer count;
+    private Date date;
 }

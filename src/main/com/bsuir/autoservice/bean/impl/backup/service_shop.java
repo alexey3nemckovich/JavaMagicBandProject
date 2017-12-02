@@ -1,4 +1,4 @@
-package main.com.bsuir.autoservice.bean.impl;
+package main.com.bsuir.autoservice.bean.impl.backup;
 
 import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.bean.exception.BeanException;

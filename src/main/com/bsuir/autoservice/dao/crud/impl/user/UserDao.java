@@ -1,7 +1,7 @@
 package main.com.bsuir.autoservice.dao.crud.impl.user;
 
 import com.google.inject.Inject;
-import main.com.bsuir.autoservice.bean.impl.user;
+import main.com.bsuir.autoservice.bean.impl.backup.user;
 import main.com.bsuir.autoservice.dao.crud.AbstractDaoCrud;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
@@ -37,7 +37,7 @@ public class UserDao extends AbstractDaoCrud<Integer, user> implements IUserDao 
                 user.setPhone(rs.getString("phone"));
                 user.setName(rs.getString("name"));
                 user.setLastName(rs.getString("last_name"));
-                user.setType(main.com.bsuir.autoservice.bean.impl.user.Type.valueOf(rs.getString("type")));
+                user.setType(main.com.bsuir.autoservice.bean.impl.backup.user.Type.valueOf(rs.getString("type")));
                 result.add(user);
             }
         } catch (SQLException e) {

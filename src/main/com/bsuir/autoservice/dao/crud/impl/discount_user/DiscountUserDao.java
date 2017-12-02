@@ -1,7 +1,7 @@
 package main.com.bsuir.autoservice.dao.crud.impl.discount_user;
 
 import com.google.inject.Inject;
-import main.com.bsuir.autoservice.bean.impl.discount_user;
+import main.com.bsuir.autoservice.bean.impl.backup.discount_user;
 import main.com.bsuir.autoservice.dao.crud.AbstractDaoCrud;
 import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
