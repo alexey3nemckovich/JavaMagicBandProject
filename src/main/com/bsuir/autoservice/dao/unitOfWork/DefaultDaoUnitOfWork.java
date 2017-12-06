@@ -2,114 +2,196 @@ package main.com.bsuir.autoservice.dao.unitOfWork;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import main.com.bsuir.autoservice.dao.crud.impl.backup.discount.IDiscountDao;
-import main.com.bsuir.autoservice.dao.crud.impl.backup.discount_user.IDiscountUserDao;
-import main.com.bsuir.autoservice.dao.crud.impl.backup.notification.INotificationDao;
-import main.com.bsuir.autoservice.dao.crud.impl.backup.order.IOrderDao;
-import main.com.bsuir.autoservice.dao.crud.impl.backup.order_spare_part.IOrderSparePartDao;
-import main.com.bsuir.autoservice.dao.crud.impl.backup.ordered_service.IOrderedServiceDao;
-import main.com.bsuir.autoservice.dao.crud.impl.backup.service.IServiceDao;
-import main.com.bsuir.autoservice.dao.crud.impl.backup.service_shop.IServiceShopDao;
-import main.com.bsuir.autoservice.dao.crud.impl.backup.share.IShareDao;
-import main.com.bsuir.autoservice.dao.crud.impl.backup.share_discount.IShareDiscountDao;
-import main.com.bsuir.autoservice.dao.crud.impl.backup.spare_part.ISparePartDao;
-import main.com.bsuir.autoservice.dao.crud.impl.backup.staff.IStaffDao;
-import main.com.bsuir.autoservice.dao.crud.impl.backup.user.IUserDao;
+import main.com.bsuir.autoservice.dao.crud.impl.address.IAddressDao;
+import main.com.bsuir.autoservice.dao.crud.impl.car.ICarDao;
+import main.com.bsuir.autoservice.dao.crud.impl.car_status.ICarStatusDao;
+import main.com.bsuir.autoservice.dao.crud.impl.city.ICityDao;
+import main.com.bsuir.autoservice.dao.crud.impl.driver.IDriverDao;
+import main.com.bsuir.autoservice.dao.crud.impl.driver_car.IDriverCarDao;
+import main.com.bsuir.autoservice.dao.crud.impl.driver_status.IDriverStatusDao;
+import main.com.bsuir.autoservice.dao.crud.impl.order.IOrderDao;
+import main.com.bsuir.autoservice.dao.crud.impl.order_status.IOrderStatusDao;
+import main.com.bsuir.autoservice.dao.crud.impl.ordered_product.IOrderedProductDao;
+import main.com.bsuir.autoservice.dao.crud.impl.payment.IPaymentDao;
+import main.com.bsuir.autoservice.dao.crud.impl.phone.IPhoneDao;
+import main.com.bsuir.autoservice.dao.crud.impl.phone_operator.IPhoneOperatorDao;
+import main.com.bsuir.autoservice.dao.crud.impl.product.IProductDao;
+import main.com.bsuir.autoservice.dao.crud.impl.product_type.IProductTypeDao;
+import main.com.bsuir.autoservice.dao.crud.impl.registration.IRegistrationDao;
+import main.com.bsuir.autoservice.dao.crud.impl.report.IReportDao;
+import main.com.bsuir.autoservice.dao.crud.impl.shop.IShopDao;
+import main.com.bsuir.autoservice.dao.crud.impl.shop_product.IShopProductDao;
+import main.com.bsuir.autoservice.dao.crud.impl.staff.IStaffDao;
+import main.com.bsuir.autoservice.dao.crud.impl.staff_position.IStaffPositionDao;
+import main.com.bsuir.autoservice.dao.crud.impl.user.IUserDao;
+import main.com.bsuir.autoservice.dao.crud.impl.user_type.IUserTypeDao;
 
 public class DefaultDaoUnitOfWork implements IDaoUnitOfWork {
-    private final IDiscountDao discountDao;
-    private final IDiscountUserDao discountUserDao;
-    private final INotificationDao notificationDao;
+
+    private final IAddressDao addressDao;
+    private final ICarDao carDao;
+    private final ICarStatusDao carStatusDao;
+    private final ICityDao cityDao;
+    private final IDriverDao driverDao;
+    private final IDriverCarDao driverCarDao;
+    private final IDriverStatusDao driverStatusDao;
     private final IOrderDao orderDao;
-    private final IOrderSparePartDao orderSparePartDao;
-    private final IOrderedServiceDao orderedServiceDao;
-    private final IServiceDao serviceDao;
-    private final IServiceShopDao serviceShopDao;
-    private final IShareDao shareDao;
-    private final IShareDiscountDao shareDiscountDao;
-    private final ISparePartDao sparePartDao;
+    private final IOrderStatusDao orderStatusDao;
+    private final IOrderedProductDao orderedProductDao;
+    private final IPaymentDao paymentDao;
+    private final IPhoneDao phoneDao;
+    private final IPhoneOperatorDao phoneOperatorDao;
+    private final IProductDao productDao;
+    private final IProductTypeDao productTypeDao;
+    private final IRegistrationDao registrationDao;
+    private final IReportDao reportDao;
+    private final IShopDao shopDao;
+    private final IShopProductDao shopProductDao;
     private final IStaffDao staffDao;
+    private final IStaffPositionDao staffPositionDao;
     private final IUserDao userDao;
+    private final IUserTypeDao userTypeDao;
 
     @Inject
     public DefaultDaoUnitOfWork(Injector injector) {
-        discountDao = injector.getInstance(IDiscountDao.class);
-        discountUserDao = injector.getInstance(IDiscountUserDao.class);
-        notificationDao = injector.getInstance(INotificationDao.class);
+        addressDao = injector.getInstance(IAddressDao.class);
+        carDao = injector.getInstance(ICarDao.class);
+        carStatusDao = injector.getInstance(ICarStatusDao.class);
+        cityDao = injector.getInstance(ICityDao.class);
+        driverDao = injector.getInstance(IDriverDao.class);
+        driverCarDao = injector.getInstance(IDriverCarDao.class);
+        driverStatusDao = injector.getInstance(IDriverStatusDao.class);
         orderDao = injector.getInstance(IOrderDao.class);
-        orderSparePartDao = injector.getInstance(IOrderSparePartDao.class);
-        orderedServiceDao = injector.getInstance(IOrderedServiceDao.class);
-        serviceDao = injector.getInstance(IServiceDao.class);
-        serviceShopDao = injector.getInstance(IServiceShopDao.class);
-        shareDao = injector.getInstance(IShareDao.class);
-        shareDiscountDao = injector.getInstance(IShareDiscountDao.class);
-        sparePartDao = injector.getInstance(ISparePartDao.class);
+        orderStatusDao = injector.getInstance(IOrderStatusDao.class);
+        orderedProductDao = injector.getInstance(IOrderedProductDao.class);
+        paymentDao = injector.getInstance(IPaymentDao.class);
+        phoneDao = injector.getInstance(IPhoneDao.class);
+        phoneOperatorDao = injector.getInstance(IPhoneOperatorDao.class);
+        productDao = injector.getInstance(IProductDao.class);
+        productTypeDao = injector.getInstance(IProductTypeDao.class);
+        registrationDao = injector.getInstance(IRegistrationDao.class);
+        reportDao = injector.getInstance(IReportDao.class);
+        shopDao = injector.getInstance(IShopDao.class);
+        shopProductDao = injector.getInstance(IShopProductDao.class);
         staffDao = injector.getInstance(IStaffDao.class);
+        staffPositionDao = injector.getInstance(IStaffPositionDao.class);
         userDao = injector.getInstance(IUserDao.class);
+        userTypeDao = injector.getInstance(IUserTypeDao.class);
     }
 
     @Override
-    public IDiscountDao getDiscountDao(){
-        return discountDao;
+    public IAddressDao getAddressDao() {
+        return addressDao;
     }
 
     @Override
-    public IDiscountUserDao getDiscountUserDao(){
-        return discountUserDao;
+    public ICarDao getCarDao() {
+        return carDao;
     }
 
     @Override
-    public INotificationDao getNotificationDao(){
-        return notificationDao;
+    public ICarStatusDao getCarStatusDao() {
+        return carStatusDao;
     }
 
     @Override
-    public IOrderDao getOrderDao(){
+    public ICityDao getCityDao() {
+        return cityDao;
+    }
+
+    @Override
+    public IDriverDao getDriverDao() {
+        return driverDao;
+    }
+
+    @Override
+    public IDriverCarDao getDriverCarDao() {
+        return driverCarDao;
+    }
+
+    @Override
+    public IDriverStatusDao getDriverStatusDao() {
+        return driverStatusDao;
+    }
+
+    @Override
+    public IOrderDao getOrderDao() {
         return orderDao;
     }
 
     @Override
-    public IOrderSparePartDao getOrderSparePartDao(){
-        return orderSparePartDao;
+    public IOrderStatusDao getOrderStatusDao() {
+        return orderStatusDao;
     }
 
     @Override
-    public IOrderedServiceDao getOrderedServiceDao(){
-        return orderedServiceDao;
+    public IOrderedProductDao getOrderedProductDao() {
+        return orderedProductDao;
     }
 
     @Override
-    public IServiceDao getServiceDao(){
-        return serviceDao;
+    public IPaymentDao getPaymentDao() {
+        return paymentDao;
     }
 
     @Override
-    public IServiceShopDao getServiceShopDao(){
-        return serviceShopDao;
+    public IPhoneDao getPhoneDao() {
+        return phoneDao;
     }
 
     @Override
-    public IShareDao getShareDao(){
-        return shareDao;
+    public IPhoneOperatorDao getPhoneOperatorDao() {
+        return phoneOperatorDao;
     }
 
     @Override
-    public IShareDiscountDao getShareDiscountDao(){
-        return shareDiscountDao;
+    public IProductDao getProductDao() {
+        return productDao;
     }
 
     @Override
-    public ISparePartDao getSparePartDao(){
-        return sparePartDao;
+    public IProductTypeDao getProductTypeDao() {
+        return productTypeDao;
     }
 
     @Override
-    public IStaffDao getStaffDao(){
+    public IRegistrationDao getRegistrationDao() {
+        return registrationDao;
+    }
+
+    @Override
+    public IReportDao getReportDao() {
+        return reportDao;
+    }
+
+    @Override
+    public IShopDao getShopDao() {
+        return shopDao;
+    }
+
+    @Override
+    public IShopProductDao getShopProductDao() {
+        return shopProductDao;
+    }
+
+    @Override
+    public IStaffDao getStaffDao() {
         return staffDao;
     }
 
     @Override
-    public IUserDao getUserDao(){
+    public IStaffPositionDao getStaffPositionDao() {
+        return staffPositionDao;
+    }
+
+    @Override
+    public IUserDao getUserDao() {
         return userDao;
     }
+
+    @Override
+    public IUserTypeDao getUserTypeDao() {
+        return userTypeDao;
+    }
+
 }

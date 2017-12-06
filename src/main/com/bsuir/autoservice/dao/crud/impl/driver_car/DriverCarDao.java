@@ -9,12 +9,13 @@ import main.com.bsuir.autoservice.dao.database.IDatabase;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
 import main.com.bsuir.autoservice.dao.sql.ISql;
 
+import javax.lang.model.type.NullType;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class DriverCarDao extends AbstractDaoCrud<Integer, driver_car> implements IDriverCarDao{
+public class DriverCarDao extends AbstractDaoCrud<NullType, driver_car> implements IDriverCarDao{
 
     @Inject
     public DriverCarDao(IDatabase db, ISql sql) {
@@ -33,7 +34,6 @@ public class DriverCarDao extends AbstractDaoCrud<Integer, driver_car> implement
             while (rs.next()) {
                 driver_car bean = new driver_car();
 
-                bean.setId(rs.getInt("id"));
                 bean.setId_driver(rs.getInt("id_driver"));
                 bean.setId_car(rs.getInt("id_car"));
 

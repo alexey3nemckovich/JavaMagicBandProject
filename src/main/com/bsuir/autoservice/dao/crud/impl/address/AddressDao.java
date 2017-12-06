@@ -31,12 +31,14 @@ public class AddressDao extends AbstractDaoCrud<Integer, address> implements IAd
         try {
             while (rs.next()) {
                 address bean = new address();
+
                 bean.setId(rs.getInt("id"));
                 bean.setId_city(rs.getInt("id_city"));
                 bean.setStreet(rs.getString("street"));
                 bean.setPostcode(rs.getString("postcode"));
                 bean.setHouse(rs.getString("house"));
                 bean.setApartment(rs.getString("apartment"));
+
                 result.add(bean);
             }
         } catch (SQLException e) {
