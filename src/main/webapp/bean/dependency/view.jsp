@@ -1,5 +1,6 @@
 <%@ page import="main.com.bsuir.autoservice.service.Dependency" %>
 <%@ page import="java.util.List" %>
+<%@ page isELIgnored="false" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.LinkedHashMap" %>
 <%@ page import="main.com.bsuir.autoservice.bean.Bean" %>
