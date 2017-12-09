@@ -44,7 +44,7 @@
 <body class="site-background site-text-container">
 
     <div class="site-header">
-        AutoServiceShop
+        Notepads admin tool
     </div>
 
     <div style="text-align: center; margin: 10px;">

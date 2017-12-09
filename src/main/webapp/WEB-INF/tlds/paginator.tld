@@ -6,7 +6,7 @@
 
     <tag>
         <name>display</name>
-        <tag-class>main.com.bsuir.autoservice.view.tags.Paginator</tag-class>
+        <tag-class>main.com.bsuir.notepads.view.tags.Paginator</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>uri</name>

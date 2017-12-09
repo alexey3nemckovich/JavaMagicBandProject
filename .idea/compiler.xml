@@ -7,10 +7,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="AutoServiceShop" />
+        <module name="Notepads" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
-      <module name="AutoServiceShop" target="1.8" />
+      <module name="Notepads" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

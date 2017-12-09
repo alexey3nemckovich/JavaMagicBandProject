@@ -10,7 +10,7 @@
 <body class="site-background site-text-container">
 
     <div class="site-header">
-        AutoServiceShop
+        Notepads admin tool
     </div>
 
     <div align="center">

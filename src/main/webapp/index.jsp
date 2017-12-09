@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>AutoServiceShop</title>
+    <title>Notepads admin tool</title>
     <link rel="stylesheet" href="css/text.css">
     <link rel="stylesheet" href="css/reference.css">
     <link rel="stylesheet" href="css/site_style.css">
@@ -11,7 +11,7 @@
     <div >
 
         <div class="site-header">
-            AutoServiceShop
+            Notepads admin tool
         </div>
 
         <div style="text-align: center; margin: 10px;">

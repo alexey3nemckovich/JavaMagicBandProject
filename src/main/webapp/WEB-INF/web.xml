@@ -9,7 +9,7 @@
   
   <servlet>
     <servlet-name>servlet</servlet-name>
-    <servlet-class>main.com.bsuir.autoservice.servlet.Servlet</servlet-class>
+    <servlet-class>main.com.bsuir.notepads.servlet.Servlet</servlet-class>
   </servlet>
     
     <servlet-mapping>
