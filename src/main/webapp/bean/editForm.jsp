@@ -53,7 +53,7 @@
         <a class="action-button" style="text-decoration: none;" href="/bean/view.ass?tableName=${tableName}&page=1&countRecords=3">To table ${tableName}</a>
     </div>
 
-    <div>
+    <div style="text-align: center">
 
         <h1 style="margin: 0px;">
             ${tableName}

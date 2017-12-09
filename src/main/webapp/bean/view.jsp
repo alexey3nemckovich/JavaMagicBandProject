@@ -29,7 +29,7 @@
     String url = (String) request.getAttribute("javax.servlet.include.query_string");
 %>
 
-<div>
+<div style="text-align: center">
 
     <h1>${tableName}</h1>
 
@@ -46,7 +46,7 @@
                 </form>
             </c:forEach>
 
-            <div class="bean-table">
+            <div class="bean-table" style="margin-left: auto; margin-right: auto;">
 
                     <%-- Header row --%>
                 <div class="bean-table-header-row">
