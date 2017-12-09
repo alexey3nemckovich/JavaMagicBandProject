@@ -29,9 +29,6 @@ public class ControllerMapProvider extends MapProvider<String, IController> {
         addControllerForUrlAction("/bean/add", injector.getInstance(BeanAddController.class));
         addControllerForUrlAction("/bean/view", injector.getInstance(BeanViewController.class));
         addControllerForUrlAction("/bean/edit", injector.getInstance(BeanEditController.class));
-        addControllerForUrlAction("/bean/dependency/add", injector.getInstance(BeanDependencyAddController.class));
-        addControllerForUrlAction("/bean/dependency/view", injector.getInstance(BeanDependencyViewController.class));
-        addControllerForUrlAction("/bean/dependency/edit", injector.getInstance(BeanDependencyEditController.class));
     }
 
     private void addPostRequestControllers(Injector injector)

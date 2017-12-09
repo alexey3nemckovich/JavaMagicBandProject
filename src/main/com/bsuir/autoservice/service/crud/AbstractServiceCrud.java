@@ -3,7 +3,6 @@ package main.com.bsuir.autoservice.service.crud;
 import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.dao.crud.IDaoCrud;
 import main.com.bsuir.autoservice.dao.exception.DaoException;
-import main.com.bsuir.autoservice.service.Dependency;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
 
 import java.util.List;
@@ -13,11 +12,6 @@ public abstract class AbstractServiceCrud<PrimaryKey,Entity extends Bean> implem
 
     protected AbstractServiceCrud(IDaoCrud daoCrud){
         this.daoCrud = daoCrud;
-    }
-
-    @Override
-    public List<Dependency> readDependencies() throws ServiceException{
-        return readDependencies(null);
     }
 
     @Override

@@ -23,9 +23,6 @@ public class GetBeanViewPageCommand extends AbstractGetBeanPageCommand implement
         try {
             IServiceCrud serviceCrud = serviceUnitOfWork.getServiceCrudForBean(beanViewPageInfo.tableName);
             readPage(beanViewPageInfo, serviceCrud);
-            for(Bean bean : beanViewPageInfo.beans){
-                beanViewPageInfo.dependencyMap.put(bean, serviceCrud.readDependencies(bean));
-            }
             return beanViewPageInfo;
         }catch (Exception e){
             throw new CommandException(e);

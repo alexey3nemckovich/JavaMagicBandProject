@@ -3,7 +3,6 @@ package main.com.bsuir.autoservice.command.param;
 import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.command.ICommandParam;
 import main.com.bsuir.autoservice.command.RequestParameter;
-import main.com.bsuir.autoservice.service.Dependency;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -18,13 +17,11 @@ public class BeanViewPageInfo extends CrudPageInfo implements ICommandParam{
     public int countRecords;
 
     public List<? extends Bean> beans;
-    public Map<Bean, List<Dependency>> dependencyMap;
     public int totalPagesCount;
 
     public BeanViewPageInfo(){
         super();
         beans = new ArrayList<>();
-        dependencyMap = new LinkedHashMap<>();
     }
 
     @Override

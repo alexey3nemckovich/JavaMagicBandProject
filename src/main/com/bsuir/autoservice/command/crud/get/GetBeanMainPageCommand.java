@@ -23,11 +23,6 @@ public class GetBeanMainPageCommand implements ICommand<BeanMainPageInfo> {
         try {
             List<String> displayingTablesNames = new ArrayList<>();
             List<IServiceCrud> allTablesServices = serviceUnitOfWork.getAllTablesServices();
-            for(IServiceCrud serviceCrud : allTablesServices){
-                if(serviceCrud.readDependencies().size() != 0){
-                    displayingTablesNames.add(serviceCrud.getTableName());
-                }
-            }
             beanMainPageInfo.dbBeanNames = displayingTablesNames;
             return beanMainPageInfo;
         }catch (Exception e){
