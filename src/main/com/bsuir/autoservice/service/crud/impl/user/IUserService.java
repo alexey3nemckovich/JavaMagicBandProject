@@ -1,6 +1,6 @@
 package main.com.bsuir.autoservice.service.crud.impl.user;
 
-import main.com.bsuir.autoservice.bean.impl.backup.discount;
+
 import main.com.bsuir.autoservice.bean.impl.user;
 import main.com.bsuir.autoservice.service.crud.IServiceCrud;
 

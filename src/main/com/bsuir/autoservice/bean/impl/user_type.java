@@ -2,7 +2,7 @@ package main.com.bsuir.autoservice.bean.impl;
 
 import main.com.bsuir.autoservice.bean.Bean;
 import main.com.bsuir.autoservice.bean.exception.BeanException;
-import main.com.bsuir.autoservice.bean.impl.backup.discount;
+
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

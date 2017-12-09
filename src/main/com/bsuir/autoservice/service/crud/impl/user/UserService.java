@@ -1,14 +1,12 @@
 package main.com.bsuir.autoservice.service.crud.impl.user;
 
 import com.google.inject.Inject;
-import main.com.bsuir.autoservice.bean.impl.backup.discount;
 import main.com.bsuir.autoservice.bean.impl.user;
 import main.com.bsuir.autoservice.binding.annotation.Default;
 import main.com.bsuir.autoservice.dao.unitOfWork.IDaoUnitOfWork;
 import main.com.bsuir.autoservice.service.Dependency;
 import main.com.bsuir.autoservice.service.crud.AbstractServiceCrud;
 import main.com.bsuir.autoservice.service.crud.exception.ServiceException;
-import main.com.bsuir.autoservice.service.crud.impl.backup.discount.IDiscountService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,22 +20,20 @@ public class UserService extends AbstractServiceCrud<Integer, user> implements I
     }
 
     @Override
-    public List<Dependency> readDependencies(main.com.bsuir.autoservice.bean.impl.backup.user bean) throws ServiceException {
+    public List<Dependency> readDependencies(user bean) throws ServiceException {
         try {
             List<Dependency> dependencies = new ArrayList<>();
             Integer id = bean != null ? bean.getId() : null;
+
             dependencies.add(new Dependency(
-                    daoUnitOfWork.getDiscountUserDao().getTableName(),
-                    "user_id", id
+                    daoUnitOfWork.getStaffDao().getTableName(),
+                    "id_user", id
             ));
             dependencies.add(new Dependency(
                     daoUnitOfWork.getOrderDao().getTableName(),
-                    "user_id", id
+                    "id_customer", id
             ));
-            dependencies.add(new Dependency(
-                    daoUnitOfWork.getStaffDao().getTableName(),
-                    "user_id", id
-            ));
+
             return dependencies;
         }catch (Exception e){
             throw new ServiceException(e);

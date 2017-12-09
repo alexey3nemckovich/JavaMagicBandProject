@@ -1,6 +1,6 @@
 package main.com.bsuir.autoservice.service.crud.impl.product_type;
 
-import main.com.bsuir.autoservice.bean.impl.backup.discount;
+
 import main.com.bsuir.autoservice.bean.impl.product_type;
 import main.com.bsuir.autoservice.service.crud.IServiceCrud;
 
