@@ -38,7 +38,7 @@ public class StaffDao extends AbstractDaoCrud<Integer, staff> implements IStaffD
                 bean.setId_user(rs.getInt("id_user"));
                 bean.setId_shop(rs.getInt("id_shop"));
                 bean.setId_position(rs.getInt("id_position"));
-                bean.setEmployment_time(new SimpleDate("employment_time"));
+                bean.setEmployment_time(new SimpleDate(rs.getString("employment_time")));
 
                 result.add(bean);
             }
