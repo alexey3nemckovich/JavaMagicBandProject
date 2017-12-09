@@ -15,7 +15,7 @@ public class CarStatusService extends AbstractServiceCrud<Integer, car_status> i
 
     @Inject
     public CarStatusService(@Default IDaoUnitOfWork daoUnitOfWork) {
-        super(daoUnitOfWork.getUserDao());
+        super(daoUnitOfWork.getCarStatusDao());
         this.daoUnitOfWork = daoUnitOfWork;
     }
 

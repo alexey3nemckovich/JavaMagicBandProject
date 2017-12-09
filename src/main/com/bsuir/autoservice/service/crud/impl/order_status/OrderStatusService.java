@@ -18,7 +18,7 @@ public class OrderStatusService extends AbstractServiceCrud<Integer, order_statu
 
     @Inject
     public OrderStatusService(@Default IDaoUnitOfWork daoUnitOfWork) {
-        super(daoUnitOfWork.getUserDao());
+        super(daoUnitOfWork.getOrderStatusDao());
         this.daoUnitOfWork = daoUnitOfWork;
     }
 

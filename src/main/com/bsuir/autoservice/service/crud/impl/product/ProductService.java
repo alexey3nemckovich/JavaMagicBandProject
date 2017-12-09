@@ -18,7 +18,7 @@ public class ProductService extends AbstractServiceCrud<Integer, product> implem
 
     @Inject
     public ProductService(@Default IDaoUnitOfWork daoUnitOfWork) {
-        super(daoUnitOfWork.getUserDao());
+        super(daoUnitOfWork.getProductDao());
         this.daoUnitOfWork = daoUnitOfWork;
     }
 

@@ -18,7 +18,7 @@ public class PhoneService extends AbstractServiceCrud<Integer, phone> implements
 
     @Inject
     public PhoneService(@Default IDaoUnitOfWork daoUnitOfWork) {
-        super(daoUnitOfWork.getUserDao());
+        super(daoUnitOfWork.getPhoneDao());
         this.daoUnitOfWork = daoUnitOfWork;
     }
 

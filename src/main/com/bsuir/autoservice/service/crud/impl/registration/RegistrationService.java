@@ -18,7 +18,7 @@ public class RegistrationService extends AbstractServiceCrud<Integer, registrati
 
     @Inject
     public RegistrationService(@Default IDaoUnitOfWork daoUnitOfWork) {
-        super(daoUnitOfWork.getUserDao());
+        super(daoUnitOfWork.getRegistrationDao());
         this.daoUnitOfWork = daoUnitOfWork;
     }
 

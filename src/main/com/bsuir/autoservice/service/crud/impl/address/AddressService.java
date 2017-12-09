@@ -18,7 +18,7 @@ public class AddressService extends AbstractServiceCrud<Integer, address> implem
 
     @Inject
     public AddressService(@Default IDaoUnitOfWork daoUnitOfWork) {
-        super(daoUnitOfWork.getUserDao());
+        super(daoUnitOfWork.getAddressDao());
         this.daoUnitOfWork = daoUnitOfWork;
     }
 

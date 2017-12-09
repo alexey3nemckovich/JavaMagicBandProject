@@ -26,13 +26,13 @@ public class SqlDatabase implements IDatabase {
 
     @Override
     public String getName(){
-        return "auto_service_shop";
+        return "notepads";
     }
 
     @Override
     public Connection getConnection() throws SQLException {
         Connection connection = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/auto_service_shop?useLegacyDatetimeCode=false&serverTimezone=UTC&characterEncoding=utf-8",
+                "jdbc:mysql://localhost:3306/notepads?useLegacyDatetimeCode=false&serverTimezone=UTC&characterEncoding=utf-8",
                 "root",
                 "root"
         );

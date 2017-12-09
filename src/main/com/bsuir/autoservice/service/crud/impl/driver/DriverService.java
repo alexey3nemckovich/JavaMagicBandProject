@@ -15,7 +15,7 @@ public class DriverService extends AbstractServiceCrud<Integer, driver> implemen
 
     @Inject
     public DriverService(@Default IDaoUnitOfWork daoUnitOfWork) {
-        super(daoUnitOfWork.getUserDao());
+        super(daoUnitOfWork.getDriverDao());
         this.daoUnitOfWork = daoUnitOfWork;
     }
 

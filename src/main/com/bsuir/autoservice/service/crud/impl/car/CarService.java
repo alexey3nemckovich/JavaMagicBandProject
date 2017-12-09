@@ -15,7 +15,7 @@ public class CarService extends AbstractServiceCrud<Integer, car> implements ICa
 
     @Inject
     public CarService(@Default IDaoUnitOfWork daoUnitOfWork) {
-        super(daoUnitOfWork.getUserDao());
+        super(daoUnitOfWork.getCarDao());
         this.daoUnitOfWork = daoUnitOfWork;
     }
 

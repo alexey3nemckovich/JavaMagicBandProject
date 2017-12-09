@@ -15,7 +15,7 @@ public class StaffService extends AbstractServiceCrud<Integer, staff> implements
 
     @Inject
     public StaffService(@Default IDaoUnitOfWork daoUnitOfWork) {
-        super(daoUnitOfWork.getUserDao());
+        super(daoUnitOfWork.getStaffDao());
         this.daoUnitOfWork = daoUnitOfWork;
     }
 

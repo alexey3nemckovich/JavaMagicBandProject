@@ -18,7 +18,7 @@ public class PhoneOperatorService extends AbstractServiceCrud<Integer, phone_ope
 
     @Inject
     public PhoneOperatorService(@Default IDaoUnitOfWork daoUnitOfWork) {
-        super(daoUnitOfWork.getUserDao());
+        super(daoUnitOfWork.getPhoneOperatorDao());
         this.daoUnitOfWork = daoUnitOfWork;
     }
 

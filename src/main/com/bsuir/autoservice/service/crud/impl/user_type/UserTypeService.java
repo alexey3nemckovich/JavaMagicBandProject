@@ -18,7 +18,7 @@ public class UserTypeService extends AbstractServiceCrud<Integer, user_type> imp
 
     @Inject
     public UserTypeService(@Default IDaoUnitOfWork daoUnitOfWork) {
-        super(daoUnitOfWork.getUserDao());
+        super(daoUnitOfWork.getUserTypeDao());
         this.daoUnitOfWork = daoUnitOfWork;
     }
 

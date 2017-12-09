@@ -18,7 +18,7 @@ public class OrderedProductService extends AbstractServiceCrud<Integer, ordered_
 
     @Inject
     public OrderedProductService(@Default IDaoUnitOfWork daoUnitOfWork) {
-        super(daoUnitOfWork.getUserDao());
+        super(daoUnitOfWork.getOrderedProductDao());
         this.daoUnitOfWork = daoUnitOfWork;
     }
 

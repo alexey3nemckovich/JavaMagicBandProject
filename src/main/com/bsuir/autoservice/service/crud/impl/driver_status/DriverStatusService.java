@@ -18,7 +18,7 @@ public class DriverStatusService extends AbstractServiceCrud<Integer, driver_sta
 
     @Inject
     public DriverStatusService(@Default IDaoUnitOfWork daoUnitOfWork) {
-        super(daoUnitOfWork.getUserDao());
+        super(daoUnitOfWork.getDriverStatusDao());
         this.daoUnitOfWork = daoUnitOfWork;
     }
 

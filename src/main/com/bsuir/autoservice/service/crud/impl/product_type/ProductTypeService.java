@@ -18,7 +18,7 @@ public class ProductTypeService extends AbstractServiceCrud<Integer, product_typ
 
     @Inject
     public ProductTypeService(@Default IDaoUnitOfWork daoUnitOfWork) {
-        super(daoUnitOfWork.getUserDao());
+        super(daoUnitOfWork.getProductTypeDao());
         this.daoUnitOfWork = daoUnitOfWork;
     }
 

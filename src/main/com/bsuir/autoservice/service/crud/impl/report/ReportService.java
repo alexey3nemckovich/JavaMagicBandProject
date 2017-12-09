@@ -18,7 +18,7 @@ public class ReportService extends AbstractServiceCrud<Integer, report> implemen
 
     @Inject
     public ReportService(@Default IDaoUnitOfWork daoUnitOfWork) {
-        super(daoUnitOfWork.getUserDao());
+        super(daoUnitOfWork.getReportDao());
         this.daoUnitOfWork = daoUnitOfWork;
     }
 

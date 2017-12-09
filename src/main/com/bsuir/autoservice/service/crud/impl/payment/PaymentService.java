@@ -18,7 +18,7 @@ public class PaymentService extends AbstractServiceCrud<Integer, payment> implem
 
     @Inject
     public PaymentService(@Default IDaoUnitOfWork daoUnitOfWork) {
-        super(daoUnitOfWork.getUserDao());
+        super(daoUnitOfWork.getPaymentDao());
         this.daoUnitOfWork = daoUnitOfWork;
     }
 

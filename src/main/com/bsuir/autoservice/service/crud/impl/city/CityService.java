@@ -18,7 +18,7 @@ public class CityService extends AbstractServiceCrud<Integer, city> implements I
 
     @Inject
     public CityService(@Default IDaoUnitOfWork daoUnitOfWork) {
-        super(daoUnitOfWork.getUserDao());
+        super(daoUnitOfWork.getCityDao());
         this.daoUnitOfWork = daoUnitOfWork;
     }
 

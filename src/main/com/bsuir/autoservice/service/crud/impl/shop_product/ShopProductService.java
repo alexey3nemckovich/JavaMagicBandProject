@@ -15,7 +15,7 @@ public class ShopProductService extends AbstractServiceCrud<Integer, shop_produc
 
     @Inject
     public ShopProductService(@Default IDaoUnitOfWork daoUnitOfWork) {
-        super(daoUnitOfWork.getUserDao());
+        super(daoUnitOfWork.getShopProductDao());
         this.daoUnitOfWork = daoUnitOfWork;
     }
 

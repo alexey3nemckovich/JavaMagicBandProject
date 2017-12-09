@@ -15,7 +15,7 @@ public class StaffPositionService extends AbstractServiceCrud<Integer, staff_pos
 
     @Inject
     public StaffPositionService(@Default IDaoUnitOfWork daoUnitOfWork) {
-        super(daoUnitOfWork.getUserDao());
+        super(daoUnitOfWork.getStaffPositionDao());
         this.daoUnitOfWork = daoUnitOfWork;
     }
 

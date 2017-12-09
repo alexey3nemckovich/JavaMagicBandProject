@@ -17,7 +17,7 @@ public class OrderService extends AbstractServiceCrud<Integer, order> implements
 
     @Inject
     public OrderService(@Default IDaoUnitOfWork daoUnitOfWork) {
-        super(daoUnitOfWork.getUserDao());
+        super(daoUnitOfWork.getOrderDao());
         this.daoUnitOfWork = daoUnitOfWork;
     }
 
