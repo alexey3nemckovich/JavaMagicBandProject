@@ -94,7 +94,7 @@ public class payment extends Bean{
             id_sender = Integer.valueOf(fieldValues.get("id_sender"));
             id_report = Integer.valueOf(fieldValues.get("id_report"));
             sum = Integer.valueOf(fieldValues.get("sum"));
-            date = new SimpleDate("date");
+            date = new SimpleDate(fieldValues.get("date"));
             return this;
         }catch (Exception e){
             throw new BeanException(e);

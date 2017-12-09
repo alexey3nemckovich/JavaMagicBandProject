@@ -11,7 +11,7 @@ import main.com.bsuir.autoservice.service.unitOfWork.IServiceUnitOfWork;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetBeanMainPageCommand implements ICommand<BeanMainPageInfo> {
+public class    GetBeanMainPageCommand implements ICommand<BeanMainPageInfo> {
 
     @Inject
     public GetBeanMainPageCommand(@Default IServiceUnitOfWork serviceUnitOfWork){
@@ -23,7 +23,13 @@ public class GetBeanMainPageCommand implements ICommand<BeanMainPageInfo> {
         try {
             List<String> displayingTablesNames = new ArrayList<>();
             List<IServiceCrud> allTablesServices = serviceUnitOfWork.getAllTablesServices();
-            beanMainPageInfo.dbBeanNames = displayingTablesNames;
+
+            List<String> names = new ArrayList<>();
+            for(IServiceCrud crud : allTablesServices){
+                names.add(crud.getTableName());
+            }
+            beanMainPageInfo.dbBeanNames = names;
+
             return beanMainPageInfo;
         }catch (Exception e){
             throw new CommandException(e);

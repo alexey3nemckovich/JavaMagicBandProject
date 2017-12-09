@@ -104,7 +104,6 @@ public class order extends Bean{
             id_driver = Integer.valueOf(fieldValues.get("id_driver"));
             id_address = Integer.valueOf(fieldValues.get("id_address"));
             id_order_status = Integer.valueOf(fieldValues.get("id_order_status"));
-            total_sum = Integer.valueOf(fieldValues.get("total_sum"));
             date = new SimpleDate(fieldValues.get("date"));
         }catch (Exception e) {
             throw new BeanException(e);
