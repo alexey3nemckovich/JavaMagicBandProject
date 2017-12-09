@@ -6,7 +6,7 @@
     word-wrap: break-word;
     max-width: 100%;
     box-shadow: 3px 2px 5px 3px rgba(0, 0, 0, 0.2);
-    border: 2px solid #B3594C;
+    border: 2px solid rgb(46, 62, 73);
 }
 
 .bean-table-header-row

@@ -4,12 +4,13 @@
     font-family: "Candara",Arial,sans-serif;
     font-size: 50px;
     text-align: center;
-    background: linear-gradient(to top, rgb(253, 116, 108), rgb(255, 144, 104));
+    color: white;
+    background: rgb(46, 62, 73);
 }
 
 .site-background
 {
-    background: linear-gradient(to top, rgb(255, 95, 109), rgb(255, 195, 113));
+    background: rgb(245, 247, 250);
 }
 
 .site-text-container

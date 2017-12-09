@@ -15,7 +15,7 @@
     display: inline; /* Отображать как строчный элемент */
     margin-right: 5px; /* Отступ слева */
     padding: 3px; /* Поля вокруг текста */
-    color: #93291b;
+    color: rgb(46, 62, 73);
     text-decoration: none;
 }
 
@@ -26,5 +26,5 @@
 
 .paginatorCurr
 {
-    color: red;
+    color: black;
 }
